@@ -14,6 +14,7 @@ from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from .tasks import send_otp_email
 
+
 # OTP Expiry Time (5 minutes)
 OTP_EXPIRY_TIME = timedelta(minutes=5)
 
@@ -185,6 +186,7 @@ class ApiProductView(APIView):
         result_page = paginator.paginate_queryset(products, request)
         serializer = ProductSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
+        key = productkey(request.user.id)
 
     def post(self, request, *args, **kwargs):
         product_data = request.data.copy()

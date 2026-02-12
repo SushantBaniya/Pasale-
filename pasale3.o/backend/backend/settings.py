@@ -42,6 +42,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
@@ -66,7 +67,36 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'api',
+    'drf_spectacular',
 ]
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'NamastePMS API',
+    'DESCRIPTION': 'Property Management System REST API',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+
+    # Authentication
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Enter: Bearer <your_token>'
+        }
+    },
+
+    # Tags for grouping endpoints
+    'TAGS': [
+        {'name': 'Authentication', 'description': 'User authentication'},
+        {'name': 'Properties', 'description': 'Property management'},
+        {'name': 'Bookings', 'description': 'Booking operations'},
+    ],
+
+    # Other settings
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SCHEMA_PATH_PREFIX': '/api/v1',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -104,7 +134,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
@@ -171,8 +201,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER='shahisushil52@gmail.com'
-EMAIL_HOST_PASSWORD='jhvb nzwf qkze njou'
+EMAIL_HOST_USER = 'shahisushil52@gmail.com'
+EMAIL_HOST_PASSWORD = 'jhvb nzwf qkze njou'
 
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
