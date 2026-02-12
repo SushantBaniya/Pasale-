@@ -692,15 +692,7 @@ class ResetPasswordView(APIView):
 
         return Response({'message': 'Password reset successfully!'}, status=status.HTTP_200_OK)
     
-class paragraph(APIView):
-    permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
-        paragraphs = example.objects.all()
-        serializer = exampleSerializer(paragraphs, many=True)
-        
-        
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 
