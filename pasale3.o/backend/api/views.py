@@ -13,6 +13,8 @@ from datetime import timedelta
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from .tasks import send_otp_email
+from cache.keys import productkey
+from api.services.productService import ProductService
 
 
 # OTP Expiry Time (5 minutes)
@@ -177,16 +179,16 @@ class VerifyLoginOtpView(APIView):
 # Product API View
 # -----------------------------
 class ApiProductView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
-        paginator = PageNumberPagination()
-        paginator.page_size = 10
-        products = Product.objects.filter(user=request.user)
-        result_page = paginator.paginate_queryset(products, request)
-        serializer = ProductSerializer(result_page, many=True)
-        return paginator.get_paginated_response(serializer.data)
-        key = productkey(request.user.id)
+        try:
+            user_id = request.user.id if request.user.is_authenticated else 'anonymous'
+            data=ProductService(user_id=user_id, product_id=None)
+            return Response(data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 
     def post(self, request, *args, **kwargs):
         product_data = request.data.copy()

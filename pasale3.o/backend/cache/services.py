@@ -12,9 +12,9 @@ def get_or_set_product_cache(key, fetch_function, timeout=300):
     Returns:
         The product data, either from cache or fetched using the provided function.
     """
-    product = cache.get(key)
-    if product is not None:
-        return product  
-    product = fetch_function()
-    cache.set(key, product, timeout)
-    return product
+    data = cache.get(key)
+    if data is not None:
+        return data  
+    data = fetch_function()
+    cache.set(key, data, timeout)
+    return data
