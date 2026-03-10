@@ -13,14 +13,17 @@ def ProductService(user_id=None, product_id=None):
             if product_id:
                 key = productkey(user_id, product_id)
                 product = Product.objects.get(id=product_id, user_id=user_id)
-                serializer = ProductSerializer(product)
-                return get_or_set_product_cache(key, lambda: serializer.data)
+                def fetch_one():
+                    serializer = ProductSerializer(product)
+                    return serializer.data
+                if key:
+                    return get_or_set_product_cache(key, fetch_one)
             
             else:
                 key = productkeys(user_id)
                 paginator = PageNumberPagination()
                 paginator.page_size = 10
-                products = Product.objects.filter(user=request.user)
+                products = Product.objects.filter(user_id=user_id)
                 result_page = paginator.paginate_queryset(products, request)
                 serializer = ProductSerializer(result_page, many=True)
                 return get_or_set_product_cache(key, lambda: paginator.get_paginated_response(serializer.data))
