@@ -2,6 +2,36 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.db import models
 
+class Business_Type(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+class Business_Status(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class Business(models.Model):
+    id = models.AutoField(primary_key=True)  
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='business')
+    business_name = models.CharField(max_length=255)
+    business_address = models.TextField(blank=True, null=True)
+    business_email = models.EmailField(blank=True, null=True)
+    business_phone_no = models.CharField(max_length=15, blank=True, null=True)
+    business_type = models.ForeignKey(Business_Type, on_delete=models.CASCADE, related_name='businesses', blank=True, null=True)
+    business_status = models.ForeignKey(Business_Status, on_delete=models.CASCADE, related_name='businesses', blank=True, null=True)
+    reg_number = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.business_name
+    
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone_no = models.CharField(max_length=15, blank=True, null=True)
