@@ -53,12 +53,7 @@ class Category(models.Model):
     
 class PaymentMethod(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
-    method_choices = [
-        ('Cash', 'Cash'),
-        ('Credit Card', 'Credit Card'),
-        ('Bank Transfer', 'Bank Transfer'),
-        ('UPI', 'UPI'),]
-    method_name = models.CharField(max_length=20, choices=method_choices, unique=True)
+    method_name = models.CharField(max_length=20, unique=True)
     is_active = models.BooleanField(default=True)
     
     def __str__(self):
@@ -72,6 +67,7 @@ class Product(models.Model):
     sku = models.CharField(max_length=50, unique=True, default='')
     product_Img = models.CharField(max_length=255, blank=True, null=True)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    business_id=models.ForeignKey(Business, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     quantity = models.PositiveIntegerField()
     description = models.TextField(blank=True, null=True)
     is_created_at=models.DateTimeField(auto_now_add=True, null=True)
@@ -82,11 +78,7 @@ class Product(models.Model):
     
 class Party(models.Model):
     id=models.AutoField(primary_key=True)  # Explicit primary key
-    CATEGORY_TYPE_CHOICES = [
-        ('Customer', 'Individual'),
-        ('Supplier', 'Company'),
-    ]
-    Category_type=models.CharField(max_length=20,choices=CATEGORY_TYPE_CHOICES)
+    Category_type=models.CharField(max_length=20)
     is_active=models.BooleanField(default=True)
     
     is_updated_at=models.DateTimeField(auto_now=True)
@@ -105,6 +97,7 @@ class Party(models.Model):
 class Customer(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
     party = models.OneToOneField(Party, on_delete=models.CASCADE, related_name='Customer')
+    business_id=models.ForeignKey(Business, on_delete=models.CASCADE, related_name='customers', null=True, blank=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(blank=True, null=True)
     phone_no = models.CharField(max_length=15, blank=True, null=True)
@@ -129,7 +122,8 @@ class Supplier(models.Model):
     party = models.OneToOneField(Party, on_delete=models.CASCADE, related_name='Supplier')
     name = models.CharField(max_length=100)
     code= models.CharField(max_length=50, unique=True)
-   
+    business_id=models.ForeignKey(Business, on_delete=models.CASCADE, related_name='suppliers', null=True, blank=True)
+
     def __str__(self):
         return self.name
     
