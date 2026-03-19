@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 import random
-from .models import Customer, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, example
-from .serializers import ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, exampleSerializer
+from .models import Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem
+from .serializers import ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 from datetime import timedelta
@@ -15,6 +15,7 @@ from django.db import transaction
 from .tasks import send_otp_email
 from cache.keys import productkey
 from api.services.productService import ProductService
+from api.services.employeeServices import get_all_employees, create_employee
 
 
 # OTP Expiry Time (5 minutes)
@@ -184,11 +185,10 @@ class ApiProductView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             user_id = request.user.id if request.user.is_authenticated else 'anonymous'
-            data=ProductService(user_id=user_id, product_id=None)
+            data = ProductService(user_id=user_id, product_id=None)
             return Response(data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
 
     def post(self, request, *args, **kwargs):
         product_data = request.data.copy()
@@ -543,7 +543,7 @@ class ApiBillingView(APIView):
         result_page = paginator.paginate_queryset(billings, request)
         serializer = BillingSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
-    
+
     def post(self, request, *args, **kwargs):
         billing_data = request.data.copy()
         billing_data['user'] = request.user.id
@@ -557,7 +557,7 @@ class ApiBillingView(APIView):
                     items_data = request.data.pop('items', [])
                     if not items_data:
                         return Response({'error': 'At least one billing item is required.'},
-                                         status=status.HTTP_400_BAD_REQUEST)
+                                        status=status.HTTP_400_BAD_REQUEST)
                     for item_data in items_data:
                         item_data['billing'] = billing.id
                         item_serializer = BillingItemSerializer(data=item_data)
@@ -573,7 +573,7 @@ class ApiBillingView(APIView):
 
         except ValueError as ve:
             return Response({'error': str(ve)}, status=status.HTTP_400_BAD_REQUEST)
-        
+
     def put(self, request, *args, **kwargs):
         billing_id = request.query_params.get('id')
         if not billing_id:
@@ -595,7 +595,7 @@ class ApiBillingView(APIView):
                              'billing': serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
     def delete(self, request, *args, **kwargs):
         billing_id = request.query_params.get('id')
         if not billing_id:
@@ -608,7 +608,7 @@ class ApiBillingView(APIView):
 
         billing.delete()
         return Response({'message': 'Billing deleted successfully!'}, status=status.HTTP_200_OK)
-    
+
 
 class ForgetPasswordView(APIView):
     permission_classes = [AllowAny]
@@ -637,7 +637,8 @@ class ForgetPasswordView(APIView):
 
         return Response({'message': 'OTP sent to your email. Please verify to reset your password.'},
                         status=status.HTTP_200_OK)
-    
+
+
 class VerifyForgetPasswordOtpView(APIView):
     permission_classes = [AllowAny]
 
@@ -647,7 +648,8 @@ class VerifyForgetPasswordOtpView(APIView):
 
         try:
             user = User.objects.get(email=email)
-            forget_password_otp = ForgetPasswordOTP.objects.filter(user=user).latest('otp_created_at')
+            forget_password_otp = ForgetPasswordOTP.objects.filter(
+                user=user).latest('otp_created_at')
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except ForgetPasswordOTP.DoesNotExist:
@@ -667,36 +669,93 @@ class VerifyForgetPasswordOtpView(APIView):
             return Response({'message': 'Forget Password OTP verified successfully!'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
 class ResetPasswordView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
         new_password = request.data.get('new_password')
- 
+
         try:
             user = User.objects.get(email=email)
-            forget_password_otp = ForgetPasswordOTP.objects.filter(user=user).latest('otp_created_at')
+            forget_password_otp = ForgetPasswordOTP.objects.filter(
+                user=user).latest('otp_created_at')
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except ForgetPasswordOTP.DoesNotExist:
             return Response({'error': 'No OTP found for this user'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check if OTP was verified
-        if forget_password_otp.is_verify==False:
+        if forget_password_otp.is_verify == False:
             return Response({'error': 'OTP not verified'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Reset the password
         user.set_password(new_password)
-        user.save()  
+        user.save()
 
         # Optionally, delete the OTP entry after successful password reset
         forget_password_otp.delete()
 
         return Response({'message': 'Password reset successfully!'}, status=status.HTTP_200_OK)
-    
 
 
+class EmployeeView(APIView):
+    permission_classes = [AllowAny]
 
+    def get(self, request, business_id=None, employee_id=None):
+        try:
+            if not business_id:
+                return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+            data = get_all_employees(business_id, employee_id)
+            return data
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def post(self, request, business_id=None):
+        try:
+            if not business_id:
+                return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+            result = create_employee(business_id, request.data)
+            return result
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def put(self, request, business_id=None, employee_id=None):
+        try:
+            if not business_id or not employee_id:
+                return Response({"error": "Business ID and Employee ID are required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                employee_obj = Employee.objects.get(
+                    id=employee_id, business_id=business_id)
+            except Employee.DoesNotExist:
+                return Response({"error": "Employee not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            data = request.data
+            serializer = EmployeeSerializer(
+                employee_obj, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'Employee updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request, business_id=None, employee_id=None):
+        try:
+            if not business_id or not employee_id:
+                return Response({"error": "Business ID and Employee ID are required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                employee_obj = Employee.objects.get(
+                    id=employee_id, business_id=business_id)
+            except Employee.DoesNotExist:
+                return Response({"error": "Employee not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            employee_obj.delete()
+            return Response({'message': 'Employee deleted successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
