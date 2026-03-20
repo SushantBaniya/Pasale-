@@ -759,3 +759,15 @@ class EmployeeView(APIView):
             return Response({'message': 'Employee deleted successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class EmployeeSceduleView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, business_id=None, employee_id=None):
+        try:
+            if not business_id or not employee_id:
+                return Response({"error": "Business ID and Employee ID are required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+            data = get_employee_schedule(business_id, employee_id)
+            return data
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
