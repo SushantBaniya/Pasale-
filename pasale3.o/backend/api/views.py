@@ -890,3 +890,24 @@ class StaffSchedulerView(APIView):
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class InventoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id=None, *args, **kwargs):
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        inventory_items = get_inventory(business_id)
+        serializer = InventorySerializer(inventory_items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, business_id=None, *args, **kwargs):
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        item_name = request.data.get('item_name')
+        quantity = request.data.get('quantity')
+        if not item_name or quantity is None:
+            return Response({'error': 'Item name and quantity are required'}, status=status.HTTP_400_BAD_REQUEST)
+        inventory_item = update_inventory(business_id, item_name, quantity)
+        serializer = InventorySerializer(inventory_item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
