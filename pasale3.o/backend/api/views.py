@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 import random
-from .models import Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, Shift, Inventory
-from .serializers import ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, InventorySerializer
+from .models import Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, Shift
+from .serializers import ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 from datetime import timedelta
@@ -17,7 +17,7 @@ from cache.keys import productkey
 from api.services.productService import ProductService
 from api.services.employeeServices import get_all_employees, create_employee
 from api.services.staffScheduleServices import GreedyStaffScheduler
-from api.services.Inventory import get_inventory, update_inventory
+
 
 # OTP Expiry Time (5 minutes)
 OTP_EXPIRY_TIME = timedelta(minutes=5)
@@ -891,23 +891,3 @@ class StaffSchedulerView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-class InventoryView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, business_id=None, *args, **kwargs):
-        if not business_id:
-            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
-        inventory_items = get_inventory(business_id)
-        serializer = InventorySerializer(inventory_items, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request, business_id=None, *args, **kwargs):
-        if not business_id:
-            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
-        item_name = request.data.get('item_name')
-        quantity = request.data.get('quantity')
-        if not item_name or quantity is None:
-            return Response({'error': 'Item name and quantity are required'}, status=status.HTTP_400_BAD_REQUEST)
-        inventory_item = update_inventory(business_id, item_name, quantity)
-        serializer = InventorySerializer(inventory_item)
-        return Response(serializer.data, status=status.HTTP_200_OK)
