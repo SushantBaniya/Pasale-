@@ -10,20 +10,17 @@ urlpatterns = [
          name='verify-signup-otp'),
     path('verify-login-otp/', VerifyLoginOtpView.as_view(), name='verify-login-otp'),
 
-    path('products/', ApiProductView.as_view(), name='ApiProductView'),
-    path('products/<int:product_id>',
-         ApiProductView.as_view(), name='ApiProductView'),
+    path('products/b<int:business_id>/', ApiProductView.as_view(), name='ApiProductView'),
+    path('products/b<int:business_id>/p<int:product_id>/', ApiProductView.as_view(), name='ApiProductView'),
 
-    path('parties/', ApiPartyView.as_view(), name='ApiPartyView'),
-    path('parties/<int:party_id>', ApiPartyView.as_view(), name='ApiPartyView'),
+    path('parties/b<int:business_id>/', ApiPartyView.as_view(), name='ApiPartyView'),
+    path('parties/b<int:business_id>/p<int:party_id>/', ApiPartyView.as_view(), name='ApiPartyView'),
 
-    path('expenses/', ApiExpenseView.as_view(), name='ApiExpenseView'),
-    path('expenses/<int:expense_id>',
-         ApiExpenseView.as_view(), name='ApiExpenseView'),
+    path('expenses/b<int:business_id>/', ApiExpenseView.as_view(), name='ApiExpenseView'),
+    path('expenses/b<int:business_id>/e<int:expense_id>/', ApiExpenseView.as_view(), name='ApiExpenseView'),
 
-    path('billing/', ApiBillingView.as_view(), name='ApiBillingView'),
-    path('billing/<int:billing_id>',
-         ApiBillingView.as_view(), name='ApiBillingView'),
+    path('billing/b<int:business_id>/', ApiBillingView.as_view(), name='ApiBillingView'),
+    path('billing/b<int:business_id>/b<int:billing_id>/', ApiBillingView.as_view(), name='ApiBillingView'),
 
     path('forget-password/', ForgetPasswordView.as_view(), name='forget-password'),
     path('verify-forget-password-otp/', VerifyForgetPasswordOtpView.as_view(),

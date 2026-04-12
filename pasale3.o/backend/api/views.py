@@ -14,7 +14,7 @@ from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from .tasks import send_otp_email
 from cache.keys import productkey
-from api.services.productService import ProductService
+from api.services.productService import ProductService, create_product
 from api.services.employeeServices import get_all_employees, create_employee
 from api.services.staffScheduleServices import GreedyStaffScheduler
 
@@ -183,30 +183,39 @@ class VerifyLoginOtpView(APIView):
 class ApiProductView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, business_id=None):
         try:
             user_id = request.user.id if request.user.is_authenticated else 'anonymous'
-            data = ProductService(user_id=user_id, product_id=None)
+            if not business_id:
+                return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            if business_id:
+               data = ProductService(user_id=user_id, product_id=None, business_id=business_id)
             return Response(data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def post(self, request, *args, **kwargs):
-        product_data = request.data.copy()
-        product_data['user'] = request.user.id
+    def post(self, request, business_id=None):
+        data = request.data.copy()
+        data['business_id'] = business_id
 
-        if Product.objects.filter(user=request.user, product_name=product_data['product_name']).exists():
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if Product.objects.filter(user=request.user, product_name=data['product_name']).exists():
             return Response({'error': 'You already have a product with this name.'}, status=status.HTTP_400_BAD_REQUEST)
+   
+        try:
+            result = create_product(data)
+            return Response(result, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        serializer = ProductSerializer(data=product_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Product created successfully!',
-                             'product': serializer.data}, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
-    def put(self, request, *args, **kwargs):
+    def put(self, request, business_id=None, **kwargs):
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
         # Get the product ID from the query parameters
         product_id = request.query_params.get('id')
         if not product_id:
@@ -234,7 +243,10 @@ class ApiProductView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request, business_id=None, **kwargs):
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
         # Get the product ID from the query parameters
         product_id = request.query_params.get('id')
         if not product_id:
