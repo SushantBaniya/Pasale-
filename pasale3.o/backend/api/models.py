@@ -23,7 +23,8 @@ class EmployeeStatus(models.Model):
     name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
-        return self.name   
+        return self.name
+
 
 class Business(models.Model):
     id = models.AutoField(primary_key=True)
@@ -135,6 +136,7 @@ class Product(models.Model):
         Business, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     quantity = models.PositiveIntegerField()
     reorder_level = models.PositiveIntegerField(default=10)
+    is_low_stock = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
     is_created_at = models.DateTimeField(auto_now_add=True, null=True)
     is_updated_at = models.DateTimeField(auto_now=True)
@@ -390,3 +392,19 @@ class Shift(models.Model):
 
     def __str__(self):
         return f"Shift {self.id} - {self.shift_date} {self.start_time}-{self.end_time}"
+
+
+class StockAlert(models.Model):
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='stock_alerts')
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='stock_alerts')
+    message = models.CharField(max_length=255)
+    is_resolved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('product', 'is_resolved')
+
+    def __str__(self):
+        return f"Alert for {self.product.product_name} - {'Resolved' if self.is_resolved else 'Pending'}"
