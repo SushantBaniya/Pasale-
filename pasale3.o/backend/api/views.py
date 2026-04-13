@@ -14,7 +14,7 @@ from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from .tasks import send_otp_email
 from cache.keys import productkey
-from api.services.productService import ProductService, create_product
+from api.services.productService import check_low_stock_and_alert, create_product, get_product
 from api.services.employeeServices import get_all_employees, create_employee
 from api.services.staffScheduleServices import GreedyStaffScheduler
 
@@ -184,13 +184,24 @@ class ApiProductView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, business_id=None):
+        product_id = request.query_params.get('id')
+        business_id = business_id or request.query_params.get('business_id')
+
+        if not business_id:
+            return Response({'message': 'Business ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            user_id = request.user.id if request.user.is_authenticated else 'anonymous'
-            if not business_id:
-                return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            if product_id:
+                data = get_product(product_id=product_id,
+                                   business_id=business_id)
+                return Response(data, status=status.HTTP_200_OK)
+
             if business_id:
-               data = ProductService(user_id=user_id, product_id=None, business_id=business_id)
-            return Response(data, status=status.HTTP_200_OK)
+                data = get_product(business_id=business_id)
+                return Response(data, status=status.HTTP_200_OK)
+
+            return Response({'message': 'Product ID or Business ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -203,14 +214,12 @@ class ApiProductView(APIView):
 
         if Product.objects.filter(user=request.user, product_name=data['product_name']).exists():
             return Response({'error': 'You already have a product with this name.'}, status=status.HTTP_400_BAD_REQUEST)
-   
+
         try:
             result = create_product(data)
             return Response(result, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        
 
     def put(self, request, business_id=None, **kwargs):
         if not business_id:
@@ -774,8 +783,6 @@ class EmployeeView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-
-
 class StaffSchedulerView(APIView):
     """
     API endpoint for staff scheduling using greedy algorithm.
@@ -902,4 +909,3 @@ class StaffSchedulerView(APIView):
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        

@@ -5,7 +5,7 @@ from api.models import Product, Business, StockAlert
 from cache.keys import productkey, productkeys
 from cache.services import get_or_set_product_cache
 from api.serializers import ProductSerializer
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import PageNumberPagination, Response
 
 
 def check_low_stock_and_alert(product_id):
@@ -35,37 +35,22 @@ def check_low_stock_and_alert(product_id):
                     product=product, is_resolved=False).update(is_resolved=True)
 
     except Product.DoesNotExist:
-        pass
+        return Response({'message': 'Product not found.'})
 
-
-def ProductService(user_id=None, product_id=None, business_id=None, page=1, page_size=10):
-    try:
+def get_product(product_id, business_id):
+    try: 
         if product_id:
-            return get_or_set_product_cache(productkey(product_id), lambda: Product.objects.filter(id=product_id, business__user_id=user_id).first())
-
+            products = Product.objects.filter(id=product_id, business_id=business_id).all()
+            serializer = ProductSerializer(products, many=True)
+            return serializer.data
+        
         if business_id:
-            products = Product.objects.filter(
-                business_id=business_id, business__user_id=user_id)
-
-            if not products.exists():
-                return {'message': 'No products found for this business.'}
-
-            paginator = PageNumberPagination()
-            paginator.page_size = page_size
-            paginated_products = paginator.paginate_queryset(
-                products, request=None)
-            serializer = ProductSerializer(paginated_products, many=True)
-            return {
-                'products': serializer.data,
-                'total': products.count(),
-                'page': page,
-                'page_size': page_size
-            }
-
-        return {'message': 'Product ID or Business ID is required.'}
-
-    except Exception as e:
-        raise Exception(f"Error fetching products: {str(e)}")
+            products = Product.objects.filter(business_id=business_id).all()
+            serializer = ProductSerializer(products, many=True)
+            return serializer.data
+        
+    except exception as e:
+        raise Exception(f"Error fetching product(s): {str(e)}")
 
 
 def create_product(data):
