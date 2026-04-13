@@ -7,30 +7,41 @@ from cache.services import get_or_set_product_cache
 from api.serializers import ProductSerializer
 from rest_framework.pagination import PageNumberPagination
 
-def ProductService(user_id=None, product_id=None):
-    if product_id:
-        try:
-            if product_id:
-                key = productkey(user_id, product_id)
-                product = Product.objects.get(id=product_id, user_id=user_id)
-                def fetch_one():
-                    serializer = ProductSerializer(product)
-                    return serializer.data
-                if key:
-                    return get_or_set_product_cache(key, fetch_one)
+def ProductService(user_id=None, product_id=None, business_id=None, page=1, page_size=10):
+    try:
+        if product_id:
+            return get_or_set_product_cache(productkey(product_id), lambda: Product.objects.filter(id=product_id, business__user_id=user_id).first())
+        
+        if business_id:
+            products = Product.objects.filter(business_id=business_id, business__user_id=user_id)
+
+            if not products.exists():
+                return {'message': 'No products found for this business.'}
             
-            else:
-                key = productkeys(user_id)
-                paginator = PageNumberPagination()
-                paginator.page_size = 10
-                products = Product.objects.filter(user_id=user_id)
-                result_page = paginator.paginate_queryset(products, request)
-                serializer = ProductSerializer(result_page, many=True)
-                return get_or_set_product_cache(key, lambda: paginator.get_paginated_response(serializer.data))
             
-        except Exception as e:
-            raise Exception(f"Error fetching product: {str(e)}")
- 
+            
+            paginator = PageNumberPagination()
+            paginator.page_size = page_size
+            paginated_products = paginator.paginate_queryset(products, request=None)
+            serializer = ProductSerializer(paginated_products, many=True)
+            return {
+                'products': serializer.data,
+                'total': products.count(),
+                'page': page,
+                'page_size': page_size
+            }
+        
+        return {'message': 'Product ID or Business ID is required.'}
+    
+    except Exception as e:
+        raise Exception(f"Error fetching products: {str(e)}")
+    
+     
+     
+     
+     
+     
+     
 def create_product(data):
     try:
         data = dict(data)

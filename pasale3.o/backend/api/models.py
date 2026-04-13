@@ -134,6 +134,7 @@ class Product(models.Model):
     business_id = models.ForeignKey(
         Business, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     quantity = models.PositiveIntegerField()
+    reorder_level = models.PositiveIntegerField(default=10)
     description = models.TextField(blank=True, null=True)
     is_created_at = models.DateTimeField(auto_now_add=True, null=True)
     is_updated_at = models.DateTimeField(auto_now=True)
