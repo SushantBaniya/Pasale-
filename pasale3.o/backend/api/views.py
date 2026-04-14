@@ -558,17 +558,25 @@ class ApiExpenseView(APIView):
 class ApiBillingView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, business_id=None):
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+
         paginator = PageNumberPagination()
         paginator.page_size = 10
-        billings = Billing.objects.filter(user=request.user)
+        billings = Billing.objects.filter(user=request.user, business_id=business_id)
         result_page = paginator.paginate_queryset(billings, request)
         serializer = BillingSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, business_id=None):
         billing_data = request.data.copy()
         billing_data['user'] = request.user.id
+
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
         try:
             with transaction.atomic():
                 serializer = BillingSerializer(data=billing_data)
@@ -596,7 +604,10 @@ class ApiBillingView(APIView):
         except ValueError as ve:
             return Response({'error': str(ve)}, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, *args, **kwargs):
+    def put(self, request, business_id=None):
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
         billing_id = request.query_params.get('id')
         if not billing_id:
             return Response({'error': 'Billing ID is required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -618,7 +629,10 @@ class ApiBillingView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request, business_id=None):
+        if not business_id:
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
         billing_id = request.query_params.get('id')
         if not billing_id:
             return Response({'error': 'Billing ID is required'}, status=status.HTTP_400_BAD_REQUEST)
