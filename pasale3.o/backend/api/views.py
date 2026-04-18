@@ -12,6 +12,8 @@ from django.utils import timezone
 from datetime import timedelta
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
+from django.db import IntegrityError
+import logging
 from .tasks import send_otp_email
 from cache.keys import productkey
 from api.services.productService import check_low_stock_and_alert, create_product, get_product
@@ -25,6 +27,24 @@ OTP_EXPIRY_TIME = timedelta(minutes=5)
 # Inactivity period after which a party is considered inactive (e.g., 90 days)
 PARTY_INACTIVITY_PERIOD = timedelta(days=90)
 
+logger = logging.getLogger(__name__)
+
+
+def _dispatch_otp_email(email, otp):
+    """Try async OTP dispatch first, then fall back to sync send."""
+    try:
+        send_otp_email.delay(email, otp)
+        return True
+    except Exception as exc:
+        logger.warning("Async OTP dispatch failed for %s: %s", email, exc)
+
+    # Fallback keeps auth flow usable when Celery/Redis is unavailable in local dev.
+    try:
+        return bool(send_otp_email(email, otp))
+    except Exception as exc:
+        logger.error("Fallback OTP send failed for %s: %s", email, exc)
+        return False
+
 # -----------------------------
 # Signup View
 # -----------------------------
@@ -34,32 +54,64 @@ class SignupView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        username = request.data.get('username')
+        username = request.data.get('username', '').strip()
         email = request.data.get('email', '').lower()
         password = request.data.get('password')
-        phone_no = request.data.get('phone_no')
-        business_name = request.data.get('business_name')
+        phone_no = request.data.get('phone_no', '').strip()
+        business_name = request.data.get('business_name', '').strip()
 
-        # Create the user
-        user = User.objects.create_user(
-            username=username, email=email, password=password)
-        user.save()
+        if not username or not email or not password:
+            return Response(
+                {'error': 'Username, email and password are required.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        existing_user = User.objects.filter(email=email).first()
+        if existing_user and hasattr(existing_user, 'profile') and existing_user.profile.is_verify:
+            return Response({'error': 'User with this email already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(username=username).exclude(email=email).exists():
+            return Response({'error': 'Username is already taken.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Generate OTP
         otp = str(random.randint(100000, 999999))
 
-        # Create the user profile with OTP and timestamp
-        user_profile = UserProfile.objects.create(
-            user=user,
-            phone_no=phone_no,
-            business_name=business_name,
-            otp=otp,
-            otp_created_at=timezone.now(),
-            is_verify=False
-        )
+        try:
+            with transaction.atomic():
+                if existing_user:
+                    user = existing_user
+                    user.username = username
+                    user.email = email
+                    user.set_password(password)
+                    user.save()
 
-        # Send OTP to the user's email
-        send_otp_email.delay(email, otp)
+                    user_profile, _ = UserProfile.objects.get_or_create(
+                        user=user)
+                    user_profile.phone_no = phone_no
+                    user_profile.business_name = business_name
+                    user_profile.otp = otp
+                    user_profile.otp_created_at = timezone.now()
+                    user_profile.is_verify = False
+                    user_profile.save()
+                else:
+                    user = User.objects.create_user(
+                        username=username, email=email, password=password)
+                    UserProfile.objects.create(
+                        user=user,
+                        phone_no=phone_no,
+                        business_name=business_name,
+                        otp=otp,
+                        otp_created_at=timezone.now(),
+                        is_verify=False
+                    )
+        except IntegrityError:
+            return Response({'error': 'Username or email already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not _dispatch_otp_email(email, otp):
+            return Response(
+                {'error': 'Account created, but OTP delivery failed. Please try again in a moment.'},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
 
         return Response({'message': 'User created successfully. Please verify the OTP sent to your email.'},
                         status=status.HTTP_201_CREATED)
@@ -128,7 +180,9 @@ class LoginView(APIView):
         user_profile.save()
 
         # Send OTP to the user's email
-        send_otp_email.delay(email, otp)
+        if not _dispatch_otp_email(email, otp):
+            return Response({'error': 'Could not send OTP right now. Please try again.'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
         return Response({'message': 'OTP sent to your email. Please verify to proceed.'},
                         status=status.HTTP_200_OK)
 
@@ -562,10 +616,10 @@ class ApiBillingView(APIView):
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-
         paginator = PageNumberPagination()
         paginator.page_size = 10
-        billings = Billing.objects.filter(user=request.user, business_id=business_id)
+        billings = Billing.objects.filter(
+            user=request.user, business_id=business_id)
         result_page = paginator.paginate_queryset(billings, request)
         serializer = BillingSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
@@ -576,7 +630,7 @@ class ApiBillingView(APIView):
 
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         try:
             with transaction.atomic():
                 serializer = BillingSerializer(data=billing_data)
