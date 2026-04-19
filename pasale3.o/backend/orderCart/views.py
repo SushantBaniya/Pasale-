@@ -57,7 +57,7 @@ class OrderCartView(APIView):
                     return Response({"error": f"Product with ID {item['Product_id']} does not exist."}, status=status.HTTP_404_NOT_FOUND)
                 
                 item['business_id'] = business_id
-                item['customer'] = customer_id
+                item['customer_id'] = customer_id
                 item['total_amount'] = float(item['unit_price']) * float(item['quantity'])
 
             serializer = OrderCartSerializer(data=data)
