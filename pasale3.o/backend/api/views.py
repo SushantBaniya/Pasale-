@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 import random
-from .models import Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, Shift
-from .serializers import ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer
+from .models import Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, Shift, Order, OrderStatus
+from .serializers import ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 from datetime import timedelta
@@ -19,6 +19,7 @@ from cache.keys import productkey
 from api.services.productService import check_low_stock_and_alert, create_product, get_product
 from api.services.employeeServices import get_all_employees, create_employee
 from api.services.staffScheduleServices import GreedyStaffScheduler
+from api.services.orderServices import get_order, create_order
 
 
 # OTP Expiry Time (5 minutes)
@@ -977,3 +978,64 @@ class StaffSchedulerView(APIView):
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class OrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id=None, order_id=None):
+        try:
+            if not business_id:
+                return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+            data = get_order(business_id, order_id)
+            return data
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request, business_id=None):
+        try:
+            data = request.data
+            data['business_id'] = business_id
+            if not business_id:
+                return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+            result = create_order(data)
+            return result
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def put(self, request, business_id=None, order_id=None):
+        try:
+            if not business_id or not order_id:
+                return Response({"error": "Business ID and Order ID are required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                order_obj = Order.objects.get(
+                    id=order_id, business_id=business_id)
+            except Order.DoesNotExist:
+                return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            data = request.data
+            serializer = OrderSerializer(
+                order_obj, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'Order updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request, business_id=None, order_id=None):
+        try:
+            if not business_id or not order_id:
+                return Response({"error": "Business ID and Order ID are required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                order_obj = Order.objects.get(
+                    id=order_id, business_id=business_id)
+            except Order.DoesNotExist:
+                return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+
+            order_obj.delete()
+            return Response({'message': 'Order deleted successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
