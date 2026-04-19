@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Billing, BillingItem, Employee, Order,  UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
+from .models import Billing, BillingItem, Employee, Order, OrderItem,  UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -145,6 +145,14 @@ class SchedulerResponseSerializer(serializers.Serializer):
     total_shifts = serializers.IntegerField()
     success_rate = serializers.CharField()
     schedule_summary = serializers.DictField(required=False)
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(source='status.name', read_only=True)
+    product_name = serializers.CharField(source='product_id.product_name', read_only=True)
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'order', 'product_id', 'product_name', 'quantity', 'unit_price', 'total_price', 'status', 'status_id']
+        read_only_fields = ['status']
 
 class OrderSerializer(serializers.ModelSerializer):
     status = serializers.CharField(source='status.name', read_only=True)

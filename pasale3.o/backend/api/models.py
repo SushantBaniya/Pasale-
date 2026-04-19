@@ -30,6 +30,12 @@ class OrderStatus(models.Model):
 
     def __str__(self):
         return self.name
+    
+class OrderItemStatus(models.Model):
+    name = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Business(models.Model):
@@ -194,8 +200,7 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
-
-    
+     
 class Order(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
     customer = models.ForeignKey(
@@ -212,6 +217,27 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.id} - {self.order_status.name if self.order_status else 'No Status'}"
 
+class OrderItem(models.Model):
+    id = models.AutoField(primary_key=True)  # Explicit primary key
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name='items')
+    product_id = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='order_items')
+    quantity = models.PositiveIntegerField()
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=12, decimal_places=2)
+    status = models.ForeignKey(
+        OrderItemStatus, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        """Auto-calculate total_price before saving"""
+        self.total_price = self.quantity * self.unit_price
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Item {self.id} for Order {self.order.id}"
 
 class Supplier(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
