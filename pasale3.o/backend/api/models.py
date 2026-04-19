@@ -203,12 +203,14 @@ class Customer(models.Model):
      
 class Order(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
-    customer = models.ForeignKey(
+    customer_id = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     business_id = models.ForeignKey(
         Business, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     order_status = models.ForeignKey(
         OrderStatus, on_delete=models.SET_NULL, null=True, blank=True)
+    tax = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    discount = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     total_amount = models.DecimalField(
         max_digits=12, decimal_places=2, default=Decimal('0.00'))
     created_at = models.DateTimeField(auto_now_add=True)

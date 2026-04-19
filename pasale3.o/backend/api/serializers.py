@@ -156,15 +156,16 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     status = serializers.CharField(source='status.name', read_only=True)
-    customer_name = serializers.CharField(source='customer.name', read_only=True)
+    customer_name = serializers.CharField(source='customer_id.name', read_only=True)
     business_name = serializers.CharField(source='business_id.business_name', read_only=True)
+    items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
-        fields = ['id', 'business_id','business_name', 'customer', 'customer_name', 'order_date', 
-                  'total_amount', 'status', 'status_id']
+        fields = ['id', 'business_id','business_name', 'customer_id', 'customer_name', 'order_date', 
+                  'updated_at', 'created_at', 'total_amount', 'status', 'status_id', 'items']
         
-        read_only_fields = ['status', 'customer_name', 'business_name']
+        read_only_fields = ['status', 'customer_name', 'business_name', 'items', 'created_at', 'updated_at']
 
 
 
