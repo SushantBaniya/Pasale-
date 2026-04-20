@@ -53,7 +53,7 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
         if counter_id is not None:
             data['counter_id'] = counter_id
 
-        required_fields = ['business_id', 'customer_id', 'total_amount']
+        required_fields = ['business_id', 'customer_id', 'total_amount', 'counter_id']
         missing_fields = [
             f for f in required_fields if data.get(f) in (None, '')]
         if missing_fields:
