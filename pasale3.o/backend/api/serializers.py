@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Billing, BillingItem, Employee, Order, OrderItem,  UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
+from .models import Billing, BillingItem, Counter, Employee, Order, OrderItem,  UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -167,5 +167,11 @@ class OrderSerializer(serializers.ModelSerializer):
         
         read_only_fields = ['status', 'customer_name', 'business_name', 'items', 'created_at', 'updated_at']
 
+class CounterSerializer(serializers.ModelSerializer):
+    business_name = serializers.CharField(source='business_id.business_name', read_only=True)
 
+    class Meta:
+        model = Counter
+        fields = ['id', 'business_id', 'business_name', 'counter_number', 'location']
+        read_only_fields = ['business_name']
 

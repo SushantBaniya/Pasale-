@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import EmployeeView, SignupView, VerifySignupOtpView, VerifyLoginOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView, VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView
+from .views import CounterView, EmployeeView, SignupView, VerifySignupOtpView, VerifyLoginOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView, VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -36,5 +36,9 @@ urlpatterns = [
          name='scheduler-schedule'),
     path('scheduler/b<int:business_id>/',
          StaffSchedulerView.as_view(), name='scheduler-get-shifts'),
+
+    path('counters/b<int:business_id>/', CounterView.as_view(), name='counter-list-create'),
+    path('counters/b<int:business_id>/c<int:counter_id>/', CounterView.as_view(), name='counter-detail'),
+
 
 ]

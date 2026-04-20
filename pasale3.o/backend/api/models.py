@@ -457,3 +457,12 @@ class StockAlert(models.Model):
 
     def __str__(self):
         return f"Alert for {self.product.product_name} - {'Resolved' if self.is_resolved else 'Pending'}"
+
+class Counter(models.Model):
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='counters')
+    counter_number = models.IntegerField(max_length=100, unique=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f"Counter {self.counter_number}"

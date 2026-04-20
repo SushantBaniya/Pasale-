@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 import random
-from .models import Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, Shift, Order, OrderStatus
-from .serializers import ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer
+from .models import Counter, Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, Shift, Order, OrderStatus
+from .serializers import CounterSerializer, ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 from datetime import timedelta
@@ -1038,4 +1038,49 @@ class OrderView(APIView):
             order_obj.delete()
             return Response({'message': 'Order deleted successfully'}, status=status.HTTP_200_OK)
         except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class CounterView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id=None, counter_id=None):
+        try:
+            if not business_id:
+                return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            if counter_id:
+                counter = Counter.objects.filter(id=counter_id, business_id=business_id).first()
+                if not counter:
+                    return Response({"error": "Counter not found"}, status=status.HTTP_404_NOT_FOUND)
+                serializer = CounterSerializer(counter)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                counters = Counter.objects.filter(business_id=business_id)
+                serializer = CounterSerializer(counters, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+    def post(self, request, business_id=None):
+        try:
+            data = request.data
+            data['business_id'] = business_id
+
+            if not business_id:
+                return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            required_fields = ['counter_number', 'business_id']
+            for field in required_fields:
+                if field not in data:
+                    return Response({"error": f"{field} is required"}, status=status.HTTP_400_BAD_REQUEST)
+            serializer = CounterSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Counter created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            
+        except Exception as e:  
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

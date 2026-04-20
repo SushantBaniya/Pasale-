@@ -111,8 +111,17 @@ class OrderCartView(APIView):
             order_cart = OrderCart.objects.filter(id=cart_id, business_id=business_id, customer_id=customer_id).first()
             if not order_cart:
                 return Response({"error": "Order cart item not found"}, status=status.HTTP_404_NOT_FOUND)
-
+            
             order_cart.delete()
+
+            remaining_items = OrderCart.objects.filter(business_id=business_id, customer_id=customer_id).exists()
+            if not remaining_items:
+                try:
+                    customer_obj = Customer.objects.get(id=customer_id)
+                    customer_obj.delete()
+                except Exception as e:
+                    return Response({"error": f"Failed to delete customer: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
