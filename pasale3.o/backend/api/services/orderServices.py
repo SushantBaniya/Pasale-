@@ -53,7 +53,7 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
         if counter_id is not None:
             data['counter_id'] = counter_id
 
-        required_fields = ['business_id', 'customer_id', 'total_amount', 'counter_id']
+        required_fields = ['business_id', 'total_amount']
         missing_fields = [
             f for f in required_fields if data.get(f) in (None, '')]
         if missing_fields:
@@ -73,8 +73,16 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
                 )
 
         business_id = data['business_id']
-        customer_id = data['customer_id']
+        customer_id = data.get('customer_id')
         counter_id = data.get('counter_id')
+
+        has_customer = customer_id not in (None, '')
+        has_counter = counter_id not in (None, '')
+        if has_customer == has_counter:
+            return Response(
+                {'error': 'Provide exactly one of customer_id or counter_id.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         if not Business.objects.filter(id=business_id).exists():
             return Response({'error': 'Business does not exist.'}, status=status.HTTP_404_NOT_FOUND)
@@ -85,7 +93,7 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        if not Customer.objects.filter(id=customer_id, business_id=business_id).exists():
+        if has_customer and not Customer.objects.filter(id=customer_id, business_id=business_id).exists():
             return Response(
                 {'error': 'Customer does not exist for this business.'},
                 status=status.HTTP_404_NOT_FOUND
@@ -96,6 +104,11 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
         # If nested items are not sent, fallback to existing cart items.
         cart_items = []
         if not items_data:
+            if not has_customer:
+                return Response(
+                    {'error': 'items are required when creating a counter order without customer_id.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             cart_items = list(
                 OrderCart.objects.filter(
                     business_id=business_id, customer=customer_id)
@@ -207,8 +220,9 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
             created_items = OrderItem.objects.bulk_create(
                 order_item_objects) if order_item_objects else []
 
-            OrderCart.objects.filter(
-                business_id=business_id, customer=str(customer_id)).delete()
+            if has_customer:
+                OrderCart.objects.filter(
+                    business_id=business_id, customer=str(customer_id)).delete()
 
         response_data = OrderSerializer(order_obj).data
 
