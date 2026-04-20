@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'api',
+    'orderCart',
     'drf_spectacular',
 ]
 
