@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -1053,7 +1054,7 @@ class StaffSchedulerView(APIView):
 
 
 class OrderView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, business_id=None, order_id=None):
         try:
@@ -1067,6 +1068,21 @@ class OrderView(APIView):
     def post(self, request, business_id=None, counter_id=None, customer_id=None):
         try:
             data = request.data
+
+            if isinstance(data, str):
+                try:
+                    data = json.loads(data)
+                except json.JSONDecodeError:
+                    return Response({"error": "Invalid JSON payload. Expected an object."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if not isinstance(data, dict):
+                if hasattr(data, 'dict'):
+                    data = data.dict()
+                elif hasattr(data, 'copy'):
+                    data = data.copy()
+                else:
+                    data = dict(data)
+
             if business_id is not None:
                 data['business_id'] = business_id
             if counter_id is not None:

@@ -40,6 +40,7 @@ urlpatterns = [
     path('counters/b<int:business_id>/', CounterView.as_view(), name='counter-list-create'),
     path('counters/b<int:business_id>/c<int:counter_id>/', CounterView.as_view(), name='counter-detail'),
 
+    path('orders/b<int:business_id>/', OrderView.as_view(), name='order-list-create'),
     path('orders/b<int:business_id>/c<int:customer_id>/', OrderView.as_view(), name='order-list-create'),
     path('orders/b<int:business_id>/c<int:counter_id>/', OrderView.as_view(), name='order-detail'),
 
