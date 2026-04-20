@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from api.models import (
     Business,
+    Counter,
     Customer,
     Order,
     OrderItem,
@@ -35,7 +36,7 @@ def get_order(order_id, business_id):
         raise Exception(f"Error fetching order(s): {str(e)}")
 
 
-def create_order(data):
+def create_order(data, business_id, counter_id=None, customer_id=None):
     try:
         if not isinstance(data, dict):
             return Response(
@@ -45,7 +46,14 @@ def create_order(data):
 
         data = dict(data)
 
-        required_fields = ['business_id', 'customer_id', 'total_amount', 'status_id']
+        if business_id is not None:
+            data['business_id'] = business_id
+        if customer_id is not None:
+            data['customer_id'] = customer_id
+        if counter_id is not None:
+            data['counter_id'] = counter_id
+
+        required_fields = ['business_id', 'customer_id', 'total_amount']
         missing_fields = [
             f for f in required_fields if data.get(f) in (None, '')]
         if missing_fields:
@@ -65,10 +73,17 @@ def create_order(data):
                 )
 
         business_id = data['business_id']
-        customer_id = data['customer']
+        customer_id = data['customer_id']
+        counter_id = data.get('counter_id')
 
         if not Business.objects.filter(id=business_id).exists():
             return Response({'error': 'Business does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        if counter_id and not Counter.objects.filter(id=counter_id, business_id=business_id).exists():
+            return Response(
+                {'error': 'Counter does not exist for this business.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
         if not Customer.objects.filter(id=customer_id, business_id=business_id).exists():
             return Response(
@@ -177,8 +192,9 @@ def create_order(data):
                 name='Pending')
 
             order_obj = Order.objects.create(
-                customer_id=customer_id,
+                customer_id_id=customer_id,
                 business_id_id=business_id,
+                counter_id=counter_id,
                 order_status=pending_order_status,
                 tax=data.get('tax', 0),
                 discount=data.get('discount', 0),
@@ -192,13 +208,14 @@ def create_order(data):
                 order_item_objects) if order_item_objects else []
 
             OrderCart.objects.filter(
-                business_id=business_id, customer=customer_id).delete()
+                business_id=business_id, customer=str(customer_id)).delete()
 
         response_data = OrderSerializer(order_obj).data
 
         return Response({
             'message': 'Order created successfully.',
             'order': response_data,
+            'counter_id': order_obj.counter_id,
             'items_created': len(created_items),
         }, status=status.HTTP_201_CREATED)
 

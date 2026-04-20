@@ -24,13 +24,15 @@ class EmployeeStatus(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
 class OrderStatus(models.Model):
     name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
         return self.name
-    
+
+
 class OrderItemStatus(models.Model):
     name = models.CharField(max_length=20, unique=True)
 
@@ -155,7 +157,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
-    
+
+
 class Party(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
     Category_type = models.CharField(max_length=20)
@@ -172,7 +175,8 @@ class Party(models.Model):
             return f"Customer: {self.Customer.name}"
         elif hasattr(self, 'Supplier'):
             return f"Supplier: {self.Supplier.name}"
-    
+
+
 class Customer(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
     party = models.OneToOneField(
@@ -200,17 +204,31 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
-     
+
+
+class Counter(models.Model):
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='counters')
+    counter_number = models.IntegerField(max_length=100, unique=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f"Counter {self.counter_number}"
+
+
 class Order(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
     customer_id = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     business_id = models.ForeignKey(
         Business, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
+    counter = models.ForeignKey(
+        Counter, on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
     order_status = models.ForeignKey(
         OrderStatus, on_delete=models.SET_NULL, null=True, blank=True)
     tax = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
-    discount = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    discount = models.DecimalField(
+        max_digits=12, decimal_places=2, default=0.00)
     total_amount = models.DecimalField(
         max_digits=12, decimal_places=2, default=Decimal('0.00'))
     created_at = models.DateTimeField(auto_now_add=True)
@@ -218,6 +236,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.id} - {self.order_status.name if self.order_status else 'No Status'}"
+
 
 class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
@@ -240,6 +259,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"Item {self.id} for Order {self.order.id}"
+
 
 class Supplier(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
@@ -309,6 +329,10 @@ class Billing(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='billings')
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='billings', null=True, blank=True)
+    order = models.OneToOneField(
+        Order, on_delete=models.SET_NULL, related_name='billing', null=True, blank=True)
 
     # Invoice details
     invoice_number = models.CharField(max_length=50, unique=True)
@@ -457,12 +481,3 @@ class StockAlert(models.Model):
 
     def __str__(self):
         return f"Alert for {self.product.product_name} - {'Resolved' if self.is_resolved else 'Pending'}"
-
-class Counter(models.Model):
-    business_id = models.ForeignKey(
-        Business, on_delete=models.CASCADE, related_name='counters')
-    counter_number = models.IntegerField(max_length=100, unique=True)
-    location = models.CharField(max_length=255, blank=True, null=True)
-
-    def __str__(self):
-        return f"Counter {self.counter_number}"

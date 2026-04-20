@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Billing, BillingItem, Counter, Employee, Order, OrderItem,  UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
+from .models import Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -146,32 +146,50 @@ class SchedulerResponseSerializer(serializers.Serializer):
     success_rate = serializers.CharField()
     schedule_summary = serializers.DictField(required=False)
 
+
 class OrderItemSerializer(serializers.ModelSerializer):
     status = serializers.CharField(source='status.name', read_only=True)
-    product_name = serializers.CharField(source='product_id.product_name', read_only=True)
+    status_id = serializers.PrimaryKeyRelatedField(
+        source='status', queryset=OrderItemStatus.objects.all(), write_only=True, required=False, allow_null=True)
+    product_name = serializers.CharField(
+        source='product_id.product_name', read_only=True)
+
     class Meta:
         model = OrderItem
-        fields = ['id', 'order', 'product_id', 'product_name', 'quantity', 'unit_price', 'total_price', 'status', 'status_id']
+        fields = ['id', 'order', 'product_id', 'product_name',
+                  'quantity', 'unit_price', 'total_price', 'status', 'status_id']
         read_only_fields = ['status']
 
+
 class OrderSerializer(serializers.ModelSerializer):
-    status = serializers.CharField(source='status.name', read_only=True)
-    customer_name = serializers.CharField(source='customer_id.name', read_only=True)
-    business_name = serializers.CharField(source='business_id.business_name', read_only=True)
+    status = serializers.CharField(source='order_status.name', read_only=True)
+    status_id = serializers.PrimaryKeyRelatedField(
+        source='order_status', queryset=OrderStatus.objects.all(), write_only=True, required=False, allow_null=True)
+    order_date = serializers.DateTimeField(source='created_at', read_only=True)
+    customer_name = serializers.CharField(
+        source='customer_id.name', read_only=True)
+    business_name = serializers.CharField(
+        source='business_id.business_name', read_only=True)
     items = OrderItemSerializer(many=True, read_only=True)
+    counter_id = serializers.IntegerField(source='counter.id', read_only=True)
+    counter_number = serializers.CharField(
+        source='counter.counter_number', read_only=True)
 
     class Meta:
         model = Order
-        fields = ['id', 'business_id','business_name', 'customer_id', 'customer_name', 'order_date', 
-                  'updated_at', 'created_at', 'total_amount', 'status', 'status_id', 'items']
-        
-        read_only_fields = ['status', 'customer_name', 'business_name', 'items', 'created_at', 'updated_at']
+        fields = ['id', 'business_id', 'business_name', 'customer_id', 'customer_name', 'order_date',
+                  'updated_at', 'created_at', 'total_amount', 'status', 'status_id', 'counter_id', 'counter_number', 'items']
+
+        read_only_fields = ['status', 'customer_name',
+                            'business_name', 'items', 'created_at', 'updated_at']
+
 
 class CounterSerializer(serializers.ModelSerializer):
-    business_name = serializers.CharField(source='business_id.business_name', read_only=True)
+    business_name = serializers.CharField(
+        source='business_id.business_name', read_only=True)
 
     class Meta:
         model = Counter
-        fields = ['id', 'business_id', 'business_name', 'counter_number', 'location']
+        fields = ['id', 'business_id', 'business_name',
+                  'counter_number', 'location']
         read_only_fields = ['business_name']
-

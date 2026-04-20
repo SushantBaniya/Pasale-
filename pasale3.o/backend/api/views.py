@@ -13,6 +13,7 @@ from datetime import timedelta
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from django.db import IntegrityError
+from decimal import Decimal
 import logging
 from .tasks import send_otp_email
 from cache.keys import productkey
@@ -29,6 +30,77 @@ OTP_EXPIRY_TIME = timedelta(minutes=5)
 PARTY_INACTIVITY_PERIOD = timedelta(days=90)
 
 logger = logging.getLogger(__name__)
+
+
+def _build_invoice_number(order_id):
+    base = f"ORD-{order_id}"
+    invoice_number = base
+    suffix = 1
+    while Billing.objects.filter(invoice_number=invoice_number).exists():
+        invoice_number = f"{base}-{suffix}"
+        suffix += 1
+    return invoice_number
+
+
+def _sync_billing_for_completed_counter_order(order_obj, user):
+    # Only counter orders should auto-generate billing on completion.
+    if not order_obj.counter_id:
+        return None
+
+    customer = order_obj.customer_id
+    party = customer.party if customer and hasattr(customer, 'party') else None
+    sub_total = sum(
+        (item.total_price for item in order_obj.items.all()), Decimal('0.00'))
+    total_amount = order_obj.total_amount or Decimal('0.00')
+
+    defaults = {
+        'user': user,
+        'business_id_id': order_obj.business_id_id,
+        'invoice_number': _build_invoice_number(order_obj.id),
+        'invoice_date': timezone.now().date(),
+        'due_date': timezone.now().date(),
+        'payment_method': customer.payment_method if customer else None,
+        'invoice_status': 'Pending',
+        'party': party,
+        'phone': customer.phone_no if customer else None,
+        'address': customer.address if customer else None,
+        'notes': f'Auto-generated from counter order #{order_obj.id}',
+        'paid_amount': Decimal('0.00'),
+        'due_amount': total_amount,
+        'total_amount': total_amount,
+        'discount': order_obj.discount or Decimal('0.00'),
+        'tax': order_obj.tax or Decimal('0.00'),
+        'sub_total': sub_total,
+    }
+
+    billing, created = Billing.objects.get_or_create(
+        order=order_obj, defaults=defaults)
+
+    if not created:
+        invoice_number = billing.invoice_number or _build_invoice_number(
+            order_obj.id)
+        for field, value in defaults.items():
+            setattr(billing, field, value)
+        billing.invoice_number = invoice_number
+        billing.save()
+
+    BillingItem.objects.filter(billing=billing).delete()
+    billing_items = [
+        BillingItem(
+            billing=billing,
+            item=item.product_id,
+            quantity=item.quantity,
+            rate=item.unit_price,
+            discount_percentage=Decimal('0.00'),
+            tax_percentage=Decimal('13.00'),
+            total_price=item.total_price,
+        )
+        for item in order_obj.items.all()
+    ]
+    if billing_items:
+        BillingItem.objects.bulk_create(billing_items)
+
+    return billing
 
 
 def _dispatch_otp_email(email, otp):
@@ -978,7 +1050,8 @@ class StaffSchedulerView(APIView):
 
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
+
 class OrderView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -991,13 +1064,18 @@ class OrderView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def post(self, request, business_id=None):
+    def post(self, request, business_id=None, counter_id=None, customer_id=None):
         try:
             data = request.data
-            data['business_id'] = business_id
+            if business_id is not None:
+                data['business_id'] = business_id
+            if counter_id is not None:
+                data['counter_id'] = counter_id
+            if customer_id is not None:
+                data['customer_id'] = customer_id
             if not business_id:
                 return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
-            result = create_order(data)
+            result = create_order(data, business_id, counter_id, customer_id)
             return result
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -1013,11 +1091,21 @@ class OrderView(APIView):
             except Order.DoesNotExist:
                 return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
 
+            previous_status_name = (order_obj.order_status.name.lower()
+                                    if order_obj.order_status else "")
+
             data = request.data
             serializer = OrderSerializer(
                 order_obj, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+
+                current_status_name = (order_obj.order_status.name.lower()
+                                       if order_obj.order_status else "")
+                if previous_status_name != current_status_name and current_status_name in {'completed', 'complete', 'paid'}:
+                    _sync_billing_for_completed_counter_order(
+                        order_obj, request.user)
+
                 return Response({'message': 'Order updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -1040,6 +1128,7 @@ class OrderView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class CounterView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -1047,9 +1136,10 @@ class CounterView(APIView):
         try:
             if not business_id:
                 return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             if counter_id:
-                counter = Counter.objects.filter(id=counter_id, business_id=business_id).first()
+                counter = Counter.objects.filter(
+                    id=counter_id, business_id=business_id).first()
                 if not counter:
                     return Response({"error": "Counter not found"}, status=status.HTTP_404_NOT_FOUND)
                 serializer = CounterSerializer(counter)
@@ -1058,10 +1148,9 @@ class CounterView(APIView):
                 counters = Counter.objects.filter(business_id=business_id)
                 serializer = CounterSerializer(counters, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
-            
+
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
     def post(self, request, business_id=None):
         try:
@@ -1070,7 +1159,7 @@ class CounterView(APIView):
 
             if not business_id:
                 return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             required_fields = ['counter_number', 'business_id']
             for field in required_fields:
                 if field not in data:
@@ -1081,6 +1170,6 @@ class CounterView(APIView):
                 return Response({"message": "Counter created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
             else:
                 return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-            
-        except Exception as e:  
+
+        except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
