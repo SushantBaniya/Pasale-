@@ -1,3 +1,4 @@
+# yourapp/management/commands/test_celery_task.py
 
 from django.core.management.base import BaseCommand
 from api.models import Business, AprioriRule
@@ -6,7 +7,7 @@ from api.utils.apiriori_utils import load_rules_from_db
 
 
 class Command(BaseCommand):
-    help = 'Tests the Celery retrain task manually'
+    help = 'Tests the retrain task manually'
 
     def handle(self, *args, **kwargs):
 
@@ -21,19 +22,19 @@ class Command(BaseCommand):
             return
 
         self.stdout.write('\n' + '='*60)
-        self.stdout.write('     CELERY TASK TEST (manual run)')
+        self.stdout.write('     RETRAIN TASK TEST')
         self.stdout.write('='*60)
 
-        # Run task directly (without Celery worker for testing)
+        # Run task directly
         self.stdout.write('\n🔄 Running retrain task...')
         result = retrain_apriori_for_business(business_id=business.id)
 
-        self.stdout.write(f'\n📊 Task Result:')
+        self.stdout.write('\n📊 Task Result:')
         for key, value in result.items():
             self.stdout.write(f'   {key}: {value}')
 
-        # Show saved rules from database
-        self.stdout.write('\n📋 Rules now saved in database:')
+        # Show saved rules
+        self.stdout.write('\n📋 Rules saved in database:')
         saved_rules = AprioriRule.objects.filter(
             business_id=business
         ).order_by('-confidence')
@@ -45,11 +46,11 @@ class Command(BaseCommand):
                 f'Lift: {rule.lift}'
             )
 
-        # Load rules via helper function
-        self.stdout.write('\n📡 Loading rules via load_rules_from_db():')
+        self.stdout.write('\n📡 Loading via load_rules_from_db():')
         loaded = load_rules_from_db(business_id=business.id)
         self.stdout.write(f'   Total rules loaded: {len(loaded)}')
-        self.stdout.write(f'   Sample: {loaded[0] if loaded else "none"}')
+        if loaded:
+            self.stdout.write(f'   Sample: {loaded[0]}')
 
         self.stdout.write('\n' + '='*60)
         self.stdout.write('     TASK TEST COMPLETE ✅')

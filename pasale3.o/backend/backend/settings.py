@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     'orderCart',
     'drf_spectacular',
 
-    'django_celery_beat',
+    'django_q',
 ]
 
 SPECTACULAR_SETTINGS = {
@@ -214,19 +214,13 @@ CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 
 CELERY_WORKER_POOL = 'solo'
 
-from celery.schedules import crontab
-
-CELERY_BEAT_SCHEDULE = {
-
-    # Runs every Sunday at midnight
-    'retrain-apriori-weekly': {
-        'task': 'retrain_apriori_for_all_businesses',
-        'schedule': crontab(hour=0, minute=0, day_of_week='sunday'),
-    },
-
-    # Runs every day at 6AM to check stock alerts
-    'check-stock-alerts-daily': {
-        'task': 'retrain_apriori_for_all_businesses',
-        'schedule': crontab(hour=6, minute=0),
-    },
+# Django-Q config — uses Django DB instead of Redis
+Q_CLUSTER = {
+    'name': 'pasale',
+    'workers': 1,           # keep at 1 for Windows
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default',       # uses your existing Django DB, no Redis needed
 }
