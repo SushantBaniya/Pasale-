@@ -27,7 +27,6 @@ from .models import (
     StockAlert,
     Supplier,
     SupplierInfo,
-    UserProfile,
 )
 
 
@@ -40,11 +39,6 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'slug')
-
-
-@admin.register(UserProfile)
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'phone_no', 'business_name', 'is_verify')
 
 
 @admin.register(Employee)

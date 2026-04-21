@@ -1,4 +1,3 @@
-from . import views
 from django.urls import path
 from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, VerifyLoginOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -58,33 +57,28 @@ urlpatterns = [
     path('orders/b<int:business_id>/c<int:counter_id>/',
          OrderView.as_view(), name='order-detail'),
 
-    path('inventory/suggestions/', views.inventory_suggestions,
-         name='inventory_suggestions'),
-    path('inventory/rules/', views.association_rules_view,
-         name='association_rules'),
-
     path(
-        'inventory/rules/',
+        'inventory/rules/b<int:business_id>/',
         AssociationRulesView.as_view(),
         name='inventory-rules'
     ),
     path(
-        'inventory/suggestions/',
+        'inventory/suggestions/b<int:business_id>/',
         ReorderSuggestionsView.as_view(),
         name='inventory-suggestions'
     ),
     path(
-        'inventory/alerts/',
+        'inventory/alerts/b<int:business_id>/',
         StockAlertsView.as_view(),
         name='inventory-alerts'
     ),
     path(
-        'inventory/alerts/<int:alert_id>/resolve/',
+        'inventory/alerts/b<int:business_id>/<int:alert_id>/resolve/',
         ResolveAlertView.as_view(),
         name='inventory-alert-resolve'
     ),
     path(
-        'inventory/retrain/',
+        'inventory/retrain/b<int:business_id>/',
         RetrainAprioriView.as_view(),
         name='inventory-retrain'
     ),

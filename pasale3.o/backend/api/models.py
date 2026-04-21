@@ -53,6 +53,9 @@ class Business(models.Model):
     business_status = models.ForeignKey(
         Business_Status, on_delete=models.CASCADE, related_name='businesses', blank=True, null=True)
     reg_number = models.CharField(max_length=100, blank=True, null=True)
+    otp = models.CharField(max_length=6, blank=True, null=True)
+    otp_created_at = models.DateTimeField(blank=True, null=True)
+    is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -105,19 +108,6 @@ class EmployeeSchedule(models.Model):
 
     def __str__(self):
         return f"{self.employee.name} - {self.date}"
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='profile')
-    phone_no = models.CharField(max_length=15, blank=True, null=True)
-    business_name = models.CharField(max_length=255, blank=True, null=True)
-    otp = models.CharField(max_length=6, null=True, blank=True)
-    otp_created_at = models.DateTimeField(null=True, blank=True)
-    is_verify = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.user.username
 
 
 class Category(models.Model):

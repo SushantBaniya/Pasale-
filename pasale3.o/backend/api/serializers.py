@@ -1,26 +1,16 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
-
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ['phone_no', 'name']
+from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer()
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'profile']
+        fields = ['id', 'username', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        profile_data = validated_data.pop('profile')
         user = User.objects.create_user(**validated_data)
-        UserProfile.objects.create(user=user, **profile_data)
         return user
 
 
@@ -213,6 +203,7 @@ class AprioriRuleSerializer(serializers.ModelSerializer):
 
     def get_confidence_percent(self, obj):
         return f"{obj.confidence:.0%}"
+
 
 class StockAlertSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.product_name')
