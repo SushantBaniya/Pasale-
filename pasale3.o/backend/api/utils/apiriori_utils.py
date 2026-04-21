@@ -126,3 +126,112 @@ def get_reorder_suggestions(business_id):
         "suggestions": suggestions
     }
 
+
+from api.models import Product, StockAlert, Business
+
+
+def create_apriori_stock_alerts(business_id):
+    """
+    Runs Apriori, finds low stock items, and auto-creates
+    StockAlert entries for related items that should be reordered.
+    """
+
+    rules, message = run_apriori(business_id)
+
+    if rules is None:
+        return {"error": message}
+
+    # Get all low stock products for this business
+    low_stock_products = Product.objects.filter(
+        business_id=business_id,
+        is_low_stock=True
+    )
+
+    business = Business.objects.get(id=business_id)
+
+    alerts_created = []
+    alerts_skipped = []
+
+    for product in low_stock_products:
+
+        # Find rules where this product is the trigger
+        matched_rules = rules[
+            rules['antecedents'].apply(lambda x: product.product_name in x)
+        ]
+
+        for _, rule in matched_rules.iterrows():
+            consequents = list(rule['consequents'])
+            confidence = round(rule['confidence'] * 100)
+            lift = round(rule['lift'], 2)
+
+            # Find each related product that should be reordered
+            for related_name in consequents:
+                try:
+                    related_product = Product.objects.get(
+                        product_name=related_name,
+                        business_id=business_id
+                    )
+                except Product.DoesNotExist:
+                    continue
+
+                # Build a clear alert message
+                alert_message = (
+                    f"'{product.product_name}' is low on stock — "
+                    f"{confidence}% of customers also buy '{related_name}'. "
+                    f"Consider reordering '{related_name}' soon. "
+                    f"(Lift: {lift})"
+                )
+
+                # Use get_or_create to avoid duplicate alerts
+                alert, created = StockAlert.objects.get_or_create(
+                    business_id=business,
+                    product=related_product,
+                    is_resolved=False,
+                    defaults={'message': alert_message}
+                )
+
+                if created:
+                    alerts_created.append({
+                        'trigger': product.product_name,
+                        'reorder': related_name,
+                        'confidence': f"{confidence}%",
+                        'lift': lift,
+                        'alert_id': alert.id
+                    })
+                else:
+                    alerts_skipped.append(related_name)
+
+    return {
+        "status": "success",
+        "rules_used": message,
+        "alerts_created": alerts_created,
+        "alerts_skipped": alerts_skipped,
+        "total_created": len(alerts_created),
+        "total_skipped": len(alerts_skipped)
+    }
+
+
+def resolve_apriori_alerts(business_id):
+    """
+    Resolves Apriori-generated alerts when stock is replenished.
+    Call this after a restock/purchase order is completed.
+    """
+    # Find products that are no longer low stock
+    healthy_products = Product.objects.filter(
+        business_id=business_id,
+        is_low_stock=False
+    )
+
+    resolved_count = 0
+    for product in healthy_products:
+        updated = StockAlert.objects.filter(
+            business_id=business_id,
+            product=product,
+            is_resolved=False
+        ).update(is_resolved=True)
+        resolved_count += updated
+
+    return {
+        "status": "success",
+        "alerts_resolved": resolved_count
+    }
