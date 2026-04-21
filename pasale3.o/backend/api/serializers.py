@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
+from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, UserProfile, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -193,3 +193,47 @@ class CounterSerializer(serializers.ModelSerializer):
         fields = ['id', 'business_id', 'business_name',
                   'counter_number', 'location']
         read_only_fields = ['business_name']
+
+
+class AprioriRuleSerializer(serializers.ModelSerializer):
+    confidence_percent = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AprioriRule
+        fields = [
+            'id',
+            'antecedent',
+            'consequent',
+            'support',
+            'confidence',
+            'confidence_percent',
+            'lift',
+            'updated_at'
+        ]
+
+    def get_confidence_percent(self, obj):
+        return f"{obj.confidence:.0%}"
+
+class StockAlertSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='product.product_name')
+    product_quantity = serializers.IntegerField(source='product.quantity')
+    reorder_level = serializers.IntegerField(source='product.reorder_level')
+
+    class Meta:
+        model = StockAlert
+        fields = [
+            'id',
+            'product_name',
+            'product_quantity',
+            'reorder_level',
+            'message',
+            'is_resolved',
+            'created_at'
+        ]
+
+
+class ReorderSuggestionSerializer(serializers.Serializer):
+    low_stock_product = serializers.CharField()
+    current_quantity = serializers.IntegerField()
+    reorder_level = serializers.IntegerField()
+    also_reorder = serializers.ListField()

@@ -1,6 +1,6 @@
 from . import views
 from django.urls import path
-from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, VerifyLoginOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView, VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView
+from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, VerifyLoginOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -63,5 +63,29 @@ urlpatterns = [
     path('inventory/rules/', views.association_rules_view,
          name='association_rules'),
 
-
+    path(
+        'inventory/rules/',
+        AssociationRulesView.as_view(),
+        name='inventory-rules'
+    ),
+    path(
+        'inventory/suggestions/',
+        ReorderSuggestionsView.as_view(),
+        name='inventory-suggestions'
+    ),
+    path(
+        'inventory/alerts/',
+        StockAlertsView.as_view(),
+        name='inventory-alerts'
+    ),
+    path(
+        'inventory/alerts/<int:alert_id>/resolve/',
+        ResolveAlertView.as_view(),
+        name='inventory-alert-resolve'
+    ),
+    path(
+        'inventory/retrain/',
+        RetrainAprioriView.as_view(),
+        name='inventory-retrain'
+    ),
 ]

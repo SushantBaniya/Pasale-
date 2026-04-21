@@ -6,8 +6,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 import random
-from .models import Counter, Customer, Employee, ForgetPasswordOTP, Party, Product, Supplier, UserProfile, Expense, Billing, BillingItem, Shift, Order, OrderStatus
-from .serializers import CounterSerializer, ProductSerializer, PartySerializer, CustomerSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer
+from .models import Business, Counter, Customer, Employee, ForgetPasswordOTP, Party, Product, StockAlert, Supplier, UserProfile, Expense, Billing, BillingItem, Shift, Order, OrderStatus, AprioriRule
+from .serializers import CounterSerializer, ProductSerializer, PartySerializer, CustomerSerializer, StockAlertSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer, AprioriRuleSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 from datetime import timedelta
@@ -26,7 +26,8 @@ from api.services.orderServices import get_order, create_order
 
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from .utils.apiriori_utils import get_reorder_suggestions, run_apriori
+from .utils.apiriori_utils import get_reorder_suggestions, run_apriori, save_rules_to_db, create_apriori_stock_alerts, resolve_apriori_alerts
+
 
 
 # OTP Expiry Time (5 minutes)
@@ -1234,3 +1235,222 @@ class CounterView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+
+class AssociationRulesView(APIView):
+    """
+    GET /api/inventory/rules/
+    Returns all saved Apriori rules for the business.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            business = request.user.business
+        except Business.DoesNotExist:
+            return Response(
+                {"error": "No business found for this user"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        rules = AprioriRule.objects.filter(
+            business_id=business
+        ).order_by('-confidence')
+
+        if not rules.exists():
+            return Response(
+                {
+                    "message": "No rules found. Trigger a retrain first.",
+                    "rules": []
+                },
+                status=status.HTTP_200_OK
+            )
+
+        serializer = AprioriRuleSerializer(rules, many=True)
+        return Response({
+            "total_rules": rules.count(),
+            "business": business.business_name,
+            "rules": serializer.data
+        })
+
+
+class ReorderSuggestionsView(APIView):
+    """
+    GET /api/inventory/suggestions/
+    Returns reorder suggestions based on low stock items
+    and Apriori association rules.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            business = request.user.business
+        except Business.DoesNotExist:
+            return Response(
+                {"error": "No business found for this user"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Get low stock products
+        low_stock = Product.objects.filter(
+            business_id=business,
+            is_low_stock=True
+        )
+
+        if not low_stock.exists():
+            return Response({
+                "message": "No low stock items found.",
+                "suggestions": []
+            })
+
+        # Get suggestions from Apriori
+        result = get_reorder_suggestions(business_id=business.id)
+
+        if 'error' in result:
+            return Response(
+                {"error": result['error']},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Enrich suggestions with current stock info
+        enriched = []
+        for suggestion in result['suggestions']:
+            product = Product.objects.filter(
+                business_id=business,
+                product_name=suggestion['low_stock_product']
+            ).first()
+
+            enriched.append({
+                "low_stock_product": suggestion['low_stock_product'],
+                "current_quantity": product.quantity if product else 0,
+                "reorder_level": product.reorder_level if product else 0,
+                "also_reorder": suggestion['also_reorder']
+            })
+
+        return Response({
+            "business": business.business_name,
+            "low_stock_count": low_stock.count(),
+            "suggestions": enriched
+        })
+
+
+class StockAlertsView(APIView):
+    """
+    GET /api/inventory/alerts/
+    Returns all unresolved stock alerts for the business.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            business = request.user.business
+        except Business.DoesNotExist:
+            return Response(
+                {"error": "No business found for this user"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Optional filter: ?resolved=true to see resolved alerts
+        show_resolved = request.query_params.get('resolved', 'false')
+        is_resolved = show_resolved.lower() == 'true'
+
+        alerts = StockAlert.objects.filter(
+            business_id=business,
+            is_resolved=is_resolved
+        ).select_related('product').order_by('-created_at')
+
+        serializer = StockAlertSerializer(alerts, many=True)
+
+        return Response({
+            "business": business.business_name,
+            "total_alerts": alerts.count(),
+            "showing": "resolved" if is_resolved else "unresolved",
+            "alerts": serializer.data
+        })
+
+
+class ResolveAlertView(APIView):
+    """
+    PUT /api/inventory/alerts/<id>/resolve/
+    Marks a specific stock alert as resolved.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, alert_id):
+        try:
+            business = request.user.business
+        except Business.DoesNotExist:
+            return Response(
+                {"error": "No business found for this user"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        try:
+            alert = StockAlert.objects.get(
+                id=alert_id,
+                business_id=business
+            )
+        except StockAlert.DoesNotExist:
+            return Response(
+                {"error": f"Alert #{alert_id} not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        alert.is_resolved = True
+        alert.save()
+
+        return Response({
+            "message": f"Alert #{alert_id} resolved successfully",
+            "alert_id": alert_id,
+            "product": alert.product.product_name,
+            "is_resolved": True
+        })
+
+
+class RetrainAprioriView(APIView):
+    """
+    POST /api/inventory/retrain/
+    Manually triggers an Apriori retrain for the business.
+    Useful for the owner to retrain on demand.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            business = request.user.business
+        except Business.DoesNotExist:
+            return Response(
+                {"error": "No business found for this user"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Run retrain
+        rules, message = run_apriori(business_id=business.id)
+
+        if rules is None:
+            return Response(
+                {"error": message},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Save new rules
+        save_result = save_rules_to_db(
+            business_id=business.id,
+            rules=rules
+        )
+
+        # Create alerts
+        alert_result = create_apriori_stock_alerts(
+            business_id=business.id
+        )
+
+        return Response({
+            "message": "Retrain completed successfully",
+            "business": business.business_name,
+            "rules_found": message,
+            "rules_saved": save_result['saved_new_rules'],
+            "old_rules_deleted": save_result['deleted_old_rules'],
+            "alerts_created": alert_result.get('total_created', 0),
+            "alerts_skipped": alert_result.get('total_skipped', 0)
+        })
