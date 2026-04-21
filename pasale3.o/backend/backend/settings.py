@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     'api',
     'orderCart',
     'drf_spectacular',
+
+    'django_celery_beat',
 ]
 
 SPECTACULAR_SETTINGS = {
@@ -209,3 +211,22 @@ CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+
+CELERY_WORKER_POOL = 'solo'
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+
+    # Runs every Sunday at midnight
+    'retrain-apriori-weekly': {
+        'task': 'retrain_apriori_for_all_businesses',
+        'schedule': crontab(hour=0, minute=0, day_of_week='sunday'),
+    },
+
+    # Runs every day at 6AM to check stock alerts
+    'check-stock-alerts-daily': {
+        'task': 'retrain_apriori_for_all_businesses',
+        'schedule': crontab(hour=6, minute=0),
+    },
+}

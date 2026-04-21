@@ -481,3 +481,25 @@ class StockAlert(models.Model):
 
     def __str__(self):
         return f"Alert for {self.product.product_name} - {'Resolved' if self.is_resolved else 'Pending'}"
+
+
+class AprioriRule(models.Model):
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='apriori_rules'
+    )
+    antecedent = models.CharField(max_length=255)   # trigger product
+    consequent = models.CharField(max_length=255)   # suggested product
+    support = models.FloatField()
+    confidence = models.FloatField()
+    lift = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('business_id', 'antecedent', 'consequent')
+
+    def __str__(self):
+        return (
+            f"{self.antecedent} → {self.consequent} "
+            f"(conf: {self.confidence:.0%}, lift: {self.lift:.2f})"
+        )

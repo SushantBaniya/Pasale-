@@ -235,3 +235,62 @@ def resolve_apriori_alerts(business_id):
         "status": "success",
         "alerts_resolved": resolved_count
     }
+
+# yourapp/utils/apriori_utils.py  — add at the bottom
+
+from api.models import AprioriRule, Business
+
+
+def save_rules_to_db(business_id, rules):
+    """
+    Saves freshly generated Apriori rules to the database.
+    Overwrites old rules for this business.
+    """
+    business = Business.objects.get(id=business_id)
+
+    # Delete old rules for this business before saving new ones
+    deleted_count, _ = AprioriRule.objects.filter(
+        business_id=business
+    ).delete()
+
+    rules_saved = []
+    for _, rule in rules.iterrows():
+        antecedents = ', '.join(list(rule['antecedents']))
+        consequents = ', '.join(list(rule['consequents']))
+
+        apriori_rule = AprioriRule.objects.create(
+            business_id=business,
+            antecedent=antecedents,
+            consequent=consequents,
+            support=round(rule['support'], 4),
+            confidence=round(rule['confidence'], 4),
+            lift=round(rule['lift'], 4)
+        )
+        rules_saved.append(apriori_rule)
+
+    return {
+        "deleted_old_rules": deleted_count,
+        "saved_new_rules": len(rules_saved)
+    }
+
+
+def load_rules_from_db(business_id):
+    """
+    Loads saved Apriori rules from the database.
+    Used by the API so we don't recompute rules on every request.
+    """
+    rules = AprioriRule.objects.filter(
+        business_id=business_id
+    ).order_by('-confidence')
+
+    return [
+        {
+            "if_customer_buys": rule.antecedent,
+            "they_also_buy": rule.consequent,
+            "confidence": f"{rule.confidence:.0%}",
+            "lift": rule.lift,
+            "support": rule.support,
+            "last_updated": rule.updated_at.strftime("%Y-%m-%d %H:%M")
+        }
+        for rule in rules
+    ]
