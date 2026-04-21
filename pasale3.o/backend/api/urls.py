@@ -1,3 +1,4 @@
+from django import views
 from django.urls import path
 from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, VerifyLoginOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView, VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -43,6 +44,9 @@ urlpatterns = [
     path('orders/b<int:business_id>/', OrderView.as_view(), name='order-list-create'),
     path('orders/b<int:business_id>/c<int:customer_id>/', OrderView.as_view(), name='order-list-create'),
     path('orders/b<int:business_id>/c<int:counter_id>/', OrderView.as_view(), name='order-detail'),
+
+    path('inventory/suggestions/', views.inventory_suggestions, name='inventory_suggestions'),
+    path('inventory/rules/', views.association_rules_view, name='association_rules'),
 
 
 ]

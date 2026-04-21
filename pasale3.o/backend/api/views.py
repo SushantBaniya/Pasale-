@@ -24,6 +24,11 @@ from api.services.staffScheduleServices import GreedyStaffScheduler
 from api.services.orderServices import get_order, create_order
 
 
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .utils.apiriori_utils import get_reorder_suggestions, run_apriori
+
+
 # OTP Expiry Time (5 minutes)
 OTP_EXPIRY_TIME = timedelta(minutes=5)
 
@@ -31,6 +36,46 @@ OTP_EXPIRY_TIME = timedelta(minutes=5)
 PARTY_INACTIVITY_PERIOD = timedelta(days=90)
 
 logger = logging.getLogger(__name__)
+
+@login_required
+def inventory_suggestions(request):
+    """
+    Returns reorder suggestions based on Apriori rules
+    for the logged-in user's business.
+    """
+    business = request.user.business  # uses your OneToOneField
+
+    suggestions = get_reorder_suggestions(business_id=business.id)
+
+    return JsonResponse(suggestions, safe=False)
+
+
+@login_required
+def association_rules_view(request):
+    """
+    Returns all discovered association rules for the business.
+    Useful for displaying in an admin/analytics dashboard.
+    """
+    business = request.user.business
+    rules, message = run_apriori(business_id=business.id)
+
+    if rules is None:
+        return JsonResponse({"error": message})
+
+    rules_list = []
+    for _, rule in rules.iterrows():
+        rules_list.append({
+            'if_customer_buys': list(rule['antecedents']),
+            'they_also_buy': list(rule['consequents']),
+            'confidence': f"{rule['confidence']:.0%}",
+            'lift': round(rule['lift'], 2),
+            'support': round(rule['support'], 2)
+        })
+
+    return JsonResponse({
+        "message": message,
+        "rules": rules_list
+    })
 
 
 def _build_invoice_number(order_id):
