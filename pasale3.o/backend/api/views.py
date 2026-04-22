@@ -20,7 +20,7 @@ from .tasks import send_otp_email
 from cache.keys import productkey
 from api.services.productService import check_low_stock_and_alert, create_product, get_product
 from api.services.employeeServices import get_all_employees, create_employee
-from api.services.staffScheduleServices import GreedyStaffScheduler
+from .services.scheduler import WSMStaffScheduler
 from api.services.orderServices import get_order, create_order
 
 
@@ -970,49 +970,35 @@ class EmployeeView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class StaffSchedulerView(APIView):
-    """
-    API endpoint for staff scheduling using greedy algorithm.
 
-    POST: Schedule shifts
-    - Accepts shift IDs and business ID
-    - Applies greedy algorithm to assign shifts to employees
-    - Returns scheduling results
-    """
-    permission_classes = [IsAuthenticated]
+from .services.scheduler import WSMStaffScheduler  # ← make sure this import exists
+
+class StaffSchedulerView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        """
-        Schedule shifts using greedy algorithm.
-
-        Request body:
-        {
-            "business_id": 1,
-            "shift_ids": [1, 2, 3, 4],
-            "max_hours_per_week": 40,
-            "apply_schedule": true
-        }
-        """
         try:
             serializer = SchedulerRequestSerializer(data=request.data)
             if not serializer.is_valid():
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
             business_id = serializer.validated_data['business_id']
-            shift_ids = serializer.validated_data['shift_ids']
-            max_hours = serializer.validated_data.get('max_hours_per_week', 40)
-            apply = serializer.validated_data.get('apply_schedule', False)
+            shift_ids   = serializer.validated_data['shift_ids']
+            max_hours   = serializer.validated_data.get('max_hours_per_week', 40)
+            apply       = serializer.validated_data.get('apply_schedule', False)
 
-            # Verify business exists and user has permission
+            # Check business exists
             try:
-                from .models import Business
                 business = Business.objects.get(id=business_id)
-                # Basic permission check - user should own the business
-                if business.user != request.user:
-                    return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
             except Business.DoesNotExist:
-                return Response({'error': 'Business not found'}, status=status.HTTP_404_NOT_FOUND)
-
+                return Response(
+                    {'error': 'Business not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
             # Get shifts
             shifts = Shift.objects.filter(
                 id__in=shift_ids,
@@ -1020,84 +1006,83 @@ class StaffSchedulerView(APIView):
             )
 
             if not shifts.exists():
-                return Response({'error': 'No valid shifts found'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {'error': 'No valid shifts found'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-            # Initialize scheduler
-            scheduler = GreedyStaffScheduler(business_id, shifts, max_hours)
-
-            # Run scheduling algorithm
+            # Run WSM scheduler
+            scheduler = WSMStaffScheduler(business_id, shifts, max_hours)
             schedule, unscheduled = scheduler.schedule_shifts_greedy()
-
-            # Get summary
             schedule_summary = scheduler.get_schedule_summary()
 
-            # Apply schedule if requested
             if apply:
                 result = scheduler.apply_schedule()
             else:
                 result = {
-                    'scheduled_count': len(schedule),
+                    'scheduled_count':   len(schedule),
                     'unscheduled_count': len(unscheduled),
-                    'total_shifts': len(shifts),
-                    'success_rate': f"{(len(schedule) / len(shifts) * 100):.2f}%" if shifts else "0%"
+                    'total_shifts':      shifts.count(),
+                    'success_rate':      f"{(len(schedule) / shifts.count() * 100):.2f}%"
+                                         if shifts.count() else "0%"
                 }
 
-            response_data = {
-                'status': 'success',
+            return Response({
+                'status':            'success',
                 'scheduling_result': result,
-                'schedule_summary': schedule_summary,
-                'applied': apply
-            }
-
-            return Response(response_data, status=status.HTTP_200_OK)
+                'schedule_summary':  schedule_summary,
+                'applied':           apply,
+            }, status=status.HTTP_200_OK)
 
         except Exception as e:
             import traceback
             traceback.print_exc()
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def get(self, request, business_id=None, *args, **kwargs):
-        """
-        Get scheduled shifts for a business or employee.
-
-        Query params:
-        - business_id: Business ID (required)
-        - employee_id: Employee ID (optional, to filter by employee)
-        """
         try:
             if not business_id:
-                return Response({'error': 'business_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {'error': 'business_id is required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # ✅ FIXED — also check ownership on GET
+            if not Business.objects.filter(
+                id=business_id,
+                user_id=request.user.id
+            ).exists():
+                return Response(
+                    {'error': 'Permission denied'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
 
             employee_id = request.query_params.get('employee_id')
 
-            if employee_id:
-                # Get schedules for specific employee
-                from .models import EmployeeSchedule
-                schedules = EmployeeSchedule.objects.filter(
-                    employee_id=employee_id,
-                    employee__business_id=business_id
-                )
-                serializer = ShiftSerializer(
-                    Shift.objects.filter(assigned_employee_id=employee_id),
-                    many=True
-                )
-            else:
-                # Get all scheduled shifts for business
-                shifts = Shift.objects.filter(
-                    business_id=business_id,
-                    is_scheduled=True
-                )
-                serializer = ShiftSerializer(shifts, many=True)
+            shifts = Shift.objects.filter(
+                business_id=business_id,
+                assigned_employee_id=employee_id,
+                is_scheduled=True
+            ) if employee_id else Shift.objects.filter(
+                business_id=business_id,
+                is_scheduled=True
+            )
 
+            serializer = ShiftSerializer(shifts, many=True)
             return Response({
                 'status': 'success',
-                'data': serializer.data
+                'data':   serializer.data
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
 class OrderView(APIView):
     permission_classes = [AllowAny]
 

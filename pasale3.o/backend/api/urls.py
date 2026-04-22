@@ -40,8 +40,6 @@ urlpatterns = [
     path('employee/b<int:business_id>/e<int:employee_id>/',
          EmployeeView.as_view(), name='Employee-list-detail'),
 
-    path('scheduler/schedule/', StaffSchedulerView.as_view(),
-         name='scheduler-schedule'),
     path('scheduler/b<int:business_id>/',
          StaffSchedulerView.as_view(), name='scheduler-get-shifts'),
 

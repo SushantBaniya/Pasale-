@@ -127,6 +127,18 @@ class SchedulerRequestSerializer(serializers.Serializer):
     max_hours_per_week = serializers.IntegerField(default=40, required=False)
     apply_schedule = serializers.BooleanField(default=False, required=False)
 
+    weights = serializers.DictField(
+        child=serializers.FloatField(),
+        required=False,
+        default={
+            "availability": 0.30,
+            "skill_match":  0.25,
+            "fairness":     0.20,
+            "skill_level":  0.15,
+            "cost":         0.10,   
+        }
+    )
+
 
 class SchedulerResponseSerializer(serializers.Serializer):
     """Serializer for scheduler response"""
