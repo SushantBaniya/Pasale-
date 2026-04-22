@@ -38,7 +38,7 @@ def create_employee(business_id, data):
         data['business_id'] = business_id
 
         # Required fields
-        required_fields = ['name', 'phone_no', 'email', 'position']
+        required_fields = ['business_id', 'name', 'phone_no', 'email', 'position']
         for field in required_fields:
             if field not in data:
                 return Response({"error": f"{field} is required"}, status=status.HTTP_400_BAD_REQUEST)

@@ -76,8 +76,6 @@ class Department(models.Model):
 
 class Employee(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='employees')
     business_id = models.ForeignKey(
         Business, on_delete=models.CASCADE, related_name='employees', null=True, blank=True)
     name = models.CharField(max_length=100)
