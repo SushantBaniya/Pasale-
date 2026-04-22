@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, VerifyLoginOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView
+from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -8,7 +8,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('verify-signup-otp/', VerifySignupOtpView.as_view(),
          name='verify-signup-otp'),
-    path('verify-login-otp/', VerifyLoginOtpView.as_view(), name='verify-login-otp'),
+    
 
     path('products/b<int:business_id>/',
          ApiProductView.as_view(), name='ApiProductView'),

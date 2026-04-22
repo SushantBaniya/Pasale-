@@ -42,8 +42,8 @@ class OrderItemStatus(models.Model):
 
 class Business(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='business')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='businesses')
     business_name = models.CharField(max_length=255)
     business_address = models.TextField(blank=True, null=True)
     business_email = models.EmailField(blank=True, null=True)

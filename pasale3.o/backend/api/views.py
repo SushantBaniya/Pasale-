@@ -39,14 +39,6 @@ PARTY_INACTIVITY_PERIOD = timedelta(days=90)
 logger = logging.getLogger(__name__)
 
 
-def _get_user_business(user):
-    if not getattr(user, 'is_authenticated', False):
-        return None
-
-    try:
-        return user.business
-    except (ObjectDoesNotExist, AttributeError):
-        return None
 
 
 @login_required
@@ -55,7 +47,7 @@ def inventory_suggestions(request):
     Returns reorder suggestions based on Apriori rules
     for the logged-in user's business.
     """
-    business = _get_user_business(request.user)
+    business = Business.objects.filter(user=request.user).first()
     if not business:
         return JsonResponse(
             {"error": "No business found for this user"},
@@ -73,7 +65,7 @@ def association_rules_view(request):
     Returns all discovered association rules for the business.
     Useful for displaying in an admin/analytics dashboard.
     """
-    business = _get_user_business(request.user)
+    business = Business.objects.filter(user=request.user).first()
     if not business:
         return JsonResponse(
             {"error": "No business found for this user"},
@@ -187,6 +179,18 @@ def _dispatch_otp_email(email, otp):
         logger.error("Fallback OTP send failed for %s: %s", email, exc)
         return False
 
+
+def get_tokens_for_user(user):
+    """
+    Generate JWT tokens for a user.
+    """
+    refresh = RefreshToken.for_user(user)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+
+
 # -----------------------------
 # Signup View
 # -----------------------------
@@ -230,21 +234,26 @@ class SignupView(APIView):
                     user.set_password(password)
                     user.save()
 
-                    business, _ = Business.objects.get_or_create(
-                        user=user,
-                        defaults={
-                            'business_name': business_name or f"{username}'s Business",
-                            'business_email': email,
-                            'business_phone_no': phone_no,
-                        }
-                    )
-                    business.business_name = business_name or business.business_name
-                    business.business_email = email
-                    business.business_phone_no = phone_no
-                    business.otp = otp
-                    business.otp_created_at = timezone.now()
-                    business.is_verified = False
-                    business.save()
+                    business = Business.objects.filter(
+                        user=user).order_by('-created_at').first()
+                    if business:
+                        business.business_name = business_name or business.business_name
+                        business.business_email = email
+                        business.business_phone_no = phone_no
+                        business.otp = otp
+                        business.otp_created_at = timezone.now()
+                        business.is_verified = False
+                        business.save()
+                    else:
+                        Business.objects.create(
+                            user=user,
+                            business_name=business_name or f"{username}'s Business",
+                            business_email=email,
+                            business_phone_no=phone_no,
+                            otp=otp,
+                            otp_created_at=timezone.now(),
+                            is_verified=False,
+                        )
                 else:
                     user = User.objects.create_user(
                         username=username, email=email, password=password)
@@ -282,11 +291,12 @@ class VerifySignupOtpView(APIView):
 
         try:
             user = User.objects.get(email=email.lower())
-            business = Business.objects.get(user=user)
+            business = Business.objects.filter(
+                user=user).order_by('-created_at').first()
+            if not business:
+                return Response({'error': 'Business not found for this user'}, status=status.HTTP_404_NOT_FOUND)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-        except Business.DoesNotExist:
-            return Response({'error': 'Business not found for this user'}, status=status.HTTP_404_NOT_FOUND)
 
         # Check OTP expiry
         if not business.otp or not business.otp_created_at:
@@ -323,78 +333,26 @@ class LoginView(APIView):
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        # Generate OTP
-        otp = str(random.randint(100000, 999999))
-
         # Save OTP in business with timestamp
-        business, _ = Business.objects.get_or_create(
-            user=user,
-            defaults={
-                'business_name': f"{user.username}'s Business",
-                'business_email': user.email,
-            }
-        )
-        business.otp = otp
-        business.otp_created_at = timezone.now()
+        business = Business.objects.filter(
+            user=user).order_by('-created_at').first()
+        if not business:
+            business = Business.objects.create(
+                user=user,
+                business_name=f"{user.username}'s Business",
+                business_email=user.email,
+            )
+
         business.save()
+        tokens = get_tokens_for_user(user)
 
-        # Send OTP to the user's email
-        if not _dispatch_otp_email(email, otp):
-            return Response({'error': 'Could not send OTP right now. Please try again.'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
-
-        return Response({'message': 'OTP sent to your email. Please verify to proceed.'},
-                        status=status.HTTP_200_OK)
-
-
-# -----------------------------
-# Verify Login OTP View
-# -----------------------------
-class VerifyLoginOtpView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request, *args, **kwargs):
-        email = request.data.get('email')
-        otp_provided = request.data.get('otp', '').strip()
-
-        try:
-            user = User.objects.get(email=email)
-            business = Business.objects.get(user=user)
-        except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-        except Business.DoesNotExist:
-            return Response({'error': 'Business not found for this user'}, status=status.HTTP_404_NOT_FOUND)
-
-        # Check OTP expiry
-        if not business.otp or not business.otp_created_at:
-            return Response({'error': 'No OTP found'}, status=status.HTTP_400_BAD_REQUEST)
-
-        if timezone.now() > business.otp_created_at + OTP_EXPIRY_TIME:
-            return Response({'error': 'OTP expired'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Verify OTP
-        if str(business.otp) == str(otp_provided):
-            refresh = RefreshToken.for_user(user)
-            access_token = str(refresh.access_token)
-
-            # Clear OTP after successful verification
-            business.otp = None
-            business.otp_created_at = None
-            business.save()
-
-            return Response({
-                'message': 'Login OTP verified successfully!',
-                'refresh': str(refresh),
-                'access': access_token,
-                'business_id': business.id,
-                'business_name': business.business_name,
-            }, status=status.HTTP_200_OK)
-        else:
-            return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
-
+        return Response({'message': 'Login successful', 'tokens': tokens}, status=status.HTTP_200_OK)
 
 # -----------------------------
 # Product API View
 # -----------------------------
+
+
 class ApiProductView(APIView):
     permission_classes = [AllowAny]
 
@@ -1283,7 +1241,7 @@ class AssociationRulesView(APIView):
     GET /api/inventory/rules/
     Returns all saved Apriori rules for the business.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, business_id=None):
         if not business_id:
@@ -1292,8 +1250,8 @@ class AssociationRulesView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        business = _get_user_business(request.user)
-        if not business or business.id != business_id:
+        business = Business.objects.filter(id=business_id).first()
+        if not business:
             return Response(
                 {"error": "No business found for this user"},
                 status=status.HTTP_404_NOT_FOUND
@@ -1335,8 +1293,8 @@ class ReorderSuggestionsView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        business = _get_user_business(request.user)
-        if not business or business.id != business_id:
+        business = Business.objects.filter(id=business_id).first()
+        if not business:
             return Response(
                 {"error": "No business found for this user"},
                 status=status.HTTP_404_NOT_FOUND
@@ -1399,8 +1357,8 @@ class StockAlertsView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        business = _get_user_business(request.user)
-        if not business or business.id != business_id:
+        business = Business.objects.filter(id=business_id).first()
+        if not business:
             return Response(
                 {"error": "No business found for this user"},
                 status=status.HTTP_404_NOT_FOUND
@@ -1439,8 +1397,8 @@ class ResolveAlertView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        business = _get_user_business(request.user)
-        if not business or business.id != business_id:
+        business = Business.objects.filter(id=business_id).first()
+        if not business:
             return Response(
                 {"error": "No business found for this user"},
                 status=status.HTTP_404_NOT_FOUND
@@ -1483,8 +1441,8 @@ class RetrainAprioriView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        business = _get_user_business(request.user)
-        if not business or business.id != business_id:
+        business = Business.objects.filter(id=business_id).first()
+        if not business:
             return Response(
                 {"error": "No business found for this user"},
                 status=status.HTTP_404_NOT_FOUND
