@@ -1,4 +1,5 @@
 from decimal import Decimal
+import json
 from api.models import Employee, Business
 from api.serializers import EmployeeSerializer
 from rest_framework.response import Response
@@ -32,13 +33,31 @@ def get_all_employees(business_id, employee_id=None):
 
 def create_employee(business_id, data):
     try:
-        data = dict(data)
+        # Normalize DRF request data safely (dict / QueryDict / JSON string).
+        if hasattr(data, 'dict'):
+            data = data.dict()
+        elif isinstance(data, dict):
+            data = data.copy()
+        elif isinstance(data, str):
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                return Response({"error": "Invalid JSON payload. Expected an object."}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            try:
+                data = dict(data)
+            except (TypeError, ValueError):
+                return Response({"error": "Invalid payload format. Expected a JSON object."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not isinstance(data, dict):
+            return Response({"error": "Invalid payload format. Expected a JSON object."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Add business_id to data
         data['business_id'] = business_id
 
         # Required fields
-        required_fields = ['business_id', 'name', 'phone_no', 'email', 'position']
+        required_fields = ['business_id', 'name',
+                           'phone_no', 'email', 'position']
         for field in required_fields:
             if field not in data:
                 return Response({"error": f"{field} is required"}, status=status.HTTP_400_BAD_REQUEST)
