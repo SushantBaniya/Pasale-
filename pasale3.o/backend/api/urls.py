@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView, DepartmentView
+from .views import CounterView, EmployeeView, OrderView, OrderStatusView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView, DepartmentView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [

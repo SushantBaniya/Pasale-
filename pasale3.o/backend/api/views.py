@@ -1401,6 +1401,28 @@ class StockAlertsView(APIView):
         })
 
 
+class DepartmentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id=None):
+        if not business_id:
+            return Response({"error": "Business ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+        departments = Department.objects.filter(business_id=business_id)
+        # Using a simple dictionary conversion if a serializer is not yet defined
+        data = [{"id": d.id, "name": d.name} for d in departments]
+        return Response(data, status=status.HTTP_200_OK)
+
+    def post(self, request, business_id=None):
+        if not business_id:
+            return Response({"error": "Business ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+        name = request.data.get('name')
+        if not name:
+            return Response({"error": "Department name is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        department = Department.objects.create(name=name, business_id_id=business_id)
+        return Response({"id": department.id, "name": department.name}, status=status.HTTP_201_CREATED)
+
+
 class ResolveAlertView(APIView):
     """
     PUT /api/inventory/alerts/<id>/resolve/
