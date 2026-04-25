@@ -884,7 +884,7 @@ export default function InventoryPage() {
             <span className="text-sm font-semibold text-blue-800">{selected.size} items selected</span>
             <button onClick={() => {
               if (confirm(`Delete ${selected.size} products?`)) {
-                Promise.all([...selected].map(id => apiFetch(`/products/b${businessId}/p${id}/`, { method: 'DELETE' })))
+                Promise.all([...selected].map(id => productApi.delete(id)))
                   .then(() => { setSelected(new Set()); fetchProducts(); })
                   .catch(err => alert(err.message));
               }

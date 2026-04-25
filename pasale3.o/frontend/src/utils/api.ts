@@ -185,6 +185,14 @@ export const orderApi = {
 // EXPENSE API
 // ================================
 
+export interface ApiExpenseData {
+  category: string;
+  amount: number;
+  date: string;
+  description?: string;
+  is_necessary?: boolean;
+}
+
 export const expenseApi = {
   getAll: async (): Promise<any> => {
     const bid = getBusinessId();
@@ -196,6 +204,18 @@ export const expenseApi = {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
     return apiClient.post(`/expenses/b${bid}/`, data);
+  },
+  
+  update: async (id: number | string, data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.put(`/expenses/b${bid}/?id=${id}`, data);
+  },
+
+  delete: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.delete(`/expenses/b${bid}/?id=${id}`);
   },
 };
 
@@ -228,6 +248,12 @@ export const billingApi = {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
     return apiClient.put(`/billing/b${bid}/?id=${id}`, data);
+  },
+
+  delete: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.delete(`/billing/b${bid}/?id=${id}`);
   },
 };
 

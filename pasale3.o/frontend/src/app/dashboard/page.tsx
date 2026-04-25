@@ -109,7 +109,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
     </p>
     {sparklineData && (
       <div className="mt-3 h-7">
-        <MiniSparkline data={sparklineData} color="rgba(255,255,255,0.75)" height={28} />
+        <MiniSparkline data={sparklineData} color={accent ? "rgba(255,255,255,0.75)" : "#3b82f6"} height={28} />
       </div>
     )}
     <p className={`text-[11px] mt-1.5 ${accent ? 'text-white/45' : 'text-gray-400 dark:text-gray-500'}`}>
@@ -438,12 +438,11 @@ export default function DashboardPage() {
 
         {/* Total Sales */}
         <KpiCard
-          accent
           label={t('dashboard.totalSales')}
           value={c(totalSales)}
           sub="Last 7 days trend"
-          iconBg="bg-white/20"
-          icon={<FiTrendingUp className="w-4 h-4 text-white" />}
+          iconBg="bg-blue-50 dark:bg-blue-900/30"
+          icon={<FiTrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
           onClick={() => navigate('/reports')}
           sparklineData={last7DaysSales}
           badge={

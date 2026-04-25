@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { productApi, orderApi, counterApi, partyApi } from '../../utils/api';
 import { FiSearch, FiPlus, FiMinus, FiTrash2, FiArrowLeft, FiShoppingCart } from 'react-icons/fi';
+import { toast } from 'react-hot-toast';
 
 interface Product {
   id: number;
@@ -121,7 +122,8 @@ export default function OrderCartPage() {
         items: cart.map(i => ({ product_id: i.product_id, quantity: i.quantity, unit_price: i.unit_price })),
         total_amount: total,
       });
-      navigate('/counters');
+      toast.success('Order saved successfully');
+      navigate('/transactions');
     } catch (err: any) {
       setError(err.message || 'Failed to save order');
     } finally {
