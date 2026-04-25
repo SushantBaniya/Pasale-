@@ -40,7 +40,6 @@ logger = logging.getLogger(__name__)
 
 
 
-
 @login_required
 def inventory_suggestions(request):
     """
@@ -191,11 +190,6 @@ def get_tokens_for_user(user):
     }
 
 
-# -----------------------------
-# Signup View
-# -----------------------------
-
-
 class SignupView(APIView):
     permission_classes = [AllowAny]
 
@@ -279,9 +273,6 @@ class SignupView(APIView):
                         status=status.HTTP_201_CREATED)
 
 
-# -----------------------------
-# Verify Signup OTP View
-# -----------------------------
 class VerifySignupOtpView(APIView):
     permission_classes = [AllowAny]
 
@@ -316,9 +307,6 @@ class VerifySignupOtpView(APIView):
             return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# -----------------------------
-# Login View
-# -----------------------------
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -347,10 +335,6 @@ class LoginView(APIView):
         tokens = get_tokens_for_user(user)
 
         return Response({'message': 'Login successful', 'tokens': tokens}, status=status.HTTP_200_OK)
-
-# -----------------------------
-# Product API View
-# -----------------------------
 
 
 class ApiProductView(APIView):
