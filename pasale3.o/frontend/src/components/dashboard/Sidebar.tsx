@@ -13,7 +13,9 @@ import {
   FiX,
   FiMenu,
   FiChevronLeft,
-  FiChevronRight,
+  FiPackage,
+  FiBriefcase,
+  FiBarChart2,
 } from 'react-icons/fi';
 import { NepaliRupeeIcon } from '../ui/NepaliRupeeIcon';
 
@@ -45,9 +47,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
     { path: '/dashboard', icon: FiGrid, labelKey: 'sidebar.dashboard' },
     { path: '/transactions', icon: RupeeIcon, labelKey: 'sidebar.transactions' },
     { path: '/parties', icon: FiUsers, labelKey: 'sidebar.parties' },
-    { path: '/inventory', icon: FiGrid, labelKey: 'sidebar.inventory' },
-    { path: '/billing', icon: RupeeIcon, labelKey: 'sidebar.billing' },
-    { path: '/reports', icon: FiFileText, labelKey: 'sidebar.businessReports' },
+    { path: '/inventory', icon: FiPackage, labelKey: 'sidebar.inventory' },
+    { path: '/employees', icon: FiBriefcase, labelKey: 'sidebar.employees' },
+    { path: '/billing', icon: FiFileText, labelKey: 'sidebar.billing' },
+    { path: '/reports', icon: FiBarChart2, labelKey: 'sidebar.businessReports' },
     { path: '/expense-monitoring', icon: FiTrendingDown, labelKey: 'sidebar.expenseMonitoring' },
     { path: '/settings', icon: FiSettings, labelKey: 'sidebar.settings' },
   ];
@@ -118,7 +121,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                 title={isCollapsed ? t(item.labelKey) : undefined}
               >
                 <Icon className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium text-sm sm:text-base truncate">{t(item.labelKey)}</span>}
+                {!isCollapsed && (
+                  <span className="font-medium text-sm sm:text-base truncate flex-1">
+                    {t(item.labelKey)}
+                  </span>
+                )}
+
+                {/* "New" pill badge on the Employees link */}
+                {item.path === '/employees' && !isCollapsed && !isActive && (
+                  <span
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      padding: '2px 7px',
+                      borderRadius: 20,
+                      background: '#dbeafe',
+                      color: '#1d4ed8',
+                      letterSpacing: '.04em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    New
+                  </span>
+                )}
               </Link>
             );
           })}
