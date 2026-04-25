@@ -87,6 +87,9 @@ class WSMStaffScheduler:
     # CORE: Compute WSM score for one employee-shift pair
     # ----------------------------------------
     def _compute_score(self, employee, shift):
+        if not self.all_employees.exists():
+            return -1
+
         # Hard Gate 1: Availability
         if not is_available(employee, shift):
             return -1
@@ -97,18 +100,17 @@ class WSMStaffScheduler:
             return -1
 
         # Fairness
+        # Pre-compute current shifts for all to find the max
+        emp_shift_counts = [get_shifts_this_week(e, shift.shift_date) for e in self.all_employees]
+        max_shifts = max(emp_shift_counts) if emp_shift_counts else 1
         weekly_shifts = get_shifts_this_week(employee, shift.shift_date)
-        max_shifts    = max(
-            get_shifts_this_week(e, shift.shift_date)
-            for e in self.all_employees
-        ) or 1
         fairness = 1.0 - normalize(weekly_shifts, 0, max_shifts)
 
         # Cost
-        salaries  = [float(e.salary) for e in self.all_employees]
-        cost      = 1.0 - normalize(
-            float(employee.salary), min(salaries), max(salaries)
-        )
+        salaries = [float(e.salary) for e in self.all_employees]
+        min_salary = min(salaries) if salaries else 0
+        max_salary = max(salaries) if salaries else 1
+        cost = 1.0 - normalize(float(employee.salary), min_salary, max_salary)
 
         score = (
             WEIGHTS["availability"] * 1.0        +

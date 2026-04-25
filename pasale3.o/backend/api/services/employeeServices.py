@@ -1,6 +1,6 @@
 from decimal import Decimal
 import json
-from api.models import Employee, Business
+from api.models import Employee, Business, Department
 from api.serializers import EmployeeSerializer
 from rest_framework.response import Response
 from rest_framework import status
@@ -69,6 +69,11 @@ def create_employee(business_id, data):
                 return Response({"error": "Business not found"}, status=status.HTTP_404_NOT_FOUND)
         except Business.DoesNotExist:
             return Response({"error": "Business not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Ensure department exists if provided
+        dept_name = data.get('department')
+        if dept_name and isinstance(dept_name, str):
+            Department.objects.get_or_create(name=dept_name, business_id_id=business_id)
 
         serializer = EmployeeSerializer(data=data)
         if serializer.is_valid():
