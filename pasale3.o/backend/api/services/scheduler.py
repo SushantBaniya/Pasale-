@@ -4,9 +4,9 @@ from datetime import date, timedelta
 from django.db.models import Q
 from api.models import Employee, Shift, EmployeeSkill, EmployeeSchedule
 
-# ----------------------------------------
+
 # CONFIGURATION
-# ----------------------------------------
+
 
 WEIGHTS = {
     "availability":  0.30,
