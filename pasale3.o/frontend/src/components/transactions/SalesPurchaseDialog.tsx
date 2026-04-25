@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDataStore } from '../../store/dataStore';
 import { Button } from '../ui/Button';
+import { partyApi, billingApi, productApi } from '../../utils/api';
 import {
   FiX,
   FiPlus,
@@ -16,6 +17,7 @@ import {
   FiSearch,
   FiClock,
   FiCircle,
+  FiRefreshCw,
 } from 'react-icons/fi';
 import { DynamicIcon } from '../ui/DynamicIcon';
 import {
@@ -26,6 +28,7 @@ import {
   generateTransactionNumber,
   calculateTransactionTotals,
 } from './types';
+import { toast } from 'react-hot-toast';
 
 interface SalesPurchaseDialogProps {
   isOpen: boolean;
@@ -42,9 +45,13 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
   editData,
   onSuccess,
 }) => {
-  const { parties, addTransaction, updateTransaction } = useDataStore();
   const isEdit = !!editData;
   const isSales = type === 'sales';
+
+  // API State
+  const [apiParties, setApiParties] = useState<any[]>([]);
+  const [apiProducts, setApiProducts] = useState<any[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   // Form State
   const [partyId, setPartyId] = useState('');
@@ -66,15 +73,47 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  // Fetch Parties and Products
+  const loadInitialData = useCallback(async () => {
+    setIsLoadingData(true);
+    try {
+      const [partiesRes, productsRes] = await Promise.all([
+        partyApi.getAll(),
+        productApi.getAll()
+      ]);
+      
+      const mappedParties = (partiesRes.results || []).map((p: any) => ({
+        id: p.id,
+        name: p.Customer?.name || p.Supplier?.name || 'Unknown',
+        type: p.Category_type.toLowerCase(),
+        balance: parseFloat(p.Customer?.open_balance || p.Supplier?.open_balance || 0),
+      }));
+
+      setApiParties(mappedParties);
+      setApiProducts(productsRes.results || []);
+    } catch (err) {
+      console.error('Error loading initial data:', err);
+      toast.error('Failed to load customers/products');
+    } finally {
+      setIsLoadingData(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadInitialData();
+    }
+  }, [isOpen, loadInitialData]);
+
   // Filter parties by type
-  const filteredParties = parties.filter(p => {
+  const filteredParties = apiParties.filter(p => {
     const matchesType = isSales ? p.type === 'customer' : p.type === 'supplier';
     const matchesSearch = p.name.toLowerCase().includes(partySearch.toLowerCase());
     return matchesType && matchesSearch;
   });
 
   // Selected party
-  const selectedParty = parties.find(p => p.id === partyId);
+  const selectedParty = apiParties.find(p => p.id === partyId);
 
   // Calculate totals
   const totals = calculateTransactionTotals(items, additionalTax, additionalDiscount);
@@ -129,10 +168,20 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
     }
   };
 
-  const updateItem = (id: string, field: keyof TransactionItem, value: any) => {
+  const updateItem = (id: string, field: keyof TransactionItem | 'productId', value: any) => {
     setItems(items.map(item => {
       if (item.id === id) {
         const updated = { ...item, [field]: value };
+        
+        // If product is selected, update rate and name
+        if (field === 'productId') {
+          const product = apiProducts.find(p => p.id === value);
+          if (product) {
+            updated.name = product.product_name;
+            updated.rate = parseFloat(product.unit_price);
+          }
+        }
+
         // Recalculate total
         const subtotal = updated.quantity * updated.rate;
         const taxAmount = (subtotal * updated.tax) / 100;
@@ -174,67 +223,46 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 600));
-
       const validItems = items.filter(item => item.name).map(item => ({
-        ...item,
-        price: item.rate, // Add price field for dataStore compatibility
+        item: item.productId || 1, // Default to first product if none selected
+        quantity: item.quantity,
+        rate: item.rate,
       }));
 
-      const transactionData = {
-        id: editData?.id || Date.now().toString(),
-        type: isSales ? 'selling' as const : 'purchase' as const, // Use 'selling' for dataStore
-        transactionNumber: invoiceNumber,
-        date: new Date(date).toISOString(),
-        dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
-        partyId,
-        partyName: selectedParty?.name,
-        partyType: selectedParty?.type,
+      const billingData = {
+        invoice_number: invoiceNumber,
+        invoice_date: date,
+        due_date: dueDate || null,
+        party: partyId,
+        invoice_status: paymentStatus.charAt(0).toUpperCase() + paymentStatus.slice(1),
+        paid_amount: paidAmount,
+        due_amount: balanceAmount,
+        total_amount: totals.totalAmount,
+        discount: additionalDiscount,
+        tax: totals.taxAmount,
+        sub_total: totals.subtotal,
+        transaction_type: isSales ? 'Sales' : 'Purchase',
         items: validItems,
-        subtotal: totals.subtotal,
-        taxAmount: totals.taxAmount,
-        discountAmount: totals.discountAmount,
-        totalAmount: totals.totalAmount,
-        paidAmount,
-        balanceAmount,
-        paymentStatus,
-        paymentMode,
         notes,
-        createdAt: editData?.createdAt || new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
       };
 
       if (isEdit) {
-        updateTransaction(editData.id, {
-          type: transactionData.type,
-          amount: totals.totalAmount,
-          date: transactionData.date,
-          description: `${isSales ? 'Sale' : 'Purchase'} - ${invoiceNumber}`,
-          partyId,
-          partyName: selectedParty?.name,
-          items: validItems,
-        });
+        await billingApi.update(editData.dbId, billingData);
+        toast.success('Updated successfully');
       } else {
-        addTransaction({
-          id: transactionData.id,
-          type: transactionData.type,
-          amount: totals.totalAmount,
-          date: transactionData.date,
-          description: `${isSales ? 'Sale' : 'Purchase'} - ${invoiceNumber}`,
-          partyId,
-          partyName: selectedParty?.name,
-          items: validItems,
-        });
+        await billingApi.create(billingData);
+        toast.success('Saved successfully');
       }
 
       setSuccess(true);
       setTimeout(() => {
         onSuccess?.();
         onClose();
-      }, 800);
-    } catch (error) {
-      setErrors({ submit: 'Failed to save transaction' });
+      }, 600);
+    } catch (error: any) {
+      console.error('Save error:', error);
+      setErrors({ submit: error.message || 'Failed to save transaction' });
+      toast.error(error.message || 'Save failed');
     } finally {
       setIsSubmitting(false);
     }
@@ -388,13 +416,16 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 {items.map((item, index) => (
                   <div key={item.id} className="grid grid-cols-12 gap-2 px-4 py-3 items-center">
                     <div className="col-span-4">
-                      <input
-                        type="text"
-                        value={item.name}
-                        onChange={(e) => updateItem(item.id, 'name', e.target.value)}
-                        placeholder="Item name"
+                      <select
+                        value={item.productId || ''}
+                        onChange={(e) => updateItem(item.id, 'productId', parseInt(e.target.value))}
                         className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-blue-500"
-                      />
+                      >
+                        <option value="">Select Product</option>
+                        {apiProducts.map(p => (
+                          <option key={p.id} value={p.id}>{p.product_name}</option>
+                        ))}
+                      </select>
                     </div>
                     <div className="col-span-1">
                       <input

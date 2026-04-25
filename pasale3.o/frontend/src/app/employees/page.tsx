@@ -505,11 +505,22 @@ const rowBtn = (color) => ({
 });
 
 // ─── FORM FIELD ───────────────────────────────────────────────────────────────
-function Field({ label, name, value, onChange, type = "text", options, required, placeholder }) {
+interface FieldProps {
+  label: string;
+  name: string;
+  value: any;
+  onChange: (e: any) => void;
+  type?: string;
+  options?: string[];
+  required?: boolean;
+  placeholder?: string;
+}
+
+function Field({ label, name, value, onChange, type = "text", options, required, placeholder }: FieldProps) {
   const base = {
     width: "100%", padding: "9px 12px", borderRadius: 8, fontSize: 13,
     border: "1px solid #e2e8f0", outline: "none", background: "#f8fafc",
-    boxSizing: "border-box", fontFamily: "inherit", color: "#0f172a",
+    boxSizing: "border-box" as any, fontFamily: "inherit", color: "#0f172a",
   };
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>

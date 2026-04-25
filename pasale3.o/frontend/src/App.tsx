@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { ThemeProvider } from './components/layout/ThemeProvider';
 import { LoadingScreen } from './components/layout/LoadingScreen';
+import { Toaster } from 'react-hot-toast';
 
 // Pages
 import WelcomePage from './app/welcome/page';
@@ -70,6 +71,7 @@ function App() {
 
   return (
     <ThemeProvider>
+      <Toaster position="top-right" />
       {isLoading && <LoadingScreen />}
       <Routes>
         {/* Public pages - accessible without login */}

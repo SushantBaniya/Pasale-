@@ -242,7 +242,7 @@ export default function SettingsPage() {
             <button
               key={themeOption}
               onClick={() => {
-                setTheme(themeOption);
+                setTheme(themeOption as any);
                 updateGeneralSettings({ appearance: themeOption });
               }}
               className={`relative rounded-xl overflow-hidden border-2 transition-all duration-300 ${theme === themeOption ? 'border-blue-600 ring-2 ring-blue-600/20' : 'border-transparent bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'}`}

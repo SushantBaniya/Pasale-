@@ -16,7 +16,7 @@ const iconMap: Record<string, IconType> = {
   'coffee': Fi.FiCoffee,
   'paperclip': Fi.FiPaperclip,
   'smartphone': Fi.FiSmartphone,
-  'megaphone': Fi.FiMegaphone,
+  'megaphone': Fi.FiSpeaker,
   'tool': Fi.FiTool,
   'shield': Fi.FiShield,
   'clipboard': Fi.FiClipboard,

@@ -100,7 +100,7 @@ export default function ReportsPage() {
       date: new Date(date as string).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
       sales: salesMap.get(date) || 0,
       expenses: expenseMap.get(date) || 0,
-      profit: (salesMap.get(date) || 0) - (expenseMap.get(date) || 0)
+      profit: Number(salesMap.get(date) || 0) - Number(expenseMap.get(date) || 0)
     }));
   }, [realData]);
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDataStore } from '../../store/dataStore';
 import { Button } from '../ui/Button';
+import { expenseApi } from '../../utils/api';
 import {
   FiX,
   FiCalendar,
@@ -12,6 +13,7 @@ import {
   FiToggleRight,
   FiTrendingDown,
   FiTrendingUp,
+  FiRefreshCw,
 } from 'react-icons/fi';
 import {
   PaymentMode,
@@ -21,6 +23,7 @@ import {
   generateTransactionNumber,
 } from './types';
 import { DynamicIcon } from '../ui/DynamicIcon';
+import { toast } from 'react-hot-toast';
 
 interface ExpenseIncomeDialogProps {
   isOpen: boolean;
@@ -102,63 +105,45 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
     setIsSubmitting(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 600));
-
       const categoryLabel = categories.find(c => c.value === category)?.label || category;
 
-      const transactionData = {
-        id: editData?.id || Date.now().toString(),
-        type: type,
-        transactionNumber,
-        date: new Date(date).toISOString(),
-        category,
-        description: description || `${categoryLabel} ${isExpense ? 'expense' : 'income'}`,
-        totalAmount: amount,
-        paidAmount: amount,
-        balanceAmount: 0,
-        paymentStatus: 'paid' as const,
-        paymentMode,
-        referenceNumber,
-        isNecessary,
-        items: [],
-        subtotal: amount,
-        taxAmount: 0,
-        discountAmount: 0,
-        createdAt: editData?.createdAt || new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      if (isEdit) {
-        updateTransaction(editData.id, transactionData);
-      } else {
-        addTransaction({
-          id: transactionData.id,
-          type: isExpense ? 'expense' : 'income',
+      if (isExpense) {
+        const expenseData = {
           amount: amount,
-          date: transactionData.date,
-          description: transactionData.description,
-        });
+          date: date,
+          category: categoryLabel,
+          description: description || `${categoryLabel} expense`,
+          is_necessary: isNecessary,
+        };
 
-        // Also add to expenses store if it's an expense
-        if (isExpense) {
-          addExpense({
-            id: transactionData.id,
-            category: categoryLabel,
-            amount,
-            date: transactionData.date,
-            description: transactionData.description,
-            isNecessary,
-          });
+        if (isEdit) {
+          await expenseApi.update(editData.dbId, expenseData);
+          toast.success('Expense updated');
+        } else {
+          await expenseApi.create(expenseData);
+          toast.success('Expense recorded');
         }
+      } else {
+        // Fallback to local store for income if no backend endpoint
+        addTransaction({
+          id: Date.now().toString(),
+          type: 'income',
+          amount: amount,
+          date: new Date(date).toISOString(),
+          description: description || 'Other Income',
+        });
+        toast.success('Income recorded');
       }
 
       setSuccess(true);
       setTimeout(() => {
         onSuccess?.();
         onClose();
-      }, 800);
-    } catch (error) {
-      setErrors({ submit: 'Failed to save transaction' });
+      }, 600);
+    } catch (error: any) {
+      console.error('Save error:', error);
+      setErrors({ submit: error.message || 'Failed to save' });
+      toast.error('Save failed');
     } finally {
       setIsSubmitting(false);
     }

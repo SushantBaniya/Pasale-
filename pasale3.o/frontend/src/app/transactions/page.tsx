@@ -5,6 +5,7 @@ import { useTranslation } from '../../utils/i18n';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { KPICard } from '../../components/dashboard/KPICard';
+import { billingApi, expenseApi } from '../../utils/api';
 import {
   SalesPurchaseDialog,
   PaymentDialog,
@@ -36,8 +37,10 @@ import {
   FiRotateCw,
   FiDollarSign,
   FiX,
+  FiRefreshCw,
 } from 'react-icons/fi';
 import { NepaliRupeeIcon } from '../../components/ui/NepaliRupeeIcon';
+import { toast } from 'react-hot-toast';
 
 type Tab = 'all' | 'sales' | 'purchase' | 'payments' | 'returns' | 'expense';
 type QuickFilter = 'today' | 'week' | 'month' | 'year' | 'custom';
@@ -101,9 +104,64 @@ export default function TransactionsPage() {
     }
   }, [quickFilter]);
 
+  // Data State
+  const [apiTransactions, setApiTransactions] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchTransactions = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const [billingsRes, expensesRes] = await Promise.all([
+        billingApi.getAll(),
+        expenseApi.getAll()
+      ]);
+
+      const billings = (billingsRes.results || []).map((b: any) => ({
+        ...b,
+        id: `billing-${b.id}`,
+        dbId: b.id,
+        type: 'selling', // Map Sales to selling for frontend compat
+        transactionNumber: b.invoice_number,
+        date: b.invoice_date || b.created_at,
+        amount: parseFloat(b.total_amount),
+        totalAmount: parseFloat(b.total_amount),
+        paymentStatus: b.invoice_status?.toLowerCase() || 'unpaid',
+        partyName: b.party_name || 'Walk-in Customer',
+      }));
+
+      const expenses = (expensesRes.results || []).map((e: any) => ({
+        ...e,
+        id: `expense-${e.id}`,
+        dbId: e.id,
+        type: 'expense',
+        transactionNumber: `EXP-${e.id}`,
+        date: e.date,
+        amount: parseFloat(e.amount),
+        totalAmount: parseFloat(e.amount),
+        paymentStatus: 'paid',
+        partyName: e.category,
+      }));
+
+      const combined = [...billings, ...expenses].sort((a, b) => 
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+
+      setApiTransactions(combined);
+    } catch (err) {
+      console.error('Error fetching transactions:', err);
+      toast.error('Failed to load transactions');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
   // Filter transactions by tab and date
   const filteredTransactions = useMemo(() => {
-    let filtered = transactions;
+    let filtered = apiTransactions;
 
     // Filter by date
     if (startDate) {
@@ -115,7 +173,7 @@ export default function TransactionsPage() {
       filtered = filtered.filter((t) => new Date(t.date) <= end);
     }
 
-    // Filter by tab - 'selling' is the dataStore type for sales
+    // Filter by tab
     switch (activeTab) {
       case 'sales':
         filtered = filtered.filter((t) => t.type === 'selling');
@@ -135,16 +193,16 @@ export default function TransactionsPage() {
     }
 
     return filtered;
-  }, [transactions, activeTab, startDate, endDate]);
+  }, [apiTransactions, activeTab, startDate, endDate]);
 
   // Calculate stats
   const stats = useMemo(() => {
     const income = filteredTransactions
       .filter((t) => ['selling', 'payment_in', 'income', 'purchase_return'].includes(t.type))
-      .reduce((sum, t) => sum + t.amount, 0);
+      .reduce((sum, t) => sum + Number(t.totalAmount || t.amount || 0), 0);
     const expenses = filteredTransactions
       .filter((t) => ['purchase', 'payment_out', 'expense', 'sales_return'].includes(t.type))
-      .reduce((sum, t) => sum + t.amount, 0);
+      .reduce((sum, t) => sum + Number(t.totalAmount || t.amount || 0), 0);
     const balance = income - expenses;
     return { income, expenses, balance, count: filteredTransactions.length };
   }, [filteredTransactions]);
@@ -206,9 +264,20 @@ export default function TransactionsPage() {
     if (!deleteDialog.transaction) return;
     setIsDeleting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      deleteTransaction(deleteDialog.transaction.id);
+      const trans = deleteDialog.transaction;
+      if (trans.type === 'selling') {
+        await billingApi.delete(trans.dbId);
+      } else if (trans.type === 'expense') {
+        await expenseApi.delete(trans.dbId);
+      } else {
+        deleteTransaction(trans.id);
+      }
+      toast.success('Transaction deleted');
+      fetchTransactions();
       setDeleteDialog({ open: false });
+    } catch (err) {
+      console.error('Delete error:', err);
+      toast.error('Failed to delete transaction');
     } finally {
       setIsDeleting(false);
     }
@@ -225,12 +294,12 @@ export default function TransactionsPage() {
 
   // Tabs configuration - 'selling' is the dataStore type for sales
   const tabs: { id: Tab; label: string; icon: React.ElementType; count: number; color: string }[] = [
-    { id: 'all', label: 'All Transactions', icon: FiFileText, count: transactions.length, color: 'text-gray-600' },
-    { id: 'sales', label: 'Sales', icon: FiShoppingCart, count: transactions.filter((t) => t.type === 'selling').length, color: 'text-emerald-600' },
-    { id: 'purchase', label: 'Purchases', icon: FiPackage, count: transactions.filter((t) => t.type === 'purchase').length, color: 'text-blue-600' },
-    { id: 'payments', label: 'Payments', icon: FiCreditCard, count: transactions.filter((t) => t.type === 'payment_in' || t.type === 'payment_out').length, color: 'text-purple-600' },
-    { id: 'returns', label: 'Returns', icon: FiRotateCcw, count: transactions.filter((t) => t.type === 'sales_return' || t.type === 'purchase_return').length, color: 'text-orange-600' },
-    { id: 'expense', label: 'Expense/Income', icon: FiTrendingDown, count: transactions.filter((t) => t.type === 'expense' || t.type === 'income').length, color: 'text-rose-600' },
+    { id: 'all', label: 'All Transactions', icon: FiFileText, count: apiTransactions.length, color: 'text-gray-600' },
+    { id: 'sales', label: 'Sales', icon: FiShoppingCart, count: apiTransactions.filter((t) => t.type === 'selling').length, color: 'text-emerald-600' },
+    { id: 'purchase', label: 'Purchases', icon: FiPackage, count: apiTransactions.filter((t) => t.type === 'purchase').length, color: 'text-blue-600' },
+    { id: 'payments', label: 'Payments', icon: FiCreditCard, count: apiTransactions.filter((t) => t.type === 'payment_in' || t.type === 'payment_out').length, color: 'text-purple-600' },
+    { id: 'returns', label: 'Returns', icon: FiRotateCcw, count: apiTransactions.filter((t) => t.type === 'sales_return' || t.type === 'purchase_return').length, color: 'text-orange-600' },
+    { id: 'expense', label: 'Expense/Income', icon: FiTrendingDown, count: apiTransactions.filter((t) => t.type === 'expense' || t.type === 'income').length, color: 'text-rose-600' },
   ];
 
   // Full transaction menu - all 9 transaction types
@@ -313,7 +382,7 @@ export default function TransactionsPage() {
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header */}
-        <div className="relative mb-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+        <div className="relative mb-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]" />
@@ -323,24 +392,37 @@ export default function TransactionsPage() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               {/* Title Section */}
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shadow-sm border border-blue-100 dark:border-blue-800/30">
-                  <FiCreditCard className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                <div className="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shadow-sm border border-indigo-100 dark:border-indigo-800/30 group-hover:scale-110 transition-transform">
+                  <FiCreditCard className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div>
-                  <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-3">
+                  <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white flex items-center gap-3">
                     Transactions
-                    <span className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600">
-                      {n(transactions.length)}
-                    </span>
+                    {isLoading ? (
+                      <FiRefreshCw className="w-5 h-5 text-indigo-500 animate-spin" />
+                    ) : (
+                      <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                        {n(apiTransactions.length)}
+                      </span>
+                    )}
                   </h1>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 max-w-md">
-                    Manage all your business transactions in one place
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 max-w-md font-medium">
+                    Monitor your sales, expenses, and business cash flow
                   </p>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                <Button
+                  variant="outline"
+                  onClick={fetchTransactions}
+                  isLoading={isLoading}
+                  className="rounded-xl"
+                >
+                  <FiRefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+                </Button>
+                
                 {/* Filter Button */}
                 <button
                   onClick={() => setShowFilters(!showFilters)}
@@ -550,14 +632,23 @@ export default function TransactionsPage() {
         </Card>
 
         {/* Transactions Table */}
-        <TransactionTable
-          transactions={filteredTransactions}
-          onView={handleViewTransaction}
-          onEdit={handleEditTransaction}
-          onDelete={handleDeleteTransaction}
-          onPrint={handlePrintTransaction}
-          language={language}
-        />
+        <div className="relative">
+          {isLoading && apiTransactions.length === 0 ? (
+            <Card className="p-20 flex flex-col items-center justify-center">
+              <FiRefreshCw className="w-12 h-12 text-indigo-500 animate-spin mb-4" />
+              <p className="text-gray-500 font-medium">Loading transactions...</p>
+            </Card>
+          ) : (
+            <TransactionTable
+              transactions={filteredTransactions}
+              onView={handleViewTransaction}
+              onEdit={handleEditTransaction}
+              onDelete={handleDeleteTransaction}
+              onPrint={handlePrintTransaction}
+              language={language}
+            />
+          )}
+        </div>
 
         {/* Dialogs */}
         <SalesPurchaseDialog
@@ -565,7 +656,10 @@ export default function TransactionsPage() {
           onClose={() => setSalesDialog({ open: false })}
           type="sales"
           editData={salesDialog.editData}
-          onSuccess={() => setSalesDialog({ open: false })}
+          onSuccess={() => {
+            setSalesDialog({ open: false });
+            fetchTransactions();
+          }}
         />
 
         <SalesPurchaseDialog
@@ -573,7 +667,10 @@ export default function TransactionsPage() {
           onClose={() => setPurchaseDialog({ open: false })}
           type="purchase"
           editData={purchaseDialog.editData}
-          onSuccess={() => setPurchaseDialog({ open: false })}
+          onSuccess={() => {
+            setPurchaseDialog({ open: false });
+            fetchTransactions();
+          }}
         />
 
         <PaymentDialog
@@ -597,7 +694,10 @@ export default function TransactionsPage() {
           onClose={() => setExpenseDialog({ open: false })}
           type="expense"
           editData={expenseDialog.editData}
-          onSuccess={() => setExpenseDialog({ open: false })}
+          onSuccess={() => {
+            setExpenseDialog({ open: false });
+            fetchTransactions();
+          }}
         />
 
         <ExpenseIncomeDialog
@@ -605,7 +705,10 @@ export default function TransactionsPage() {
           onClose={() => setIncomeDialog({ open: false })}
           type="income"
           editData={incomeDialog.editData}
-          onSuccess={() => setIncomeDialog({ open: false })}
+          onSuccess={() => {
+            setIncomeDialog({ open: false });
+            fetchTransactions();
+          }}
         />
 
         <ReturnDialog
