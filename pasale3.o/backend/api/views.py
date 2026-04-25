@@ -1,3 +1,4 @@
+from .services.scheduler import WSMStaffScheduler  # ← make sure this import exists
 from django.contrib.auth.models import User
 import json
 from rest_framework.views import APIView
@@ -37,7 +38,6 @@ OTP_EXPIRY_TIME = timedelta(minutes=5)
 PARTY_INACTIVITY_PERIOD = timedelta(days=90)
 
 logger = logging.getLogger(__name__)
-
 
 
 @login_required
@@ -334,7 +334,11 @@ class LoginView(APIView):
         business.save()
         tokens = get_tokens_for_user(user)
 
-        return Response({'message': 'Login successful', 'tokens': tokens}, status=status.HTTP_200_OK)
+        return Response({
+            'message': 'Login successful',
+            'tokens': tokens,
+            'business_id': business.id
+        }, status=status.HTTP_200_OK)
 
 
 class ApiProductView(APIView):
@@ -954,9 +958,6 @@ class EmployeeView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-
-from .services.scheduler import WSMStaffScheduler  # ← make sure this import exists
-
 class StaffSchedulerView(APIView):
     permission_classes = [AllowAny]
 
@@ -970,9 +971,9 @@ class StaffSchedulerView(APIView):
                 )
 
             business_id = serializer.validated_data['business_id']
-            shift_ids   = serializer.validated_data['shift_ids']
-            max_hours   = serializer.validated_data.get('max_hours_per_week', 40)
-            apply       = serializer.validated_data.get('apply_schedule', False)
+            shift_ids = serializer.validated_data['shift_ids']
+            max_hours = serializer.validated_data.get('max_hours_per_week', 40)
+            apply = serializer.validated_data.get('apply_schedule', False)
 
             # Check business exists
             try:
@@ -982,7 +983,7 @@ class StaffSchedulerView(APIView):
                     {'error': 'Business not found'},
                     status=status.HTTP_404_NOT_FOUND
                 )
-            
+
             # Get shifts
             shifts = Shift.objects.filter(
                 id__in=shift_ids,
@@ -1008,7 +1009,7 @@ class StaffSchedulerView(APIView):
                     'unscheduled_count': len(unscheduled),
                     'total_shifts':      shifts.count(),
                     'success_rate':      f"{(len(schedule) / shifts.count() * 100):.2f}%"
-                                         if shifts.count() else "0%"
+                    if shifts.count() else "0%"
                 }
 
             return Response({
@@ -1066,7 +1067,8 @@ class StaffSchedulerView(APIView):
                 {'error': str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        
+
+
 class OrderView(APIView):
     permission_classes = [AllowAny]
 

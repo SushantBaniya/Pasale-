@@ -37,19 +37,21 @@ def check_low_stock_and_alert(product_id):
     except Product.DoesNotExist:
         return Response({'message': 'Product not found.'})
 
-def get_product(product_id, business_id):
-    try: 
+
+def get_product(product_id=None, business_id=None):
+    try:
         if product_id:
-            products = Product.objects.filter(id=product_id, business_id=business_id).all()
+            products = Product.objects.filter(
+                id=product_id, business_id=business_id).all()
             serializer = ProductSerializer(products, many=True)
             return serializer.data
-        
+
         if business_id:
             products = Product.objects.filter(business_id=business_id).all()
             serializer = ProductSerializer(products, many=True)
             return serializer.data
-        
-    except exception as e:
+
+    except Exception as e:
         raise Exception(f"Error fetching product(s): {str(e)}")
 
 
