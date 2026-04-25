@@ -75,6 +75,21 @@ export const isAuthenticated = (): boolean => {
   return !!getAccessToken();
 };
 
+export const getBusinessId = (): string | null => {
+  try {
+    return localStorage.getItem('business_id');
+  } catch {
+    return null;
+  }
+};
+
+export const getTokens = () => {
+  return {
+    access: getAccessToken(),
+    refresh: getRefreshToken(),
+  };
+};
+
 // Save tokens to storage
 export const setTokens = (accessToken: string, refreshToken?: string) => {
   try {
@@ -242,7 +257,31 @@ class ApiClient {
         let errorMessage = 'An error occurred';
         try {
           const errorData = await response.json();
-          errorMessage = errorData.error || errorData.message || errorData.detail || errorMessage;
+          
+          if (typeof errorData === 'string') {
+            errorMessage = errorData;
+          } else if (errorData.error && typeof errorData.error === 'string') {
+            errorMessage = errorData.error;
+          } else if (errorData.message && typeof errorData.message === 'string') {
+            errorMessage = errorData.message;
+          } else if (errorData.detail && typeof errorData.detail === 'string') {
+            errorMessage = errorData.detail;
+          } else if (Array.isArray(errorData)) {
+            errorMessage = errorData.join(', ');
+          } else if (typeof errorData === 'object' && errorData !== null) {
+            // Handle field-specific validation errors (e.g. { "counter_number": ["This field must be unique."] })
+            const messages = Object.entries(errorData).map(([key, value]) => {
+              const displayKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+              if (Array.isArray(value)) {
+                return `${displayKey}: ${value.join(', ')}`;
+              }
+              if (typeof value === 'string') {
+                return `${displayKey}: ${value}`;
+              }
+              return `${displayKey}: ${JSON.stringify(value)}`;
+            });
+            errorMessage = messages.join(' | ') || errorMessage;
+          }
         } catch {
           errorMessage = response.statusText || errorMessage;
         }

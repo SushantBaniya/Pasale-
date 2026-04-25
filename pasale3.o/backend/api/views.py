@@ -1070,12 +1070,19 @@ class StaffSchedulerView(APIView):
 class OrderView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request, business_id=None, order_id=None):
+    def get(self, request, business_id=None, order_id=None, counter_id=None, customer_id=None):
         try:
             if not business_id:
                 return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
-            data = get_order(business_id, order_id)
-            return data
+            
+            # Call get_order with all possible filter params from URL
+            data = get_order(
+                business_id=business_id, 
+                order_id=order_id, 
+                counter_id=counter_id, 
+                customer_id=customer_id
+            )
+            return Response(data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -1203,6 +1210,15 @@ class CounterView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class OrderStatusView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        statuses = OrderStatus.objects.all()
+        data = [{"id": s.id, "name": s.name} for s in statuses]
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class AssociationRulesView(APIView):

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CounterView, EmployeeView, OrderView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView
+from .views import CounterView, EmployeeView, OrderView, OrderStatusView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -51,9 +51,11 @@ urlpatterns = [
     path('orders/b<int:business_id>/',
          OrderView.as_view(), name='order-list-create'),
     path('orders/b<int:business_id>/c<int:customer_id>/',
-         OrderView.as_view(), name='order-list-create'),
-    path('orders/b<int:business_id>/c<int:counter_id>/',
-         OrderView.as_view(), name='order-detail'),
+         OrderView.as_view(), name='order-customer-list'),
+    path('orders/b<int:business_id>/cntr<int:counter_id>/',
+         OrderView.as_view(), name='order-counter-list'),
+    path('order-statuses/',
+         OrderStatusView.as_view(), name='order-status-list'),
 
     path(
         'inventory/rules/b<int:business_id>/',

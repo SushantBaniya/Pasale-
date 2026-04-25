@@ -144,7 +144,7 @@ export default function OrderCartPage() {
       };
 
       await orderApi.create(orderData);
-      navigate('/transactions');
+      navigate('/counters');
     } catch (err: any) {
       setError(err.message || 'Failed to save order');
     } finally {

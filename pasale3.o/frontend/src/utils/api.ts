@@ -1,55 +1,4 @@
-// API Service for backend integration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
-
-// Get token from localStorage
-const getAuthToken = (): string | null => {
-  try {
-    return localStorage.getItem('auth_token') || localStorage.getItem('access_token');
-  } catch {
-    return null;
-  }
-};
-
-// Get business_id from localStorage
-const getBusinessId = (): string | null => {
-  try {
-    return localStorage.getItem('business_id');
-  } catch {
-    return null;
-  }
-};
-
-// Generic fetch wrapper with auth
-const fetchWithAuth = async (url: string, options: RequestInit = {}): Promise<Response> => {
-  const token = getAuthToken();
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...(options.headers as Record<string, string> || {}),
-  };
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const response = await fetch(`${API_BASE_URL}${url}`, {
-    ...options,
-    headers,
-  });
-
-  return response;
-};
-
-// Error handling helper
-const handleApiError = async (response: Response): Promise<never> => {
-  let errorMessage = 'An error occurred';
-  try {
-    const errorData = await response.json();
-    errorMessage = errorData.error || errorData.message || JSON.stringify(errorData) || errorMessage;
-  } catch {
-    errorMessage = response.statusText || errorMessage;
-  }
-  throw new Error(errorMessage);
-};
+import { apiClient, getBusinessId } from './apiClient';
 
 // ================================
 // PARTY API
@@ -78,49 +27,31 @@ export const partyApi = {
     if (!bid) throw new Error('Business ID not found');
     let url = `/parties/b${bid}/`;
     if (categoryType) url += `?category_type=${categoryType}`;
-    const response = await fetchWithAuth(url);
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.get(url);
   },
 
-  getById: async (id: number): Promise<any> => {
+  getById: async (id: number | string): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/parties/b${bid}/p${id}/`);
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.get(`/parties/b${bid}/p${id}/`);
   },
 
   create: async (data: ApiPartyData): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/parties/b${bid}/`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.post(`/parties/b${bid}/`, data);
   },
 
-  update: async (id: number, data: Partial<ApiPartyData>): Promise<any> => {
+  update: async (id: number | string, data: Partial<ApiPartyData>): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/parties/b${bid}/p${id}/`, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.put(`/parties/b${bid}/p${id}/`, data);
   },
 
-  delete: async (id: number): Promise<any> => {
+  delete: async (id: number | string): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/parties/b${bid}/p${id}/`, {
-      method: 'DELETE',
-    });
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.delete(`/parties/b${bid}/p${id}/`);
   },
 };
 
@@ -132,9 +63,31 @@ export const productApi = {
   getAll: async (): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/products/b${bid}/`);
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.get(`/products/b${bid}/`);
+  },
+  
+  getOne: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/products/b${bid}/p${id}/`);
+  },
+
+  create: async (data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.post(`/products/b${bid}/`, data);
+  },
+
+  update: async (id: number | string, data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.put(`/products/b${bid}/p${id}/`, data);
+  },
+
+  delete: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.delete(`/products/b${bid}/p${id}/`);
   },
 };
 
@@ -152,20 +105,25 @@ export const counterApi = {
   getAll: async (): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/counters/b${bid}/`);
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.get(`/counters/b${bid}/`);
   },
 
   create: async (data: ApiCounterData): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/counters/b${bid}/`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.post(`/counters/b${bid}/`, data);
+  },
+  
+  update: async (id: number | string, data: Partial<ApiCounterData>): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.put(`/counters/b${bid}/c${id}/`, data);
+  },
+
+  delete: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.delete(`/counters/b${bid}/c${id}/`);
   },
 };
 
@@ -187,24 +145,33 @@ export interface ApiOrderData {
 }
 
 export const orderApi = {
+  getAll: async (filters?: { counterId?: number | string, customerId?: number | string }): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    let url = `/orders/b${bid}/`;
+    if (filters?.counterId) url += `cntr${filters.counterId}/`;
+    else if (filters?.customerId) url += `c${filters.customerId}/`;
+    return apiClient.get(url);
+  },
+
+  getOne: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/orders/b${bid}/o${id}/`);
+  },
+
   create: async (data: ApiOrderData): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/orders/b${bid}/`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.post(`/orders/b${bid}/`, data);
   },
 
   addToCart: async (data: any): Promise<any> => {
-    const response = await fetchWithAuth('/cart/', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.post('/cart/', data);
+  },
+
+  getStatuses: async (): Promise<any> => {
+    return apiClient.get('/order-statuses/');
   },
 };
 
@@ -216,21 +183,130 @@ export const expenseApi = {
   getAll: async (): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/expenses/b${bid}/`);
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.get(`/expenses/b${bid}/`);
   },
 
   create: async (data: any): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    const response = await fetchWithAuth(`/expenses/b${bid}/`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) await handleApiError(response);
-    return response.json();
+    return apiClient.post(`/expenses/b${bid}/`, data);
   },
+};
+
+// ================================
+// BILLING API
+// ================================
+
+export const billingApi = {
+  getAll: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/billing/b${bid}/`);
+  },
+
+  getById: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/billing/b${bid}/bi${id}/`);
+  },
+
+  create: async (data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.post(`/billing/b${bid}/`, data);
+  },
+};
+
+// ================================
+// EMPLOYEE API
+// ================================
+
+export const employeeApi = {
+  getAll: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/employees/b${bid}/`);
+  },
+
+  getById: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/employees/b${bid}/e${id}/`);
+  },
+
+  create: async (data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.post(`/employees/b${bid}/`, data);
+  },
+};
+
+// ================================
+// SCHEDULER API
+// ================================
+
+export const schedulerApi = {
+  getAll: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/scheduler/b${bid}/`);
+  },
+  
+  create: async (data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.post(`/scheduler/b${bid}/`, data);
+  },
+};
+
+// ================================
+// INVENTORY INTELLIGENCE API
+// ================================
+
+export const inventoryApi = {
+  getRules: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/inventory/rules/b${bid}/`);
+  },
+
+  getSuggestions: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/inventory/suggestions/b${bid}/`);
+  },
+
+  getAlerts: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/inventory/alerts/b${bid}/`);
+  },
+
+  resolveAlert: async (alertId: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.put(`/inventory/alerts/b${bid}/${alertId}/resolve/`, {});
+  },
+
+  retrain: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.post(`/inventory/retrain/b${bid}/`, {});
+  },
+};
+
+// ================================
+// BUSINESS API
+// ================================
+
+export const businessApi = {
+  getProfile: async (): Promise<any> => {
+    return apiClient.get('/business/profile/');
+  },
+  
+  updateProfile: async (data: any): Promise<any> => {
+    return apiClient.put('/business/profile/', data);
+  }
 };
 
 export default {
@@ -239,4 +315,9 @@ export default {
   counter: counterApi,
   order: orderApi,
   expense: expenseApi,
+  billing: billingApi,
+  employee: employeeApi,
+  scheduler: schedulerApi,
+  inventory: inventoryApi,
+  business: businessApi,
 };

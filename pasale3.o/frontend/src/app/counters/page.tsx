@@ -1,15 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { counterApi } from '../../utils/api';
+import { counterApi, orderApi } from '../../utils/api';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Card } from '../../components/ui/Card';
-import { FiPlus, FiMonitor, FiTrash2, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import { 
+  FiPlus, FiMonitor, FiTrash2, FiAlertCircle, 
+  FiCheckCircle, FiChevronRight, FiBox, 
+  FiShoppingBag, FiArrowLeft, FiClock, FiCheck
+} from 'react-icons/fi';
 
 interface Counter {
   id: number;
   counter_number: number;
   description: string;
   is_active: boolean;
+}
+
+interface OrderItem {
+  id: number;
+  product_name: string;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+}
+
+interface Order {
+  id: number;
+  total_amount: number;
+  status: string;
+  created_at: string;
+  items: OrderItem[];
 }
 
 export default function CountersPage() {
@@ -23,9 +43,23 @@ export default function CountersPage() {
   });
   const [saving, setSaving] = useState(false);
 
+  // Detail view state
+  const [selectedCounter, setSelectedCounter] = useState<Counter | null>(null);
+  const [pendingOrders, setPendingOrders] = useState<Order[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
+  const [statuses, setStatuses] = useState<any[]>([]);
+  const [completingId, setCompletingId] = useState<number | null>(null);
+
   useEffect(() => {
     fetchCounters();
+    fetchStatuses();
   }, []);
+
+  useEffect(() => {
+    if (selectedCounter) {
+      fetchPendingOrders(selectedCounter.id);
+    }
+  }, [selectedCounter]);
 
   const fetchCounters = async () => {
     try {
@@ -36,6 +70,53 @@ export default function CountersPage() {
       setError('Failed to load counters');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchStatuses = async () => {
+    try {
+      const data = await orderApi.getStatuses();
+      setStatuses(data.results || data || []);
+    } catch (err) {
+      console.error('Failed to load statuses', err);
+    }
+  };
+
+  const fetchPendingOrders = async (counterId: number) => {
+    try {
+      setLoadingOrders(true);
+      const data = await orderApi.getAll({ counterId });
+      // Filter only pending orders if backend doesn't do it
+      const orders = (data.results || data || []).filter((o: Order) => 
+        o.status.toLowerCase() === 'pending'
+      );
+      setPendingOrders(orders);
+    } catch (err: any) {
+      setError('Failed to load pending orders');
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+
+  const handleCompleteOrder = async (orderId: number) => {
+    const completedStatus = statuses.find(s => 
+      s.name.toLowerCase() === 'completed' || s.name.toLowerCase() === 'complete' || s.name.toLowerCase() === 'paid'
+    );
+
+    if (!completedStatus) {
+      setError('Completed status ID not found. Please contact administrator.');
+      return;
+    }
+
+    try {
+      setCompletingId(orderId);
+      await orderApi.update(orderId, { status_id: completedStatus.id });
+      // Refresh pending orders
+      if (selectedCounter) fetchPendingOrders(selectedCounter.id);
+    } catch (err: any) {
+      setError(err.message || 'Failed to complete order');
+    } finally {
+      setCompletingId(null);
     }
   };
 
@@ -62,6 +143,97 @@ export default function CountersPage() {
       setSaving(false);
     }
   };
+
+  if (selectedCounter) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto animate-in slide-in-from-right duration-300">
+        <button 
+          onClick={() => setSelectedCounter(null)}
+          className="flex items-center gap-2 text-gray-500 hover:text-indigo-600 mb-6 transition-colors group"
+        >
+          <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Back to Counters
+        </button>
+
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-black text-gray-900">Counter {selectedCounter.counter_number}</h1>
+            <p className="text-gray-500">{selectedCounter.description || 'Manage active orders for this counter'}</p>
+          </div>
+          <div className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-2xl text-sm font-bold border border-indigo-100">
+            {pendingOrders.length} Pending Orders
+          </div>
+        </div>
+
+        {loadingOrders ? (
+          <div className="flex justify-center py-20">
+            <div className="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+          </div>
+        ) : pendingOrders.length === 0 ? (
+          <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 bg-gray-50 shadow-none">
+            <FiShoppingBag className="w-16 h-16 text-gray-200 mb-4" />
+            <h3 className="text-lg font-bold text-gray-900 mb-2">No pending orders</h3>
+            <p className="text-gray-500 max-w-sm mb-6">There are no active orders on this counter. New orders from the cart will appear here.</p>
+          </Card>
+        ) : (
+          <div className="space-y-6">
+            {pendingOrders.map(order => (
+              <Card key={order.id} className="overflow-hidden border-0 shadow-xl bg-white">
+                <div className="p-6 border-b bg-gray-50/50 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
+                      <FiClock />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Order Reference</p>
+                      <p className="font-bold text-gray-900">#{order.id}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Amount Due</p>
+                    <p className="text-2xl font-black text-indigo-600">Rs. {order.total_amount.toLocaleString()}</p>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <h4 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <FiBox className="text-indigo-600" /> Order Items
+                  </h4>
+                  <div className="space-y-3">
+                    {order.items?.map(item => (
+                      <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                        <div className="flex items-center gap-3">
+                          <span className="w-8 h-8 bg-white border rounded-lg flex items-center justify-center text-xs font-bold text-gray-500 shadow-sm">
+                            {item.quantity}x
+                          </span>
+                          <span className="font-bold text-gray-700">{item.product_name}</span>
+                        </div>
+                        <span className="font-medium text-gray-500">Rs. {item.total_price.toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-6 bg-indigo-600 flex items-center justify-between">
+                  <p className="text-white/80 text-sm font-medium">Ready to finalize this transaction?</p>
+                  <Button 
+                    onClick={() => handleCompleteOrder(order.id)}
+                    disabled={completingId === order.id}
+                    className="bg-white text-indigo-600 hover:bg-indigo-50 px-8 font-black flex items-center gap-2 border-0 shadow-lg"
+                  >
+                    {completingId === order.id ? 'Processing...' : (
+                      <>
+                        <FiCheck className="w-5 h-5" /> Complete Order
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -101,22 +273,27 @@ export default function CountersPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {counters.map(counter => (
-            <Card key={counter.id} className="p-6 hover:shadow-lg transition-shadow border-0 shadow-sm bg-white group">
+            <Card 
+              key={counter.id} 
+              className="p-6 hover:shadow-xl transition-all border-0 shadow-sm bg-white group cursor-pointer hover:-translate-y-1"
+              onClick={() => setSelectedCounter(counter)}
+            >
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                   <FiMonitor className="w-6 h-6" />
                 </div>
-                <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${counter.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
-                  {counter.is_active ? 'ACTIVE' : 'INACTIVE'}
+                <div className="flex items-center gap-2">
+                  <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${counter.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                    {counter.is_active ? 'ACTIVE' : 'INACTIVE'}
+                  </div>
+                  <FiChevronRight className="text-gray-300 group-hover:text-indigo-600 transition-colors" />
                 </div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-1">Counter {counter.counter_number}</h3>
               <p className="text-sm text-gray-500 mb-6">{counter.description || 'No description provided'}</p>
               <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
-                <span className="text-xs text-gray-400 font-medium">COUNTER ID: #{counter.id}</span>
-                <button className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50">
-                  <FiTrash2 className="w-4 h-4" />
-                </button>
+                <span className="text-xs text-gray-400 font-medium">VIEW PENDING ORDERS</span>
+                <FiShoppingBag className="text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
             </Card>
           ))}

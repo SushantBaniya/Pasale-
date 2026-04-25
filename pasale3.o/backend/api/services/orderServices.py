@@ -16,21 +16,26 @@ from api.serializers import OrderSerializer
 from orderCart.models import OrderCart
 
 
-def get_order(order_id, business_id):
+def get_order(business_id, order_id=None, counter_id=None, customer_id=None):
     try:
         if not business_id:
             raise ValueError("Business ID is required to fetch orders.")
 
-        if order_id:
-            orders = Order.objects.filter(
-                id=order_id, business_id=business_id).all()
-            serializer = OrderSerializer(orders, many=True)
-            return serializer.data
+        # Base queryset filtered by business
+        orders = Order.objects.filter(business_id=business_id)
 
-        if business_id:
-            orders = Order.objects.filter(business_id=business_id).all()
-            serializer = OrderSerializer(orders, many=True)
-            return serializer.data
+        if order_id:
+            orders = orders.filter(id=order_id)
+        elif counter_id:
+            orders = orders.filter(counter_id=counter_id)
+        elif customer_id:
+            orders = orders.filter(customer_id=customer_id)
+
+        # Order by creation date (newest first)
+        orders = orders.order_by('-created_at')
+
+        serializer = OrderSerializer(orders, many=True)
+        return serializer.data
 
     except Exception as e:
         raise Exception(f"Error fetching order(s): {str(e)}")

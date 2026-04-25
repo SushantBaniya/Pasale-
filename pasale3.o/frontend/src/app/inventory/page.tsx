@@ -88,44 +88,8 @@ type StockFilter = 'all' | 'in-stock' | 'low-stock' | 'out-of-stock';
 type ViewMode = 'grid' | 'table';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
-const API_BASE = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:8000/api';
-
-function getTokens() {
-  const access = localStorage.getItem('access_token') || localStorage.getItem('accessToken') || sessionStorage.getItem('access_token');
-  return { access };
-}
-
-function getBusinessId(): string | null {
-  return localStorage.getItem('business_id') || sessionStorage.getItem('business_id');
-}
-
-async function apiFetch(path: string, options: RequestInit = {}) {
-  const { access } = getTokens();
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...(options.headers as Record<string, string>),
-  };
-  if (access) headers['Authorization'] = `Bearer ${access}`;
-
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-  const text = await res.text().catch(() => '');
-  let data: any = null;
-  if (text) {
-    try {
-      data = JSON.parse(text);
-    } catch {
-      data = text;
-    }
-  }
-
-  if (!res.ok) {
-    if (data && typeof data === 'object') {
-      throw new Error(data.error || data.message || `HTTP ${res.status}`);
-    }
-    throw new Error((typeof data === 'string' && data) || `HTTP ${res.status}`);
-  }
-  return data;
-}
+import { productApi, inventoryApi, businessApi } from '../../utils/api';
+import { getBusinessId, getTokens } from '../../utils/apiClient';
 
 const CATEGORY_MAP: Record<number, string> = {
   1: 'Electronics', 2: 'Grocery', 3: 'Food', 4: 'Clothing',
@@ -220,9 +184,9 @@ function ProductFormModal({
         business_id: businessId,
       };
       if (initial) {
-        await apiFetch(`/products/b${businessId}/p${initial.id}/`, { method: 'PUT', body: JSON.stringify(payload) });
+        await productApi.update(initial.id, payload);
       } else {
-        await apiFetch(`/products/b${businessId}/`, { method: 'POST', body: JSON.stringify(payload) });
+        await productApi.create(payload);
       }
       onSave();
     } catch (err: any) {
@@ -337,10 +301,7 @@ function AdjustStockModal({ product, businessId, onClose, onSave }: {
       const newQty = type === 'in'
         ? product.quantity + qty
         : Math.max(0, product.quantity - qty);
-      await apiFetch(`/products/b${businessId}/p${product.id}/`, {
-        method: 'PUT',
-        body: JSON.stringify({ quantity: newQty }),
-      });
+      await productApi.update(product.id, { quantity: newQty });
       onSave();
     } catch (err) {
       console.error(err);
@@ -503,9 +464,9 @@ export default function InventoryPage() {
     setAprioriLoading(true);
     try {
       const [rulesData, suggestionsData, alertsData] = await Promise.all([
-        apiFetch(`/inventory/rules/b${businessId}/`),
-        apiFetch(`/inventory/suggestions/b${businessId}/`),
-        apiFetch(`/inventory/alerts/b${businessId}/`),
+        inventoryApi.getRules(),
+        inventoryApi.getSuggestions(),
+        inventoryApi.getAlerts(),
       ]);
       setAprioriRules(rulesData.rules || []);
       setSuggestions(suggestionsData.suggestions || []);
@@ -520,7 +481,7 @@ export default function InventoryPage() {
   const triggerRetrain = async () => {
     setRetraining(true);
     try {
-      await apiFetch(`/inventory/retrain/b${businessId}/`, { method: 'POST' });
+      await inventoryApi.retrain();
       await fetchAprioriData();
     } catch (err) {
       console.error('Retrain failed:', err);
@@ -531,7 +492,7 @@ export default function InventoryPage() {
 
   const resolveAlert = async (alertId: number) => {
     try {
-      await apiFetch(`/inventory/alerts/b${businessId}/${alertId}/resolve/`, { method: 'PUT' });
+      await inventoryApi.resolveAlert(String(alertId));
       await fetchAprioriData();
     } catch (err) {
       console.error('Resolve failed:', err);
@@ -550,10 +511,7 @@ export default function InventoryPage() {
       // Try to fetch from profile
       const { access } = getTokens();
       if (!access) { navigate('/login'); return; }
-      fetch(`${API_BASE}/business/profile/`, {
-        headers: { Authorization: `Bearer ${access}` },
-      })
-        .then(r => r.json())
+      businessApi.getProfile()
         .then(d => {
           const id = String(d.id || d.business_id || '');
           if (id) { localStorage.setItem('business_id', id); setBusinessId(id); }
@@ -569,7 +527,7 @@ export default function InventoryPage() {
     if (!businessId) return;
     setLoading(true); setError('');
     try {
-      const data = await apiFetch(`/products/b${businessId}/`);
+      const data = await productApi.getAll();
       const list: Product[] = (data.results || data || []);
       setProducts(list);
     } catch (err: any) {
@@ -588,7 +546,7 @@ export default function InventoryPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this product?')) return;
     try {
-      await apiFetch(`/products/b${businessId}/p${id}/`, { method: 'DELETE' });
+      await productApi.delete(id);
       setDetailProduct(null);
       fetchProducts();
     } catch (err: any) {

@@ -4,6 +4,7 @@ import { useDataStore } from '../../store/dataStore';
 import { useAuthStore } from '../../store/authStore';
 import { useBusinessStore } from '../../store/businessStore';
 import { useTranslation } from '../../utils/i18n';
+import { productApi } from '../../utils/api';
 import { useThemeStore } from '../../store/themeStore';
 import {
   FiTrendingUp,
@@ -81,22 +82,13 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const token = getAuthToken();
-        const businessId = localStorage.getItem('business_id');
-        if (!token || !businessId) return;
-        
-        const response = await fetch(`${API_BASE_URL}/products/b${businessId}/`, {
-          headers: { 'Authorization': `Bearer ${token}` },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          const products = data.results || data || [];
-          setLowStockItems(
-            products
-              .filter((p: any) => p.quantity <= 10)
-              .map((p: any) => ({ id: String(p.id), name: p.product_name, minStock: 10, current: p.quantity }))
-          );
-        }
+        const data = await productApi.getAll();
+        const products = data.results || data || [];
+        setLowStockItems(
+          products
+            .filter((p: any) => p.quantity <= 10)
+            .map((p: any) => ({ id: String(p.id), name: p.product_name, minStock: 10, current: p.quantity }))
+        );
       } catch (err) {
         console.error('Error fetching products:', err);
       }
