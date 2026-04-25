@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import CounterView, EmployeeView, OrderView, OrderStatusView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView, DepartmentView
+from .views_reports import BusinessSummaryView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -86,5 +87,10 @@ urlpatterns = [
         'inventory/retrain/b<int:business_id>/',
         RetrainAprioriView.as_view(),
         name='inventory-retrain'
+    ),
+    path(
+        'reports/summary/b<int:business_id>/',
+        BusinessSummaryView.as_view(),
+        name='business-summary'
     ),
 ]

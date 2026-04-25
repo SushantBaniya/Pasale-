@@ -137,35 +137,35 @@ export default function ExpenseMonitoringPage() {
   // Filtered expenses - all filters combined
   const filteredExpenses = useMemo(() => {
     let result = [...expenses];
-    
+
     // Apply date filter
     result = getFilteredByDate(result);
-    
+
     // Apply category filter
     if (filterCategory !== 'all') {
       result = result.filter((e) => e.category === filterCategory);
     }
-    
+
     // Apply type filter
     if (filterType === 'necessary') {
       result = result.filter((e) => e.isNecessary);
     } else if (filterType === 'unnecessary') {
       result = result.filter((e) => !e.isNecessary);
     }
-    
+
     // Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       result = result.filter(
-        (e) => 
-          e.description.toLowerCase().includes(query) || 
+        (e) =>
+          e.description.toLowerCase().includes(query) ||
           e.category.toLowerCase().includes(query)
       );
     }
-    
+
     // Sort by date (newest first)
     result.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    
+
     return result;
   }, [expenses, filterCategory, filterType, searchQuery, getFilteredByDate]);
 
@@ -173,7 +173,7 @@ export default function ExpenseMonitoringPage() {
   const totalExpenses = filteredExpenses.reduce((sum, e) => sum + e.amount, 0);
   const necessaryExpenses = filteredExpenses.filter((e) => e.isNecessary).reduce((sum, e) => sum + e.amount, 0);
   const unnecessaryExpenses = totalExpenses - necessaryExpenses;
-  
+
   // Budget calculations (always use current month for budget)
   const thisMonthExpenses = useMemo(() => {
     const now = new Date();
@@ -182,15 +182,15 @@ export default function ExpenseMonitoringPage() {
       return expenseDate.getMonth() === now.getMonth() && expenseDate.getFullYear() === now.getFullYear();
     }).reduce((sum, e) => sum + e.amount, 0);
   }, [expenses]);
-  
+
   const budgetUsedPercent = Math.min((thisMonthExpenses / monthlyBudget) * 100, 100);
   const budgetRemaining = monthlyBudget - thisMonthExpenses;
 
   // Category breakdown for pie chart - uses filtered expenses
   const categoryBreakdown = useMemo(() => {
     const breakdown: Record<string, number> = {};
-    filteredExpenses.forEach((e) => { 
-      breakdown[e.category] = (breakdown[e.category] || 0) + e.amount; 
+    filteredExpenses.forEach((e) => {
+      breakdown[e.category] = (breakdown[e.category] || 0) + e.amount;
     });
     return Object.entries(breakdown)
       .map(([name, value]) => ({ name, value }))
@@ -200,7 +200,7 @@ export default function ExpenseMonitoringPage() {
   // Daily/Period trend - responds to dateRange filter
   const dailyTrend = useMemo(() => {
     const now = new Date();
-    
+
     if (dateRange === 'week') {
       // Last 7 days
       const last7Days: Record<string, number> = {};
@@ -268,7 +268,7 @@ export default function ExpenseMonitoringPage() {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth();
-    
+
     if (dateRange === 'week') {
       // Last 7 days - group by day
       const dailyData: { month: string; income: number; expense: number }[] = [];
@@ -326,13 +326,13 @@ export default function ExpenseMonitoringPage() {
   // Handle add expense - also adds to transactions
   const handleAddExpense = async () => {
     if (!newExpense.amount || !newExpense.description) return;
-    
+
     setIsSubmitting(true);
     setSubmitError('');
-    
+
     const expenseId = `exp-${Date.now()}`;
     const expenseAmount = parseFloat(newExpense.amount);
-    
+
     try {
       // Map frontend category to API category
       const categoryMap: Record<string, ApiExpenseData['category']> = {
@@ -358,7 +358,7 @@ export default function ExpenseMonitoringPage() {
       };
 
       const response = await expenseApi.create(apiData);
-      
+
       // Add to local expenses store with API-returned ID
       addExpense({
         id: response.expense.id.toString(),
@@ -368,7 +368,7 @@ export default function ExpenseMonitoringPage() {
         date: newExpense.date,
         isNecessary: newExpense.isNecessary,
       });
-      
+
       // Also add to transactions so it shows in transaction page
       addTransaction({
         id: `trans-${Date.now()}`,
@@ -378,13 +378,13 @@ export default function ExpenseMonitoringPage() {
         description: `${newExpense.category}: ${newExpense.description}`,
         partyName: 'Business Expense',
       });
-      
-      setNewExpense({ 
-        category: 'Other', 
-        amount: '', 
-        description: '', 
-        date: new Date().toISOString().split('T')[0], 
-        isNecessary: true 
+
+      setNewExpense({
+        category: 'Other',
+        amount: '',
+        description: '',
+        date: new Date().toISOString().split('T')[0],
+        isNecessary: true
       });
       setShowAddModal(false);
     } catch (err) {
@@ -428,7 +428,7 @@ export default function ExpenseMonitoringPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-8">
-          <Card 
+          <Card
             className="p-3 sm:p-6 bg-linear-to-br from-red-500 to-pink-600 border-0 text-white col-span-2 lg:col-span-1 cursor-pointer hover:shadow-xl transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
             onClick={() => navigate('/reports')}
           >
@@ -444,7 +444,7 @@ export default function ExpenseMonitoringPage() {
             </div>
           </Card>
 
-          <Card 
+          <Card
             className="p-3 sm:p-6 border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 cursor-pointer hover:shadow-xl transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
             onClick={() => setFilterType('necessary')}
           >
@@ -463,7 +463,7 @@ export default function ExpenseMonitoringPage() {
             </div>
           </Card>
 
-          <Card 
+          <Card
             className="p-3 sm:p-6 border border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/20 cursor-pointer hover:shadow-xl transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
             onClick={() => setFilterType('unnecessary')}
           >
@@ -489,7 +489,7 @@ export default function ExpenseMonitoringPage() {
                 <p className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-700 dark:text-blue-300 truncate">{c(budgetRemaining)}</p>
                 <p className="text-blue-500 text-[10px] sm:text-xs">{t('expenseMonitoring.remaining')} {t('expenseMonitoring.of')} {c(monthlyBudget)}</p>
               </div>
-              <button 
+              <button
                 onClick={() => { setTempBudget(monthlyBudget.toString()); setShowBudgetModal(true); }}
                 className="w-10 h-10 sm:w-14 sm:h-14 bg-blue-100 dark:bg-blue-900/30 rounded-lg sm:rounded-xl flex items-center justify-center hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors shrink-0"
                 title={t('expenseMonitoring.editBudget')}
@@ -509,15 +509,15 @@ export default function ExpenseMonitoringPage() {
           <div className="flex flex-col gap-3 sm:gap-4">
             <div className="relative flex-1">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
-              <input 
-                type="text" 
-                placeholder={t('expenseMonitoring.search')} 
-                value={searchQuery} 
-                onChange={(e) => setSearchQuery(e.target.value)} 
-                className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500" 
+              <input
+                type="text"
+                placeholder={t('expenseMonitoring.search')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500"
               />
               {searchQuery && (
-                <button 
+                <button
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
@@ -595,8 +595,8 @@ export default function ExpenseMonitoringPage() {
               <AreaChart data={dailyTrend}>
                 <defs>
                   <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#e5e7eb'} />
@@ -776,23 +776,23 @@ export default function ExpenseMonitoringPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">{t('expenseMonitoring.monthlyBudget')} ({t('common.currencySymbol')})</label>
                 <div className="relative">
                   <span className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium text-sm sm:text-base">{t('common.currencySymbol')}</span>
-                  <input 
-                    type="number" 
-                    value={tempBudget} 
-                    onChange={(e) => setTempBudget(e.target.value)} 
-                    placeholder="100000" 
-                    className="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-lg sm:text-xl font-bold border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  <input
+                    type="number"
+                    value={tempBudget}
+                    onChange={(e) => setTempBudget(e.target.value)}
+                    placeholder="100000"
+                    className="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-lg sm:text-xl font-bold border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={() => setTempBudget((prev) => Math.max(0, parseFloat(prev || '0') - 10000).toString())}
                   className="flex-1 py-2.5 sm:py-3 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors flex items-center justify-center gap-1 sm:gap-2"
                 >
                   <FiMinus className="w-4 h-4" /> -{n(10000)}
                 </button>
-                <button 
+                <button
                   onClick={() => setTempBudget((prev) => (parseFloat(prev || '0') + 10000).toString())}
                   className="flex-1 py-2.5 sm:py-3 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg text-sm font-medium hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors flex items-center justify-center gap-1 sm:gap-2"
                 >
