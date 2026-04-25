@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 import random
-from .models import Business, Counter, Customer, Employee, ForgetPasswordOTP, Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem, Shift, Order, OrderStatus, AprioriRule
+from .models import Business, Counter, Customer, Department, Employee, ForgetPasswordOTP, Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem, Shift, Order, OrderStatus, AprioriRule
 from .serializers import CounterSerializer, ProductSerializer, PartySerializer, CustomerSerializer, StockAlertSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer, AprioriRuleSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
@@ -15,6 +15,7 @@ from datetime import timedelta
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from django.db import IntegrityError
+from django.db import models
 from decimal import Decimal
 import logging
 from .tasks import send_otp_email
@@ -114,7 +115,8 @@ def _sync_billing_for_completed_counter_order(order_obj, user):
         if not user:
             # Fallback to the user who owns the business
             business = order_obj.business_id
-            user = User.objects.filter(id=business.owner_id).first() if hasattr(business, 'owner_id') else None
+            user = User.objects.filter(id=business.owner_id).first(
+            ) if hasattr(business, 'owner_id') else None
 
     customer = order_obj.customer_id
     party = customer.party if customer and hasattr(customer, 'party') else None
@@ -128,6 +130,7 @@ def _sync_billing_for_completed_counter_order(order_obj, user):
         'invoice_number': _build_invoice_number(order_obj.id),
         'invoice_date': timezone.now().date(),
         'due_date': timezone.now().date(),
+        'transaction_type': 'Sales',
         'payment_method': customer.payment_method if customer else None,
         'invoice_status': 'Pending',
         'party': party,
@@ -403,7 +406,8 @@ class ApiProductView(APIView):
             product_id = int(product_id)
 
             # Ensure the product exists and belongs to the business
-            product = Product.objects.get(id=product_id, business_id=business_id)
+            product = Product.objects.get(
+                id=product_id, business_id=business_id)
         except ValueError:
             return Response({'error': 'Invalid Product ID'}, status=status.HTTP_400_BAD_REQUEST)
         except Product.DoesNotExist:
@@ -431,7 +435,8 @@ class ApiProductView(APIView):
 
         try:
             # Ensure the product belongs to the business
-            product = Product.objects.get(id=product_id, business_id=business_id)
+            product = Product.objects.get(
+                id=product_id, business_id=business_id)
         except Product.DoesNotExist:
             return Response({'error': 'Product not found or you do not have permission to delete it.'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -732,7 +737,8 @@ class ApiBillingView(APIView):
 
         if billing_id:
             try:
-                billing = Billing.objects.get(id=billing_id, business_id=business_id)
+                billing = Billing.objects.get(
+                    id=billing_id, business_id=business_id)
                 serializer = BillingSerializer(billing)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except Billing.DoesNotExist:
@@ -740,7 +746,7 @@ class ApiBillingView(APIView):
 
         status_filter = request.query_params.get('status')
         billings = Billing.objects.filter(business_id=business_id)
-        
+
         if status_filter:
             billings = billings.filter(invoice_status__iexact=status_filter)
 
@@ -811,7 +817,7 @@ class ApiBillingView(APIView):
                 if items_data:
                     # Delete old items
                     BillingItem.objects.filter(billing=billing).delete()
-                    
+
                     # Create new items
                     for item_data in items_data:
                         item_data['billing'] = billing.id
@@ -970,7 +976,8 @@ class EmployeeView(APIView):
             # Ensure department exists if provided
             dept_name = data.get('department')
             if dept_name and isinstance(dept_name, str):
-                Department.objects.get_or_create(name=dept_name, business_id_id=business_id)
+                Department.objects.get_or_create(
+                    name=dept_name, business_id_id=business_id)
 
             serializer = EmployeeSerializer(
                 employee_obj, data=data, partial=True)
@@ -1006,7 +1013,8 @@ class DepartmentView(APIView):
         try:
             if not business_id:
                 return Response({"error": "Business ID is required"}, status=status.HTTP_400_BAD_REQUEST)
-            departments = Department.objects.filter(models.Q(business_id=business_id) | models.Q(business_id__isnull=True))
+            departments = Department.objects.filter(
+                models.Q(business_id=business_id) | models.Q(business_id__isnull=True))
             # If no departments exist for this business, you might want to return some defaults or an empty list
             data = [{"id": d.id, "name": d.name} for d in departments]
             return Response(data, status=status.HTTP_200_OK)
@@ -1020,8 +1028,9 @@ class DepartmentView(APIView):
             name = request.data.get("name")
             if not name:
                 return Response({"error": "Name is required"}, status=status.HTTP_400_BAD_REQUEST)
-            
-            dept, created = Department.objects.get_or_create(name=name, business_id_id=business_id)
+
+            dept, created = Department.objects.get_or_create(
+                name=name, business_id_id=business_id)
             return Response({"id": dept.id, "name": dept.name, "created": created}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -1145,12 +1154,12 @@ class OrderView(APIView):
         try:
             if not business_id:
                 return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             # Call get_order with all possible filter params from URL
             data = get_order(
-                business_id=business_id, 
-                order_id=order_id, 
-                counter_id=counter_id, 
+                business_id=business_id,
+                order_id=order_id,
+                counter_id=counter_id,
                 customer_id=customer_id
             )
             return Response(data, status=status.HTTP_200_OK)
@@ -1210,11 +1219,18 @@ class OrderView(APIView):
 
                 current_status_name = (order_obj.order_status.name.lower()
                                        if order_obj.order_status else "")
-                if previous_status_name != current_status_name and current_status_name in {'completed', 'complete', 'paid'}:
-                    _sync_billing_for_completed_counter_order(
+                billing = None
+                if current_status_name in {'completed', 'complete', 'paid'}:
+                    billing = _sync_billing_for_completed_counter_order(
                         order_obj, request.user)
 
-                return Response({'message': 'Order updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
+                response_data = {
+                    'message': 'Order updated successfully', 'data': serializer.data}
+                if billing:
+                    response_data['billing_id'] = billing.id
+                    response_data['billing'] = BillingSerializer(billing).data
+
+                return Response(response_data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -1456,8 +1472,9 @@ class DepartmentView(APIView):
         name = request.data.get('name')
         if not name:
             return Response({"error": "Department name is required"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        department = Department.objects.create(name=name, business_id_id=business_id)
+
+        department = Department.objects.create(
+            name=name, business_id_id=business_id)
         return Response({"id": department.id, "name": department.name}, status=status.HTTP_201_CREATED)
 
 

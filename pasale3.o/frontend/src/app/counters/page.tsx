@@ -112,9 +112,10 @@ export default function CountersPage() {
 
     try {
       setCompletingId(orderId);
-      await orderApi.update(orderId, { status_id: completedStatus.id });
-      // Redirect to billing page
-      navigate('/billing');
+      const response = await orderApi.update(orderId, { status_id: completedStatus.id });
+      const billingId = response?.billing_id;
+      // Redirect to billing page and open the invoice created for this order
+      navigate(billingId ? `/billing?billingId=${billingId}` : `/billing?orderId=${orderId}`);
     } catch (err: any) {
       setError(err.message || 'Failed to complete order');
     } finally {
@@ -343,7 +344,7 @@ export default function CountersPage() {
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white"
+                  className="flex-2 bg-indigo-600 hover:bg-indigo-700 text-white"
                   disabled={saving}
                 >
                   {saving ? 'Creating...' : 'Create Counter'}

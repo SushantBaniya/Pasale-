@@ -152,7 +152,7 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         # 1. Update status before saving
         self.is_low_stock = self.quantity <= self.reorder_level
-        
+
         # 2. Save the product
         super().save(*args, **kwargs)
 
@@ -355,6 +355,7 @@ class Billing(models.Model):
     invoice_number = models.CharField(max_length=50, unique=True)
     invoice_date = models.DateField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
+    transaction_type = models.CharField(max_length=20, default='Sales')
 
     payment_method = models.ForeignKey(
         PaymentMethod, on_delete=models.SET_NULL, null=True)
