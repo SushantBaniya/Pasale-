@@ -107,26 +107,26 @@ export default function PartiesPage() {
     <div className="min-h-screen bg-linear-to-br from-gray-50 via-gray-100 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-x-hidden pb-20 sm:pb-6">
       <div className="w-full max-w-400 mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6 flex flex-col">
         {/* Header - Modern Gradient Style */}
-        <div className="relative overflow-hidden bg-linear-to-br from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-5 sm:p-6 shadow-xl shadow-blue-500/20">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
+        <div className="relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] dark:bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]" />
           <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                <FiUsers className="w-7 h-7 text-white" />
+              <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shadow-sm border border-indigo-100 dark:border-indigo-800/30">
+                <FiUsers className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
               </div>
-              <div className="text-white">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-3">
                   {t('parties.title')}
-                  <span className="px-3 py-1 rounded-full text-sm font-semibold bg-white/20 backdrop-blur-sm">
+                  <span className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600">
                     {n(parties.length)}
                   </span>
                 </h1>
-                <p className="text-white/80 text-sm mt-1">{t('parties.description')}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{t('parties.description')}</p>
               </div>
             </div>
             <button
               onClick={() => setShowAddDialog(true)}
-              className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold bg-white text-indigo-700 hover:bg-indigo-50 shadow-lg hover:shadow-xl transition-all"
+              className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-600/20 transition-all"
             >
               <FiPlus className="w-5 h-5 mr-2" />
               {t('parties.addParty')}

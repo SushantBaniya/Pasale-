@@ -32,8 +32,7 @@ from .models import (
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product_name', 'user',
-                    'category', 'unit_price', 'quantity')
+    list_display = ('id', 'product_name', 'category', 'unit_price', 'quantity')
 
 
 @admin.register(Category)

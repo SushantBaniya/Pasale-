@@ -65,21 +65,20 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      {/* Hero Section with Gradient Background */}
-      <div className="relative h-36 sm:h-48 lg:h-56 bg-linear-to-r from-blue-600 via-blue-500 to-indigo-600 dark:from-blue-800 dark:via-blue-700 dark:to-indigo-800">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-40 sm:w-64 h-40 sm:h-64 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-20 -left-20 w-40 sm:w-64 h-40 sm:h-64 bg-white/10 rounded-full blur-3xl"></div>
+      {/* Hero Section with White Theme */}
+      <div className="relative h-36 sm:h-48 lg:h-56 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="absolute inset-0 overflow-hidden opacity-50 dark:opacity-20">
+          <div className="absolute -top-20 -right-20 w-40 sm:w-64 h-40 sm:h-64 bg-blue-100 dark:bg-blue-900 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-20 -left-20 w-40 sm:w-64 h-40 sm:h-64 bg-indigo-100 dark:bg-indigo-900 rounded-full blur-3xl"></div>
         </div>
         
         {/* Back Button */}
         <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-10">
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => navigate(-1)}
-            className="text-white hover:bg-white/20 border border-white/30"
+            className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700"
           >
             <FiArrowLeft className="w-4 h-4 sm:mr-2" />
             <span className="hidden sm:inline">Back</span>
@@ -89,10 +88,10 @@ export default function ProfilePage() {
         {/* Settings Button */}
         <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-10">
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => navigate('/settings')}
-            className="text-white hover:bg-white/20 border border-white/30"
+            className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700"
           >
             <FiSettings className="w-4 h-4 sm:mr-2" />
             <span className="hidden sm:inline">Settings</span>

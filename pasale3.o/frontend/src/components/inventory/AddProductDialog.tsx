@@ -26,15 +26,9 @@ import { useTranslation } from '../../utils/i18n';
 // API Configuration - Use environment variable or fallback
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
-interface ApiCategory {
-  id: number;
-  name: string;
-  slug: string;
-}
-
 const getAuthToken = () => {
-  // Check for auth_token (set by login page)
-  return localStorage.getItem('auth_token');
+  // Support both token keys used across screens
+  return localStorage.getItem('auth_token') || localStorage.getItem('access_token');
 };
 
 interface Product {
@@ -55,26 +49,6 @@ interface AddProductDialogProps {
   initialData?: Product;
   isEdit?: boolean;
 }
-
-// Category icon mapping
-const getCategoryIcon = (categoryName: string): string => {
-  const iconMap: Record<string, string> = {
-    'electronics': '📱',
-    'clothing': '👕',
-    'food': '🍎',
-    'grocery': '🛒',
-    'household': '🏠',
-    'beauty': '💄',
-    'medicine': '💊',
-    'stationery': '📝',
-    'hardware': '🔧',
-  };
-  const key = categoryName.toLowerCase();
-  for (const [name, icon] of Object.entries(iconMap)) {
-    if (key.includes(name)) return icon;
-  }
-  return '📦';
-};
 
 export const AddProductDialog: React.FC<AddProductDialogProps> = ({
   onClose,
@@ -107,7 +81,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
   const [success, setSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState<'basic' | 'pricing' | 'inventory' | 'additional'>('basic');
-  const [categories, setCategories] = useState<Array<{ value: string; label: string; icon: string; id: number }>>([]);
+  const [categories, setCategories] = useState<Array<{ value: string; label: string; id: number }>>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
 
   // Fetch categories from API
@@ -118,16 +92,16 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
         // For now, use default categories since backend might not have category endpoint
         // When backend has category API, replace with actual fetch
         const defaultCategories = [
-          { id: 1, value: 'electronics', label: 'Electronics', icon: '📱' },
-          { id: 2, value: 'clothing', label: 'Clothing & Apparel', icon: '👕' },
-          { id: 3, value: 'food', label: 'Food & Beverages', icon: '🍎' },
-          { id: 4, value: 'grocery', label: 'Grocery', icon: '🛒' },
-          { id: 5, value: 'household', label: 'Household Items', icon: '🏠' },
-          { id: 6, value: 'beauty', label: 'Beauty & Personal Care', icon: '💄' },
-          { id: 7, value: 'medicine', label: 'Medicine & Health', icon: '💊' },
-          { id: 8, value: 'stationery', label: 'Stationery', icon: '📝' },
-          { id: 9, value: 'hardware', label: 'Hardware & Tools', icon: '🔧' },
-          { id: 10, value: 'other', label: 'Other', icon: '📦' },
+          { id: 1, value: 'electronics', label: 'Electronics' },
+          { id: 2, value: 'clothing', label: 'Clothing & Apparel' },
+          { id: 3, value: 'food', label: 'Food & Beverages' },
+          { id: 4, value: 'grocery', label: 'Grocery' },
+          { id: 5, value: 'household', label: 'Household Items' },
+          { id: 6, value: 'beauty', label: 'Beauty & Personal Care' },
+          { id: 7, value: 'medicine', label: 'Medicine & Health' },
+          { id: 8, value: 'stationery', label: 'Stationery' },
+          { id: 9, value: 'hardware', label: 'Hardware & Tools' },
+          { id: 10, value: 'other', label: 'Other' },
         ];
         setCategories(defaultCategories);
       } catch (err) {
@@ -231,7 +205,16 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
         description: formData.description || '',
       };
 
-      const response = await fetch(`${API_BASE_URL}/products/`, {
+      const businessId = localStorage.getItem('business_id') || sessionStorage.getItem('business_id');
+      if (!businessId) {
+        throw new Error('Business ID not found. Please login again.');
+      }
+
+      const endpoint = isEdit && initialData?.id
+        ? `${API_BASE_URL}/products/b${businessId}/?id=${initialData.id}`
+        : `${API_BASE_URL}/products/b${businessId}/`;
+
+      const response = await fetch(endpoint, {
         method: isEdit ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -240,7 +223,15 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
         body: JSON.stringify(apiPayload),
       });
 
-      const data = await response.json();
+      let data: any = {};
+      const raw = await response.text();
+      if (raw) {
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          data = { message: raw };
+        }
+      }
 
       if (!response.ok) {
         throw new Error(data.error || data.message || 'Failed to save product');
@@ -280,7 +271,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 [&_svg]:hidden">
       <div className="w-full max-w-5xl bg-white dark:bg-gray-900 rounded-2xl max-h-[95vh] overflow-hidden shadow-2xl">
         {/* Header with gradient */}
         <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 px-6 py-5 text-white">
@@ -478,7 +469,6 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
                             : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-indigo-400'
                         }`}
                       >
-                        <span>{cat.icon}</span>
                         {cat.label}
                       </button>
                     ))}
@@ -488,7 +478,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
                 {/* Description */}
                 <div>
                   <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-                    📝 {t('dialog.descriptionOptional')}
+                    {t('dialog.descriptionOptional')}
                   </label>
                   <textarea
                     value={formData.description}
@@ -554,7 +544,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm text-gray-500">Profit per Unit</p>
-                          <p className="text-2xl font-bold text-green-600">Rs. {profitInfo.profit.toLocaleString()}</p>
+                          <p className="text-2xl font-bold text-green-600">Rs {profitInfo.profit.toLocaleString('en-US')}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-gray-500">Profit Margin</p>
@@ -749,7 +739,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
                     </div>
                     <div className="p-3 bg-white dark:bg-gray-800 rounded-lg">
                       <p className="text-gray-500">Price</p>
-                      <p className="font-semibold text-gray-900 dark:text-gray-100">Rs. {formData.price || '0'}</p>
+                      <p className="font-semibold text-gray-900 dark:text-gray-100">Rs {Number(formData.price || 0).toLocaleString('en-US')}</p>
                     </div>
                   </div>
                 </div>

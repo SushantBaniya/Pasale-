@@ -108,22 +108,36 @@ async function apiFetch(path: string, options: RequestInit = {}) {
   if (access) headers['Authorization'] = `Bearer ${access}`;
 
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-  if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    throw new Error(text || `HTTP ${res.status}`);
+  const text = await res.text().catch(() => '');
+  let data: any = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
   }
-  return res.json();
+
+  if (!res.ok) {
+    if (data && typeof data === 'object') {
+      throw new Error(data.error || data.message || `HTTP ${res.status}`);
+    }
+    throw new Error((typeof data === 'string' && data) || `HTTP ${res.status}`);
+  }
+  return data;
 }
 
 const CATEGORY_MAP: Record<number, string> = {
-  1: 'Electronics', 2: 'Clothing', 3: 'Food', 4: 'Grocery',
+  1: 'Electronics', 2: 'Grocery', 3: 'Food', 4: 'Clothing',
   5: 'Household', 6: 'Beauty', 7: 'Medicine', 8: 'Stationery',
   9: 'Hardware', 10: 'Other',
 };
 
-const fmt = (n: number) =>
-  new Intl.NumberFormat('ne-NP', { style: 'currency', currency: 'NPR', maximumFractionDigits: 2 })
-    .format(n).replace('NPR', 'Rs.');
+const fmt = (n: any) => {
+  const amount = typeof n === 'number' ? n : parseFloat(n);
+  const valid = Number.isFinite(amount) ? amount : 0;
+  return `Rs ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(valid)}`;
+};
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -136,11 +150,6 @@ function StatCard({ label, value, sub, color, icon, onClick }: {
       onClick={onClick}
       className={`bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group`}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>
-          {icon}
-        </div>
-      </div>
       <div className={`text-2xl font-bold text-gray-900 mb-0.5`}>{value}</div>
       <div className="text-sm font-medium text-gray-500">{label}</div>
       {sub && <div className="text-xs text-gray-400 mt-0.5">{sub}</div>}
@@ -669,7 +678,7 @@ export default function InventoryPage() {
             onClick={() => setShowApriori(!showApriori)}
             className="flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 text-sm transition-colors"
           >
-            🤖 {showApriori ? 'Hide' : 'Show'} AI Inventory Intelligence
+            {showApriori ? 'Hide' : 'Show'} Inventory Intelligence
             {aprioriAlerts.length > 0 && (
               <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
                 {aprioriAlerts.length}
@@ -695,7 +704,7 @@ export default function InventoryPage() {
             {aprioriLoading ? (
               <div className="flex items-center justify-center py-12 bg-white rounded-2xl border border-gray-200">
                 <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mr-3" />
-                <span className="text-gray-500 text-sm">Loading AI insights...</span>
+                <span className="text-gray-500 text-sm">Loading Insights...</span>
               </div>
             ) : (
               <>
@@ -721,7 +730,7 @@ export default function InventoryPage() {
                   <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                       <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
-                        💡 Reorder Suggestions
+                        Reorder Suggestions
                       </h3>
                       <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
                         {suggestions.length} items
@@ -730,12 +739,12 @@ export default function InventoryPage() {
                     <div className="p-4 space-y-3 max-h-72 overflow-y-auto">
                       {suggestions.length === 0 ? (
                         <div className="text-center py-8 text-gray-400 text-sm">
-                          ✅ No low stock items — inventory healthy!
+                          No low stock items - inventory healthy.
                         </div>
                       ) : suggestions.map((s, i) => (
                         <div key={i} className="p-3 bg-orange-50 border border-orange-100 rounded-xl">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="text-orange-600 font-bold text-sm">⚠️ {s.low_stock_product}</span>
+                            <span className="text-orange-600 font-bold text-sm">{s.low_stock_product}</span>
                             <span className="text-xs text-gray-400">({s.current_quantity} left)</span>
                           </div>
                           <div className="space-y-1.5">
@@ -759,7 +768,7 @@ export default function InventoryPage() {
                   <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
                       <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
-                        🔴 Stock Alerts
+                        Stock Alerts
                       </h3>
                       <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
                         {aprioriAlerts.length} active
@@ -768,7 +777,7 @@ export default function InventoryPage() {
                     <div className="p-4 space-y-3 max-h-72 overflow-y-auto">
                       {aprioriAlerts.length === 0 ? (
                         <div className="text-center py-8 text-gray-400 text-sm">
-                          🎉 No active alerts!
+                          No active alerts.
                         </div>
                       ) : aprioriAlerts.map((alert) => (
                         <div key={alert.id} className="p-3 bg-red-50 border border-red-100 rounded-xl">
@@ -803,7 +812,7 @@ export default function InventoryPage() {
                   <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mt-4">
                     <div className="px-5 py-4 border-b border-gray-100">
                       <h3 className="font-bold text-gray-900 text-sm">
-                        📋 Association Rules — Buying Patterns Discovered
+                        Association Rules - Buying Patterns Discovered
                       </h3>
                     </div>
                     <div className="overflow-x-auto">
@@ -1067,7 +1076,12 @@ export default function InventoryPage() {
       {showForm && businessId && (
         <ProductFormModal
           onClose={() => { setShowForm(false); setEditProduct(undefined); }}
-          onSave={() => { setShowForm(false); setEditProduct(undefined); fetchProducts(); }}
+          onSave={() => {
+            setShowForm(false);
+            setEditProduct(undefined);
+            setDetailProduct(null);
+            fetchProducts();
+          }}
           initial={editProduct}
           businessId={businessId}
         />

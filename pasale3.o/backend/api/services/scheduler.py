@@ -65,11 +65,6 @@ def get_skill_match(employee, shift):
         return False, 0.0
 
 
-# ----------------------------------------
-# WSM SCHEDULER CLASS
-# Matches your existing GreedyStaffScheduler interface
-# so views.py needs minimal changes
-# ----------------------------------------
 
 class WSMStaffScheduler:
     def __init__(self, business_id, shifts, max_hours_per_week=40):

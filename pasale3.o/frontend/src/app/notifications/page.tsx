@@ -45,9 +45,9 @@ export default function NotificationsPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-4 pb-6 sm:pb-8">
       <div className="max-w-1600px mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pb-4 mb-4 sm:mb-6">
-          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-linear-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border border-amber-100 dark:border-amber-800/30 hover:shadow-lg transition-all duration-300 cursor-default flex-1">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-linear-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform duration-300">
-              <FiBell className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 cursor-default flex-1">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center shadow-sm border border-amber-100 dark:border-amber-800/30 group-hover:scale-110 transition-transform duration-300">
+              <FiBell className="w-6 h-6 sm:w-7 sm:h-7 text-amber-600 dark:text-amber-400" />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">

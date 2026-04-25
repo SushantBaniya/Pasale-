@@ -373,7 +373,7 @@ class ApiProductView(APIView):
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if Product.objects.filter(user=request.user, product_name=data['product_name']).exists():
+        if Product.objects.filter(business_id=business_id, product_name=data['product_name']).exists():
             return Response({'error': 'You already have a product with this name.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
@@ -382,12 +382,10 @@ class ApiProductView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def put(self, request, business_id=None, **kwargs):
+    def put(self, request, business_id=None, product_id=None):
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Get the product ID from the query parameters
-        product_id = request.query_params.get('id')
         if not product_id:
             return Response({'error': 'Product ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -395,8 +393,8 @@ class ApiProductView(APIView):
             # Convert product_id to an integer
             product_id = int(product_id)
 
-            # Ensure the product exists and belongs to the authenticated user
-            product = Product.objects.get(id=product_id, user=request.user)
+            # Ensure the product exists and belongs to the business
+            product = Product.objects.get(id=product_id, business_id=business_id)
         except ValueError:
             return Response({'error': 'Invalid Product ID'}, status=status.HTTP_400_BAD_REQUEST)
         except Product.DoesNotExist:
@@ -423,8 +421,8 @@ class ApiProductView(APIView):
             return Response({'error': 'Product ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Ensure the product belongs to the user
-            product = Product.objects.get(id=product_id, user=request.user)
+            # Ensure the product belongs to the business
+            product = Product.objects.get(id=product_id, business_id=business_id)
         except Product.DoesNotExist:
             return Response({'error': 'Product not found or you do not have permission to delete it.'}, status=status.HTTP_404_NOT_FOUND)
 

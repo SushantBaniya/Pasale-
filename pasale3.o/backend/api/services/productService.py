@@ -65,14 +65,16 @@ def create_product(data):
             if field not in data:
                 raise Exception(f"{field} is required.")
 
-        if not Business.objects.filter(id=data['business_id'], user_id=data['user_id']).exists():
+        if not Business.objects.filter(id=data['business_id']).exists():
             raise Exception(
-                "Business does not exist or does not belong to the user.")
+                "Business does not exist.")
 
         serializer = ProductSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return {'message': 'Product created successfully!', 'product': serializer.data}
+        else:
+            raise Exception(f"Validation Error: {serializer.errors}")
 
     except Exception as e:
         raise Exception(f"Error creating product: {str(e)}")

@@ -17,8 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'user', 'product_name', 'category',
-                  'unit_price', 'quantity', 'description']
+        fields = '__all__'
 
 
 class PartySerializer(serializers.ModelSerializer):

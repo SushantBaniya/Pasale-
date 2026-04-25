@@ -854,9 +854,9 @@ export default function ReportsPage() {
           <>
             {/* Page Header */}
             <div className="mb-6 sm:mb-8">
-              <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-linear-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border border-purple-100 dark:border-purple-800/30 hover:shadow-lg transition-all duration-300 cursor-default">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-linear-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform duration-300">
-                  <FiBarChart2 className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+              <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 cursor-default">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shadow-sm border border-purple-100 dark:border-purple-800/30 group-hover:scale-110 transition-transform duration-300">
+                  <FiBarChart2 className="w-6 h-6 sm:w-7 sm:h-7 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">

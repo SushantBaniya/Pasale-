@@ -128,23 +128,52 @@ class PaymentMethod(models.Model):
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='products')
     product_name = models.CharField(max_length=100)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='products')
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    cost_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
+    sku = models.CharField(max_length=50, null=True, blank=True)
     business_id = models.ForeignKey(
         Business, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     quantity = models.PositiveIntegerField()
     reorder_level = models.PositiveIntegerField(default=10)
     is_low_stock = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
+    product_Img = models.ImageField(
+        upload_to='products/', null=True, blank=True)
     is_created_at = models.DateTimeField(auto_now_add=True, null=True)
     is_updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.product_name
+
+    def save(self, *args, **kwargs):
+        # 1. Update status before saving
+        self.is_low_stock = self.quantity <= self.reorder_level
+        
+        # 2. Save the product
+        super().save(*args, **kwargs)
+
+        # 3. Handle StockAlerts (without calling another .save() to avoid recursion)
+        from api.models import StockAlert
+        if self.is_low_stock and self.business_id:
+            # Create an alert if it doesn't exist
+            StockAlert.objects.get_or_create(
+                product=self,
+                business_id=self.business_id,
+                is_resolved=False,
+                defaults={
+                    'message': f"Low Stock Alert: {self.product_name} only has {self.quantity} left!"
+                }
+            )
+        elif not self.is_low_stock:
+            # If stock is now above threshold, resolve any pending alerts
+            StockAlert.objects.filter(
+                product=self,
+                is_resolved=False
+            ).update(is_resolved=True)
 
 
 class Party(models.Model):
@@ -197,7 +226,7 @@ class Customer(models.Model):
 class Counter(models.Model):
     business_id = models.ForeignKey(
         Business, on_delete=models.CASCADE, related_name='counters')
-    counter_number = models.IntegerField(max_length=100, unique=True)
+    counter_number = models.IntegerField(unique=True)
     location = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):

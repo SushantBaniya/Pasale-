@@ -407,9 +407,9 @@ export default function ExpenseMonitoringPage() {
       <div className="max-w-[1600px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         {/* Header - Interactive Style */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-linear-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 border border-red-100 dark:border-red-800/30 hover:shadow-lg transition-all duration-300 cursor-default flex-1">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-linear-to-br from-red-500 to-pink-600 flex items-center justify-center shadow-lg shadow-red-500/30 shrink-0 group-hover:scale-110 transition-transform duration-300">
-              <NepaliRupeeIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 cursor-default flex-1">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-red-50 dark:bg-red-900/30 flex items-center justify-center shadow-sm border border-red-100 dark:border-red-800/30 shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <NepaliRupeeIcon className="w-6 h-6 sm:w-7 sm:h-7 text-red-600 dark:text-red-400" />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
@@ -421,7 +421,7 @@ export default function ExpenseMonitoringPage() {
               <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">{t('expenseMonitoring.pageDescription')}</p>
             </div>
           </div>
-          <Button onClick={() => setShowAddModal(true)} className="bg-linear-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 shadow-lg shrink-0" size="sm">
+          <Button onClick={() => setShowAddModal(true)} className="bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/20 shrink-0" size="sm">
             <FiPlus className="w-4 h-4 sm:w-5 sm:h-5 sm:mr-2" /> <span className="hidden sm:inline">{t('expenseMonitoring.addExpense')}</span><span className="sm:hidden">Add</span>
           </Button>
         </div>
