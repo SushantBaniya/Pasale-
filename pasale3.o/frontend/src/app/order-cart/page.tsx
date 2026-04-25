@@ -105,8 +105,12 @@ export default function OrderCartPage() {
         const party = await partyApi.create({ name, Category_type: 'Customer', address: description });
         partyId = party.party.id;
       } else {
+        // Optimization: Try to create/get counter more directly or send number to backend
+        // For now, we fetch only if we really don't have it, but we can also optimize the backend later
         const counters = await counterApi.getAll();
-        const existing = counters.find((c: any) => c.counter_number === parseInt(counterNumber));
+        const existing = counters.data?.find((c: any) => c.counter_number === parseInt(counterNumber)) 
+                      || counters.find?.((c: any) => c.counter_number === parseInt(counterNumber));
+        
         if (existing) {
           counterId = existing.id;
         } else {

@@ -67,38 +67,87 @@ def get_skill_match(employee, shift):
 
 
 class WSMStaffScheduler:
-    def __init__(self, business_id, shifts, max_hours_per_week=40):
+    def __init__(self, business_id, shifts, weights=None, max_hours_per_week=40):
         self.business_id       = business_id
-        self.shifts            = shifts
+        self.shifts            = shifts.order_by('shift_date', 'start_time')
         self.max_hours         = max_hours_per_week
+        self.weights           = weights or WEIGHTS
         self.schedule          = []   # list of (shift, employee, score)
         self.unscheduled       = []   # list of shifts with no eligible employee
-        self.all_employees     = Employee.objects.filter(
+        
+        # 1. Pre-fetch Active Employees
+        self.all_employees = list(Employee.objects.filter(
             business_id=business_id,
             status__name="Active"
-        )
+        ))
+        
+        if not self.all_employees:
+            return
 
-    # ----------------------------------------
-    # CORE: Compute WSM score for one employee-shift pair
-    # ----------------------------------------
+        # 2. Pre-fetch Skills into a lookup dictionary: {(employee_id, skill_id): proficiency_score}
+        emp_skills = EmployeeSkill.objects.filter(employee__in=self.all_employees)
+        self.skill_lookup = {
+            (es.employee_id, es.skill_id): PROFICIENCY_SCORE.get(es.proficiency_level, 0.4)
+            for es in emp_skills
+        }
+
+        # 3. Pre-fetch Existing Schedules for the date range of the shifts
+        if self.shifts.exists():
+            start_date = self.shifts.first().shift_date
+            end_date   = self.shifts.last().shift_date
+            existing_schedules = EmployeeSchedule.objects.filter(
+                employee__in=self.all_employees,
+                date__range=(start_date, end_date)
+            )
+            # Lookup: {employee_id: [ (date, start, end), ... ]}
+            self.schedule_lookup = {}
+            for s in existing_schedules:
+                if s.employee_id not in self.schedule_lookup:
+                    self.schedule_lookup[s.employee_id] = []
+                self.schedule_lookup[s.employee_id].append((s.date, s.start_time, s.end_time))
+            
+            # 4. Pre-calculate weekly shift counts for fairness
+            self.weekly_counts = {e.id: get_shifts_this_week(e, start_date) for e in self.all_employees}
+        else:
+            self.schedule_lookup = {}
+            self.weekly_counts = {e.id: 0 for e in self.all_employees}
+
+    def _is_available_fast(self, employee, shift):
+        # Check pre-fetched schedules
+        schedules = self.schedule_lookup.get(employee.id, [])
+        for (date, start, end) in schedules:
+            if date == shift.shift_date:
+                if start < shift.end_time and end > shift.start_time:
+                    return False
+        # Also check shifts we JUST scheduled in this run
+        for entry in self.schedule:
+            if entry["employee"].id == employee.id and entry["shift"].shift_date == shift.shift_date:
+                s = entry["shift"]
+                if s.start_time < shift.end_time and s.end_time > shift.start_time:
+                    return False
+        return True
+
+    def _get_skill_match_fast(self, employee, shift):
+        if not shift.required_skill_id:
+            return True, 1.0
+        score = self.skill_lookup.get((employee.id, shift.required_skill_id))
+        if score is not None:
+            return True, score
+        return False, 0.0
+
     def _compute_score(self, employee, shift):
-        if not self.all_employees.exists():
-            return -1
-
         # Hard Gate 1: Availability
-        if not is_available(employee, shift):
+        if not self._is_available_fast(employee, shift):
             return -1
 
         # Hard Gate 2: Skill Match
-        has_skill, proficiency = get_skill_match(employee, shift)
+        has_skill, proficiency = self._get_skill_match_fast(employee, shift)
         if not has_skill:
             return -1
 
-        # Fairness
-        # Pre-compute current shifts for all to find the max
-        emp_shift_counts = [get_shifts_this_week(e, shift.shift_date) for e in self.all_employees]
-        max_shifts = max(emp_shift_counts) if emp_shift_counts else 1
-        weekly_shifts = get_shifts_this_week(employee, shift.shift_date)
+        # Fairness (using optimized counts)
+        max_shifts = max(self.weekly_counts.values()) if self.weekly_counts else 1
+        weekly_shifts = self.weekly_counts.get(employee.id, 0)
         fairness = 1.0 - normalize(weekly_shifts, 0, max_shifts)
 
         # Cost
@@ -108,17 +157,14 @@ class WSMStaffScheduler:
         cost = 1.0 - normalize(float(employee.salary), min_salary, max_salary)
 
         score = (
-            WEIGHTS["availability"] * 1.0        +
-            WEIGHTS["skill_match"]  * 1.0        +
-            WEIGHTS["fairness"]     * fairness    +
-            WEIGHTS["skill_level"]  * proficiency +
-            WEIGHTS["cost"]         * cost
+            self.weights.get("availability", 0.30) * 1.0        +
+            self.weights.get("skill_match", 0.25)  * 1.0        +
+            self.weights.get("fairness", 0.20)     * fairness    +
+            self.weights.get("skill_level", 0.15)  * proficiency +
+            self.weights.get("cost", 0.10)         * cost
         )
         return round(score, 4)
 
-    # ----------------------------------------
-    # RANK employees for a single shift
-    # ----------------------------------------
     def _rank_employees(self, shift):
         rankings = []
         for emp in self.all_employees:
@@ -128,15 +174,8 @@ class WSMStaffScheduler:
         rankings.sort(key=lambda x: x[1], reverse=True)
         return rankings
 
-    # ----------------------------------------
-    # MAIN: Schedule all shifts (replaces schedule_shifts_greedy)
-    # ----------------------------------------
     def schedule_shifts_greedy(self):
-        """
-        Kept the same method name as GreedyStaffScheduler
-        so your existing StaffSchedulerView works without changes
-        """
-        for shift in self.shifts.order_by('shift_date', 'start_time'):
+        for shift in self.shifts: # Already ordered in __init__
             rankings = self._rank_employees(shift)
             if rankings:
                 best_employee, best_score = rankings[0]
@@ -144,12 +183,10 @@ class WSMStaffScheduler:
                     "shift":    shift,
                     "employee": best_employee,
                     "score":    best_score,
-                    "all_rankings": rankings, 
-                    "rankings": [
-                        {"employee": e.name, "score": s}
-                        for e, s in rankings
-                    ]
+                    "rankings": rankings
                 })
+                # Update local weekly count for fairness in next iteration
+                self.weekly_counts[best_employee.id] += 1
             else:
                 self.unscheduled.append(shift)
 

@@ -135,12 +135,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                   </span>
                 )}
 
-                {/* "New" pill badge on the Employees link */}
-                {item.path === '/employees' && !isCollapsed && !isActive && (
-                  <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                    New
-                  </span>
-                )}
+
               </Link>
             );
           })}

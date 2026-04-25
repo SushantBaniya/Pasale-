@@ -1,4 +1,5 @@
 from .services.scheduler import WSMStaffScheduler  # ← make sure this import exists
+from django.db.models import Prefetch
 from django.contrib.auth.models import User
 import json
 from rest_framework.views import APIView
@@ -1074,8 +1075,10 @@ class StaffSchedulerView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
+            weights = serializer.validated_data.get('weights')
+            
             # Run WSM scheduler
-            scheduler = WSMStaffScheduler(business_id, shifts, max_hours)
+            scheduler = WSMStaffScheduler(business_id, shifts, weights, max_hours)
             schedule, unscheduled = scheduler.schedule_shifts_greedy()
             schedule_summary = scheduler.get_schedule_summary()
 
@@ -1087,7 +1090,17 @@ class StaffSchedulerView(APIView):
                     'unscheduled_count': len(unscheduled),
                     'total_shifts':      shifts.count(),
                     'success_rate':      f"{(len(schedule) / shifts.count() * 100):.2f}%"
-                    if shifts.count() else "0%"
+                    if shifts.count() else "0%",
+                    'assignments': [
+                        {
+                            'shift_id': item['shift'].id,
+                            'assigned': item['employee'].name,
+                            'score':    item['score'],
+                            'rankings': [
+                                {'name': r[0].name, 'score': r[1]} for r in item['rankings']
+                            ]
+                        } for item in schedule
+                    ]
                 }
 
             return Response({
@@ -1153,12 +1166,16 @@ class OrderView(APIView):
             if not business_id:
                 return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
 
+            # Extract status from query params
+            status_name = request.query_params.get('status')
+
             # Call get_order with all possible filter params from URL
             data = get_order(
                 business_id=business_id,
                 order_id=order_id,
                 counter_id=counter_id,
-                customer_id=customer_id
+                customer_id=customer_id,
+                status_name=status_name
             )
             return Response(data, status=status.HTTP_200_OK)
         except Exception as e:
@@ -1214,6 +1231,13 @@ class OrderView(APIView):
                 order_obj, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+
+                # Optimized: Re-fetch with pre-fetches before sync to avoid N+1
+                order_obj = Order.objects.select_related(
+                    'order_status', 'customer_id', 'business_id', 'counter'
+                ).prefetch_related(
+                    Prefetch('items', queryset=OrderItem.objects.select_related('status', 'product_id'))
+                ).get(id=order_obj.id)
 
                 current_status_name = (order_obj.order_status.name.lower()
                                        if order_obj.order_status else "")
@@ -1370,19 +1394,14 @@ class ReorderSuggestionsView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        # Get low stock products
+        # Get low stock products using dynamic check
+        from django.db.models import F
         low_stock = Product.objects.filter(
             business_id=business,
-            is_low_stock=True
+            quantity__lte=F('reorder_level')
         )
 
-        if not low_stock.exists():
-            return Response({
-                "message": "No low stock items found.",
-                "suggestions": []
-            })
-
-        # Get suggestions from Apriori
+        # Get suggestions from Apriori (now handles missing rules gracefully)
         result = get_reorder_suggestions(business_id=business.id)
 
         if 'error' in result:
@@ -1610,18 +1629,28 @@ class SkillView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, business_id):
-        skills = Skill.objects.filter(business_id=business_id)
-        serializer = SkillSerializer(skills, many=True)
-        return Response({'status': 'success', 'data': serializer.data})
+        try:
+            skills = Skill.objects.filter(business_id=business_id)
+            serializer = SkillSerializer(skills, many=True)
+            return Response({'status': 'success', 'data': serializer.data})
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return Response({'error': str(e)}, status=500)
 
     def post(self, request, business_id):
-        data = request.data.copy()
-        data['business_id'] = business_id
-        serializer = SkillSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_201_CREATED)
-        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            data = request.data.copy()
+            data['business_id'] = business_id
+            serializer = SkillSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+            return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return Response({'error': str(e)}, status=500)
 
     def put(self, request, business_id, skill_id):
         try:
@@ -1648,9 +1677,14 @@ class EmployeeSkillView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, business_id, employee_id):
-        employee_skills = EmployeeSkill.objects.filter(employee__business_id=business_id, employee_id=employee_id)
-        serializer = EmployeeSkillSerializer(employee_skills, many=True)
-        return Response({'status': 'success', 'data': serializer.data})
+        try:
+            employee_skills = EmployeeSkill.objects.filter(employee__business_id=business_id, employee_id=employee_id)
+            serializer = EmployeeSkillSerializer(employee_skills, many=True)
+            return Response({'status': 'success', 'data': serializer.data})
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return Response({'error': str(e)}, status=500)
 
     def post(self, request, business_id, employee_id):
         data = request.data.copy()

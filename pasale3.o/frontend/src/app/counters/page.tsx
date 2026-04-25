@@ -53,8 +53,16 @@ export default function CountersPage() {
   const [completingId, setCompletingId] = useState<number | null>(null);
 
   useEffect(() => {
-    fetchCounters();
-    fetchStatuses();
+    // Parallelize initial data fetching
+    const init = async () => {
+      setLoading(true);
+      await Promise.all([
+        fetchCounters(false), // Don't set loading inside, we handle it here
+        fetchStatuses()
+      ]);
+      setLoading(false);
+    };
+    init();
   }, []);
 
   useEffect(() => {
@@ -63,15 +71,17 @@ export default function CountersPage() {
     }
   }, [selectedCounter]);
 
-  const fetchCounters = async () => {
+  const fetchCounters = async (showLoading = true) => {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       const data = await counterApi.getAll();
-      setCounters(data.results || data || []);
+      const results = data.results || data || [];
+      // Ensure we don't trigger unnecessary re-renders if data hasn't changed
+      setCounters(results);
     } catch (err: any) {
       setError('Failed to load counters');
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
@@ -87,11 +97,9 @@ export default function CountersPage() {
   const fetchPendingOrders = async (counterId: number) => {
     try {
       setLoadingOrders(true);
-      const data = await orderApi.getAll({ counterId });
-      // Filter only pending orders if backend doesn't do it
-      const orders = (data.results || data || []).filter((o: Order) =>
-        o.status.toLowerCase() === 'pending'
-      );
+      const data = await orderApi.getAll({ counterId, status: 'Pending' });
+      // Now the backend already filters for Pending orders
+      const orders = data.results || data || [];
       setPendingOrders(orders);
     } catch (err: any) {
       setError('Failed to load pending orders');

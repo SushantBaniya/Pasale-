@@ -145,12 +145,16 @@ export interface ApiOrderData {
 }
 
 export const orderApi = {
-  getAll: async (filters?: { counterId?: number | string, customerId?: number | string }): Promise<any> => {
+  getAll: async (filters?: { counterId?: number | string, customerId?: number | string, status?: string }): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
     let url = `/orders/b${bid}/`;
     if (filters?.counterId) url += `cntr${filters.counterId}/`;
     else if (filters?.customerId) url += `c${filters.customerId}/`;
+    
+    if (filters?.status) {
+      url += `?status=${filters.status}`;
+    }
     return apiClient.get(url);
   },
 

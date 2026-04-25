@@ -87,13 +87,11 @@ def get_reorder_suggestions(business_id):
     """
     rules, message = run_apriori(business_id)
 
-    if rules is None:
-        return {"error": message}
-
-    # Get currently low stock products using your existing model
+    # Get currently low stock products using dynamic check (quantity <= reorder_level)
+    from django.db.models import F
     low_stock_products = Product.objects.filter(
         business_id=business_id,
-        is_low_stock=True
+        quantity__lte=F('reorder_level')
     )
 
     suggestions = []
@@ -101,28 +99,29 @@ def get_reorder_suggestions(business_id):
     for product in low_stock_products:
         product_name = product.product_name
 
-        # Find rules where this product is in the antecedent
-        matched_rules = rules[
-            rules['antecedents'].apply(lambda x: product_name in x)
-        ]
-
+        # Find rules where this product is in the antecedent (if we have rules)
         related_items = []
-        for _, rule in matched_rules.iterrows():
-            consequents = list(rule['consequents'])
-            related_items.append({
-                'items': consequents,
-                'confidence': round(rule['confidence'], 2),
-                'lift': round(rule['lift'], 2)
-            })
+        if rules is not None:
+            matched_rules = rules[
+                rules['antecedents'].apply(lambda x: product_name in x)
+            ]
 
-        if related_items:
-            suggestions.append({
-                'low_stock_product': product_name,
-                'also_reorder': related_items
-            })
+            for _, rule in matched_rules.iterrows():
+                consequents = list(rule['consequents'])
+                related_items.append({
+                    'items': consequents,
+                    'confidence': round(rule['confidence'], 2),
+                    'lift': round(rule['lift'], 2)
+                })
+
+        # Always include the low stock product, even if no related items found
+        suggestions.append({
+            'low_stock_product': product_name,
+            'also_reorder': related_items
+        })
 
     return {
-        "message": message,
+        "message": message if rules is not None else "Not enough sales data for 'also reorder' patterns yet.",
         "suggestions": suggestions
     }
 

@@ -16,20 +16,27 @@ from api.serializers import OrderSerializer
 from orderCart.models import OrderCart
 
 
-def get_order(business_id, order_id=None, counter_id=None, customer_id=None):
+def get_order(business_id, order_id=None, counter_id=None, customer_id=None, status_name=None):
     try:
         if not business_id:
             raise ValueError("Business ID is required to fetch orders.")
 
-        # Base queryset filtered by business
-        orders = Order.objects.filter(business_id=business_id)
+        from django.db.models import Prefetch
+        # Base queryset filtered by business with optimized fetching
+        orders = Order.objects.filter(business_id=business_id).select_related(
+            'order_status', 'customer_id', 'business_id', 'counter'
+        ).prefetch_related(
+            Prefetch('items', queryset=OrderItem.objects.select_related('status', 'product_id'))
+        )
 
         if order_id:
             orders = orders.filter(id=order_id)
-        elif counter_id:
+        if counter_id:
             orders = orders.filter(counter_id=counter_id)
-        elif customer_id:
+        if customer_id:
             orders = orders.filter(customer_id=customer_id)
+        if status_name:
+            orders = orders.filter(order_status__name__iexact=status_name)
 
         # Order by creation date (newest first)
         orders = orders.order_by('-created_at')
@@ -205,10 +212,12 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
                     )
                 )
 
-        with transaction.atomic():
-            pending_order_status, _ = OrderStatus.objects.get_or_create(
-                name='Pending')
+        # Pre-fetch status outside transaction
+        pending_order_status = OrderStatus.objects.filter(name__iexact='Pending').first()
+        if not pending_order_status:
+            pending_order_status = OrderStatus.objects.create(name='Pending')
 
+        with transaction.atomic():
             order_obj = Order.objects.create(
                 customer_id_id=customer_id,
                 business_id_id=business_id,
@@ -225,9 +234,25 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
             created_items = OrderItem.objects.bulk_create(
                 order_item_objects) if order_item_objects else []
 
+            # Update product stock levels
+            for item in order_item_objects:
+                product = item.product_id  # This is the product object from product_map
+                if product:
+                    product.quantity = max(0, product.quantity - item.quantity)
+                    # Manually update is_low_stock since bulk_create/save might be skipped or needs explicit call
+                    product.is_low_stock = product.quantity <= product.reorder_level
+                    product.save(update_fields=['quantity', 'is_low_stock'])
+
             if has_customer:
                 OrderCart.objects.filter(
                     business_id=business_id, customer=str(customer_id)).delete()
+
+        # Refresh from DB with pre-fetches for the serializer to avoid N+1
+        order_obj = Order.objects.select_related(
+            'order_status', 'customer_id', 'business_id', 'counter'
+        ).prefetch_related(
+            Prefetch('items', queryset=OrderItem.objects.select_related('status', 'product_id'))
+        ).get(id=order_obj.id)
 
         response_data = OrderSerializer(order_obj).data
 

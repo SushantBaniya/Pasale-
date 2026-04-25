@@ -4,7 +4,7 @@ import { billingApi } from '../../utils/api';
 import { FiSearch, FiRefreshCcw, FiEye, FiShoppingBag, FiMapPin, FiTag, FiCalendar, FiPrinter, FiX } from 'react-icons/fi';
 
 export default function BillingPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [billings, setBillings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,6 @@ export default function BillingPage() {
   const [selectedBilling, setSelectedBilling] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [processing, setProcessing] = useState(false);
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -36,6 +35,13 @@ export default function BillingPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedBilling(null);
+    // Clear URL parameters so it doesn't pop up again
+    setSearchParams({});
   };
 
   useEffect(() => {
@@ -73,6 +79,7 @@ export default function BillingPage() {
     }
   }, [billings, searchParams]);
 
+
   const handlePayNow = async () => {
     if (!selectedBilling) return;
 
@@ -87,6 +94,102 @@ export default function BillingPage() {
     } finally {
       setProcessing(false);
     }
+  };
+
+  const handlePrint = () => {
+    if (!selectedBilling) return;
+
+    const printWindow = window.open('', '_blank', 'width=800,height=900');
+    if (!printWindow) return;
+
+    const itemsHtml = selectedBilling.items?.map((item: any) => `
+      <tr>
+        <td style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+          <div style="font-weight: 700; color: #0f172a;">${item.product_name || 'Item'}</div>
+          <div style="font-size: 11px; color: #64748b;">Qty: ${item.quantity} @ Rs. ${item.rate.toLocaleString()}</div>
+        </td>
+        <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a; border-bottom: 1px solid #f1f5f9;">
+          Rs. ${(item.total_price || item.quantity * item.rate).toLocaleString()}
+        </td>
+      </tr>
+    `).join('') || '<tr><td colspan="2" style="padding: 20px 0; text-align: center; color: #94a3b8;">No items found</td></tr>';
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Invoice #${selectedBilling.id}</title>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+            body { font-family: 'Inter', sans-serif; padding: 40px; color: #334155; }
+            .header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 40px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
+            .logo { font-size: 24px; font-weight: 900; color: #4f46e5; text-transform: uppercase; letter-spacing: 2px; }
+            .invoice-info { text-align: right; }
+            .invoice-id { font-size: 20px; font-weight: 900; color: #0f172a; }
+            .customer-section { margin-bottom: 40px; }
+            .section-title { font-size: 10px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+            .customer-name { font-size: 16px; font-weight: 700; color: #0f172a; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+            .totals-table { margin-left: auto; width: 300px; }
+            .total-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+            .grand-total { font-size: 20px; font-weight: 900; color: #4f46e5; border-top: 2px solid #f1f5f9; margin-top: 10px; padding-top: 10px; }
+            .footer { margin-top: 60px; text-align: center; font-size: 12px; color: #94a3b8; }
+            @media print { .print-btn { display: none; } body { padding: 0; } }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="logo">Pasale</div>
+            <div class="invoice-info">
+              <div class="invoice-id">INVOICE #${String(selectedBilling.id).padStart(6, '0')}</div>
+              <div style="font-size: 12px; font-weight: 600; color: #64748b; margin-top: 4px;">${new Date(selectedBilling.invoice_date).toLocaleDateString()}</div>
+            </div>
+          </div>
+
+          <div class="customer-section">
+            <div class="section-title">Billed To</div>
+            <div class="customer-name">${selectedBilling.party?.name || 'Walk-in Customer'}</div>
+            <div style="font-size: 13px; color: #64748b; margin-top: 4px;">${selectedBilling.address || 'Cash Transaction'}</div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left; padding-bottom: 12px; font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase; border-bottom: 2px solid #f1f5f9;">Description</th>
+                <th style="text-align: right; padding-bottom: 12px; font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase; border-bottom: 2px solid #f1f5f9;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsHtml}
+            </tbody>
+          </table>
+
+          <div class="totals-table">
+            <div class="total-row">
+              <span style="color: #64748b; font-weight: 600;">Subtotal</span>
+              <span style="font-weight: 700; color: #0f172a;">Rs. ${selectedBilling.sub_total.toLocaleString()}</span>
+            </div>
+            <div class="total-row">
+              <span style="color: #64748b; font-weight: 600;">Discount</span>
+              <span style="font-weight: 700; color: #10b981;">- Rs. ${selectedBilling.discount.toLocaleString()}</span>
+            </div>
+            <div class="total-row grand-total">
+              <span>Total Amount</span>
+              <span>Rs. ${selectedBilling.total_amount.toLocaleString()}</span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px;">Thank you for shopping at Pasale!</div>
+            <div>Please keep this receipt for your records.</div>
+          </div>
+
+          <script>
+            window.onload = function() { window.print(); setTimeout(() => { window.close(); }, 500); }
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
   };
 
   const filteredBillings = billings.filter((billing) => {
@@ -269,7 +372,7 @@ export default function BillingPage() {
                 </div>
               </div>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={closeModal}
                 className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-full hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors"
               >
                 <FiX className="w-6 h-6" />
@@ -351,12 +454,15 @@ export default function BillingPage() {
 
             <div className="p-4 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 flex justify-end gap-3">
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={closeModal}
                 className="px-6 py-2.5 rounded-lg font-bold text-slate-600 border border-gray-200 hover:bg-slate-50 dark:text-slate-300 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors"
               >
                 Close
               </button>
-              <button className="px-6 py-2.5 rounded-lg font-bold text-slate-600 border border-gray-200 hover:bg-slate-50 dark:text-slate-300 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors flex items-center gap-2">
+              <button 
+                onClick={handlePrint}
+                className="px-6 py-2.5 rounded-lg font-bold text-slate-600 border border-gray-200 hover:bg-slate-50 dark:text-slate-300 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
+              >
                 <FiPrinter className="w-4 h-4" /> Print Bill
               </button>
 
