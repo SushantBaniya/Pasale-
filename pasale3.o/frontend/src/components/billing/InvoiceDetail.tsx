@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiX, FiPrinter, FiDownload } from 'react-icons/fi';
+import { FiX, FiPrinter, FiDownload, FiCheck } from 'react-icons/fi';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Transaction, useDataStore } from '../../store/dataStore';
@@ -225,7 +225,7 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
             disabled={isPaid}
             className={isPaid ? 'opacity-50 cursor-not-allowed' : 'bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600 text-white'}
           >
-            {isPaid ? '✓ Paid' : 'Mark as Paid'}
+            {isPaid ? <><FiCheck className="w-4 h-4 mr-2 inline" /> Paid</> : 'Mark as Paid'}
           </Button>
         </div>
       </div>

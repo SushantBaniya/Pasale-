@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { FiDownload, FiUpload, FiPlus, FiSearch, FiFilter, FiMoreVertical, FiEye, FiTrash2 } from 'react-icons/fi';
+import { FiDownload, FiUpload, FiPlus, FiSearch, FiFilter, FiMoreVertical, FiEye, FiTrash2, FiFileText, FiCheck, FiClock, FiAlertTriangle, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card } from '../ui/Card';
@@ -156,7 +156,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
           )}
           borderColor="blue"
           onClick={() => setFilterStatus('unpaid')}
-          icon="📋"
+          icon={<FiFileText className="w-5 h-5" />}
           subtitle="Last update: Jan 24"
         />
         <KPICard
@@ -164,7 +164,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
           value={formatCurrency(totalPaid, language)}
           borderColor="green"
           onClick={() => setFilterStatus('paid')}
-          icon="✓"
+          icon={<FiCheck className="w-5 h-5" />}
           subtitle="Last update: Jan 24"
         />
         <KPICard
@@ -172,7 +172,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
           value={formatCurrency(totalUnpaid, language)}
           borderColor="amber"
           onClick={() => setFilterStatus('unpaid')}
-          icon="⏱️"
+          icon={<FiClock className="w-5 h-5" />}
           subtitle="Last update: Jan 24"
         />
         <KPICard
@@ -180,7 +180,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
           value={formatCurrency(totalOverdue, language)}
           borderColor="red"
           onClick={() => setFilterStatus('overdue')}
-          icon="⚠️"
+          icon={<FiAlertTriangle className="w-5 h-5" />}
           subtitle="Last update: Jan 24"
         />
       </div>
@@ -361,7 +361,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
               >
-                ←
+                <FiChevronLeft className="w-4 h-4" />
               </Button>
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 let pageNum: number;
@@ -397,7 +397,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
               >
-                →
+                <FiChevronRight className="w-4 h-4" />
               </Button>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FiX, FiCamera } from 'react-icons/fi';
+import { FiX, FiCamera, FiInfo } from 'react-icons/fi';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 
@@ -123,8 +123,9 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan, onClose 
 
         {/* Scanner Help */}
         <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-          <p className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
-            💡 How to scan:
+          <p className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-1.5">
+            <FiInfo className="w-4 h-4" />
+            How to scan:
           </p>
           <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
             <li>• Enter the product barcode/SKU from your inventory</li>

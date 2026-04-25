@@ -303,7 +303,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                   </div>
                   <div className="text-left">
                     <span className="font-bold text-gray-900 dark:text-gray-100 block">
-                      👤 Customer
+                      Customer
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                       Buys from you
@@ -330,7 +330,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                   </div>
                   <div className="text-left">
                     <span className="font-bold text-gray-900 dark:text-gray-100 block">
-                      🏢 Supplier
+                      Supplier
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                       You buy from
@@ -359,9 +359,9 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                   }`}
                 >
-                  {tab === 'basic' && '📋 Basic Info'}
-                  {tab === 'financial' && '💰 Financial Info'}
-                  {tab === 'additional' && '📝 Additional Info'}
+                  {tab === 'basic' && <><FiFileText className="inline mr-2" />Basic Info</>}
+                  {tab === 'financial' && <><FiCreditCard className="inline mr-2" />Financial Info</>}
+                  {tab === 'additional' && <><FiTag className="inline mr-2" />Additional Info</>}
                 </button>
               ))}
             </div>
@@ -683,7 +683,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-                        ⭐ {t('loyaltyPoints')}
+                        <FiCheckCircle className="inline mr-2" />{t('loyaltyPoints')}
                       </label>
                       <input
                         type="number"
@@ -701,7 +701,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                   <>
                     <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
                       <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-                        🏦 {t('bankDetails')}
+                        <FiHome className="inline mr-2" />{t('bankDetails')}
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
@@ -802,7 +802,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {isCustomer && (
                   <div>
                     <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-                      👥 {t('referredBy')}
+                      <FiUser className="inline mr-2" />{t('referredBy')}
                     </label>
                     <input
                       type="text"
@@ -817,7 +817,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Notes */}
                 <div>
                   <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">
-                    📝 {t('notesOptional')}
+                    <FiFileText className="inline mr-2" />{t('notesOptional')}
                   </label>
                   <textarea
                     value={formData.notes}

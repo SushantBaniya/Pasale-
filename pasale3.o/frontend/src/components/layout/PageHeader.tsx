@@ -72,7 +72,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
     return 'Good Evening';
   };
 
-  const displayTitle = dynamic ? `${getTimeGreeting()}, ${userName} 👋` : title;
+  const displayTitle = dynamic ? `${getTimeGreeting()}, ${userName}` : title;
 
   return (
     <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">

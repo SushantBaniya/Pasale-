@@ -21,18 +21,25 @@ import {
   FiUser,
   FiHash,
   FiTag,
-  FiAlertCircle
+  FiAlertCircle,
+  FiCoffee,
+  FiHome,
+  FiPackage,
+  FiTool,
+  FiSettings,
+  FiTruck,
 } from 'react-icons/fi';
+import { DynamicIcon } from '../../components/ui/DynamicIcon';
 
 type VerificationMethod = 'email' | 'phone' | null;
 
 const businessTypes = [
-  { id: 'retail', label: 'Retail Shop', icon: '🏪' },
-  { id: 'wholesale', label: 'Wholesale', icon: '🏭' },
-  { id: 'restaurant', label: 'Restaurant/Cafe', icon: '🍽️' },
-  { id: 'services', label: 'Services', icon: '🔧' },
-  { id: 'manufacturing', label: 'Manufacturing', icon: '⚙️' },
-  { id: 'other', label: 'Other', icon: '📦' },
+  { id: 'retail', label: 'Retail Shop', icon: 'home' },
+  { id: 'wholesale', label: 'Wholesale', icon: 'package' },
+  { id: 'restaurant', label: 'Restaurant/Cafe', icon: 'coffee' },
+  { id: 'services', label: 'Services', icon: 'tool' },
+  { id: 'manufacturing', label: 'Manufacturing', icon: 'settings' },
+  { id: 'other', label: 'Other', icon: 'truck' },
 ];
 
 export default function VerifyBusinessPage() {
@@ -306,8 +313,9 @@ export default function VerifyBusinessPage() {
 
               {/* Demo Hint */}
               <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg sm:rounded-xl p-2.5 sm:p-3 text-center">
-                <p className="text-yellow-700 dark:text-yellow-400 text-xs sm:text-sm">
-                  💡 Demo OTP: <span className="font-bold">123456</span>
+                <p className="text-yellow-700 dark:text-yellow-400 text-xs sm:text-sm flex items-center justify-center gap-1.5">
+                  <FiAlertCircle className="w-4 h-4" />
+                  Demo OTP: <span className="font-bold">123456</span>
                 </p>
               </div>
 
@@ -446,7 +454,7 @@ export default function VerifyBusinessPage() {
                               : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-700 text-gray-600 dark:text-gray-400'
                           }`}
                         >
-                          <span className="text-lg sm:text-xl">{type.icon}</span>
+                          <DynamicIcon name={type.icon} className="text-lg sm:text-xl mx-auto mb-1" />
                           <p className="text-[10px] sm:text-xs font-medium mt-0.5 sm:mt-1 truncate">{type.label}</p>
                         </button>
                       ))}

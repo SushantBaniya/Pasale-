@@ -131,7 +131,7 @@ export const KPICard: React.FC<KPICardProps> = ({
             }`}>
             <span className={`inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full text-[10px] sm:text-xs ${changeType === 'positive' ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-red-100 dark:bg-red-900/30'
               }`}>
-              {changeType === 'positive' ? '↑' : '↓'}
+              {changeType === 'positive' ? <FiTrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> : <FiTrendingDown className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
             </span>
             <span className="truncate">{n(Math.abs(change))}% from last period</span>
           </div>

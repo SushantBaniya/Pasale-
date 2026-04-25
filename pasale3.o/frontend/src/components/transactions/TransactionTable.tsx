@@ -518,15 +518,17 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
               <span className="font-semibold text-gray-900 dark:text-gray-100">{transactions.length}</span> transactions
             </span>
             <div className="flex items-center gap-4">
-              <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                ↑ {formatCurrency(
+              <span className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                <FiTrendingUp className="w-3.5 h-3.5" />
+                {formatCurrency(
                   filteredTransactions
                     .filter(t => ['sales', 'selling', 'payment_in', 'income'].includes(t.type))
                     .reduce((sum, t) => sum + (t.totalAmount || t.amount || 0), 0)
                 )}
               </span>
-              <span className="text-red-600 dark:text-red-400 font-medium">
-                ↓ {formatCurrency(
+              <span className="text-red-600 dark:text-red-400 font-medium flex items-center gap-1">
+                <FiTrendingDown className="w-3.5 h-3.5" />
+                {formatCurrency(
                   filteredTransactions
                     .filter(t => !['sales', 'selling', 'payment_in', 'income', 'quotation'].includes(t.type))
                     .reduce((sum, t) => sum + (t.totalAmount || t.amount || 0), 0)

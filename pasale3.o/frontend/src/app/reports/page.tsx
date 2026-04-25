@@ -33,6 +33,8 @@ import {
   FiChevronRight,
   FiRefreshCw,
   FiShare2,
+  FiGlobe,
+  FiEdit,
   FiMail,
   FiArrowUpRight,
 } from 'react-icons/fi';
@@ -546,28 +548,36 @@ export default function ReportsPage() {
                       onClick={() => handleDownload('html')}
                       className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-purple-900/30 border-b border-gray-100 dark:border-gray-700 transition-colors"
                     >
-                      <span className="w-6 h-6 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 text-xs">🌐</span>
+                      <span className="w-6 h-6 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 text-xs">
+                        <FiGlobe className="w-3.5 h-3.5" />
+                      </span>
                       <span>HTML Report</span>
                     </button>
                     <button
                       onClick={() => handleDownload('pdf')}
                       className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-red-900/30 border-b border-gray-100 dark:border-gray-700 transition-colors"
                     >
-                      <span className="w-6 h-6 rounded-lg bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-red-600 dark:text-red-400 text-xs">📄</span>
+                      <span className="w-6 h-6 rounded-lg bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-red-600 dark:text-red-400 text-xs">
+                        <FiFileText className="w-3.5 h-3.5" />
+                      </span>
                       <span>PDF (Print)</span>
                     </button>
                     <button
                       onClick={() => handleDownload('word')}
                       className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 border-b border-gray-100 dark:border-gray-700 transition-colors"
                     >
-                      <span className="w-6 h-6 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xs">📝</span>
+                      <span className="w-6 h-6 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xs">
+                        <FiEdit className="w-3.5 h-3.5" />
+                      </span>
                       <span>Word (.docx)</span>
                     </button>
                     <button
                       onClick={() => handleDownload('excel')}
                       className="flex items-center gap-3 w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors"
                     >
-                      <span className="w-6 h-6 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center text-green-600 dark:text-green-400 text-xs">📊</span>
+                      <span className="w-6 h-6 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center text-green-600 dark:text-green-400 text-xs">
+                        <FiBarChart2 className="w-3.5 h-3.5" />
+                      </span>
                       <span>Excel (.xlsx)</span>
                     </button>
                   </div>

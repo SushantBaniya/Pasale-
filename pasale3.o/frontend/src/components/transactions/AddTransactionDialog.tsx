@@ -21,6 +21,7 @@ import {
   FiPercent,
   FiHash
 } from 'react-icons/fi';
+import { DynamicIcon } from '../ui/DynamicIcon';
 
 export type TransactionMode = 'general' | 'payment_in' | 'payment_out' | 'purchase' | 'sales_return' | 'purchase_return' | 'quotation' | 'expense' | 'income';
 
@@ -79,29 +80,29 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const incomeCategories = [
-    { value: 'sales', label: t('categories.sales'), icon: '💰' },
-    { value: 'services', label: t('categories.services'), icon: '🛠️' },
-    { value: 'interest', label: t('categories.interest'), icon: '📈' },
-    { value: 'other', label: t('categories.otherIncome'), icon: '📦' },
+    { value: 'sales', label: t('categories.sales'), icon: 'dollar-sign' },
+    { value: 'services', label: t('categories.services'), icon: 'settings' },
+    { value: 'interest', label: t('categories.interest'), icon: 'trending-up' },
+    { value: 'other', label: t('categories.otherIncome'), icon: 'package' },
   ];
 
   const expenseCategories = [
-    { value: 'office', label: t('categories.officeSupplies'), icon: '📎' },
-    { value: 'rent', label: t('categories.rent'), icon: '🏠' },
-    { value: 'utilities', label: t('categories.utilities'), icon: '💡' },
-    { value: 'transport', label: t('categories.transport'), icon: '🚗' },
-    { value: 'marketing', label: t('categories.marketing'), icon: '📢' },
-    { value: 'salary', label: 'Salary & Wages', icon: '👥' },
-    { value: 'inventory', label: 'Inventory', icon: '📦' },
-    { value: 'other', label: t('categories.otherExpenses'), icon: '📋' },
+    { value: 'office', label: t('categories.officeSupplies'), icon: 'paperclip' },
+    { value: 'rent', label: t('categories.rent'), icon: 'home' },
+    { value: 'utilities', label: t('categories.utilities'), icon: 'zap' },
+    { value: 'transport', label: t('categories.transport'), icon: 'truck' },
+    { value: 'marketing', label: t('categories.marketing'), icon: 'megaphone' },
+    { value: 'salary', label: 'Salary & Wages', icon: 'users' },
+    { value: 'inventory', label: 'Inventory', icon: 'package' },
+    { value: 'other', label: t('categories.otherExpenses'), icon: 'clipboard' },
   ];
 
   const paymentMethods = [
-    { value: 'cash', label: t('dialog.cash'), icon: '💵' },
-    { value: 'bank', label: t('dialog.bankTransfer'), icon: '🏦' },
-    { value: 'card', label: t('dialog.card'), icon: '💳' },
-    { value: 'cheque', label: t('dialog.cheque'), icon: '📝' },
-    { value: 'digital', label: t('dialog.digitalWallet'), icon: '📱' },
+    { value: 'cash', label: t('dialog.cash'), icon: 'dollar-sign' },
+    { value: 'bank', label: t('dialog.bankTransfer'), icon: 'landmark' },
+    { value: 'card', label: t('dialog.card'), icon: 'credit-card' },
+    { value: 'cheque', label: t('dialog.cheque'), icon: 'file-text' },
+    { value: 'digital', label: t('dialog.digitalWallet'), icon: 'smartphone' },
   ];
 
   const categories = type === 'income' ? incomeCategories : expenseCategories;
@@ -388,7 +389,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                         : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-gray-400'
                         }`}
                     >
-                      <span className="text-sm">{cat.icon}</span>
+                      <DynamicIcon name={cat.icon} className="text-sm" />
                       <span className="truncate">{cat.label}</span>
                     </button>
                   ))}
@@ -413,7 +414,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                         : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-gray-400'
                         }`}
                     >
-                      <span className="text-sm">{method.icon}</span>
+                      <DynamicIcon name={method.icon} className="text-sm" />
                       <span className="truncate">{method.label}</span>
                     </button>
                   ))}

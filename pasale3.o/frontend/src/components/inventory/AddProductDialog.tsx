@@ -723,7 +723,10 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
 
                 {/* Quick Summary */}
                 <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-                  <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-4">📋 Product Summary</h3>
+                  <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
+                    <FiList className="w-5 h-5" />
+                    Product Summary
+                  </h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div className="p-3 bg-white dark:bg-gray-800 rounded-lg">
                       <p className="text-gray-500">Name</p>

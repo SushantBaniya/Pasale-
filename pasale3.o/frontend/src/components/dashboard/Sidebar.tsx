@@ -49,6 +49,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
     { path: '/billing', icon: RupeeIcon, labelKey: 'sidebar.billing' },
     { path: '/reports', icon: FiFileText, labelKey: 'sidebar.businessReports' },
     { path: '/expense-monitoring', icon: FiTrendingDown, labelKey: 'sidebar.expenseMonitoring' },
+    { path: '/counters', icon: FiGrid, labelKey: 'sidebar.counters' },
     { path: '/settings', icon: FiSettings, labelKey: 'sidebar.settings' },
   ];
 

@@ -40,7 +40,7 @@ export const exportToWord = async (data: ExportData) => {
           new Paragraph({
             children: [
               new TextRun({
-                text: `📊 ${data.title}`,
+                text: `${data.title}`,
                 bold: true,
                 size: 28,
               }),
@@ -570,7 +570,7 @@ export const exportToPDF = (data: ExportData) => {
                 ${[companyAddress, companyPhone, companyEmail].filter(Boolean).join(' | ')}
               </div>
             ` : ''}
-            <div class="report-title">📊 ${data.title}</div>
+            <div class="report-title">${data.title}</div>
             <div class="date-range-box">
               <strong>Report Period:</strong> ${data.dateRange.startDate} to ${data.dateRange.endDate}
             </div>
@@ -1081,7 +1081,7 @@ export const exportToHTML = (data: ExportData) => {
   <div class="report-container">
     <!-- Action Buttons -->
     <div class="action-buttons">
-      <button onclick="window.print()">🖨️ Print Report</button>
+      <button onclick="window.print()">Print Report</button>
       <button onclick="window.close()">✕ Close</button>
     </div>
     
@@ -1093,7 +1093,7 @@ export const exportToHTML = (data: ExportData) => {
           ${[companyAddress, companyPhone, companyEmail].filter(Boolean).join(' | ')}
         </div>
       ` : ''}
-      <div class="report-title">📊 ${data.title}</div>
+      <div class="report-title">${data.title}</div>
       <div class="date-range-box">
         <strong>Report Period:</strong> ${data.dateRange.startDate} to ${data.dateRange.endDate}
       </div>

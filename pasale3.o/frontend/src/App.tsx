@@ -29,6 +29,8 @@ import TodaysSalesPage from './app/dashboard/todays-sales/page';
 import LedgerPage from './app/ledger/[partyId]/page';
 import PartyDetailPage from './app/parties/[partyId]/page';
 import ProfilePage from './app/profile/page';
+import OrderCartPage from './app/order-cart/page';
+import CountersPage from './app/counters/page';
 
 // Route Guards - Public routes (welcome, login, forgot-password)
 const PublicRoute = () => {
@@ -102,6 +104,8 @@ function App() {
             <Route path="/dashboard/kpi/:type" element={<KPIDetailPage />} />
             <Route path="/dashboard/todays-sales" element={<TodaysSalesPage />} />
             <Route path="/ledger/:partyId" element={<LedgerPage />} />
+            <Route path="/order-cart" element={<OrderCartPage />} />
+            <Route path="/counters" element={<CountersPage />} />
           </Route>
         </Route>
 

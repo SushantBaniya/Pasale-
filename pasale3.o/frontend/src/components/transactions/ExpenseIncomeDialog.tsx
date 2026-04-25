@@ -20,6 +20,7 @@ import {
   INCOME_CATEGORIES,
   generateTransactionNumber,
 } from './types';
+import { DynamicIcon } from '../ui/DynamicIcon';
 
 interface ExpenseIncomeDialogProps {
   isOpen: boolean;
@@ -222,7 +223,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-gray-400'
                   }`}
                 >
-                  <span className="text-lg">{cat.icon}</span>
+                  <DynamicIcon name={cat.icon} className="text-xl" />
                   <span className="truncate w-full text-center">{cat.label}</span>
                 </button>
               ))}
@@ -300,7 +301,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-gray-400'
                   }`}
                 >
-                  <span>{mode.icon}</span>
+                  <DynamicIcon name={mode.icon} className="w-4 h-4" />
                   <span>{mode.label}</span>
                 </button>
               ))}

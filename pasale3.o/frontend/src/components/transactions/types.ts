@@ -157,41 +157,41 @@ export interface ReturnFormData {
 
 // Expense Categories
 export const EXPENSE_CATEGORIES = [
-  { value: 'rent', label: 'Rent', icon: '🏠' },
-  { value: 'utilities', label: 'Utilities', icon: '💡' },
-  { value: 'salary', label: 'Salary & Wages', icon: '👥' },
-  { value: 'inventory', label: 'Inventory', icon: '📦' },
-  { value: 'transport', label: 'Transport', icon: '🚗' },
-  { value: 'food', label: 'Food & Beverages', icon: '🍽️' },
-  { value: 'office', label: 'Office Supplies', icon: '📎' },
-  { value: 'phone', label: 'Phone & Internet', icon: '📱' },
-  { value: 'marketing', label: 'Marketing', icon: '📢' },
-  { value: 'maintenance', label: 'Maintenance', icon: '🔧' },
-  { value: 'insurance', label: 'Insurance', icon: '🛡️' },
-  { value: 'taxes', label: 'Taxes & Fees', icon: '📋' },
-  { value: 'other', label: 'Other', icon: '📝' },
+  { value: 'rent', label: 'Rent', icon: 'home' },
+  { value: 'utilities', label: 'Utilities', icon: 'zap' },
+  { value: 'salary', label: 'Salary & Wages', icon: 'users' },
+  { value: 'inventory', label: 'Inventory', icon: 'package' },
+  { value: 'transport', label: 'Transport', icon: 'truck' },
+  { value: 'food', label: 'Food & Beverages', icon: 'coffee' },
+  { value: 'office', label: 'Office Supplies', icon: 'paperclip' },
+  { value: 'phone', label: 'Phone & Internet', icon: 'smartphone' },
+  { value: 'marketing', label: 'Marketing', icon: 'megaphone' },
+  { value: 'maintenance', label: 'Maintenance', icon: 'tool' },
+  { value: 'insurance', label: 'Insurance', icon: 'shield' },
+  { value: 'taxes', label: 'Taxes & Fees', icon: 'clipboard' },
+  { value: 'other', label: 'Other', icon: 'edit' },
 ];
 
 // Income Categories
 export const INCOME_CATEGORIES = [
-  { value: 'sales', label: 'Sales Revenue', icon: '💰' },
-  { value: 'services', label: 'Service Income', icon: '🛠️' },
-  { value: 'interest', label: 'Interest Income', icon: '📈' },
-  { value: 'commission', label: 'Commission', icon: '💵' },
-  { value: 'rental', label: 'Rental Income', icon: '🏢' },
-  { value: 'dividend', label: 'Dividends', icon: '📊' },
-  { value: 'refund', label: 'Refunds', icon: '↩️' },
-  { value: 'other', label: 'Other Income', icon: '📦' },
+  { value: 'sales', label: 'Sales Revenue', icon: 'dollar-sign' },
+  { value: 'services', label: 'Service Income', icon: 'settings' },
+  { value: 'interest', label: 'Interest Income', icon: 'trending-up' },
+  { value: 'commission', label: 'Commission', icon: 'dollar-sign' },
+  { value: 'rental', label: 'Rental Income', icon: 'home' },
+  { value: 'dividend', label: 'Dividends', icon: 'bar-chart' },
+  { value: 'refund', label: 'Refunds', icon: 'rotate-ccw' },
+  { value: 'other', label: 'Other Income', icon: 'package' },
 ];
 
 // Payment Modes
 export const PAYMENT_MODES = [
-  { value: 'cash', label: 'Cash', icon: '💵' },
-  { value: 'bank', label: 'Bank Transfer', icon: '🏦' },
-  { value: 'upi', label: 'UPI', icon: '📱' },
-  { value: 'card', label: 'Card', icon: '💳' },
-  { value: 'cheque', label: 'Cheque', icon: '📝' },
-  { value: 'credit', label: 'Credit', icon: '📋' },
+  { value: 'cash', label: 'Cash', icon: 'dollar-sign' },
+  { value: 'bank', label: 'Bank Transfer', icon: 'landmark' },
+  { value: 'upi', label: 'UPI', icon: 'smartphone' },
+  { value: 'card', label: 'Card', icon: 'credit-card' },
+  { value: 'cheque', label: 'Cheque', icon: 'file-text' },
+  { value: 'credit', label: 'Credit', icon: 'clipboard' },
 ];
 
 // Transaction Type Config

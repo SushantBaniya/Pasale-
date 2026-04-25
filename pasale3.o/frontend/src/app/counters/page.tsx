@@ -1,0 +1,179 @@
+import React, { useState, useEffect } from 'react';
+import { counterApi } from '../../utils/api';
+import { Button } from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
+import { Card } from '../../components/ui/Card';
+import { FiPlus, FiMonitor, FiTrash2, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+
+interface Counter {
+  id: number;
+  counter_number: number;
+  description: string;
+  is_active: boolean;
+}
+
+export default function CountersPage() {
+  const [counters, setCounters] = useState<Counter[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [showAdd, setShowAdd] = useState(false);
+  const [formData, setFormData] = useState({
+    counter_number: '',
+    description: ''
+  });
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetchCounters();
+  }, []);
+
+  const fetchCounters = async () => {
+    try {
+      setLoading(true);
+      const data = await counterApi.getAll();
+      setCounters(data.results || data || []);
+    } catch (err: any) {
+      setError('Failed to load counters');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddCounter = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.counter_number) {
+      setError('Counter number is required');
+      return;
+    }
+
+    try {
+      setSaving(true);
+      setError('');
+      await counterApi.create({
+        counter_number: parseInt(formData.counter_number),
+        description: formData.description
+      });
+      setFormData({ counter_number: '', description: '' });
+      setShowAdd(false);
+      fetchCounters();
+    } catch (err: any) {
+      setError(err.message || 'Failed to create counter');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Counters</h1>
+          <p className="text-sm text-gray-500">Manage your business counters and points of sale</p>
+        </div>
+        <Button 
+          onClick={() => setShowAdd(true)}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2"
+        >
+          <FiPlus /> Add Counter
+        </Button>
+      </div>
+
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl flex items-center gap-3 animate-in slide-in-from-top-2">
+          <FiAlertCircle className="shrink-0" />
+          <p className="text-sm font-medium">{error}</p>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <div className="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+        </div>
+      ) : counters.length === 0 ? (
+        <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 bg-gray-50">
+          <FiMonitor className="w-16 h-16 text-gray-200 mb-4" />
+          <h3 className="text-lg font-bold text-gray-900 mb-2">No counters found</h3>
+          <p className="text-gray-500 max-w-sm mb-6">You haven't added any counters yet. Add one to start managing your orders by counter.</p>
+          <Button onClick={() => setShowAdd(true)} variant="outline">
+            Create First Counter
+          </Button>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {counters.map(counter => (
+            <Card key={counter.id} className="p-6 hover:shadow-lg transition-shadow border-0 shadow-sm bg-white group">
+              <div className="flex items-start justify-between mb-4">
+                <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                  <FiMonitor className="w-6 h-6" />
+                </div>
+                <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${counter.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                  {counter.is_active ? 'ACTIVE' : 'INACTIVE'}
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-1">Counter {counter.counter_number}</h3>
+              <p className="text-sm text-gray-500 mb-6">{counter.description || 'No description provided'}</p>
+              <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+                <span className="text-xs text-gray-400 font-medium">COUNTER ID: #{counter.id}</span>
+                <button className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50">
+                  <FiTrash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Add Counter Modal */}
+      {showAdd && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <Card className="w-full max-w-md p-0 overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
+            <div className="p-6 border-b bg-indigo-600 text-white flex items-center justify-between">
+              <h2 className="text-lg font-bold">Add New Counter</h2>
+              <button onClick={() => setShowAdd(false)} className="hover:bg-white/20 p-1.5 rounded-lg transition-colors">
+                <FiPlus className="rotate-45 w-5 h-5" />
+              </button>
+            </div>
+            <form onSubmit={handleAddCounter} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Counter Number</label>
+                <Input 
+                  type="number" 
+                  value={formData.counter_number}
+                  onChange={(e) => setFormData({ ...formData, counter_number: e.target.value })}
+                  placeholder="e.g. 1"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+                <textarea 
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  placeholder="Optional description (e.g. First Floor Counter)"
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 focus:outline-none focus:border-indigo-600 resize-none h-32"
+                />
+              </div>
+              <div className="flex gap-3 pt-2">
+                <Button 
+                  type="button" 
+                  variant="secondary" 
+                  className="flex-1"
+                  onClick={() => setShowAdd(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit" 
+                  className="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white"
+                  disabled={saving}
+                >
+                  {saving ? 'Creating...' : 'Create Counter'}
+                </Button>
+              </div>
+            </form>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+}

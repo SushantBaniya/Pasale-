@@ -43,7 +43,7 @@ export default function WelcomePage() {
         {/* Logo/Brand */}
         <div className="mb-3 sm:mb-4">
           <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
-            🇳🇵 Made for Nepali Businesses
+            Made for Nepali Businesses
           </span>
         </div>
 

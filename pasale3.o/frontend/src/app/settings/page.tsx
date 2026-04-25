@@ -279,8 +279,8 @@ export default function SettingsPage() {
             onChange={(e) => updateGeneralSettings({ language: e.target.value as 'en' | 'np' })}
             className="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-transparent rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-600 font-medium transition-all"
           >
-            <option value="en">🇺🇸 English</option>
-            <option value="np">🇳🇵 नेपाली</option>
+            <option value="en">English</option>
+            <option value="np">नेपाली</option>
           </select>
         </div>
       </Card>
@@ -425,7 +425,7 @@ export default function SettingsPage() {
               <label className="block text-gray-700 dark:text-gray-400 text-sm font-medium mb-1.5">Your Phone Number</label>
               <div className="flex">
                 <span className="bg-gray-200 dark:bg-gray-600 border-transparent rounded-l-xl px-4 py-2 text-gray-700 dark:text-gray-300 flex items-center text-sm font-medium">
-                  🇳🇵 +977
+                  +977
                 </span>
                 <Input
                   value={accountForm.phone}
@@ -735,11 +735,19 @@ export default function SettingsPage() {
           <div className="bg-gray-700/50 rounded-lg p-4 max-w-md mx-auto mb-6">
             <h4 className="text-white font-medium mb-2">Included Features:</h4>
             <ul className="text-gray-400 text-sm space-y-1">
-              <li>✓ Basic Inventory Management</li>
-              <li>✓ Basic Billing & Invoicing</li>
-              <li>✓ Basic Reports</li>
-              <li>✓ Up to 100 Products</li>
-              <li>✓ Up to 50 Parties</li>
+              <li className="flex items-center gap-2">
+                <FiCheck className="text-green-500" /> Basic Inventory Management
+              </li>
+              <li className="flex items-center gap-2">
+                <FiCheck className="text-green-500" /> Basic Billing & Invoicing
+              </li>
+              <li className="flex items-center gap-2">
+                <FiCheck className="text-green-500" /> Basic Reports
+              </li>
+              <li className="flex items-center gap-2">
+                <FiCheck className="text-green-500" /> 1 User Account
+              </li>
+              <li>Up to 50 Parties</li>
             </ul>
           </div>
           <Button className="bg-emerald-500 hover:bg-emerald-600">

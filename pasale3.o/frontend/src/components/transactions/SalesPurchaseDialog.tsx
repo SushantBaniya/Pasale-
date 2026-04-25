@@ -14,7 +14,10 @@ import {
   FiDollarSign,
   FiCheck,
   FiSearch,
+  FiClock,
+  FiCircle,
 } from 'react-icons/fi';
+import { DynamicIcon } from '../ui/DynamicIcon';
 import {
   TransactionItem,
   PaymentStatus,
@@ -485,7 +488,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                           : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-blue-400'
                       }`}
                     >
-                      <span>{mode.icon}</span>
+                      <DynamicIcon name={mode.icon} className="w-4 h-4" />
                       <span>{mode.label}</span>
                     </button>
                   ))}
@@ -570,7 +573,9 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                       ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
                       : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                   }`}>
-                    {paymentStatus === 'paid' ? '✓ Fully Paid' : paymentStatus === 'partial' ? '◐ Partially Paid' : '○ Unpaid'}
+                    {paymentStatus === 'paid' && <><FiCheck className="inline mr-1" /> Fully Paid</>}
+                    {paymentStatus === 'partial' && <><FiClock className="inline mr-1" /> Partially Paid</>}
+                    {paymentStatus === 'unpaid' && <><FiCircle className="inline mr-1" /> Unpaid</>}
                   </span>
                 </div>
               </div>
