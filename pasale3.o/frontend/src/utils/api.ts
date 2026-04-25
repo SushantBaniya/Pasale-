@@ -309,6 +309,23 @@ export const businessApi = {
   }
 };
 
+// ================================
+// REPORT API
+// ================================
+
+export const reportApi = {
+  getSummary: async (params?: { start_date?: string, end_date?: string }): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    let url = `/reports/summary/b${bid}/`;
+    if (params) {
+      const query = new URLSearchParams(params as any).toString();
+      if (query) url += `?${query}`;
+    }
+    return apiClient.get(url);
+  },
+};
+
 export default {
   party: partyApi,
   product: productApi,
@@ -320,4 +337,5 @@ export default {
   scheduler: schedulerApi,
   inventory: inventoryApi,
   business: businessApi,
+  report: reportApi,
 };
