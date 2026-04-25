@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CounterView, EmployeeView, OrderView, OrderStatusView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView, DepartmentView
+from .views import CounterView, EmployeeView, OrderView, ManualAssignView, OrderStatusView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView, DepartmentView, SkillView, EmployeeSkillView, ShiftCRUDView
 from .views_reports import BusinessSummaryView
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -41,11 +41,28 @@ urlpatterns = [
     path('employee/b<int:business_id>/e<int:employee_id>/',
          EmployeeView.as_view(), name='Employee-list-detail'),
 
+    path('skills/b<int:business_id>/',
+         SkillView.as_view(), name='skill-list-create'),
+    path('skills/b<int:business_id>/s<int:skill_id>/',
+         SkillView.as_view(), name='skill-detail'),
+
+    path('employee-skills/b<int:business_id>/e<int:employee_id>/',
+         EmployeeSkillView.as_view(), name='employee-skill-list-create'),
+    path('employee-skills/b<int:business_id>/e<int:employee_id>/s<int:skill_id>/',
+         EmployeeSkillView.as_view(), name='employee-skill-detail'),
+
+    path('shifts/b<int:business_id>/',
+         ShiftCRUDView.as_view(), name='shift-list-create'),
+    path('shifts/b<int:business_id>/s<int:shift_id>/',
+         ShiftCRUDView.as_view(), name='shift-detail'),
+
     path('departments/b<int:business_id>/',
          DepartmentView.as_view(), name='department-list-create'),
 
     path('scheduler/b<int:business_id>/',
          StaffSchedulerView.as_view(), name='scheduler-get-shifts'),
+    path('scheduler/schedule/',
+         StaffSchedulerView.as_view(), name='scheduler-run'),
 
     path('counters/b<int:business_id>/',
          CounterView.as_view(), name='counter-list-create'),
@@ -92,5 +109,11 @@ urlpatterns = [
         'reports/summary/b<int:business_id>/',
         BusinessSummaryView.as_view(),
         name='business-summary'
+    ),
+
+    path(
+        'scheduler/shift/<int:shift_id>/assign/',
+        ManualAssignView.as_view(),
+        name='manual-assign'
     ),
 ]

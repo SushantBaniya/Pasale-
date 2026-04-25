@@ -144,6 +144,7 @@ class WSMStaffScheduler:
                     "shift":    shift,
                     "employee": best_employee,
                     "score":    best_score,
+                    "all_rankings": rankings, 
                     "rankings": [
                         {"employee": e.name, "score": s}
                         for e, s in rankings
@@ -180,6 +181,10 @@ class WSMStaffScheduler:
                 "end_time":   str(shift.end_time),
                 "assigned":   employee.name,
                 "score":      entry["score"],
+                "rankings": [
+        {"employee": e.name, "employee_id": e.id, "score": s}
+        for e, s in entry.get("all_rankings", [])
+    ],
             })
 
         return {

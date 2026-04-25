@@ -7,6 +7,19 @@ const getBusinessId = () => {
   return Number(localStorage.getItem("business_id")) || 1;
 };
 
+const getToken = () => {
+  if (typeof window === "undefined") return null;
+  const directToken = localStorage.getItem("auth_token");
+  if (directToken) return directToken;
+  const accessToken = localStorage.getItem("access_token");
+  if (accessToken) return accessToken;
+  const authStorage = localStorage.getItem("auth-storage");
+  if (authStorage) {
+    try { return JSON.parse(authStorage).state?.accessToken || null; } catch {}
+  }
+  return null;
+};
+
 const api = {
   getEmployees: () =>
     fetch(`${API_BASE}/employee/b${getBusinessId()}/`).then(async (r) => {
@@ -41,15 +54,144 @@ const api = {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...payload, business_id: getBusinessId() }),
     }).then(async (r) => { const res = await r.json().catch(() => ({})); if (!r.ok) throw res; return res; }),
-  getDepartments: () =>
-    fetch(`${API_BASE}/departments/b${getBusinessId()}/`).then(async (r) => {
+  getDepartments: () => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/departments/b${getBusinessId()}/`, { headers }).then(async (r) => {
       if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to fetch departments"; }
       return r.json();
-    }),
+    });
+  },
   createDepartment: (name) =>
     fetch(`${API_BASE}/departments/b${getBusinessId()}/`, {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name }),
     }).then(async (r) => { const res = await r.json().catch(() => ({})); if (!r.ok) throw res; return res; }),
+  getUnscheduledShifts: () => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/scheduler/b${getBusinessId()}/`, { headers }).then(async (r) => {
+      if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to fetch shifts"; }
+      return r.json();
+    });
+  },
+  runWSMScheduler: (payload) => {
+    const token = getToken();
+    const headers = {
+      "Content-Type": "application/json",
+      ...(token && token !== "null" ? { Authorization: `Bearer ${token}` } : {}),
+    };
+    return fetch(`${API_BASE}/scheduler/schedule/`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        business_id: getBusinessId(),
+        ...payload,
+      }),
+    }).then(async (r) => {
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok) throw res;
+      return res;
+    });
+  },
+  manualAssign: (shiftId, employeeId) => {
+    const token = getToken();
+    const headers = {
+      "Content-Type": "application/json",
+      ...(token && token !== "null" ? { Authorization: `Bearer ${token}` } : {}),
+    };
+    return fetch(`${API_BASE}/scheduler/shift/${shiftId}/assign/`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ employee_id: employeeId }),
+    }).then(async (r) => {
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok) throw res;
+      return res;
+    });
+  },
+  deleteShift: (id) => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/shifts/b${getBusinessId()}/s${id}/`, { method: "DELETE", headers }).then(async (r) => {
+      if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to delete shift"; }
+      return r.json();
+    });
+  },
+  getSkills: () => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/skills/b${getBusinessId()}/`, { headers }).then(async (r) => {
+      if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to fetch skills"; }
+      return r.json();
+    });
+  },
+  createSkill: (data) => {
+    const token = getToken();
+    const headers = { "Content-Type": "application/json", ...(token && token !== "null" ? { Authorization: `Bearer ${token}` } : {}) };
+    return fetch(`${API_BASE}/skills/b${getBusinessId()}/`, { method: "POST", headers, body: JSON.stringify(data) }).then(async (r) => {
+      const res = await r.json().catch(() => ({})); if (!r.ok) throw res; return res;
+    });
+  },
+  updateSkill: (id, data) => {
+    const token = getToken();
+    const headers = { "Content-Type": "application/json", ...(token && token !== "null" ? { Authorization: `Bearer ${token}` } : {}) };
+    return fetch(`${API_BASE}/skills/b${getBusinessId()}/s${id}/`, { method: "PUT", headers, body: JSON.stringify(data) }).then(async (r) => {
+      const res = await r.json().catch(() => ({})); if (!r.ok) throw res; return res;
+    });
+  },
+  deleteSkill: (id) => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/skills/b${getBusinessId()}/s${id}/`, { method: "DELETE", headers }).then(async (r) => {
+      if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to delete skill"; }
+      return r.json();
+    });
+  },
+  getEmployeeSkills: (employeeId) => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/employee-skills/b${getBusinessId()}/e${employeeId}/`, { headers }).then(async (r) => {
+      if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to fetch employee skills"; }
+      return r.json();
+    });
+  },
+  assignEmployeeSkill: (employeeId, data) => {
+    const token = getToken();
+    const headers = { "Content-Type": "application/json", ...(token && token !== "null" ? { Authorization: `Bearer ${token}` } : {}) };
+    return fetch(`${API_BASE}/employee-skills/b${getBusinessId()}/e${employeeId}/`, { method: "POST", headers, body: JSON.stringify(data) }).then(async (r) => {
+      const res = await r.json().catch(() => ({})); if (!r.ok) throw res; return res;
+    });
+  },
+  removeEmployeeSkill: (employeeId, skillId) => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/employee-skills/b${getBusinessId()}/e${employeeId}/s${skillId}/`, { method: "DELETE", headers }).then(async (r) => {
+      if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to remove employee skill"; }
+      return r.json();
+    });
+  },
+  getShiftsCRUD: () => {
+    const token = getToken();
+    const headers = token && token !== "null" ? { Authorization: `Bearer ${token}` } : {};
+    return fetch(`${API_BASE}/shifts/b${getBusinessId()}/`, { headers }).then(async (r) => {
+      if (!r.ok) { const err = await r.json().catch(() => ({})); throw err.error || "Failed to fetch shifts"; }
+      return r.json();
+    });
+  },
+  createShift: (data) => {
+    const token = getToken();
+    const headers = { "Content-Type": "application/json", ...(token && token !== "null" ? { Authorization: `Bearer ${token}` } : {}) };
+    return fetch(`${API_BASE}/shifts/b${getBusinessId()}/`, { method: "POST", headers, body: JSON.stringify(data) }).then(async (r) => {
+      const res = await r.json().catch(() => ({})); if (!r.ok) throw res; return res;
+    });
+  },
+  updateShift: (id, data) => {
+    const token = getToken();
+    const headers = { "Content-Type": "application/json", ...(token && token !== "null" ? { Authorization: `Bearer ${token}` } : {}) };
+    return fetch(`${API_BASE}/shifts/b${getBusinessId()}/s${id}/`, { method: "PUT", headers, body: JSON.stringify(data) }).then(async (r) => {
+      const res = await r.json().catch(() => ({})); if (!r.ok) throw res; return res;
+    });
+  },
 };
 
 const MOCK_EMPLOYEES = [
@@ -204,7 +346,7 @@ function Toast({ toasts, remove }) {
 function useToast() {
   const [toasts, setToasts] = useState([]);
   const add = useCallback((msg, type = "success") => {
-    const id = Date.now();
+    const id = Date.now() + Math.random();
     setToasts((p) => [...p, { id, msg, type }]);
     setTimeout(() => setToasts((p) => p.filter((t) => t.id !== id)), 4000);
   }, []);
@@ -398,7 +540,10 @@ const EMPTY_FORM = { name: "", email: "", phone_no: "", position: "", salary: ""
 
 function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
   const [form, setForm] = useState(EMPTY_FORM);
-
+  const [employeeSkills, setEmployeeSkills] = useState([]);
+  const [allSkills, setAllSkills] = useState([]);
+  const [newSkillForm, setNewSkillForm] = useState({ skill: "", proficiency_level: "Beginner" });
+  const [skillsLoading, setSkillsLoading] = useState(false);
   useEffect(() => {
     if (employee) {
       setForm({
@@ -412,11 +557,40 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
       });
     } else {
       setForm(EMPTY_FORM);
+      setEmployeeSkills([]);
+    }
+
+    if (employee && employee.id && open) {
+      setSkillsLoading(true);
+      Promise.all([api.getSkills(), api.getEmployeeSkills(employee.id)])
+        .then(([resSkills, resEmpSkills]) => {
+          setAllSkills(resSkills.data || []);
+          setEmployeeSkills(resEmpSkills.data || []);
+        })
+        .finally(() => setSkillsLoading(false));
     }
   }, [employee, open]);
 
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
   const handleSubmit = () => onSave(form);
+
+  const handleAddSkill = async () => {
+    if (!newSkillForm.skill) return;
+    try {
+      await api.assignEmployeeSkill(employee.id, newSkillForm);
+      const res = await api.getEmployeeSkills(employee.id);
+      setEmployeeSkills(res.data || []);
+      setNewSkillForm({ skill: "", proficiency_level: "Beginner" });
+    } catch {}
+  };
+
+  const handleRemoveSkill = async (skillId) => {
+    try {
+      await api.removeEmployeeSkill(employee.id, skillId);
+      const res = await api.getEmployeeSkills(employee.id);
+      setEmployeeSkills(res.data || []);
+    } catch {}
+  };
 
   return (
     <>
@@ -449,6 +623,46 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
             <Field label="Salary (NPR)" name="salary" value={form.salary} onChange={handleChange} type="number" placeholder="25000" />
           </div>
           <Field label="Status" name="status" value={form.status} onChange={handleChange} options={["Active", "On Leave", "Inactive"]} />
+          
+          {employee && employee.id && (
+            <div style={{ marginTop: 10, borderTop: "1px solid #f1f5f9", paddingTop: 16 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", marginBottom: 12 }}>Skills & Proficiency</div>
+              {skillsLoading ? (
+                <div style={{ fontSize: 12, color: "#94a3b8" }}>Loading skills...</div>
+              ) : (
+                <>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+                    {employeeSkills.map(es => (
+                      <div key={es.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#f8fafc", padding: "8px 12px", borderRadius: 6, border: "1px solid #e2e8f0" }}>
+                        <div>
+                          <div style={{ fontSize: 12, fontWeight: 600, color: "#334155" }}>{es.skill_name}</div>
+                          <div style={{ fontSize: 11, color: "#64748b" }}>{es.proficiency_level}</div>
+                        </div>
+                        <button onClick={() => handleRemoveSkill(es.skill.id || es.skill)} style={{ background: "none", border: "none", cursor: "pointer", color: "#ef4444" }}>
+                          <Icon d={ICONS.close} size={12} />
+                        </button>
+                      </div>
+                    ))}
+                    {employeeSkills.length === 0 && <div style={{ fontSize: 12, color: "#94a3b8" }}>No skills assigned yet.</div>}
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <select value={newSkillForm.skill} onChange={e => setNewSkillForm({...newSkillForm, skill: e.target.value})} style={{ flex: 1, padding: "6px 8px", borderRadius: 6, border: "1px solid #e2e8f0", fontSize: 12 }}>
+                      <option value="">Select skill...</option>
+                      {allSkills.filter(s => !employeeSkills.find(es => (es.skill.id || es.skill) === s.id)).map(s => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                      ))}
+                    </select>
+                    <select value={newSkillForm.proficiency_level} onChange={e => setNewSkillForm({...newSkillForm, proficiency_level: e.target.value})} style={{ width: 100, padding: "6px 8px", borderRadius: 6, border: "1px solid #e2e8f0", fontSize: 12 }}>
+                      <option value="Beginner">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Advanced">Advanced</option>
+                    </select>
+                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} style={{ padding: "6px 10px", background: newSkillForm.skill ? "#3b82f6" : "#cbd5e1", color: "#fff", border: "none", borderRadius: 6, cursor: newSkillForm.skill ? "pointer" : "not-allowed", fontSize: 12, fontWeight: 600 }}>Add</button>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
 
         <div style={{ padding: "14px 24px", borderTop: "1px solid #f1f5f9", display: "flex", gap: 8 }}>
@@ -568,86 +782,717 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
   );
 }
 
-// ─── SCHEDULE MODAL ───────────────────────────────────────────────────────────
-function ScheduleModal({ employees, onClose, onRun, loading }) {
-  const [shiftIds, setShiftIds] = useState("");
-  const [apply, setApply] = useState(false);
-  const [result, setResult] = useState(null);
+// ─── SCHEDULE MODAL (WSM VERSION) ─────────────────────────────────────────────
+const DEFAULT_WEIGHTS = {
+  availability: 30,
+  skill_match: 25,
+  fairness: 20,
+  skill_level: 15,
+  cost: 10,
+};
 
-  const handleRun = async () => {
-    const ids = shiftIds.split(",").map(s => parseInt(s.trim())).filter(Boolean);
-    if (!ids.length) return;
-    const r = await onRun({ business_id: getBusinessId(), shift_ids: ids, apply_schedule: apply });
-    setResult(r);
+const FACTOR_COLORS = {
+  availability: "#185FA5",
+  skill_match:  "#3B6D11",
+  fairness:     "#7F77DD",
+  skill_level:  "#BA7517",
+  cost:         "#A32D2D",
+};
+
+function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
+  const [step, setStep] = useState("weights");   // weights → preview → result
+  const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
+  const [unscheduledShifts, setUnscheduledShifts] = useState([]);
+  const [scheduleResult, setScheduleResult] = useState(null);
+  const [selectedShift, setSelectedShift] = useState(null);
+  const [fetching, setFetching] = useState(false);
+  const [applying, setApplying] = useState(false);
+  const [manualOverrides, setManualOverrides] = useState({});
+
+  // Total weight tracker
+  const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
+  const isWeightValid = totalWeight === 100;
+
+  // Fetch unscheduled shifts on open
+  useEffect(() => {
+    fetchShifts();
+  }, []);
+
+  const fetchShifts = async () => {
+    setFetching(true);
+    try {
+      const data = await api.getUnscheduledShifts();
+      const shifts = data.data || [];
+      setUnscheduledShifts(shifts.filter(s => !s.is_scheduled));
+    } catch (e) {
+      toast("Could not load shifts. Check backend.", "error");
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  const handlePreview = async () => {
+    if (!unscheduledShifts.length) {
+      toast("No unscheduled shifts found.", "warning");
+      return;
+    }
+    setLoading(true);
+    try {
+      const result = await api.runWSMScheduler({
+        shift_ids: unscheduledShifts.map(s => s.id),
+        apply_schedule: false,
+        weights: {
+          availability: weights.availability / 100,
+          skill_match:  weights.skill_match / 100,
+          fairness:     weights.fairness / 100,
+          skill_level:  weights.skill_level / 100,
+          cost:         weights.cost / 100,
+        },
+      });
+      setScheduleResult(result);
+      setStep("preview");
+    } catch (e) {
+      toast("Scheduler failed. Check backend logs.", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleApply = async () => {
+    setApplying(true);
+    try {
+      const result = await api.runWSMScheduler({
+        shift_ids: unscheduledShifts.map(s => s.id),
+        apply_schedule: true,
+        weights: {
+          availability: weights.availability / 100,
+          skill_match:  weights.skill_match / 100,
+          fairness:     weights.fairness / 100,
+          skill_level:  weights.skill_level / 100,
+          cost:         weights.cost / 100,
+        },
+      });
+      setScheduleResult(result);
+      setStep("result");
+      toast("Schedule applied successfully!");
+    } catch {
+      toast("Failed to apply schedule.", "error");
+    } finally {
+      setApplying(false);
+    }
+  };
+
+  const handleManualAssign = async (shiftId, employeeId, employeeName) => {
+    try {
+      await api.manualAssign(shiftId, employeeId);
+      setManualOverrides(p => ({ ...p, [shiftId]: employeeName }));
+      toast(`Manually assigned ${employeeName}`);
+    } catch {
+      toast("Manual assignment failed.", "error");
+    }
   };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)", padding: 16 }}>
-      <div style={{ background: "#fff", borderRadius: 16, width: 480, maxHeight: "88vh", overflow: "auto", border: "1px solid #f1f5f9", boxShadow: "0 8px 40px rgba(0,0,0,.12)" }}>
-        <div style={{ padding: "18px 20px 16px", borderBottom: "1px solid #f1f5f9", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <div style={{
+      position: "fixed", inset: 0, background: "rgba(0,0,0,.45)",
+      zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center",
+      backdropFilter: "blur(4px)", padding: 16,
+    }}>
+      <div style={{
+        background: "#fff", borderRadius: 16, width: 560, maxHeight: "90vh",
+        overflow: "auto", border: "1px solid #f1f5f9",
+        boxShadow: "0 8px 40px rgba(0,0,0,.12)",
+      }}>
+
+        {/* Header */}
+        <div style={{
+          padding: "18px 20px 16px", borderBottom: "1px solid #f1f5f9",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          position: "sticky", top: 0, background: "#fff", zIndex: 1,
+        }}>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "#0f172a" }}>WSM Auto-Scheduler</div>
-            <div style={{ fontSize: 12, color: "#64748b" }}>Assign best-fit employees to shifts</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
+              WSM Auto-Scheduler
+            </div>
+            <div style={{ fontSize: 12, color: "#64748b" }}>
+              {step === "weights" && "Set factor weights → preview → apply"}
+              {step === "preview" && "Review suggestions — override if needed"}
+              {step === "result"  && "Schedule applied to database"}
+            </div>
           </div>
-          <button onClick={onClose} style={{ background: "none", border: "none", borderRadius: 7, padding: 6, cursor: "pointer", color: "#94a3b8" }}>
+          <button onClick={onClose} style={{
+            background: "none", border: "none", borderRadius: 7,
+            padding: 6, cursor: "pointer", color: "#94a3b8",
+          }}>
             <Icon d={ICONS.close} size={15} />
           </button>
         </div>
+
         <div style={{ padding: "18px 20px" }}>
-          {!result ? (
+
+          {/* ── STEP 1: WEIGHTS ── */}
+          {step === "weights" && (
             <>
-              <div style={{ background: "#eff6ff", borderRadius: 9, padding: "12px 14px", marginBottom: 16, fontSize: 12, color: "#1d4ed8", lineHeight: 1.6 }}>
-                <strong>How it works:</strong> The WSM algorithm ranks employees by availability (30%), skill match (25%), fairness (20%), skill level (15%), and cost (10%).
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <Field label="Shift IDs (comma-separated)" name="shift_ids" value={shiftIds} onChange={e => setShiftIds(e.target.value)} placeholder="1, 2, 5, 8" />
-                <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, cursor: "pointer", fontWeight: 500, color: "#374151" }}>
-                  <div style={{ width: 38, height: 20, borderRadius: 10, background: apply ? "#3b82f6" : "#e2e8f0", position: "relative", transition: "background .2s", cursor: "pointer", flexShrink: 0 }}
-                    onClick={() => setApply(p => !p)}>
-                    <div style={{ position: "absolute", top: 2, left: apply ? 18 : 2, width: 16, height: 16, borderRadius: "50%", background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,.2)", transition: "left .2s" }} />
-                  </div>
-                  Apply assignments to database immediately
-                </label>
-              </div>
-              <button onClick={handleRun} disabled={loading} style={{
-                marginTop: 18, width: "100%", padding: "11px 0", borderRadius: 9, border: "none",
-                background: loading ? "#93c5fd" : "#3b82f6", color: "#fff", fontWeight: 700, fontSize: 14,
-                cursor: loading ? "not-allowed" : "pointer",
+              {/* Info box */}
+              <div style={{
+                background: "#eff6ff", borderRadius: 9, padding: "12px 14px",
+                marginBottom: 18, fontSize: 12, color: "#1d4ed8", lineHeight: 1.6,
               }}>
-                {loading ? "Running…" : "Run WSM Scheduler"}
+                <strong>How WSM works:</strong> Each employee is scored across
+                5 factors. Adjust weights to match your business priority.
+                Weights must total <strong>100%</strong>.
+              </div>
+
+              {/* Weight sliders */}
+              {Object.entries(weights).map(([key, val]) => (
+                <div key={key} style={{ marginBottom: 14 }}>
+                  <div style={{
+                    display: "flex", justifyContent: "space-between",
+                    alignItems: "center", marginBottom: 4,
+                  }}>
+                    <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", textTransform: "capitalize" }}>
+                      {key.replace("_", " ")}
+                    </label>
+                    <span style={{
+                      fontSize: 13, fontWeight: 700,
+                      color: FACTOR_COLORS[key],
+                      background: "#f8fafc", padding: "2px 10px",
+                      borderRadius: 20, border: "1px solid #e2e8f0",
+                    }}>
+                      {val}%
+                    </span>
+                  </div>
+                  <input
+                    type="range" min={0} max={100} step={5} value={val}
+                    onChange={e => setWeights(p => ({ ...p, [key]: Number(e.target.value) }))}
+                    style={{ width: "100%", accentColor: FACTOR_COLORS[key] }}
+                  />
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                    {key === "availability" && "Hard gate — employee must be free. Higher = stricter priority."}
+                    {key === "skill_match"  && "Employee must have the required POS skill for the shift."}
+                    {key === "fairness"     && "Spread shifts evenly. Employees with fewer shifts score higher."}
+                    {key === "skill_level"  && "Advanced proficiency scores higher than Beginner."}
+                    {key === "cost"         && "Lower salary employees score higher. Reduces wage cost."}
+                  </div>
+                </div>
+              ))}
+
+              {/* Weight total indicator */}
+              <div style={{
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+                padding: "10px 14px", borderRadius: 9, marginBottom: 16,
+                background: isWeightValid ? "#f0fdf4" : "#fef2f2",
+                border: `1px solid ${isWeightValid ? "#bbf7d0" : "#fca5a5"}`,
+              }}>
+                <span style={{ fontSize: 13, fontWeight: 600, color: isWeightValid ? "#166534" : "#991b1b" }}>
+                  Total weight
+                </span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: isWeightValid ? "#166534" : "#991b1b" }}>
+                  {totalWeight}%
+                  {isWeightValid ? " ✓" : " — must equal 100%"}
+                </span>
+              </div>
+
+              {/* Unscheduled shifts count */}
+              <div style={{
+                padding: "10px 14px", borderRadius: 9, marginBottom: 16,
+                background: "#f8fafc", border: "1px solid #e2e8f0",
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+              }}>
+                <span style={{ fontSize: 13, color: "#64748b" }}>
+                  {fetching ? "Loading shifts…" : `${unscheduledShifts.length} unscheduled shift(s) found`}
+                </span>
+                <button onClick={fetchShifts} style={{
+                  fontSize: 12, padding: "4px 10px", borderRadius: 6,
+                  border: "1px solid #e2e8f0", background: "#fff",
+                  cursor: "pointer", color: "#475569",
+                }}>
+                  Refresh
+                </button>
+              </div>
+
+              <button
+                onClick={handlePreview}
+                disabled={!isWeightValid || loading || fetching || !unscheduledShifts.length}
+                style={{
+                  width: "100%", padding: "11px 0", borderRadius: 9, border: "none",
+                  background: isWeightValid ? "#3b82f6" : "#e2e8f0",
+                  color: isWeightValid ? "#fff" : "#94a3b8",
+                  fontWeight: 700, fontSize: 14,
+                  cursor: isWeightValid ? "pointer" : "not-allowed",
+                }}
+              >
+                {loading ? "Running…" : "Preview Schedule →"}
               </button>
             </>
-          ) : (
-            <div>
-              <div style={{ textAlign: "center", marginBottom: 18 }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>Schedule Generated</div>
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+          )}
+
+          {/* ── STEP 2: PREVIEW ── */}
+          {step === "preview" && scheduleResult && (
+            <>
+              {/* Summary cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 16 }}>
                 {[
-                  ["Scheduled", result.scheduling_result?.scheduled_count ?? "—"],
-                  ["Unscheduled", result.scheduling_result?.unscheduled_count ?? "—"],
-                  ["Total Shifts", result.scheduling_result?.total_shifts ?? "—"],
-                  ["Success Rate", result.scheduling_result?.success_rate ?? "—"],
-                ].map(([k, v]) => (
-                  <div key={k} style={{ background: "#f8fafc", borderRadius: 9, padding: "11px 13px" }}>
-                    <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>{k}</div>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>{v}</div>
+                  ["Scheduled",   scheduleResult.scheduling_result?.scheduled_count,   "#166534", "#f0fdf4"],
+                  ["Unscheduled", scheduleResult.scheduling_result?.unscheduled_count,  "#991b1b", "#fef2f2"],
+                  ["Success",     scheduleResult.scheduling_result?.success_rate,       "#1d4ed8", "#eff6ff"],
+                ].map(([label, val, color, bg]) => (
+                  <div key={label} style={{ background: bg, borderRadius: 9, padding: "10px 12px" }}>
+                    <div style={{ fontSize: 11, color, fontWeight: 600, textTransform: "uppercase" }}>{label}</div>
+                    <div style={{ fontSize: 18, fontWeight: 700, color }}>{val ?? "—"}</div>
                   </div>
                 ))}
               </div>
-              {result.schedule_summary?.employee_summary?.map(e => (
-                <div key={e.employee} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "9px 13px", background: "#f8fafc", borderRadius: 9, marginBottom: 5 }}>
-                  <span style={{ fontWeight: 600, fontSize: 13 }}>{e.employee}</span>
-                  <span style={{ fontSize: 12, color: "#64748b" }}>{e.shifts_assigned} shift{e.shifts_assigned !== 1 ? "s" : ""} · avg {e.avg_score}</span>
+
+              {/* Shift ranking cards */}
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 8, textTransform: "uppercase" }}>
+                Shift assignments — click to see full rankings
+              </div>
+
+              {scheduleResult.schedule_summary?.employee_summary?.length === 0 && (
+                <div style={{ textAlign: "center", padding: "20px", color: "#ef4444", fontSize: 13 }}>
+                  No employees could be assigned. Check skills and availability in the backend.
+                </div>
+              )}
+
+              {unscheduledShifts.map(shift => {
+                const assigned = manualOverrides[shift.id] ||
+                  scheduleResult.scheduling_result?.assignments?.find(a => a.shift_id === shift.id)?.assigned;
+                const score = scheduleResult.scheduling_result?.assignments?.find(a => a.shift_id === shift.id)?.score;
+                const rankings = scheduleResult.scheduling_result?.assignments?.find(a => a.shift_id === shift.id)?.rankings || [];
+                const isOpen = selectedShift === shift.id;
+
+                return (
+                  <div key={shift.id} style={{
+                    border: "1px solid #e2e8f0", borderRadius: 10, marginBottom: 8, overflow: "hidden",
+                    borderLeft: assigned ? "3px solid #22c55e" : "3px solid #ef4444",
+                  }}>
+                    {/* Shift header */}
+                    <div
+                      onClick={() => setSelectedShift(isOpen ? null : shift.id)}
+                      style={{
+                        padding: "10px 14px", display: "flex", alignItems: "center",
+                        justifyContent: "space-between", cursor: "pointer",
+                        background: isOpen ? "#f8fafc" : "#fff",
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>
+                          {shift.shift_date} · {shift.start_time?.slice(0,5)}–{shift.end_time?.slice(0,5)}
+                        </div>
+                        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                          Required: {shift.required_skill_name || "Any"}
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        {assigned ? (
+                          <span style={{ fontSize: 12, fontWeight: 600, color: "#166534", background: "#f0fdf4", padding: "3px 10px", borderRadius: 20 }}>
+                            {assigned} {score ? `· ${Number(score).toFixed(3)}` : ""}
+                          </span>
+                        ) : (
+                          <span style={{ fontSize: 12, fontWeight: 600, color: "#991b1b", background: "#fef2f2", padding: "3px 10px", borderRadius: 20 }}>
+                            Unassigned
+                          </span>
+                        )}
+                        <span style={{ fontSize: 11, color: "#94a3b8" }}>{isOpen ? "▲" : "▼"}</span>
+                      </div>
+                    </div>
+
+                    {/* Rankings dropdown */}
+                    {isOpen && (
+                      <div style={{ borderTop: "1px solid #f1f5f9", padding: "10px 14px" }}>
+                        {rankings.length === 0 ? (
+                          <div style={{ fontSize: 12, color: "#94a3b8", textAlign: "center", padding: "8px 0" }}>
+                            No eligible employees — check skill assignments
+                          </div>
+                        ) : (
+                          rankings.map((r, i) => (
+                            <div key={r.employee} style={{
+                              display: "flex", alignItems: "center", gap: 10,
+                              padding: "8px 0", borderBottom: i < rankings.length - 1 ? "1px solid #f8fafc" : "none",
+                            }}>
+                              <span style={{ fontSize: 12, color: "#94a3b8", width: 18 }}>{i + 1}</span>
+                              <div style={{
+                                width: 30, height: 30, borderRadius: 8,
+                                background: AVATAR_COLORS[(i) % AVATAR_COLORS.length],
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                color: "#fff", fontWeight: 600, fontSize: 11, flexShrink: 0,
+                              }}>
+                                {getInitials(r.employee)}
+                              </div>
+                              <span style={{ fontSize: 13, fontWeight: 500, flex: 1, color: "#0f172a" }}>
+                                {r.employee}
+                              </span>
+                              {/* Score bar */}
+                              <div style={{ flex: 1, height: 4, background: "#f1f5f9", borderRadius: 2 }}>
+                                <div style={{
+                                  height: 4, borderRadius: 2, background: "#3b82f6",
+                                  width: `${Math.round(r.score * 100)}%`,
+                                }} />
+                              </div>
+                              <span style={{ fontSize: 12, fontWeight: 600, color: "#475569", width: 44, textAlign: "right" }}>
+                                {Number(r.score).toFixed(3)}
+                              </span>
+                              <button
+                                onClick={() => handleManualAssign(shift.id, r.employee_id, r.employee)}
+                                style={{
+                                  fontSize: 11, padding: "4px 10px", borderRadius: 6,
+                                  border: "1px solid #e2e8f0",
+                                  background: manualOverrides[shift.id] === r.employee || (i === 0 && assigned === r.employee)
+                                    ? "#3b82f6" : "#fff",
+                                  color: manualOverrides[shift.id] === r.employee || (i === 0 && assigned === r.employee)
+                                    ? "#fff" : "#475569",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                {manualOverrides[shift.id] === r.employee || (i === 0 && assigned === r.employee)
+                                  ? "Assigned" : "Assign"}
+                              </button>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Action buttons */}
+              <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+                <button
+                  onClick={() => setStep("weights")}
+                  style={{
+                    flex: 1, padding: "10px 0", borderRadius: 9,
+                    border: "1px solid #e2e8f0", background: "#fff",
+                    cursor: "pointer", fontWeight: 600, fontSize: 13, color: "#475569",
+                  }}
+                >
+                  ← Adjust weights
+                </button>
+                <button
+                  onClick={handleApply}
+                  disabled={applying}
+                  style={{
+                    flex: 2, padding: "10px 0", borderRadius: 9, border: "none",
+                    background: applying ? "#93c5fd" : "#3b82f6",
+                    cursor: applying ? "not-allowed" : "pointer",
+                    fontWeight: 700, fontSize: 13, color: "#fff",
+                  }}
+                >
+                  {applying ? "Applying…" : "Confirm & Apply Schedule"}
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* ── STEP 3: RESULT ── */}
+          {step === "result" && scheduleResult && (
+            <>
+              <div style={{ textAlign: "center", marginBottom: 20 }}>
+                <div style={{ fontSize: 32, marginBottom: 8 }}>✓</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>Schedule Applied</div>
+                <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>
+                  Saved to database — employees can view their shifts
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+                {[
+                  ["Scheduled",   scheduleResult.scheduling_result?.scheduled_count],
+                  ["Unscheduled", scheduleResult.scheduling_result?.unscheduled_count],
+                  ["Total Shifts", scheduleResult.scheduling_result?.total_shifts],
+                  ["Success Rate", scheduleResult.scheduling_result?.success_rate],
+                ].map(([k, v]) => (
+                  <div key={k} style={{ background: "#f8fafc", borderRadius: 9, padding: "11px 13px" }}>
+                    <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>{k}</div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>{v ?? "—"}</div>
+                  </div>
+                ))}
+              </div>
+
+              {scheduleResult.schedule_summary?.employee_summary?.map(e => (
+                <div key={e.employee} style={{
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                  padding: "9px 13px", background: "#f8fafc", borderRadius: 9, marginBottom: 5,
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: 7,
+                      background: "#3b82f6", display: "flex", alignItems: "center",
+                      justifyContent: "center", color: "#fff", fontSize: 10, fontWeight: 700,
+                    }}>
+                      {getInitials(e.employee)}
+                    </div>
+                    <span style={{ fontWeight: 600, fontSize: 13, color: "#0f172a" }}>{e.employee}</span>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: 12, color: "#64748b" }}>{e.shifts_assigned} shift(s)</div>
+                    <div style={{ fontSize: 11, color: "#94a3b8" }}>avg score: {e.avg_score}</div>
+                  </div>
                 </div>
               ))}
-              <button onClick={() => setResult(null)} style={{ marginTop: 14, width: "100%", padding: "10px 0", borderRadius: 9, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontWeight: 600, fontSize: 13, color: "#475569" }}>
-                Run Again
+
+              <button onClick={onClose} style={{
+                marginTop: 14, width: "100%", padding: "11px 0", borderRadius: 9,
+                border: "none", background: "#3b82f6", color: "#fff",
+                fontWeight: 700, fontSize: 14, cursor: "pointer",
+              }}>
+                Done
               </button>
-            </div>
+            </>
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function SkillsTab({ toast }) {
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [editingSkill, setEditingSkill] = useState(null);
+  const [form, setForm] = useState({ name: "", description: "" });
+
+  const loadSkills = async () => {
+    setLoading(true);
+    try {
+      const res = await api.getSkills();
+      setSkills(res.data || []);
+    } catch {
+      toast("Failed to load skills", "error");
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { loadSkills(); }, []);
+
+  const handleSave = async () => {
+    if (!form.name.trim()) return toast("Skill name is required", "warning");
+    try {
+      if (editingSkill) {
+        await api.updateSkill(editingSkill.id, form);
+        toast("Skill updated");
+      } else {
+        await api.createSkill(form);
+        toast("Skill created");
+      }
+      setShowModal(false);
+      loadSkills();
+    } catch (e) {
+      toast(e.name?.[0] || "Failed to save skill", "error");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure?")) return;
+    try {
+      await api.deleteSkill(id);
+      toast("Skill deleted");
+      loadSkills();
+    } catch {
+      toast("Failed to delete skill", "error");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px 24px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>Skills Directory</h2>
+        <button onClick={() => { setEditingSkill(null); setForm({name:"", description:""}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Skill</button>
+      </div>
+
+      {loading ? (
+        <div style={{ color: "#94a3b8" }}>Loading...</div>
+      ) : (
+        <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+            <thead>
+              <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0" }}>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Skill Name</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Description</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600, width: 100 }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {skills.map(s => (
+                <tr key={s.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "#0f172a" }}>{s.name}</td>
+                  <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>{s.description || "-"}</td>
+                  <td style={{ padding: "12px 16px" }}>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <button onClick={() => { setEditingSkill(s); setForm({name: s.name, description: s.description||""}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#3b82f6" }}><Icon d={ICONS.edit} size={14}/></button>
+                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#ef4444" }}><Icon d={ICONS.trash} size={14}/></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {skills.length === 0 && <tr><td colSpan={3} style={{ padding: 24, textAlign: "center", color: "#94a3b8", fontSize: 13 }}>No skills found</td></tr>}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {showModal && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "#fff", width: 400, borderRadius: 12, padding: 24, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}>
+            <h3 style={{ margin: "0 0 16px 0", fontSize: 16 }}>{editingSkill ? "Edit Skill" : "New Skill"}</h3>
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Name</label>
+              <input value={form.name} onChange={e => setForm({...form, name: e.target.value})} style={{ width: "100%", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 13 }} />
+            </div>
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Description</label>
+              <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} style={{ width: "100%", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 13, minHeight: 80, resize: "vertical" }} />
+            </div>
+            <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+              <button onClick={() => setShowModal(false)} style={{ padding: "8px 16px", background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Cancel</button>
+              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ShiftsTab({ toast }) {
+  const [shifts, setShifts] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [editingShift, setEditingShift] = useState(null);
+  const [form, setForm] = useState({ shift_date: "", start_time: "", end_time: "", required_skill: "", required_employees: 1 });
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [shiftsRes, skillsRes] = await Promise.all([api.getShiftsCRUD(), api.getSkills()]);
+      setShifts(shiftsRes.data || []);
+      setSkills(skillsRes.data || []);
+    } catch {
+      toast("Failed to load shifts/skills", "error");
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { loadData(); }, []);
+
+  const handleSave = async () => {
+    if (!form.shift_date || !form.start_time || !form.end_time) return toast("Date and times are required", "warning");
+    const payload = { ...form, required_skill: form.required_skill || null };
+    try {
+      if (editingShift) {
+        await api.updateShift(editingShift.id, payload);
+        toast("Shift updated");
+      } else {
+        await api.createShift(payload);
+        toast("Shift created");
+      }
+      setShowModal(false);
+      loadData();
+    } catch (e) {
+      toast("Failed to save shift", "error");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure?")) return;
+    try {
+      await api.deleteShift(id);
+      toast("Shift deleted");
+      loadData();
+    } catch {
+      toast("Failed to delete shift", "error");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px 24px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>Shift Management</h2>
+        <button onClick={() => { setEditingShift(null); setForm({shift_date:"", start_time:"", end_time:"", required_skill:"", required_employees:1}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Shift</button>
+      </div>
+
+      {loading ? (
+        <div style={{ color: "#94a3b8" }}>Loading...</div>
+      ) : (
+        <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+            <thead>
+              <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0" }}>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Date</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Time</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Req. Skill</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Req. Staff</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Assigned To</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600 }}>Status</th>
+                <th style={{ padding: "12px 16px", fontSize: 12, color: "#64748b", fontWeight: 600, width: 100 }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {shifts.map(s => (
+                <tr key={s.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "#0f172a" }}>{s.shift_date}</td>
+                  <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>{s.start_time.slice(0,5)} - {s.end_time.slice(0,5)}</td>
+                  <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>
+                    {s.required_skill_name ? <span style={{ background: "#e0f2fe", color: "#0369a1", padding: "2px 8px", borderRadius: 12, fontSize: 11, fontWeight: 600 }}>{s.required_skill_name}</span> : "-"}
+                  </td>
+                  <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>{s.required_employees}</td>
+                  <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>{s.assigned_employee_name || "-"}</td>
+                  <td style={{ padding: "12px 16px", fontSize: 13 }}>
+                    <span style={{ color: s.is_scheduled ? "#16a34a" : "#ca8a04", fontWeight: 600 }}>{s.is_scheduled ? "Scheduled" : "Unscheduled"}</span>
+                  </td>
+                  <td style={{ padding: "12px 16px" }}>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <button onClick={() => { setEditingShift(s); setForm({shift_date: s.shift_date, start_time: s.start_time, end_time: s.end_time, required_skill: s.required_skill||"", required_employees: s.required_employees}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#3b82f6" }}><Icon d={ICONS.edit} size={14}/></button>
+                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#ef4444" }}><Icon d={ICONS.trash} size={14}/></button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {shifts.length === 0 && <tr><td colSpan={7} style={{ padding: 24, textAlign: "center", color: "#94a3b8", fontSize: 13 }}>No shifts found</td></tr>}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {showModal && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "#fff", width: 400, borderRadius: 12, padding: 24, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}>
+            <h3 style={{ margin: "0 0 16px 0", fontSize: 16 }}>{editingShift ? "Edit Shift" : "New Shift"}</h3>
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Date</label>
+              <input type="date" value={form.shift_date} onChange={e => setForm({...form, shift_date: e.target.value})} style={{ width: "100%", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 13 }} />
+            </div>
+            <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Start Time</label>
+                <input type="time" value={form.start_time} onChange={e => setForm({...form, start_time: e.target.value})} style={{ width: "100%", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 13 }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>End Time</label>
+                <input type="time" value={form.end_time} onChange={e => setForm({...form, end_time: e.target.value})} style={{ width: "100%", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 13 }} />
+              </div>
+            </div>
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Required Skill (Optional)</label>
+              <select value={form.required_skill} onChange={e => setForm({...form, required_skill: e.target.value})} style={{ width: "100%", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 13, background: "#fff" }}>
+                <option value="">None</option>
+                {skills.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+              </select>
+            </div>
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Required Employees</label>
+              <input type="number" min="1" value={form.required_employees} onChange={e => setForm({...form, required_employees: Number(e.target.value)})} style={{ width: "100%", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 13 }} />
+            </div>
+            <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+              <button onClick={() => setShowModal(false)} style={{ padding: "8px 16px", background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Cancel</button>
+              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -670,6 +1515,7 @@ export default function EmployeeManagement() {
   const [showScheduler, setShowScheduler] = useState(false);
   const [useMock, setUseMock] = useState(false);
   const [availableDepts, setAvailableDepts] = useState([]);
+  const [activeTab, setActiveTab] = useState("employees");
   const { toasts, add: toast, remove: removeToast } = useToast();
 
   const load = useCallback(async () => {
@@ -790,7 +1636,26 @@ export default function EmployeeManagement() {
         </div>
       </div>
 
-      <div style={{ padding: "20px 24px" }}>
+      {/* TABS */}
+      <div style={{ background: "#fff", borderBottom: "1px solid #e2e8f0", padding: "0 24px", display: "flex", gap: 24 }}>
+        {[
+          { id: "employees", label: "Directory" },
+          { id: "skills", label: "Skills" },
+          { id: "shifts", label: "Shifts" }
+        ].map(t => (
+          <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
+            background: "none", border: "none", padding: "12px 0", cursor: "pointer", fontSize: 13, fontWeight: 600,
+            color: activeTab === t.id ? "#3b82f6" : "#64748b",
+            borderBottom: activeTab === t.id ? "2px solid #3b82f6" : "2px solid transparent",
+            transition: "all .2s"
+          }}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "employees" && (
+        <div style={{ padding: "20px 24px" }}>
         {/* STATS */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 12, marginBottom: 20 }}>
           <StatCard label="Total" value={stats.total} sub={`${departments.length} departments`} />
@@ -880,6 +1745,11 @@ export default function EmployeeManagement() {
           </div>
         )}
       </div>
+      )}
+
+      {activeTab === "skills" && <SkillsTab toast={toast} />}
+      {activeTab === "shifts" && <ShiftsTab toast={toast} />}
+
 
       {/* MODALS / DRAWERS */}
       <EmployeeDrawer open={drawerOpen} onClose={() => { setDrawerOpen(false); setEditTarget(null); }}
@@ -895,8 +1765,13 @@ export default function EmployeeManagement() {
       )}
 
       {showScheduler && (
-        <ScheduleModal employees={employees} onClose={() => setShowScheduler(false)}
-          onRun={handleSchedule} loading={scheduling} />
+        <WSMScheduleModal
+          employees={employees}
+          onClose={() => setShowScheduler(false)}
+          loading={scheduling}
+          setLoading={setScheduling}
+          toast={toast}
+        />
       )}
     </div>
   );

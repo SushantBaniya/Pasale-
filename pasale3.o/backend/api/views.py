@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
 import random
-from .models import Business, Counter, Customer, Department, Employee, ForgetPasswordOTP, Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem, Shift, Order, OrderStatus, AprioriRule
+from .models import Business, Counter, Customer, Department, Employee, ForgetPasswordOTP, Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem, Shift, Order, OrderStatus, AprioriRule, EmployeeSchedule, Skill, EmployeeSkill
 from .serializers import CounterSerializer, ProductSerializer, PartySerializer, CustomerSerializer, StockAlertSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer, AprioriRuleSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
@@ -1007,7 +1007,7 @@ class EmployeeView(APIView):
 
 
 class DepartmentView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, business_id=None):
         try:
@@ -1037,7 +1037,7 @@ class DepartmentView(APIView):
 
 
 class StaffSchedulerView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         try:
@@ -1127,11 +1127,9 @@ class StaffSchedulerView(APIView):
 
             shifts = Shift.objects.filter(
                 business_id=business_id,
-                assigned_employee_id=employee_id,
-                is_scheduled=True
+                assigned_employee_id=employee_id
             ) if employee_id else Shift.objects.filter(
-                business_id=business_id,
-                is_scheduled=True
+                business_id=business_id
             )
 
             serializer = ShiftSerializer(shifts, many=True)
@@ -1148,7 +1146,7 @@ class StaffSchedulerView(APIView):
 
 
 class OrderView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, business_id=None, order_id=None, counter_id=None, customer_id=None):
         try:
@@ -1300,7 +1298,7 @@ class CounterView(APIView):
 
 
 class OrderStatusView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         statuses = OrderStatus.objects.all()
@@ -1313,7 +1311,7 @@ class AssociationRulesView(APIView):
     GET /api/inventory/rules/
     Returns all saved Apriori rules for the business.
     """
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, business_id=None):
         if not business_id:
@@ -1572,3 +1570,148 @@ class RetrainAprioriView(APIView):
             "alerts_created": alert_result.get('total_created', 0),
             "alerts_skipped": alert_result.get('total_skipped', 0)
         })
+
+
+
+class ManualAssignView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, shift_id):
+        try:
+            employee_id = request.data.get("employee_id")
+            shift = Shift.objects.get(id=shift_id)
+            employee = Employee.objects.get(id=employee_id)
+
+            shift.assigned_employee = employee
+            shift.is_scheduled = True
+            shift.save()
+
+            EmployeeSchedule.objects.get_or_create(
+                employee=employee,
+                date=shift.shift_date,
+                start_time=shift.start_time,
+                end_time=shift.end_time,
+            )
+            return Response({
+                "message":  f"{employee.name} manually assigned.",
+                "shift_id": shift.id,
+                "assigned": employee.name,
+            }, status=status.HTTP_200_OK)
+
+        except Shift.DoesNotExist:
+            return Response({"error": "Shift not found"}, status=404)
+        except Employee.DoesNotExist:
+            return Response({"error": "Employee not found"}, status=404)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
+
+
+class SkillView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id):
+        skills = Skill.objects.filter(business_id=business_id)
+        serializer = SkillSerializer(skills, many=True)
+        return Response({'status': 'success', 'data': serializer.data})
+
+    def post(self, request, business_id):
+        data = request.data.copy()
+        data['business_id'] = business_id
+        serializer = SkillSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, business_id, skill_id):
+        try:
+            skill = Skill.objects.get(id=skill_id, business_id=business_id)
+        except Skill.DoesNotExist:
+            return Response({'error': 'Skill not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = SkillSerializer(skill, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'data': serializer.data})
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, business_id, skill_id):
+        try:
+            skill = Skill.objects.get(id=skill_id, business_id=business_id)
+            skill.delete()
+            return Response({'status': 'success', 'message': 'Skill deleted'})
+        except Skill.DoesNotExist:
+            return Response({'error': 'Skill not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class EmployeeSkillView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id, employee_id):
+        employee_skills = EmployeeSkill.objects.filter(employee__business_id=business_id, employee_id=employee_id)
+        serializer = EmployeeSkillSerializer(employee_skills, many=True)
+        return Response({'status': 'success', 'data': serializer.data})
+
+    def post(self, request, business_id, employee_id):
+        data = request.data.copy()
+        data['employee'] = employee_id
+        
+        skill_id = data.get('skill')
+        try:
+            employee_skill = EmployeeSkill.objects.get(employee_id=employee_id, skill_id=skill_id)
+            serializer = EmployeeSkillSerializer(employee_skill, data=data, partial=True)
+            status_code = status.HTTP_200_OK
+        except EmployeeSkill.DoesNotExist:
+            serializer = EmployeeSkillSerializer(data=data)
+            status_code = status.HTTP_201_CREATED
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'data': serializer.data}, status=status_code)
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, business_id, employee_id, skill_id):
+        try:
+            employee_skill = EmployeeSkill.objects.get(employee_id=employee_id, skill_id=skill_id, employee__business_id=business_id)
+            employee_skill.delete()
+            return Response({'status': 'success', 'message': 'Skill removed from employee'})
+        except EmployeeSkill.DoesNotExist:
+            return Response({'error': 'Employee skill not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ShiftCRUDView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id):
+        shifts = Shift.objects.filter(business_id=business_id).order_by('-shift_date', '-start_time')
+        serializer = ShiftSerializer(shifts, many=True)
+        return Response({'status': 'success', 'data': serializer.data})
+
+    def post(self, request, business_id):
+        data = request.data.copy()
+        data['business_id'] = business_id
+        serializer = ShiftSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, business_id, shift_id):
+        try:
+            shift = Shift.objects.get(id=shift_id, business_id=business_id)
+        except Shift.DoesNotExist:
+            return Response({'error': 'Shift not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ShiftSerializer(shift, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'data': serializer.data})
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, business_id, shift_id):
+        try:
+            shift = Shift.objects.get(id=shift_id, business_id=business_id)
+            shift.delete()
+            return Response({'status': 'success', 'message': 'Shift deleted'})
+        except Shift.DoesNotExist:
+            return Response({'error': 'Shift not found'}, status=status.HTTP_404_NOT_FOUND)
