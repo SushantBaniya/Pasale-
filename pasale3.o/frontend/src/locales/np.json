@@ -1023,6 +1023,7 @@
   },
   "sidebar": {
     "dashboard": "ड्यासबोर्ड",
+    "employees": "कर्मचारी",
     "inventory": "इन्भेन्टरी",
     "billing": "बिलिङ",
     "pos": "पोस",

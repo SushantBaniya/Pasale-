@@ -31,6 +31,7 @@ import PartyDetailPage from './app/parties/[partyId]/page';
 import ProfilePage from './app/profile/page';
 import OrderCartPage from './app/order-cart/page';
 import CountersPage from './app/counters/page';
+import EmployeesPage from './app/employees/page';
 
 // Route Guards - Public routes (welcome, login, forgot-password)
 const PublicRoute = () => {
@@ -100,6 +101,7 @@ function App() {
             <Route path="/inventory" element={<InventoryPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/billing" element={<BillingPage />} />
+            <Route path="/employees" element={<EmployeesPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/dashboard/kpi/:type" element={<KPIDetailPage />} />
             <Route path="/dashboard/todays-sales" element={<TodaysSalesPage />} />

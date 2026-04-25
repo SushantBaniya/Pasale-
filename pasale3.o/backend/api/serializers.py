@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule
+from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule, Department, EmployeeStatus
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -67,16 +67,18 @@ class BillingItemSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     business_name = serializers.CharField(
         source='business_id.business_name', read_only=True)
-    department_name = serializers.CharField(
-        source='department.name', read_only=True, required=False)
+    department = serializers.SlugRelatedField(
+        slug_field='name', queryset=Department.objects.all(), required=False)
+    status = serializers.SlugRelatedField(
+        slug_field='name', queryset=EmployeeStatus.objects.all(), required=False)
+
     manager_name = serializers.CharField(
         source='manager.name', read_only=True, required=False)
-    status = serializers.CharField(source='status.name', read_only=True)
 
     class Meta:
         model = Employee
-        fields = ['id',  'name', 'email', 'phone_no', 'position', 'salary', 'hire_date',
-                  'status', 'department', 'department_name', 'manager', 'manager_name', 'business_id', 'business_name']
+        fields = ['id', 'name', 'email', 'phone_no', 'position', 'salary', 'hire_date',
+                  'status', 'department', 'manager', 'manager_name', 'business_id', 'business_name']
 
 
 class SkillSerializer(serializers.ModelSerializer):

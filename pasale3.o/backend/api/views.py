@@ -929,6 +929,11 @@ class EmployeeView(APIView):
                 return Response({"error": "Employee not found"}, status=status.HTTP_404_NOT_FOUND)
 
             data = request.data
+            # Ensure department exists if provided
+            dept_name = data.get('department')
+            if dept_name and isinstance(dept_name, str):
+                Department.objects.get_or_create(name=dept_name, business_id_id=business_id)
+
             serializer = EmployeeSerializer(
                 employee_obj, data=data, partial=True)
             if serializer.is_valid():
@@ -952,6 +957,34 @@ class EmployeeView(APIView):
 
             employee_obj.delete()
             return Response({'message': 'Employee deleted successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class DepartmentView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, business_id=None):
+        try:
+            if not business_id:
+                return Response({"error": "Business ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+            departments = Department.objects.filter(models.Q(business_id=business_id) | models.Q(business_id__isnull=True))
+            # If no departments exist for this business, you might want to return some defaults or an empty list
+            data = [{"id": d.id, "name": d.name} for d in departments]
+            return Response(data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request, business_id=None):
+        try:
+            if not business_id:
+                return Response({"error": "Business ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+            name = request.data.get("name")
+            if not name:
+                return Response({"error": "Name is required"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            dept, created = Department.objects.get_or_create(name=name, business_id_id=business_id)
+            return Response({"id": dept.id, "name": dept.name, "created": created}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -1023,6 +1023,7 @@
   },
   "sidebar": {
     "dashboard": "Dashboard",
+    "employees": "Employees",
     "inventory": "Inventory",
     "billing": "Invoice",
     "pos": "POS",
