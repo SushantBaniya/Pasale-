@@ -50,6 +50,40 @@ interface FormState {
   reorder_level: string;
 }
 
+// Add these interfaces at the top with your other types
+
+interface AprioriRule {
+  id: number;
+  antecedent: string;
+  consequent: string;
+  confidence: number;
+  confidence_percent: string;
+  lift: number;
+  support: number;
+  updated_at: string;
+}
+
+interface ReorderSuggestion {
+  low_stock_product: string;
+  current_quantity: number;
+  reorder_level: number;
+  also_reorder: {
+    items: string[];
+    confidence: number;
+    lift: number;
+  }[];
+}
+
+interface AprioriAlert {
+  id: number;
+  product_name: string;
+  product_quantity: number;
+  reorder_level: number;
+  message: string;
+  is_resolved: boolean;
+  created_at: string;
+}
+
 type StockFilter = 'all' | 'in-stock' | 'low-stock' | 'out-of-stock';
 type ViewMode = 'grid' | 'table';
 
@@ -177,9 +211,9 @@ function ProductFormModal({
         business_id: businessId,
       };
       if (initial) {
-        await apiFetch(`/products/${businessId}/?id=${initial.id}`, { method: 'PUT', body: JSON.stringify(payload) });
+        await apiFetch(`/products/b${businessId}/p${initial.id}/`, { method: 'PUT', body: JSON.stringify(payload) });
       } else {
-        await apiFetch(`/products/${businessId}/`, { method: 'POST', body: JSON.stringify(payload) });
+        await apiFetch(`/products/b${businessId}/`, { method: 'POST', body: JSON.stringify(payload) });
       }
       onSave();
     } catch (err: any) {
@@ -294,7 +328,7 @@ function AdjustStockModal({ product, businessId, onClose, onSave }: {
       const newQty = type === 'in'
         ? product.quantity + qty
         : Math.max(0, product.quantity - qty);
-      await apiFetch(`/products/${businessId}/?id=${product.id}`, {
+      await apiFetch(`/products/b${businessId}/p${product.id}/`, {
         method: 'PUT',
         body: JSON.stringify({ quantity: newQty }),
       });
@@ -446,6 +480,60 @@ export default function InventoryPage() {
   const [adjustProduct, setAdjustProduct] = useState<Product | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
+  // ── Apriori State ──
+  const [aprioriRules, setAprioriRules] = useState<AprioriRule[]>([]);
+  const [suggestions, setSuggestions] = useState<ReorderSuggestion[]>([]);
+  const [aprioriAlerts, setAprioriAlerts] = useState<AprioriAlert[]>([]);
+  const [aprioriLoading, setAprioriLoading] = useState(false);
+  const [retraining, setRetraining] = useState(false);
+  const [showApriori, setShowApriori] = useState(false);
+
+  // ── Apriori Fetch Functions ──
+  const fetchAprioriData = useCallback(async () => {
+    if (!businessId) return;
+    setAprioriLoading(true);
+    try {
+      const [rulesData, suggestionsData, alertsData] = await Promise.all([
+        apiFetch(`/inventory/rules/b${businessId}/`),
+        apiFetch(`/inventory/suggestions/b${businessId}/`),
+        apiFetch(`/inventory/alerts/b${businessId}/`),
+      ]);
+      setAprioriRules(rulesData.rules || []);
+      setSuggestions(suggestionsData.suggestions || []);
+      setAprioriAlerts(alertsData.alerts || []);
+    } catch (err) {
+      console.error('Apriori fetch failed:', err);
+    } finally {
+      setAprioriLoading(false);
+    }
+  }, [businessId]);
+
+  const triggerRetrain = async () => {
+    setRetraining(true);
+    try {
+      await apiFetch(`/inventory/retrain/b${businessId}/`, { method: 'POST' });
+      await fetchAprioriData();
+    } catch (err) {
+      console.error('Retrain failed:', err);
+    } finally {
+      setRetraining(false);
+    }
+  };
+
+  const resolveAlert = async (alertId: number) => {
+    try {
+      await apiFetch(`/inventory/alerts/b${businessId}/${alertId}/resolve/`, { method: 'PUT' });
+      await fetchAprioriData();
+    } catch (err) {
+      console.error('Resolve failed:', err);
+    }
+  };
+
+  // Fetch Apriori data when businessId is ready
+  useEffect(() => {
+    if (businessId) fetchAprioriData();
+  }, [businessId, fetchAprioriData]);
+
   // Get business_id on mount
   useEffect(() => {
     const bid = getBusinessId();
@@ -472,7 +560,7 @@ export default function InventoryPage() {
     if (!businessId) return;
     setLoading(true); setError('');
     try {
-      const data = await apiFetch(`/products/${businessId}/`);
+      const data = await apiFetch(`/products/b${businessId}/`);
       const list: Product[] = (data.results || data || []);
       setProducts(list);
     } catch (err: any) {
@@ -491,7 +579,7 @@ export default function InventoryPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this product?')) return;
     try {
-      await apiFetch(`/products/${businessId}/?id=${id}`, { method: 'DELETE' });
+      await apiFetch(`/products/b${businessId}/p${id}/`, { method: 'DELETE' });
       setDetailProduct(null);
       fetchProducts();
     } catch (err: any) {
@@ -553,9 +641,9 @@ export default function InventoryPage() {
             onClick={() => setStockFilter('all')} />
           <StatCard label="Stock Value" value={fmt(totalValue)}
             color="bg-green-50 text-green-600" icon={<Icons.Tag className="w-5 h-5" />} />
-          <StatCard label="Low Stock" value={lowStock.length} sub="Needs reorder"
+          <StatCard label="Low Stock" value={lowStock.length} sub={aprioriAlerts.length > 0 ? `${aprioriAlerts.length} AI alerts active` : "Needs reorder"}
             color="bg-amber-50 text-amber-600" icon={<Icons.Alert className="w-5 h-5" />}
-            onClick={() => setStockFilter('low-stock')} />
+            onClick={() => { setStockFilter('low-stock'); setShowApriori(true); }} />
           <StatCard label="Out of Stock" value={outOfStock.length} sub="Needs restocking"
             color="bg-red-50 text-red-600" icon={<Icons.Archive className="w-5 h-5" />}
             onClick={() => setStockFilter('out-of-stock')} />
@@ -572,6 +660,206 @@ export default function InventoryPage() {
             <button onClick={fetchProducts} className="text-xs font-semibold text-red-700 border border-red-300 px-3 py-1.5 rounded-lg hover:bg-red-100 flex items-center gap-1">
               <Icons.Refresh className="w-3.5 h-3.5" /> Retry
             </button>
+          </div>
+        )}
+
+        {/* ── Apriori Intelligence Toggle ── */}
+        <div className="flex items-center justify-between mb-4">
+          <button
+            onClick={() => setShowApriori(!showApriori)}
+            className="flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 text-sm transition-colors"
+          >
+            🤖 {showApriori ? 'Hide' : 'Show'} AI Inventory Intelligence
+            {aprioriAlerts.length > 0 && (
+              <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {aprioriAlerts.length}
+              </span>
+            )}
+          </button>
+          {showApriori && (
+            <button
+              onClick={triggerRetrain}
+              disabled={retraining}
+              className="flex items-center gap-2 px-4 py-2.5 border-2 border-indigo-200 text-indigo-600 font-semibold rounded-xl hover:bg-indigo-50 text-sm disabled:opacity-50"
+            >
+              <Icons.Refresh className={`w-4 h-4 ${retraining ? 'animate-spin' : ''}`} />
+              {retraining ? 'Retraining...' : 'Retrain Model'}
+            </button>
+          )}
+        </div>
+
+        {/* ── Apriori Panel ── */}
+        {showApriori && (
+          <div className="mb-6 space-y-4">
+        
+            {aprioriLoading ? (
+              <div className="flex items-center justify-center py-12 bg-white rounded-2xl border border-gray-200">
+                <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mr-3" />
+                <span className="text-gray-500 text-sm">Loading AI insights...</span>
+              </div>
+            ) : (
+              <>
+                {/* Apriori Stats */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 text-center">
+                    <div className="text-2xl font-bold text-indigo-700">{aprioriRules.length}</div>
+                    <div className="text-xs text-indigo-500 font-medium mt-1">Association Rules</div>
+                  </div>
+                  <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 text-center">
+                    <div className="text-2xl font-bold text-amber-700">{aprioriAlerts.length}</div>
+                    <div className="text-xs text-amber-500 font-medium mt-1">Active Alerts</div>
+                  </div>
+                  <div className="bg-green-50 border border-green-100 rounded-2xl p-4 text-center">
+                    <div className="text-2xl font-bold text-green-700">{suggestions.length}</div>
+                    <div className="text-xs text-green-500 font-medium mt-1">Reorder Suggestions</div>
+                  </div>
+                </div>
+        
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        
+                  {/* Reorder Suggestions */}
+                  <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                      <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
+                        💡 Reorder Suggestions
+                      </h3>
+                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+                        {suggestions.length} items
+                      </span>
+                    </div>
+                    <div className="p-4 space-y-3 max-h-72 overflow-y-auto">
+                      {suggestions.length === 0 ? (
+                        <div className="text-center py-8 text-gray-400 text-sm">
+                          ✅ No low stock items — inventory healthy!
+                        </div>
+                      ) : suggestions.map((s, i) => (
+                        <div key={i} className="p-3 bg-orange-50 border border-orange-100 rounded-xl">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-orange-600 font-bold text-sm">⚠️ {s.low_stock_product}</span>
+                            <span className="text-xs text-gray-400">({s.current_quantity} left)</span>
+                          </div>
+                          <div className="space-y-1.5">
+                            {s.also_reorder.map((item, j) => (
+                              <div key={j} className="flex items-center justify-between bg-white rounded-lg px-3 py-2 text-xs">
+                                <span className="text-indigo-600 font-semibold">
+                                  → {item.items.join(', ')}
+                                </span>
+                                <span className="text-green-600 font-bold">
+                                  {Math.round(item.confidence * 100)}% confident
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+        
+                  {/* Active Alerts */}
+                  <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                      <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
+                        🔴 Stock Alerts
+                      </h3>
+                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
+                        {aprioriAlerts.length} active
+                      </span>
+                    </div>
+                    <div className="p-4 space-y-3 max-h-72 overflow-y-auto">
+                      {aprioriAlerts.length === 0 ? (
+                        <div className="text-center py-8 text-gray-400 text-sm">
+                          🎉 No active alerts!
+                        </div>
+                      ) : aprioriAlerts.map((alert) => (
+                        <div key={alert.id} className="p-3 bg-red-50 border border-red-100 rounded-xl">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1">
+                              <p className="text-red-700 font-bold text-sm">{alert.product_name}</p>
+                              <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{alert.message}</p>
+                              <div className="flex items-center gap-2 mt-2">
+                                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                                  Qty: {alert.product_quantity}
+                                </span>
+                                <span className="text-xs text-gray-400">
+                                  Reorder at: {alert.reorder_level}
+                                </span>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => resolveAlert(alert.id)}
+                              className="text-xs px-3 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold flex-shrink-0"
+                            >
+                              Resolve
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+        
+                {/* Association Rules Table */}
+                {aprioriRules.length > 0 && (
+                  <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mt-4">
+                    <div className="px-5 py-4 border-b border-gray-100">
+                      <h3 className="font-bold text-gray-900 text-sm">
+                        📋 Association Rules — Buying Patterns Discovered
+                      </h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="bg-gray-50 border-b border-gray-100">
+                            {['If customer buys', '→ They also buy', 'Confidence', 'Lift', 'Support'].map(h => (
+                              <th key={h} className="px-5 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                {h}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                          {aprioriRules.map((rule) => (
+                            <tr key={rule.id} className="hover:bg-indigo-50/30 transition-colors">
+                              <td className="px-5 py-3">
+                                <span className="bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-lg text-xs font-bold">
+                                  {rule.antecedent}
+                                </span>
+                              </td>
+                              <td className="px-5 py-3">
+                                <span className="bg-green-100 text-green-700 px-2.5 py-1 rounded-lg text-xs font-bold">
+                                  {rule.consequent}
+                                </span>
+                              </td>
+                              <td className="px-5 py-3">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-indigo-500 rounded-full"
+                                      style={{ width: `${rule.confidence * 100}%` }}
+                                    />
+                                  </div>
+                                  <span className="text-xs font-bold text-gray-700">
+                                    {rule.confidence_percent}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="px-5 py-3">
+                                <span className={`text-xs font-bold ${rule.lift >= 2 ? 'text-green-600' : rule.lift >= 1.5 ? 'text-amber-600' : 'text-gray-600'}`}>
+                                  {rule.lift.toFixed(2)}x
+                                </span>
+                              </td>
+                              <td className="px-5 py-3 text-xs text-gray-500">
+                                {(rule.support * 100).toFixed(0)}%
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         )}
 
@@ -629,7 +917,7 @@ export default function InventoryPage() {
             <span className="text-sm font-semibold text-blue-800">{selected.size} items selected</span>
             <button onClick={() => {
               if (confirm(`Delete ${selected.size} products?`)) {
-                Promise.all([...selected].map(id => apiFetch(`/products/${businessId}/?id=${id}`, { method: 'DELETE' })))
+                Promise.all([...selected].map(id => apiFetch(`/products/b${businessId}/p${id}/`, { method: 'DELETE' })))
                   .then(() => { setSelected(new Set()); fetchProducts(); })
                   .catch(err => alert(err.message));
               }

@@ -96,9 +96,10 @@ export default function DashboardPage() {
     const fetchProducts = async () => {
       try {
         const token = getAuthToken();
-        if (!token) return;
+        const businessId = localStorage.getItem('business_id');
+        if (!token || !businessId) return;
         
-        const response = await fetch(`${API_BASE_URL}/products/`, {
+        const response = await fetch(`${API_BASE_URL}/products/b${businessId}/`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
         

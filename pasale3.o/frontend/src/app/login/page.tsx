@@ -101,6 +101,13 @@ export default function LoginPage() {
         authStore.setTokens(access, refresh);
         localStorage.setItem('auth_token', access);
         localStorage.setItem('refresh_token', refresh);
+        
+        // Also set access_token for older pages
+        localStorage.setItem('access_token', access);
+
+        if (data.business_id) {
+          localStorage.setItem('business_id', String(data.business_id));
+        }
 
         authStore.updateUserProfile({
           name: formData.email.split('@')[0],
