@@ -107,6 +107,15 @@ def _sync_billing_for_completed_counter_order(order_obj, user):
     if not order_obj.counter_id:
         return None
 
+    # Fallback if user is anonymous (OrderView has AllowAny)
+    if not user or not user.is_authenticated:
+        from django.contrib.auth.models import User
+        user = User.objects.filter(is_superuser=True).first()
+        if not user:
+            # Fallback to the user who owns the business
+            business = order_obj.business_id
+            user = User.objects.filter(id=business.owner_id).first() if hasattr(business, 'owner_id') else None
+
     customer = order_obj.customer_id
     party = customer.party if customer and hasattr(customer, 'party') else None
     sub_total = sum(
@@ -717,14 +726,26 @@ class ApiExpenseView(APIView):
 class ApiBillingView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, business_id=None):
+    def get(self, request, business_id=None, billing_id=None):
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
+        if billing_id:
+            try:
+                billing = Billing.objects.get(id=billing_id, business_id=business_id)
+                serializer = BillingSerializer(billing)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except Billing.DoesNotExist:
+                return Response({'error': 'Billing record not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        status_filter = request.query_params.get('status')
+        billings = Billing.objects.filter(business_id=business_id)
+        
+        if status_filter:
+            billings = billings.filter(invoice_status__iexact=status_filter)
+
         paginator = PageNumberPagination()
         paginator.page_size = 10
-        billings = Billing.objects.filter(
-            user=request.user, business_id=business_id)
         result_page = paginator.paginate_queryset(billings, request)
         serializer = BillingSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
@@ -779,14 +800,31 @@ class ApiBillingView(APIView):
         except Billing.DoesNotExist:
             return Response({'error': 'Billing not found or you do not have permission to edit it.'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = BillingSerializer(
-            billing, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Billing updated successfully!',
-                             'billing': serializer.data}, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        with transaction.atomic():
+            serializer = BillingSerializer(
+                billing, data=request.data, partial=True)
+            if serializer.is_valid():
+                billing = serializer.save()
+
+                # Handle items update
+                items_data = request.data.get('items', [])
+                if items_data:
+                    # Delete old items
+                    BillingItem.objects.filter(billing=billing).delete()
+                    
+                    # Create new items
+                    for item_data in items_data:
+                        item_data['billing'] = billing.id
+                        item_serializer = BillingItemSerializer(data=item_data)
+                        if item_serializer.is_valid():
+                            item_serializer.save()
+                        else:
+                            return Response(item_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+                return Response({'message': 'Billing updated successfully!',
+                                 'billing': BillingSerializer(billing).data}, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, business_id=None):
         if not business_id:

@@ -1269,5 +1269,20 @@
     "transport": "यातायात",
     "marketing": "मार्केटिङ",
     "otherExpenses": "अन्य खर्चहरू"
+  },
+  "sidebar": {
+    "dashboard": "ड्यासबोर्ड",
+    "transactions": "कारोबार",
+    "parties": "पक्षहरू",
+    "inventory": "सूची",
+    "employees": "कर्मचारीहरू",
+    "billing": "बिलिङ",
+    "businessReports": "रिपोर्टहरू",
+    "expenseMonitoring": "खर्च",
+    "counters": "काउन्टरहरू",
+    "settings": "सेटिङहरू",
+    "pendingBills": "बाँकी बिलहरू",
+    "readyToPay": "भुक्तानीको लागि तयार",
+    "noPending": "कुनै बाँकी बिल छैन"
   }
 }

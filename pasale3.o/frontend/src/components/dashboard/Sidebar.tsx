@@ -16,6 +16,7 @@ import {
   FiPackage,
   FiBriefcase,
   FiBarChart2,
+  FiClock,
 } from 'react-icons/fi';
 import { NepaliRupeeIcon } from '../ui/NepaliRupeeIcon';
 
@@ -23,6 +24,8 @@ import { NepaliRupeeIcon } from '../ui/NepaliRupeeIcon';
 const RupeeIcon: React.FC<{ className?: string }> = ({ className }) => (
   <NepaliRupeeIcon className={className} />
 );
+
+
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -55,6 +58,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
     { path: '/counters', icon: FiGrid, labelKey: 'sidebar.counters' },
     { path: '/settings', icon: FiSettings, labelKey: 'sidebar.settings' },
   ];
+
+
 
   return (
     <>
@@ -106,17 +111,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
             const Icon = item.icon;
             const isActive = location.pathname === item.path ||
               (item.path === '/dashboard' && location.pathname === '/');
+
+
             return (
               <Link
                 key={item.path}
                 to={item.path}
                 onClick={() => onClose?.()}
                 className={`
-                  flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-all duration-200
+                  flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-200
                   ${isCollapsed ? 'justify-center px-2' : ''}
                   ${isActive
-                    ? 'bg-blue-600 text-white dark:bg-blue-500 shadow-md shadow-blue-500/20'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600'
                   }
                 `}
                 title={isCollapsed ? t(item.labelKey) : undefined}
@@ -130,18 +137,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
 
                 {/* "New" pill badge on the Employees link */}
                 {item.path === '/employees' && !isCollapsed && !isActive && (
-                  <span
-                    style={{
-                      fontSize: 10,
-                      fontWeight: 700,
-                      padding: '2px 7px',
-                      borderRadius: 20,
-                      background: '#dbeafe',
-                      color: '#1d4ed8',
-                      letterSpacing: '.04em',
-                      textTransform: 'uppercase',
-                    }}
-                  >
+                  <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
                     New
                   </span>
                 )}

@@ -57,6 +57,8 @@ urlpatterns = [
          OrderView.as_view(), name='order-customer-list'),
     path('orders/b<int:business_id>/cntr<int:counter_id>/',
          OrderView.as_view(), name='order-counter-list'),
+    path('orders/b<int:business_id>/o<int:order_id>/',
+         OrderView.as_view(), name='order-detail'),
     path('order-statuses/',
          OrderStatusView.as_view(), name='order-status-list'),
 

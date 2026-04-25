@@ -1268,5 +1268,20 @@
     "transport": "Transport",
     "marketing": "Marketing",
     "otherExpenses": "Other Expenses"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "transactions": "Transactions",
+    "parties": "Parties",
+    "inventory": "Inventory",
+    "employees": "Employees",
+    "billing": "Billing",
+    "businessReports": "Reports",
+    "expenseMonitoring": "Expenses",
+    "counters": "Counters",
+    "settings": "Settings",
+    "pendingBills": "Pending Bills",
+    "readyToPay": "Ready to be paid",
+    "noPending": "No pending bills"
   }
 }

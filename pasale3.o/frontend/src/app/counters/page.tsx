@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { counterApi, orderApi } from '../../utils/api';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Card } from '../../components/ui/Card';
-import { 
-  FiPlus, FiMonitor, FiTrash2, FiAlertCircle, 
-  FiCheckCircle, FiChevronRight, FiBox, 
+import {
+  FiPlus, FiMonitor, FiTrash2, FiAlertCircle,
+  FiCheckCircle, FiChevronRight, FiBox,
   FiShoppingBag, FiArrowLeft, FiClock, FiCheck
 } from 'react-icons/fi';
 
@@ -33,6 +34,7 @@ interface Order {
 }
 
 export default function CountersPage() {
+  const navigate = useNavigate();
   const [counters, setCounters] = useState<Counter[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -87,7 +89,7 @@ export default function CountersPage() {
       setLoadingOrders(true);
       const data = await orderApi.getAll({ counterId });
       // Filter only pending orders if backend doesn't do it
-      const orders = (data.results || data || []).filter((o: Order) => 
+      const orders = (data.results || data || []).filter((o: Order) =>
         o.status.toLowerCase() === 'pending'
       );
       setPendingOrders(orders);
@@ -99,7 +101,7 @@ export default function CountersPage() {
   };
 
   const handleCompleteOrder = async (orderId: number) => {
-    const completedStatus = statuses.find(s => 
+    const completedStatus = statuses.find(s =>
       s.name.toLowerCase() === 'completed' || s.name.toLowerCase() === 'complete' || s.name.toLowerCase() === 'paid'
     );
 
@@ -111,8 +113,8 @@ export default function CountersPage() {
     try {
       setCompletingId(orderId);
       await orderApi.update(orderId, { status_id: completedStatus.id });
-      // Refresh pending orders
-      if (selectedCounter) fetchPendingOrders(selectedCounter.id);
+      // Redirect to billing page
+      navigate('/billing');
     } catch (err: any) {
       setError(err.message || 'Failed to complete order');
     } finally {
@@ -147,7 +149,7 @@ export default function CountersPage() {
   if (selectedCounter) {
     return (
       <div className="p-6 max-w-5xl mx-auto animate-in slide-in-from-right duration-300">
-        <button 
+        <button
           onClick={() => setSelectedCounter(null)}
           className="flex items-center gap-2 text-gray-500 hover:text-indigo-600 mb-6 transition-colors group"
         >
@@ -193,7 +195,7 @@ export default function CountersPage() {
                     <p className="text-2xl font-black text-indigo-600">Rs. {order.total_amount.toLocaleString()}</p>
                   </div>
                 </div>
-                
+
                 <div className="p-6">
                   <h4 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <FiBox className="text-indigo-600" /> Order Items
@@ -215,7 +217,7 @@ export default function CountersPage() {
 
                 <div className="p-6 bg-indigo-600 flex items-center justify-between">
                   <p className="text-white/80 text-sm font-medium">Ready to finalize this transaction?</p>
-                  <Button 
+                  <Button
                     onClick={() => handleCompleteOrder(order.id)}
                     disabled={completingId === order.id}
                     className="bg-white text-indigo-600 hover:bg-indigo-50 px-8 font-black flex items-center gap-2 border-0 shadow-lg"
@@ -242,7 +244,7 @@ export default function CountersPage() {
           <h1 className="text-2xl font-bold text-gray-900">Counters</h1>
           <p className="text-sm text-gray-500">Manage your business counters and points of sale</p>
         </div>
-        <Button 
+        <Button
           onClick={() => setShowAdd(true)}
           className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2"
         >
@@ -273,8 +275,8 @@ export default function CountersPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {counters.map(counter => (
-            <Card 
-              key={counter.id} 
+            <Card
+              key={counter.id}
               className="p-6 hover:shadow-xl transition-all border-0 shadow-sm bg-white group cursor-pointer hover:-translate-y-1"
               onClick={() => setSelectedCounter(counter)}
             >
@@ -313,8 +315,8 @@ export default function CountersPage() {
             <form onSubmit={handleAddCounter} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Counter Number</label>
-                <Input 
-                  type="number" 
+                <Input
+                  type="number"
                   value={formData.counter_number}
                   onChange={(e) => setFormData({ ...formData, counter_number: e.target.value })}
                   placeholder="e.g. 1"
@@ -323,7 +325,7 @@ export default function CountersPage() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                <textarea 
+                <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Optional description (e.g. First Floor Counter)"
@@ -331,16 +333,16 @@ export default function CountersPage() {
                 />
               </div>
               <div className="flex gap-3 pt-2">
-                <Button 
-                  type="button" 
-                  variant="secondary" 
+                <Button
+                  type="button"
+                  variant="secondary"
                   className="flex-1"
                   onClick={() => setShowAdd(false)}
                 >
                   Cancel
                 </Button>
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white"
                   disabled={saving}
                 >

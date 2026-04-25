@@ -173,6 +173,12 @@ export const orderApi = {
   getStatuses: async (): Promise<any> => {
     return apiClient.get('/order-statuses/');
   },
+
+  update: async (id: number | string, data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.put(`/orders/b${bid}/o${id}/`, data);
+  },
 };
 
 // ================================
@@ -198,22 +204,30 @@ export const expenseApi = {
 // ================================
 
 export const billingApi = {
-  getAll: async (): Promise<any> => {
+  getAll: async (filters?: { status?: string }): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    return apiClient.get(`/billing/b${bid}/`);
+    let url = `/billing/b${bid}/`;
+    if (filters?.status) url += `?status=${filters.status}`;
+    return apiClient.get(url);
   },
 
   getById: async (id: number | string): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
-    return apiClient.get(`/billing/b${bid}/bi${id}/`);
+    return apiClient.get(`/billing/b${bid}/b${id}/`);
   },
 
   create: async (data: any): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
     return apiClient.post(`/billing/b${bid}/`, data);
+  },
+
+  update: async (id: number | string, data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.put(`/billing/b${bid}/?id=${id}`, data);
   },
 };
 

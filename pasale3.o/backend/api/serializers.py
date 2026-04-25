@@ -52,15 +52,19 @@ class ExpenseSerializer(serializers.ModelSerializer):
                   'date', 'category', 'is_necessary']
 
 
-class BillingSerializer(serializers.ModelSerializer):
+class BillingItemSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='item.product_name', read_only=True)
+
     class Meta:
-        model = Billing
+        model = BillingItem
         fields = "__all__"
 
 
-class BillingItemSerializer(serializers.ModelSerializer):
+class BillingSerializer(serializers.ModelSerializer):
+    items = BillingItemSerializer(many=True, read_only=True)
+
     class Meta:
-        model = BillingItem
+        model = Billing
         fields = "__all__"
 
 
