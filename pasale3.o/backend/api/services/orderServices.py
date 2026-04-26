@@ -1,4 +1,5 @@
-from django.db import transaction
+from django.db import transaction, models
+from django.db.models import Prefetch
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -239,8 +240,12 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
                 product = item.product_id  # This is the product object from product_map
                 if product:
                     product.quantity = max(0, product.quantity - item.quantity)
+                    
+                    # Safety check for reorder_level
+                    reorder_level = product.reorder_level if product.reorder_level is not None else 10
+                    
                     # Manually update is_low_stock since bulk_create/save might be skipped or needs explicit call
-                    product.is_low_stock = product.quantity <= product.reorder_level
+                    product.is_low_stock = product.quantity <= reorder_level
                     product.save(update_fields=['quantity', 'is_low_stock'])
 
             if has_customer:

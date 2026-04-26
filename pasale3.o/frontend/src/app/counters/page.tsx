@@ -224,12 +224,12 @@ export default function CountersPage() {
                   </div>
                 </div>
 
-                <div className="p-6 bg-indigo-600 flex items-center justify-between">
-                  <p className="text-white/80 text-sm font-medium">Ready to finalize this transaction?</p>
+                <div className="p-6 bg-white border-t border-gray-100 flex items-center justify-between">
+                  <p className="text-gray-600 text-sm font-medium">Ready to finalize this transaction?</p>
                   <Button
                     onClick={() => handleCompleteOrder(order.id)}
                     disabled={completingId === order.id}
-                    className="bg-white text-indigo-600 hover:bg-indigo-50 px-8 font-black flex items-center gap-2 border-0 shadow-lg"
+                    className="bg-indigo-600 text-white hover:bg-indigo-700 px-8 font-black flex items-center gap-2 border-0 shadow-lg"
                   >
                     {completingId === order.id ? 'Processing...' : (
                       <>

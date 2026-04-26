@@ -155,11 +155,10 @@ class SchedulerResponseSerializer(serializers.Serializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    status = serializers.CharField(source='status.name', read_only=True)
+    status = serializers.SerializerMethodField()
     status_id = serializers.PrimaryKeyRelatedField(
         source='status', queryset=OrderItemStatus.objects.all(), write_only=True, required=False, allow_null=True)
-    product_name = serializers.CharField(
-        source='product_id.product_name', read_only=True)
+    product_name = serializers.SerializerMethodField()
 
     class Meta:
         model = OrderItem
@@ -167,20 +166,23 @@ class OrderItemSerializer(serializers.ModelSerializer):
                   'quantity', 'unit_price', 'total_price', 'status', 'status_id']
         read_only_fields = ['status']
 
+    def get_status(self, obj):
+        return obj.status.name if obj.status else None
+
+    def get_product_name(self, obj):
+        return obj.product_id.product_name if obj.product_id else None
+
 
 class OrderSerializer(serializers.ModelSerializer):
-    status = serializers.CharField(source='order_status.name', read_only=True)
+    status = serializers.SerializerMethodField()
     status_id = serializers.PrimaryKeyRelatedField(
         source='order_status', queryset=OrderStatus.objects.all(), write_only=True, required=False, allow_null=True)
     order_date = serializers.DateTimeField(source='created_at', read_only=True)
-    customer_name = serializers.CharField(
-        source='customer_id.name', read_only=True)
-    business_name = serializers.CharField(
-        source='business_id.business_name', read_only=True)
+    customer_name = serializers.SerializerMethodField()
+    business_name = serializers.SerializerMethodField()
     items = OrderItemSerializer(many=True, read_only=True)
-    counter_id = serializers.IntegerField(source='counter.id', read_only=True)
-    counter_number = serializers.CharField(
-        source='counter.counter_number', read_only=True)
+    counter_id = serializers.SerializerMethodField()
+    counter_number = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
@@ -189,6 +191,21 @@ class OrderSerializer(serializers.ModelSerializer):
 
         read_only_fields = ['status', 'customer_name',
                             'business_name', 'items', 'created_at', 'updated_at']
+
+    def get_status(self, obj):
+        return obj.order_status.name if obj.order_status else None
+
+    def get_customer_name(self, obj):
+        return obj.customer_id.name if obj.customer_id else None
+
+    def get_business_name(self, obj):
+        return obj.business_id.business_name if obj.business_id else None
+
+    def get_counter_id(self, obj):
+        return obj.counter.id if obj.counter else None
+
+    def get_counter_number(self, obj):
+        return obj.counter.counter_number if obj.counter else None
 
 
 class CounterSerializer(serializers.ModelSerializer):
