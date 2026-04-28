@@ -24,6 +24,12 @@ class EmployeeStatus(models.Model):
 
     def __str__(self):
         return self.name
+    
+class ExpenseCategory(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class OrderStatus(models.Model):
@@ -316,23 +322,13 @@ class SupplierInfo(models.Model):
 
 
 class Expense(models.Model):
-    CATEGORY_CHOICES = [
-        ('Rent', 'Rent'),
-        ('Utilities', 'Utilities'),
-        ('Salary', 'Salary'),
-        ('Inventory', 'Inventory'),
-        ('Transport', 'Transport'),
-        ('Food', 'Food'),
-        ('Office Supplies', 'Office Supplies'),
-        ('Phone', 'Phone'),
-        ('Marketing', 'Marketing'),
-        ('Other', 'Other'),
-    ]
-
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='expenses')
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='expenses', null=True, blank=True)
+    category = models.ForeignKey(
+        ExpenseCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='expenses')
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     description = models.TextField(blank=True, null=True)
     date = models.DateField()
