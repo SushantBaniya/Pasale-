@@ -25,8 +25,6 @@ from api.services.productService import check_low_stock_and_alert, create_produc
 from api.services.employeeServices import get_all_employees, create_employee
 from .services.scheduler import WSMStaffScheduler
 from api.services.orderServices import get_order, create_order
-
-
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
