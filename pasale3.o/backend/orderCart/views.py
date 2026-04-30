@@ -8,8 +8,6 @@ from api.models import Customer, Product
 from .models import OrderCart
 
 
-
-# Create your views here.
 class OrderCartView(APIView):
     permission_classes = [IsAuthenticated]
 
