@@ -4,9 +4,7 @@ from datetime import date, timedelta
 from django.db.models import Q
 from api.models import Employee, Shift, EmployeeSkill, EmployeeSchedule
 
-
 # CONFIGURATION
-
 
 WEIGHTS = {
     "availability":  0.30,
@@ -22,9 +20,7 @@ PROFICIENCY_SCORE = {
     "Advanced":     1.0,
 }
 
-# ----------------------------------------
-# HELPERS
-# ----------------------------------------
+
 
 def normalize(value, min_val, max_val):
     if max_val == min_val:
@@ -63,7 +59,6 @@ def get_skill_match(employee, shift):
         return True, PROFICIENCY_SCORE.get(emp_skill.proficiency_level, 0.4)
     except EmployeeSkill.DoesNotExist:
         return False, 0.0
-
 
 
 class WSMStaffScheduler:
@@ -192,9 +187,6 @@ class WSMStaffScheduler:
 
         return self.schedule, self.unscheduled
 
-    # ----------------------------------------
-    # APPLY: Save assignments to database
-    # ----------------------------------------
     def apply_schedule(self):
         applied = []
         for entry in self.schedule:
@@ -233,9 +225,6 @@ class WSMStaffScheduler:
             "assignments":       applied,
         }
 
-    # ----------------------------------------
-    # SUMMARY: Matches your existing get_schedule_summary()
-    # ----------------------------------------
     def get_schedule_summary(self):
         summary = {}
         for entry in self.schedule:

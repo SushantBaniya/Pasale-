@@ -76,8 +76,6 @@ def run_apriori(business_id, min_support=0.2, min_confidence=0.5, min_lift=1.2):
 
     return rules, f"{len(rules)} rules found from {len(transactions)} transactions"
 
-
-
 from api.models import Product, StockAlert
 
 def get_reorder_suggestions(business_id):
