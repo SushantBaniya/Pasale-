@@ -73,18 +73,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
       )}
 
       <aside className={`
-        ${isCollapsed ? 'lg:w-20' : 'lg:w-64'} bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 
+        ${isCollapsed ? 'lg:w-20' : 'lg:w-64'} bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 
         h-screen fixed left-0 top-0 flex flex-col z-50 
         transition-all duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+        ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} 
         lg:translate-x-0
       `}>
         {/* Header with close button on mobile and toggle on desktop */}
-        <div className={`p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 flex items-center shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+        <div className={`p-4 sm:p-6 border-b border-gray-100 dark:border-gray-800 flex items-center shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
           {!isCollapsed && (
-            <h1 className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400 truncate">
-              Pasale
-            </h1>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-500/20">
+                <FiGrid className="w-4 h-4 text-white" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 truncate tracking-tight">
+                Pasale
+              </h1>
+            </div>
           )}
 
           {/* Desktop Toggle Button */}
@@ -119,18 +124,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                 to={item.path}
                 onClick={() => onClose?.()}
                 className={`
-                  flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-200
+                  group flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300
                   ${isCollapsed ? 'justify-center px-2' : ''}
                   ${isActive
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-600 text-white shadow-md shadow-blue-500/25 dark:shadow-blue-900/30'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-blue-600 dark:hover:text-blue-400'
                   }
                 `}
                 title={isCollapsed ? t(item.labelKey) : undefined}
               >
-                <Icon className="w-5 h-5 shrink-0" />
+                <Icon className={`w-5 h-5 shrink-0 transition-transform duration-300 ${!isActive && 'group-hover:scale-110'}`} />
                 {!isCollapsed && (
-                  <span className="font-medium text-sm sm:text-base truncate flex-1">
+                  <span className={`font-medium text-sm sm:text-base truncate flex-1 ${isActive ? 'font-semibold tracking-wide text-white' : ''}`}>
                     {t(item.labelKey)}
                   </span>
                 )}
@@ -142,13 +147,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
         </nav>
 
         {/* Logout button - fixed at bottom with safe area padding */}
-        <div className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-700 shrink-0 pb-safe mb-4 sm:mb-0">
+        <div className="p-3 sm:p-4 border-t border-gray-100 dark:border-gray-800 shrink-0 pb-safe mb-4 sm:mb-0">
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all duration-200 ${isCollapsed ? 'justify-center px-2' : ''}`}
+            className={`group w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 ${isCollapsed ? 'justify-center px-2' : ''}`}
             title={isCollapsed ? t('common.logout') : undefined}
           >
-            <FiLogOut className="w-5 h-5 shrink-0" />
+            <FiLogOut className="w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-12" />
             {!isCollapsed && <span className="font-medium text-sm sm:text-base">{t('common.logout')}</span>}
           </button>
         </div>

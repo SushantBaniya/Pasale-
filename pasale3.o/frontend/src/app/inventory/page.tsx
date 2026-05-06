@@ -109,24 +109,39 @@ function StatCard({ label, value, sub, color, icon, onClick }: {
   label: string; value: string | number; sub?: string;
   color: string; icon: React.ReactNode; onClick?: () => void;
 }) {
+  // Extract base colors for dark mode mapping where possible
+  const isBlue = color.includes('blue');
+  const isGreen = color.includes('green');
+  const isAmber = color.includes('amber');
+  const isRed = color.includes('red');
+  
+  const darkColor = isBlue ? 'dark:bg-blue-900/20 dark:text-blue-400' 
+    : isGreen ? 'dark:bg-green-900/20 dark:text-green-400' 
+    : isAmber ? 'dark:bg-amber-900/20 dark:text-amber-400' 
+    : isRed ? 'dark:bg-red-900/20 dark:text-red-400' 
+    : '';
+
   return (
     <div
       onClick={onClick}
-      className={`bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group`}
+      className={`bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-700/50 shadow-sm hover:shadow-md transition-all cursor-pointer group ${color.split(' ')[0]} ${darkColor.split(' ')[0]}`}
     >
-      <div className={`text-2xl font-bold text-gray-900 mb-0.5`}>{value}</div>
-      <div className="text-sm font-medium text-gray-500">{label}</div>
-      {sub && <div className="text-xs text-gray-400 mt-0.5">{sub}</div>}
+      <div className="flex items-center gap-3 mb-2">
+        <div className={`p-2 rounded-lg ${color} ${darkColor}`}>{icon}</div>
+        <div className="text-2xl font-bold text-gray-900 dark:text-white shrink-0">{value}</div>
+      </div>
+      <div className="text-sm font-medium text-gray-500 dark:text-gray-400">{label}</div>
+      {sub && <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sub}</div>}
     </div>
   );
 }
 
 function Badge({ children, type }: { children: React.ReactNode; type: 'green' | 'amber' | 'red' | 'gray' }) {
   const cls = {
-    green: 'bg-green-50 text-green-700 border-green-200',
-    amber: 'bg-amber-50 text-amber-700 border-amber-200',
-    red: 'bg-red-50 text-red-700 border-red-200',
-    gray: 'bg-gray-100 text-gray-600 border-gray-200',
+    green: 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800',
+    amber: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800',
+    red: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800',
+    gray: 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700',
   }[type];
   return <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${cls}`}>{children}</span>;
 }
@@ -579,18 +594,18 @@ export default function InventoryPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Inventory</h1>
-            <p className="text-sm text-gray-500 mt-0.5">Track products, manage stock levels, and monitor inventory health</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Inventory</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Track products, manage stock levels, and monitor inventory health</p>
           </div>
           <div className="flex items-center gap-2">
             <button onClick={fetchProducts} disabled={loading}
-              className="inline-flex items-center gap-2 px-4 py-2.5 border-2 border-gray-200 text-gray-600 font-semibold rounded-xl hover:bg-white text-sm transition-colors disabled:opacity-50">
+              className="inline-flex items-center gap-2 px-4 py-2.5 border-2 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 font-semibold rounded-xl hover:bg-white dark:hover:bg-gray-800 text-sm transition-colors disabled:opacity-50">
               <Icons.Refresh className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               <span className="hidden sm:inline">Refresh</span>
             </button>
@@ -831,9 +846,9 @@ export default function InventoryPage() {
         )}
 
         {/* ── Filters ── */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-4 mb-5 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 mb-5 shadow-sm">
           {/* Stock tabs */}
-          <div className="flex flex-wrap gap-1.5 pb-4 mb-4 border-b border-gray-100">
+          <div className="flex flex-wrap gap-1.5 pb-4 mb-4 border-b border-gray-100 dark:border-gray-700/50">
             {([
               { id: 'all', label: 'All', count: products.length },
               { id: 'in-stock', label: 'In Stock', count: inStock.length },
@@ -842,9 +857,9 @@ export default function InventoryPage() {
             ] as { id: StockFilter; label: string; count: number }[]).map(tab => (
               <button key={tab.id} onClick={() => setStockFilter(tab.id)}
                 className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${stockFilter === tab.id
-                  ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                  ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
                 {tab.label}
-                <span className={`px-1.5 py-0.5 rounded-full text-[11px] font-bold ${stockFilter === tab.id ? 'bg-white/25 text-white' : 'bg-white text-gray-600 border border-gray-200'}`}>
+                <span className={`px-1.5 py-0.5 rounded-full text-[11px] font-bold ${stockFilter === tab.id ? 'bg-white/25 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600'}`}>
                   {tab.count}
                 </span>
               </button>
@@ -856,25 +871,25 @@ export default function InventoryPage() {
               <Icons.Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input value={search} onChange={e => setSearch(e.target.value)}
                 placeholder="Search by name or SKU..."
-                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors bg-gray-50 focus:bg-white" />
+                className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors bg-gray-50 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 dark:text-white" />
             </div>
             <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}
-              className="px-4 py-2.5 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 bg-gray-50 focus:bg-white text-gray-700">
+              className="px-4 py-2.5 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:border-blue-500 bg-gray-50 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 text-gray-700 dark:text-gray-300">
               <option value="">All Categories</option>
               {categories.map(c => <option key={c} value={String(c)}>{CATEGORY_MAP[c!] || c}</option>)}
             </select>
-            <div className="flex items-center gap-1 bg-gray-100 rounded-xl p-1">
+            <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-900 rounded-xl p-1">
               {([['grid', Icons.Grid], ['table', Icons.List]] as const).map(([mode, Icon]) => (
                 <button key={mode} onClick={() => setViewMode(mode as ViewMode)}
-                  className={`p-2.5 rounded-lg transition-colors ${viewMode === mode ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                  className={`p-2.5 rounded-lg transition-colors ${viewMode === mode ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}>
                   <Icon className="w-4 h-4" />
                 </button>
               ))}
             </div>
           </div>
-          <div className="mt-3 text-xs text-gray-500">
-            Showing <span className="font-semibold text-gray-700">{filtered.length}</span> of {products.length} products
-            {filtered.length > 0 && <span className="ml-2">· Value: <span className="font-semibold text-gray-700">{fmt(filtered.reduce((s, p) => s + p.unit_price * p.quantity, 0))}</span></span>}
+          <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+            Showing <span className="font-semibold text-gray-700 dark:text-gray-200">{filtered.length}</span> of {products.length} products
+            {filtered.length > 0 && <span className="ml-2">· Value: <span className="font-semibold text-gray-700 dark:text-gray-200">{fmt(filtered.reduce((s, p) => s + p.unit_price * p.quantity, 0))}</span></span>}
           </div>
         </div>
 
@@ -897,17 +912,17 @@ export default function InventoryPage() {
         {/* ── Loading ── */}
         {loading && products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4" />
-            <p className="text-gray-600 font-medium">Loading inventory...</p>
+            <div className="w-12 h-12 border-4 border-blue-200 dark:border-blue-900 border-t-blue-600 dark:border-t-blue-500 rounded-full animate-spin mb-4" />
+            <p className="text-gray-600 dark:text-gray-300 font-medium">Loading inventory...</p>
             <p className="text-sm text-gray-400 mt-1">Fetching products from server</p>
           </div>
         ) : filtered.length === 0 && !error ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center bg-white rounded-2xl border border-gray-200">
-            <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
-              <Icons.Package className="w-8 h-8 text-gray-300" />
+          <div className="flex flex-col items-center justify-center py-24 text-center bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700/50 rounded-2xl flex items-center justify-center mb-4">
+              <Icons.Package className="w-8 h-8 text-gray-300 dark:text-gray-500" />
             </div>
-            <h3 className="font-bold text-gray-900 mb-1">{search ? 'No products found' : 'No products yet'}</h3>
-            <p className="text-sm text-gray-500 mb-5">{search ? 'Try a different search term' : 'Add your first product to get started'}</p>
+            <h3 className="font-bold text-gray-900 dark:text-white mb-1">{search ? 'No products found' : 'No products yet'}</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">{search ? 'Try a different search term' : 'Add your first product to get started'}</p>
             <button onClick={() => { setEditProduct(undefined); setShowForm(true); }}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 text-sm">
               <Icons.Plus className="w-4 h-4" /> Add Product
@@ -921,32 +936,32 @@ export default function InventoryPage() {
               const sType = stockType(p.quantity, reorder);
               return (
                 <div key={p.id} onClick={() => setDetailProduct(p)}
-                  className="bg-white rounded-2xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group overflow-hidden">
-                  <div className="h-36 bg-gray-50 flex items-center justify-center relative overflow-hidden">
+                  className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700/70 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md transition-all cursor-pointer group overflow-hidden">
+                  <div className="h-36 bg-gray-50 dark:bg-gray-900/50 flex items-center justify-center relative overflow-hidden border-b border-gray-100 dark:border-gray-700/50">
                     {p.product_Img
                       ? <img src={p.product_Img} alt={p.product_name} className="w-full h-full object-cover" />
-                      : <Icons.Package className="w-14 h-14 text-gray-200" />}
+                      : <Icons.Package className="w-14 h-14 text-gray-200 dark:text-gray-600" />}
                     <div className="absolute top-3 right-3">
                       <Badge type={sType}>{stockLabel(p.quantity, reorder)}</Badge>
                     </div>
                     <input type="checkbox" checked={selected.has(p.id)} onClick={e => e.stopPropagation()}
                       onChange={() => toggleSelect(p.id)}
-                      className="absolute top-3 left-3 w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                      className="absolute top-3 left-3 w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 bg-white" />
                   </div>
                   <div className="p-4">
-                    <p className="font-bold text-gray-900 truncate mb-0.5">{p.product_name}</p>
+                    <p className="font-bold text-gray-900 dark:text-white truncate mb-0.5">{p.product_name}</p>
                     {p.sku && <p className="text-xs text-gray-400 font-mono mb-2">{p.sku}</p>}
                     <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-blue-600">{fmt(p.unit_price)}</span>
-                      <span className="text-sm text-gray-500">{p.quantity} units</span>
+                      <span className="text-lg font-bold text-blue-600 dark:text-blue-400">{fmt(p.unit_price)}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">{p.quantity} units</span>
                     </div>
                     <div className="flex gap-1 mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button onClick={e => { e.stopPropagation(); setEditProduct(p); setShowForm(true); }}
-                        className="flex-1 py-1.5 text-xs font-semibold text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center justify-center gap-1">
+                        className="flex-1 py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 flex items-center justify-center gap-1">
                         <Icons.Edit className="w-3.5 h-3.5" /> Edit
                       </button>
                       <button onClick={e => { e.stopPropagation(); handleDelete(p.id); }}
-                        className="flex-1 py-1.5 text-xs font-semibold text-red-600 border border-red-100 rounded-lg hover:bg-red-50 flex items-center justify-center gap-1">
+                        className="flex-1 py-1.5 text-xs font-semibold text-red-600 dark:text-red-400 border border-red-100 dark:border-red-900/50 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center justify-center gap-1">
                         <Icons.Trash className="w-3.5 h-3.5" /> Delete
                       </button>
                     </div>
@@ -957,66 +972,66 @@ export default function InventoryPage() {
           </div>
         ) : (
           /* ── Table View ── */
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700/50 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
+                  <tr className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-700">
                     <th className="p-4 w-10">
                       <input type="checkbox" className="rounded border-gray-300 text-blue-600"
                         onChange={e => setSelected(e.target.checked ? new Set(filtered.map(p => p.id)) : new Set())}
                         checked={filtered.length > 0 && selected.size === filtered.length} />
                     </th>
                     {['Product', 'Category', 'SKU', 'Stock', 'Price', 'Value', 'Status', ''].map(h => (
-                      <th key={h} className="p-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{h}</th>
+                      <th key={h} className="p-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-gray-50 dark:divide-gray-700/50">
                   {filtered.map(p => {
                     const reorder = reorderOf(p);
                     const sType = stockType(p.quantity, reorder);
                     return (
                       <tr key={p.id} onClick={() => setDetailProduct(p)}
-                        className="hover:bg-blue-50/30 transition-colors cursor-pointer group">
+                        className="hover:bg-blue-50/50 dark:hover:bg-gray-700/30 transition-colors cursor-pointer group">
                         <td className="p-4" onClick={e => e.stopPropagation()}>
                           <input type="checkbox" checked={selected.has(p.id)} onChange={() => toggleSelect(p.id)}
                             className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                         </td>
                         <td className="p-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
-                              {p.product_Img ? <img src={p.product_Img} alt={p.product_name} className="w-full h-full object-cover" /> : <Icons.Package className="w-5 h-5 text-gray-300" />}
+                            <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0">
+                              {p.product_Img ? <img src={p.product_Img} alt={p.product_name} className="w-full h-full object-cover" /> : <Icons.Package className="w-5 h-5 text-gray-300 dark:text-gray-500" />}
                             </div>
                             <div>
-                              <p className="font-semibold text-gray-900 text-sm">{p.product_name}</p>
-                              {p.description && <p className="text-xs text-gray-400 truncate max-w-[180px]">{p.description}</p>}
+                              <p className="font-semibold text-gray-900 dark:text-white text-sm">{p.product_name}</p>
+                              {p.description && <p className="text-xs text-gray-400 dark:text-gray-500 truncate max-w-[180px]">{p.description}</p>}
                             </div>
                           </div>
                         </td>
-                        <td className="p-4 text-sm text-gray-600">{p.category ? CATEGORY_MAP[p.category] || '—' : '—'}</td>
-                        <td className="p-4 text-sm font-mono text-gray-500">{p.sku || '—'}</td>
+                        <td className="p-4 text-sm text-gray-600 dark:text-gray-300">{p.category ? CATEGORY_MAP[p.category] || '—' : '—'}</td>
+                        <td className="p-4 text-sm font-mono text-gray-500 dark:text-gray-400">{p.sku || '—'}</td>
                         <td className="p-4">
                           <div className="flex items-center gap-2">
-                            <span className={`font-bold text-sm ${sType === 'red' ? 'text-red-600' : sType === 'amber' ? 'text-amber-600' : 'text-gray-900'}`}>
+                            <span className={`font-bold text-sm ${sType === 'red' ? 'text-red-600 dark:text-red-400' : sType === 'amber' ? 'text-amber-600 dark:text-amber-400' : 'text-gray-900 dark:text-white'}`}>
                               {p.quantity}
                             </span>
-                            <span className="text-xs text-gray-400">/ {reorder} min</span>
+                            <span className="text-xs text-gray-400 dark:text-gray-500">/ {reorder} min</span>
                           </div>
                         </td>
-                        <td className="p-4 text-sm font-semibold text-gray-900">{fmt(p.unit_price)}</td>
-                        <td className="p-4 text-sm font-semibold text-blue-600">{fmt(p.unit_price * p.quantity)}</td>
+                        <td className="p-4 text-sm font-semibold text-gray-900 dark:text-white">{fmt(p.unit_price)}</td>
+                        <td className="p-4 text-sm font-semibold text-blue-600 dark:text-blue-400">{fmt(p.unit_price * p.quantity)}</td>
                         <td className="p-4"><Badge type={sType}>{stockLabel(p.quantity, reorder)}</Badge></td>
                         <td className="p-4" onClick={e => e.stopPropagation()}>
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={() => setDetailProduct(p)} className="p-1.5 hover:bg-gray-100 rounded-lg" title="View">
-                              <Icons.Eye className="w-4 h-4 text-gray-500" />
+                            <button onClick={() => setDetailProduct(p)} className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg" title="View">
+                              <Icons.Eye className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                             </button>
-                            <button onClick={() => { setEditProduct(p); setShowForm(true); }} className="p-1.5 hover:bg-blue-50 rounded-lg" title="Edit">
-                              <Icons.Edit className="w-4 h-4 text-blue-500" />
+                            <button onClick={() => { setEditProduct(p); setShowForm(true); }} className="p-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg" title="Edit">
+                              <Icons.Edit className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                             </button>
-                            <button onClick={() => handleDelete(p.id)} className="p-1.5 hover:bg-red-50 rounded-lg" title="Delete">
-                              <Icons.Trash className="w-4 h-4 text-red-500" />
+                            <button onClick={() => handleDelete(p.id)} className="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg" title="Delete">
+                              <Icons.Trash className="w-4 h-4 text-red-500 dark:text-red-400" />
                             </button>
                           </div>
                         </td>

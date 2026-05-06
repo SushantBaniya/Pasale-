@@ -91,66 +91,65 @@ export const KPICard: React.FC<KPICardProps> = ({
     <Card
       onClick={onClick}
       noPadding
-      className={`group relative p-3 sm:p-4 lg:p-5 border-l-4 ${borderColors[borderColor]} cursor-pointer
+      className={`group relative p-4 sm:p-5 lg:p-6 border border-gray-100 dark:border-gray-700/50 
         bg-white dark:bg-gray-800 
-        shadow-sm hover:shadow-xl 
-        transform hover:-translate-y-0.5 sm:hover:-translate-y-1 hover:scale-[1.01] sm:hover:scale-[1.02]
-        transition-all duration-300 ease-out
-        border border-gray-100 dark:border-gray-700
-        overflow-hidden`}
+        rounded-2xl shadow-xs hover:shadow-lg
+        transform hover:-translate-y-1 hover:scale-[1.01]
+        transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+        overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
     >
-      {/* Hover gradient overlay */}
-      <div className="absolute inset-0 bg-linear-to-r from-transparent to-gray-50/50 dark:to-gray-700/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      {/* Decorative left accent edge */}
+      <div className={`absolute left-0 top-0 bottom-0 w-1 ${iconBgColors[borderColor].split(' ')[0].replace('50', '400')} dark:${iconBgColors[borderColor].split(' ')[1]?.replace('30', '50').replace('900/', '500/')} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
 
-      <div className="relative flex flex-col">
+      {/* Decorative top right glow */}
+      <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 ${iconBgColors[borderColor].split(' ')[0].replace('bg-', 'bg-').replace('50', '400')}`} />
+
+      {/* Hover gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent to-gray-50/50 dark:to-gray-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+      <div className="relative flex flex-col h-full justify-between">
         {/* Header with icon and title */}
-        <div className="flex items-center justify-between mb-2 sm:mb-3">
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl ${iconBgColors[borderColor]} flex items-center justify-center ${iconColors[borderColor]} transition-transform duration-300 group-hover:scale-110 shrink-0`}>
-              {icon || getDefaultIcon()}
-            </div>
-            <p className="text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-400 truncate">
-              {title}
-            </p>
+        <div className="flex items-start justify-between mb-4">
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 tracking-wide mt-1">
+            {title}
+          </p>
+          <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full ${iconBgColors[borderColor]} flex items-center justify-center ${iconColors[borderColor]} ring-4 ring-white dark:ring-gray-800 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shrink-0`}>
+            {icon || getDefaultIcon()}
           </div>
+        </div>
+
+        {/* Value and Arrow */}
+        <div className="flex items-end justify-between mb-1">
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight transition-transform duration-300 group-hover:translate-x-1">
+            {formatValue(value)}
+          </h3>
           {onClick && (
-            <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 shrink-0">
-              <FiArrowRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 dark:text-gray-500" />
+            <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-3 group-hover:translate-x-0 shrink-0 pb-1">
+              <FiArrowRight className={`w-5 h-5 ${iconColors[borderColor]}`} />
             </div>
           )}
         </div>
 
-        {/* Value */}
-        <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1 transition-transform duration-300 group-hover:scale-105 origin-left truncate">
-          {formatValue(value)}
-        </p>
+        {/* Change indicator & Subtitle */}
+        <div className="mt-3 flex items-center justify-between">
+          {change !== undefined ? (
+            <div className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium ${changeType === 'positive' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+              <span className={`inline-flex items-center justify-center p-1 rounded-full ${changeType === 'positive' ? 'bg-emerald-100/50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-rose-100/50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400'}`}>
+                {changeType === 'positive' ? <FiTrendingUp className="w-3 h-3" /> : <FiTrendingDown className="w-3 h-3" />}
+              </span>
+              <span>{n(Math.abs(change))}% {changeType === 'positive' ? 'increase' : 'decrease'}</span>
+            </div>
+          ) : (
+            <div className="h-5"></div>
+          )}
 
-        {/* Change indicator */}
-        {change !== undefined && (
-          <div className={`flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-semibold ${changeType === 'positive' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
-            }`}>
-            <span className={`inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full text-[10px] sm:text-xs ${changeType === 'positive' ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-red-100 dark:bg-red-900/30'
-              }`}>
-              {changeType === 'positive' ? <FiTrendingUp className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> : <FiTrendingDown className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
-            </span>
-            <span className="truncate">{n(Math.abs(change))}% from last period</span>
-          </div>
-        )}
-
-        {/* Optional subtitle */}
-        {subtitle && (
-          <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1.5 sm:mt-2 truncate">
-            {subtitle}
-          </p>
-        )}
-      </div>
-
-      {/* Click indicator on hover - hidden on mobile */}
-      {onClick && (
-        <div className="absolute bottom-1.5 sm:bottom-2 right-1.5 sm:right-2 text-[10px] sm:text-xs text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
-          Click to view
+          {subtitle && (
+            <p className="text-[11px] sm:text-xs text-gray-400 dark:text-gray-500 font-medium truncate ml-2">
+              {subtitle}
+            </p>
+          )}
         </div>
-      )}
+      </div>
     </Card>
   );
 };

@@ -19,6 +19,9 @@ import {
   FiArrowDownRight,
   FiBarChart2,
   FiChevronRight,
+  FiActivity,
+  FiShoppingCart,
+  FiRefreshCw,
 } from 'react-icons/fi';
 import {
   XAxis,
@@ -42,121 +45,169 @@ const calculatePercentageChange = (current: number, previous: number): number =>
   return Number((((current - previous) / previous) * 100).toFixed(1));
 };
 
-const MiniSparkline: React.FC<{ data: number[]; color: string; height?: number }> = ({
-  data, color, height = 28,
-}) => {
-  const max = Math.max(...data, 1);
-  const min = Math.min(...data, 0);
-  const range = max - min || 1;
-  const points = data.map((val, i) => {
-    const x = (i / (data.length - 1)) * 100;
-    const y = 100 - ((val - min) / range) * 100;
-    return `${x},${y}`;
-  }).join(' ');
+// ─── Inventra-style Badge ────────────────────────────────────────────────────
+interface BadgeProps {
+  value: number;
+  suffix?: string;
+}
+
+const TrendBadge: React.FC<BadgeProps> = ({ value }) => {
+  const positive = value >= 0;
   return (
-    <svg width="100%" height={height} viewBox="0 0 100 100" preserveAspectRatio="none" className="overflow-visible">
-      <polyline
-        points={points}
-        fill="none"
-        stroke={color}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
+    <span
+      className={`inline-flex items-center gap-0.5 text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+        positive 
+          ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
+          : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+      }`}
+    >
+      {positive ? '↑' : '↓'} {Math.abs(value)}%
+    </span>
   );
 };
 
-// ─── KPI Card ────────────────────────────────────────────────────────────────
-
+// ─── Inventra KPI Card ────────────────────────────────────────────────────────
 interface KpiCardProps {
   label: string;
   value: string;
   sub: string;
   icon: React.ReactNode;
+  iconColor: string;
   iconBg: string;
   onClick: () => void;
-  badge?: React.ReactNode;
+  trend?: number;
   valueColor?: string;
-  sparklineData?: number[];
-  accent?: boolean;
 }
 
 const KpiCard: React.FC<KpiCardProps> = ({
-  label, value, sub, icon, iconBg, onClick, badge, valueColor, sparklineData, accent,
+  label, value, sub, icon, iconColor, iconBg, onClick, trend, valueColor,
 }) => (
   <button
     onClick={onClick}
-    className={[
-      'text-left rounded-xl p-4 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
-      accent
-        ? 'bg-blue-600 hover:bg-blue-700'
-        : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 hover:shadow-sm',
-    ].join(' ')}
+    className="text-left bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-150 cursor-pointer w-full group"
   >
-    <div className="flex items-start justify-between mb-3">
-      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconBg}`}>
+    <div className="flex items-start justify-between mb-3.5">
+      <div
+        className={`w-10 h-10 rounded-lg flex items-center justify-center ${iconBg} ${iconColor}`}
+      >
         {icon}
       </div>
-      {badge}
+      {trend !== undefined && <TrendBadge value={trend} />}
     </div>
-    <p className={`text-[10px] uppercase tracking-widest mb-1 ${accent ? 'text-white/60' : 'text-gray-400 dark:text-gray-500'}`}>
+    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 font-medium uppercase tracking-widest">
       {label}
     </p>
-    <p className={`text-xl font-bold ${accent ? 'text-white' : (valueColor ?? 'text-gray-900 dark:text-white')}`}>
+    <p className={`text-[22px] font-bold ${valueColor ?? 'text-gray-900 dark:text-white'} mb-1 leading-snug`}>
       {value}
     </p>
-    {sparklineData && (
-      <div className="mt-3 h-7">
-        <MiniSparkline data={sparklineData} color={accent ? "rgba(255,255,255,0.75)" : "#3b82f6"} height={28} />
-      </div>
-    )}
-    <p className={`text-[11px] mt-1.5 ${accent ? 'text-white/45' : 'text-gray-400 dark:text-gray-500'}`}>
-      {sub}
-    </p>
+    <p className="text-xs text-gray-400 dark:text-gray-500">{sub}</p>
   </button>
 );
 
-// ─── Row Button (insights / transactions / health metrics) ───────────────────
-
-interface RowButtonProps {
-  iconBg: string;
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  sub?: string;
-  onClick: () => void;
-  valueColor?: string;
+// ─── Section Header ───────────────────────────────────────────────────────────
+interface SectionHeaderProps {
+  title: string;
+  action?: { label: string; onClick: () => void };
 }
 
-const RowButton: React.FC<RowButtonProps> = ({
-  iconBg, icon, label, value, sub, onClick, valueColor,
-}) => (
+const SectionHeader: React.FC<SectionHeaderProps> = ({ title, action }) => (
+  <div className="flex items-center justify-between mb-3.5">
+    <h2 className="text-[15px] font-bold text-gray-900 dark:text-white m-0">{title}</h2>
+    {action && (
+      <button
+        onClick={action.onClick}
+        className="flex items-center gap-1 text-xs font-semibold text-green-600 dark:text-green-500 bg-transparent border-none cursor-pointer p-0 hover:text-green-700 dark:hover:text-green-400 transition-colors"
+      >
+        {action.label}
+        <FiChevronRight size={13} />
+      </button>
+    )}
+  </div>
+);
+
+// ─── Transaction Row ──────────────────────────────────────────────────────────
+interface TxRowProps {
+  type: string;
+  description: string;
+  date: string;
+  partyName?: string;
+  amount: number;
+  currency: (n: number) => string;
+  onClick: () => void;
+}
+
+const TxRow: React.FC<TxRowProps> = ({ type, description, date, partyName, amount, currency, onClick }) => {
+  const isSale = type === 'selling';
+  return (
+    <button
+      onClick={onClick}
+      className="flex items-center justify-between w-full py-[11px] bg-transparent border-none border-b border-gray-100 dark:border-gray-800 last:border-b-0 cursor-pointer text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors px-2 -mx-2 rounded-lg"
+    >
+      <div className="flex items-center gap-3">
+        <div
+          className={`w-[34px] h-[34px] rounded-lg flex items-center justify-center text-[13px] font-bold shrink-0 ${
+            isSale 
+              ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' 
+              : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+          }`}
+        >
+          {isSale ? <FiArrowDownRight size={15} /> : <FiArrowUpRight size={15} />}
+        </div>
+        <div>
+          <p className="text-[13px] font-semibold text-gray-900 dark:text-white m-0">
+            {description || (isSale ? 'Sale' : 'Purchase')}
+          </p>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 m-0 mt-0.5">
+            {new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            {partyName && ` · ${partyName}`}
+          </p>
+        </div>
+      </div>
+      <span
+        className={`text-[13px] font-bold ${
+          isSale ? 'text-green-600 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'
+        }`}
+      >
+        {isSale ? '+' : '−'}{currency(amount)}
+      </span>
+    </button>
+  );
+};
+
+// ─── Stat Row (health panel) ──────────────────────────────────────────────────
+interface StatRowProps {
+  icon: React.ReactNode;
+  iconBg: string;
+  iconColor: string;
+  label: string;
+  value: string;
+  warn?: boolean;
+  onClick: () => void;
+}
+
+const StatRow: React.FC<StatRowProps> = ({ icon, iconBg, iconColor, label, value, warn, onClick }) => (
   <button
     onClick={onClick}
-    className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors text-left group border-b border-gray-100 dark:border-gray-800 last:border-b-0"
+    className="flex items-center justify-between w-full py-2.5 bg-transparent border-none border-b border-gray-100 dark:border-gray-800 last:border-b-0 cursor-pointer text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors px-2 -mx-2 rounded-lg"
   >
-    <div className="flex items-center gap-3">
-      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconBg}`}>
+    <div className="flex items-center gap-2.5">
+      <div
+        className={`w-[30px] h-[30px] rounded-lg flex items-center justify-center ${iconBg} ${iconColor}`}
+      >
         {icon}
       </div>
-      <div>
-        <p className="text-[11px] text-gray-400 dark:text-gray-500">{label}</p>
-        <p className={`text-sm font-semibold truncate max-w-[140px] ${valueColor ?? 'text-gray-900 dark:text-white'}`}>
-          {value}
-        </p>
-      </div>
+      <p className="text-xs text-gray-500 dark:text-gray-400 m-0 font-medium">{label}</p>
     </div>
-    <div className="flex items-center gap-2">
-      {sub && <span className="text-[11px] text-gray-400">{sub}</span>}
-      <FiChevronRight className="w-4 h-4 text-gray-300 dark:text-gray-600 group-hover:text-gray-500 transition-colors" />
+    <div className="flex items-center gap-1.5">
+      <span className={`text-[13px] font-bold ${warn ? 'text-amber-600 dark:text-amber-500' : 'text-gray-900 dark:text-white'}`}>
+        {value}
+      </span>
+      <FiChevronRight size={13} className="text-gray-300 dark:text-gray-600" />
     </div>
   </button>
 );
 
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
-
 export default function DashboardPage() {
   const navigate = useNavigate();
   const { t, c } = useTranslation();
@@ -214,7 +265,6 @@ export default function DashboardPage() {
   const {
     salesChange,
     todaySalesTotal,
-    last7DaysSales,
     recentTransactions,
     todayTransactionsCount,
   } = useMemo(() => {
@@ -242,14 +292,6 @@ export default function DashboardPage() {
       .filter((tx) => tx.type === 'selling')
       .reduce((sum, tx) => sum + tx.amount, 0);
 
-    const last7DaysSales = Array.from({ length: 7 }).map((_, idx) => {
-      const date = new Date();
-      date.setDate(today.getDate() - (6 - idx));
-      return transactions
-        .filter((tx) => tx.type === 'selling' && isSameDay(tx.date, date))
-        .reduce((s, tx) => s + tx.amount, 0);
-    });
-
     const recentTransactions = [...transactions]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 6);
@@ -259,7 +301,6 @@ export default function DashboardPage() {
         ? calculatePercentageChange(currentMonthSales, previousMonthSales)
         : 0,
       todaySalesTotal,
-      last7DaysSales,
       recentTransactions,
       todayTransactionsCount: todayTxs.length,
     };
@@ -382,148 +423,126 @@ export default function DashboardPage() {
     return 'User';
   };
 
-  const healthColors = {
-    healthy: {
-      bg: 'bg-green-50 dark:bg-green-900/20',
-      label: 'text-green-700 dark:text-green-400',
-      value: 'text-green-700 dark:text-green-400',
-      badge: 'bg-green-600',
-    },
-    warning: {
-      bg: 'bg-amber-50 dark:bg-amber-900/20',
-      label: 'text-amber-700 dark:text-amber-400',
-      value: 'text-amber-700 dark:text-amber-400',
-      badge: 'bg-amber-500',
-    },
-    critical: {
-      bg: 'bg-red-50 dark:bg-red-900/20',
-      label: 'text-red-700 dark:text-red-400',
-      value: 'text-red-700 dark:text-red-400',
-      badge: 'bg-red-500',
-    },
+  const healthStatusMap = {
+    healthy: { label: 'Healthy', bg: '#dcfce7', color: '#16a34a', dot: '#16a34a' },
+    warning: { label: 'Warning', bg: '#fef9c3', color: '#854d0e', dot: '#ca8a04' },
+    critical: { label: 'Critical', bg: '#fee2e2', color: '#991b1b', dot: '#dc2626' },
   };
-  const hc = healthColors[businessHealth.status];
+  const healthUI = healthStatusMap[businessHealth.status];
+
+  // Chart tooltip custom style
+  const tooltipStyle = {
+    backgroundColor: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: 8,
+    fontSize: 12,
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+  };
 
   return (
-    <div className="space-y-5 pb-8">
+    <div className="max-w-[1200px] mx-auto px-5 pt-6 pb-10">
 
       {/* ── Header ── */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-[22px] font-bold text-gray-900 dark:text-white m-0">
             {getGreeting()}, {getUserName()}
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1.5">
-            <FiCalendar className="w-3.5 h-3.5" />
+          <p className="text-[13px] text-gray-400 dark:text-gray-500 m-0 mt-1 flex items-center gap-1.5">
+            <FiCalendar size={13} />
             {today.toLocaleDateString('en-US', {
               weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
             })}
           </p>
         </div>
-        <div className="hidden sm:flex items-center gap-4">
+        {/* Today summary pill — mirrors Inventra's top-right stats */}
+        <div className="flex items-center gap-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-[18px] py-2.5">
           <div className="text-right">
-            <p className="text-xs text-gray-400 dark:text-gray-500">Today's Sales</p>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">{c(todaySalesTotal)}</p>
+            <p className="text-[11px] text-gray-400 dark:text-gray-500 m-0 font-medium">Today's Sales</p>
+            <p className="text-base font-bold text-gray-900 dark:text-white m-0">{c(todaySalesTotal)}</p>
           </div>
           <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
           <div className="text-right">
-            <p className="text-xs text-gray-400 dark:text-gray-500">Transactions</p>
-            <p className="text-lg font-bold text-gray-900 dark:text-white">{todayTransactionsCount}</p>
+            <p className="text-[11px] text-gray-400 dark:text-gray-500 m-0 font-medium">Transactions</p>
+            <p className="text-base font-bold text-gray-900 dark:text-white m-0">{todayTransactionsCount}</p>
           </div>
         </div>
       </div>
 
-      {/* ── KPI Cards ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-
-        {/* Total Sales */}
+      {/* ── KPI Cards — 5-column grid mimicking Inventra's metric row ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-[14px] mb-6">
         <KpiCard
           label={t('dashboard.totalSales')}
           value={c(totalSales)}
-          sub="Last 7 days trend"
-          iconBg="bg-blue-50 dark:bg-blue-900/30"
-          icon={<FiTrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+          sub="All time revenue"
+          iconBg="bg-green-100 dark:bg-green-900/30"
+          iconColor="text-green-600 dark:text-green-400"
+          icon={<FiTrendingUp size={16} />}
           onClick={() => navigate('/reports')}
-          sparklineData={last7DaysSales}
-          badge={
-            salesChange !== 0 ? (
-              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${salesChange >= 0 ? 'bg-white/20 text-white' : 'bg-red-400/30 text-red-100'
-                }`}>
-                {salesChange >= 0 ? '↑' : '↓'}{Math.abs(salesChange)}%
-              </span>
-            ) : undefined
-          }
+          trend={salesChange !== 0 ? salesChange : undefined}
         />
-
-        {/* Receivable */}
         <KpiCard
           label={t('dashboard.totalReceivable')}
           value={c(totalReceivable)}
           sub={`${parties.filter((p) => p.type === 'customer').length} customers`}
-          iconBg="bg-blue-50 dark:bg-blue-900/30"
-          icon={<FiArrowDownRight className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+          iconBg="bg-blue-100 dark:bg-blue-900/30"
+          iconColor="text-blue-700 dark:text-blue-400"
+          icon={<FiArrowDownRight size={16} />}
           onClick={() => navigate('/dashboard/kpi/receivable')}
         />
-
-        {/* Payable */}
         <KpiCard
           label={t('dashboard.totalPayable')}
           value={c(totalPayable)}
           sub={`${parties.filter((p) => p.type === 'supplier').length} suppliers`}
-          iconBg="bg-red-50 dark:bg-red-900/30"
-          icon={<FiArrowUpRight className="w-4 h-4 text-red-500 dark:text-red-400" />}
+          iconBg="bg-red-100 dark:bg-red-900/30"
+          iconColor="text-red-600 dark:text-red-400"
+          icon={<FiArrowUpRight size={16} />}
           onClick={() => navigate('/dashboard/kpi/payable')}
+          valueColor="text-red-600 dark:text-red-500"
         />
-
-        {/* Cash in Hand */}
         <KpiCard
           label={t('dashboard.cashInHand')}
           value={c(cashInHand)}
           sub="Available balance"
-          iconBg="bg-green-50 dark:bg-green-900/30"
-          icon={<FiDollarSign className="w-4 h-4 text-green-600 dark:text-green-400" />}
+          iconBg="bg-green-100 dark:bg-green-900/30"
+          iconColor="text-green-600 dark:text-green-400"
+          icon={<FiDollarSign size={16} />}
           onClick={() => navigate('/dashboard/kpi/cash')}
         />
-
-        {/* Net Balance */}
         <KpiCard
           label={t('dashboard.netBalance')}
           value={c(netBalance)}
           sub="Receivable − Payable"
-          iconBg="bg-purple-50 dark:bg-purple-900/30"
-          icon={<FiPieChart className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
+          iconBg={netBalance >= 0 ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}
+          iconColor={netBalance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}
+          icon={<FiPieChart size={16} />}
           onClick={() => navigate('/dashboard/kpi/balance')}
-          valueColor={netBalance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}
-          badge={
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${netBalance >= 0
-                ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'
-              }`}>
-              {netBalance >= 0 ? '↑ +ve' : '↓ -ve'}
-            </span>
-          }
+          valueColor={netBalance >= 0 ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'}
         />
       </div>
 
-      {/* ── Chart + Quick Insights ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      {/* ── Chart + Quick Insights side-by-side ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 mb-4">
 
-        {/* Revenue Chart */}
-        <div className="lg:col-span-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+        {/* Revenue Chart Card */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+          {/* Card header */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700/50">
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Revenue Overview</h3>
-              <p className="text-xs text-gray-400 mt-0.5">Sales vs Expenses</p>
+              <p className="text-[14px] font-bold text-gray-900 dark:text-white m-0">Revenue Overview</p>
+              <p className="text-[11px] text-gray-400 dark:text-gray-500 m-0 mt-0.5">Sales vs Expenses</p>
             </div>
-            <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5">
+            {/* Period toggle — styled exactly like Inventra's All Category / All Payment Modes pills */}
+            <div className="flex bg-gray-50 dark:bg-gray-900/50 p-1 rounded-lg border border-gray-200 dark:border-gray-700">
               {(['weekly', 'monthly', 'yearly'] as const).map((p) => (
                 <button
                   key={p}
                   onClick={() => setChartPeriod(p)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${chartPeriod === p
-                      ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-                    }`}
+                  className={`px-3 py-1.5 text-[12px] font-semibold rounded-md border-none cursor-pointer transition-all duration-150 ${
+                    chartPeriod === p
+                      ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-[0_1px_3px_rgba(0,0,0,0.1)]'
+                      : 'bg-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                  }`}
                 >
                   {p.charAt(0).toUpperCase() + p.slice(1)}
                 </button>
@@ -531,52 +550,45 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="p-5 h-64">
+          {/* Chart */}
+          <div className="px-5 py-4 h-[230px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -22, bottom: 0 }}>
                 <defs>
                   <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#16a34a" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="#16a34a" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="expenseGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#f87171" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#f87171" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#dc2626" stopOpacity={0.12} />
+                    <stop offset="100%" stopColor="#dc2626" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke={isDark ? '#1f2937' : '#f3f4f6'}
-                  vertical={false}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} className="dark:opacity-10" />
                 <XAxis
                   dataKey="name"
                   stroke="transparent"
-                  tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
+                  tick={{ fill: '#9ca3af', fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis
                   stroke="transparent"
-                  tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
+                  tick={{ fill: '#9ca3af', fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v)}
                 />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: isDark ? '#111827' : '#fff',
-                    border: `1px solid ${isDark ? '#374151' : '#e5e7eb'}`,
-                    borderRadius: '8px',
-                    fontSize: '12px',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-                  }}
-                  formatter={(value: number) => [c(value), '']}
-                />
+                <Tooltip contentStyle={{
+                  backgroundColor: 'var(--tw-colors-white, #fff)',
+                  border: '1px solid var(--tw-colors-gray-200, #e5e7eb)',
+                  borderRadius: 8,
+                  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                }} formatter={(value: number) => [c(value), '']} />
                 <Area
                   type="monotone"
                   dataKey="sales"
-                  stroke="#3b82f6"
+                  stroke="#16a34a"
                   strokeWidth={2}
                   fill="url(#salesGradient)"
                   name="Sales"
@@ -585,7 +597,7 @@ export default function DashboardPage() {
                 <Area
                   type="monotone"
                   dataKey="expenses"
-                  stroke="#f87171"
+                  stroke="#dc2626"
                   strokeWidth={2}
                   fill="url(#expenseGradient)"
                   name="Expenses"
@@ -595,216 +607,201 @@ export default function DashboardPage() {
             </ResponsiveContainer>
           </div>
 
-          <div className="px-5 pb-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block" />Sales
-              </span>
-              <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400 inline-block" />Expenses
-              </span>
+          {/* Chart footer */}
+          <div className="px-5 pb-[14px] flex items-center justify-between">
+            <div className="flex gap-4">
+              {[
+                { color: 'bg-green-600', label: 'Sales' },
+                { color: 'bg-red-600', label: 'Expenses' },
+              ].map((item) => (
+                <span key={item.label} className="flex items-center gap-1.5 text-[12px] text-gray-500 dark:text-gray-400 font-medium">
+                  <span className={`w-2 h-2 rounded-full inline-block ${item.color}`} />
+                  {item.label}
+                </span>
+              ))}
             </div>
             <button
               onClick={() => navigate('/reports')}
-              className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center gap-1"
+              className="flex items-center gap-[3px] text-[12px] font-semibold text-green-600 dark:text-green-500 bg-transparent border-none cursor-pointer p-0 hover:text-green-700 dark:hover:text-green-400 transition-colors"
             >
-              Full Report <FiChevronRight className="w-3 h-3" />
+              Full Report <FiChevronRight size={13} />
             </button>
           </div>
         </div>
 
-        {/* Quick Insights */}
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-800">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Quick Insights</h3>
+        {/* Quick Insights Card — mirrors Inventra's right-column summary */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden shadow-sm">
+          <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/50">
+            <p className="text-[14px] font-bold text-gray-900 dark:text-white m-0">Quick Insights</p>
           </div>
-          <RowButton
-            iconBg="bg-blue-50 dark:bg-blue-900/30"
-            icon={<FiTrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
-            label="Today's Sales"
-            value={c(todaySalesTotal)}
-            onClick={() => navigate('/dashboard/todays-sales')}
-          />
-          <RowButton
-            iconBg="bg-purple-50 dark:bg-purple-900/30"
-            icon={<FiUsers className="w-4 h-4 text-purple-600 dark:text-purple-400" />}
-            label="Pending Receivables"
-            value={c(businessHealth.overdueReceivables)}
-            onClick={() => navigate('/dashboard/kpi/receivable')}
-          />
-          <RowButton
-            iconBg={lowStockItems.length > 0
-              ? 'bg-amber-50 dark:bg-amber-900/30'
-              : 'bg-gray-50 dark:bg-gray-800'}
-            icon={
-              <FiPackage className={`w-4 h-4 ${lowStockItems.length > 0
-                  ? 'text-amber-600 dark:text-amber-400'
-                  : 'text-gray-400'
-                }`} />
-            }
-            label="Low Stock Items"
-            value={`${lowStockItems.length} items`}
-            onClick={() => navigate('/inventory?filter=low-stock')}
-          />
-          <RowButton
-            iconBg="bg-green-50 dark:bg-green-900/30"
-            icon={<FiBarChart2 className="w-4 h-4 text-green-600 dark:text-green-400" />}
-            label="Top Customer"
-            value={insights.topParty}
-            sub={c(insights.topPartyAmount)}
-            onClick={() => navigate('/parties?type=customer')}
-          />
-        </div>
-      </div>
-
-      {/* ── Recent Transactions + Business Health ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-
-        {/* Recent Transactions */}
-        <div className="lg:col-span-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Recent Transactions</h3>
-            <button
-              onClick={() => navigate('/transactions')}
-              className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium flex items-center gap-1"
-            >
-              View All <FiArrowUpRight className="w-3 h-3" />
-            </button>
-          </div>
-
-          {recentTransactions.length === 0 ? (
-            <div className="py-16 text-center">
-              <FiClock className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-400">No transactions yet</p>
-              <p className="text-xs text-gray-300 dark:text-gray-600 mt-1">
-                Add a sale or purchase to get started
-              </p>
-            </div>
-          ) : (
-            <div className="divide-y divide-gray-50 dark:divide-gray-800/80">
-              {recentTransactions.map((tx) => (
-                <button
-                  key={tx.id}
-                  onClick={() => navigate(`/transactions/${tx.id}`)}
-                  className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors text-left group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${tx.type === 'selling'
-                        ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
-                      }`}>
-                      {tx.type === 'selling' ? '↑' : '↓'}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate max-w-[180px]">
-                        {tx.description || (tx.type === 'selling' ? 'Sale' : 'Purchase')}
-                      </p>
-                      <p className="text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
-                        <FiClock className="w-3 h-3" />
-                        {new Date(tx.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                        {tx.partyName && (
-                          <>
-                            <span className="text-gray-200 dark:text-gray-700">·</span>
-                            {tx.partyName}
-                          </>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                  <span className={`text-sm font-semibold ${tx.type === 'selling'
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-gray-600 dark:text-gray-400'
-                    }`}>
-                    {tx.type === 'selling' ? '+' : '−'}{c(tx.amount)}
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Business Health */}
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-800">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Business Health</h3>
-          </div>
-          <div className="p-5 space-y-4">
-
-            {/* Cash Flow Ratio */}
-            <div className={`rounded-lg p-4 ${hc.bg}`}>
-              <div className="flex items-center justify-between mb-1">
-                <span className={`text-xs font-medium ${hc.label}`}>Cash Flow Ratio</span>
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full text-white ${hc.badge}`}>
-                  {businessHealth.status.charAt(0).toUpperCase() + businessHealth.status.slice(1)}
-                </span>
-              </div>
-              <p className={`text-3xl font-bold mt-1 ${hc.value}`}>
-                {businessHealth.cashFlowRatio >= 999 ? '∞' : businessHealth.cashFlowRatio.toFixed(1)}x
-              </p>
-              <p className="text-xs text-gray-400 mt-1">Cash coverage of liabilities</p>
-            </div>
-
-            {/* Health Metrics */}
+          <div className="px-5 pt-2 pb-3">
             {[
               {
-                label: 'Outstanding Receivables',
+                icon: <FiTrendingUp size={14} />,
+                iconBg: 'bg-green-100 dark:bg-green-900/30',
+                iconColor: 'text-green-600 dark:text-green-400',
+                label: "Today's Sales",
+                value: c(todaySalesTotal),
+                onClick: () => navigate('/dashboard/todays-sales'),
+              },
+              {
+                icon: <FiUsers size={14} />,
+                iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+                iconColor: 'text-blue-700 dark:text-blue-400',
+                label: 'Pending Receivables',
                 value: c(businessHealth.overdueReceivables),
-                icon: <FiUsers className="w-4 h-4" />,
-                warn: false,
                 onClick: () => navigate('/dashboard/kpi/receivable'),
               },
               {
+                icon: <FiPackage size={14} />,
+                iconBg: lowStockItems.length > 0 ? 'bg-yellow-100 dark:bg-yellow-900/30' : 'bg-gray-100 dark:bg-gray-800',
+                iconColor: lowStockItems.length > 0 ? 'text-yellow-600 dark:text-yellow-500' : 'text-gray-500 dark:text-gray-400',
                 label: 'Low Stock Items',
                 value: `${lowStockItems.length} items`,
-                icon: <FiPackage className="w-4 h-4" />,
                 warn: lowStockItems.length > 0,
                 onClick: () => navigate('/inventory?filter=low-stock'),
               },
               {
-                label: 'Pending to Suppliers',
-                value: c(businessHealth.pendingPayments),
-                icon: <FiClock className="w-4 h-4" />,
-                warn: false,
-                onClick: () => navigate('/dashboard/kpi/payable'),
+                icon: <FiBarChart2 size={14} />,
+                iconBg: 'bg-green-50 dark:bg-green-900/20',
+                iconColor: 'text-green-600 dark:text-green-400',
+                label: 'Top Customer',
+                value: insights.topParty,
+                onClick: () => navigate('/parties?type=customer'),
+              },
+              {
+                icon: <FiActivity size={14} />,
+                iconBg: 'bg-purple-100 dark:bg-purple-900/30',
+                iconColor: 'text-purple-600 dark:text-purple-400',
+                label: 'Profit Margin',
+                value: `${insights.profitMargin}%`,
+                onClick: () => navigate('/reports'),
               },
             ].map((item, i) => (
-              <button
-                key={i}
-                onClick={item.onClick}
-                className="w-full flex items-center justify-between py-2.5 group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-7 h-7 rounded-md flex items-center justify-center ${item.warn
-                      ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-500'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500'
-                    }`}>
-                    {item.icon}
-                  </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{item.label}</p>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className={`text-sm font-semibold ${item.warn
-                      ? 'text-amber-600 dark:text-amber-400'
-                      : 'text-gray-900 dark:text-white'
-                    }`}>
-                    {item.value}
-                  </span>
-                  <FiChevronRight className="w-3.5 h-3.5 text-gray-300 dark:text-gray-600 group-hover:text-gray-500 transition-colors" />
-                </div>
-              </button>
+              <StatRow key={i} {...item} />
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── Low Stock Banner ── */}
+      {/* ── Recent Transactions + Business Health ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 mb-4">
+
+        {/* Recent Transactions */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden shadow-sm">
+          <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
+            <p className="text-[14px] font-bold text-gray-900 dark:text-white m-0">Recent Transactions</p>
+            <button
+              onClick={() => navigate('/transactions')}
+              className="flex items-center gap-[3px] text-[12px] font-semibold text-green-600 dark:text-green-500 bg-transparent border-none cursor-pointer p-0 hover:text-green-700 dark:hover:text-green-400 transition-colors"
+            >
+              View All <FiArrowUpRight size={13} />
+            </button>
+          </div>
+
+          <div className="px-5 pt-1 pb-2">
+            {recentTransactions.length === 0 ? (
+              <div className="py-10 text-center">
+                <FiClock size={28} className="text-gray-200 dark:text-gray-700 mb-2 mx-auto block" />
+                <p className="text-[13px] text-gray-400 dark:text-gray-500 m-0">No transactions yet</p>
+                <p className="text-[12px] text-gray-300 dark:text-gray-600 m-0 mt-1">
+                  Add a sale or purchase to get started
+                </p>
+              </div>
+            ) : (
+              recentTransactions.map((tx) => (
+                <TxRow
+                  key={tx.id}
+                  type={tx.type}
+                  description={tx.description}
+                  date={tx.date}
+                  partyName={tx.partyName}
+                  amount={tx.amount}
+                  currency={c}
+                  onClick={() => navigate(`/transactions/${tx.id}`)}
+                />
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Business Health — styled like Inventra's status cards */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden shadow-sm">
+          <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/50">
+            <p className="text-[14px] font-bold text-gray-900 dark:text-white m-0">Business Health</p>
+          </div>
+          <div className="p-5">
+
+            {/* Cash Flow Status — Inventra-style status banner */}
+            <div
+              style={{ background: healthUI.bg }}
+              className="rounded-xl p-4 mb-4"
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <span style={{ fontSize: 12, fontWeight: 600, color: healthUI.color }}>Cash Flow Ratio</span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: 20,
+                    background: healthUI.dot,
+                  }}
+                  className="text-white"
+                >
+                  {healthUI.label}
+                </span>
+              </div>
+              <p style={{ fontSize: 28, fontWeight: 700, color: healthUI.color, margin: 0, lineHeight: 1.2 }}>
+                {businessHealth.cashFlowRatio >= 999 ? '∞' : businessHealth.cashFlowRatio.toFixed(1)}x
+              </p>
+              <p className="text-[11px] text-gray-400 dark:text-gray-500 m-0 mt-1">Cash coverage of liabilities</p>
+            </div>
+
+            {/* Health stats */}
+            {[
+              {
+                icon: <FiUsers size={13} />,
+                iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+                iconColor: 'text-blue-700 dark:text-blue-400',
+                label: 'Outstanding Receivables',
+                value: c(businessHealth.overdueReceivables),
+                onClick: () => navigate('/dashboard/kpi/receivable'),
+              },
+              {
+                icon: <FiPackage size={13} />,
+                iconBg: lowStockItems.length > 0 ? 'bg-yellow-100 dark:bg-yellow-900/30' : 'bg-gray-100 dark:bg-gray-800',
+                iconColor: lowStockItems.length > 0 ? 'text-yellow-600 dark:text-yellow-500' : 'text-gray-500 dark:text-gray-400',
+                label: 'Low Stock Items',
+                value: `${lowStockItems.length} items`,
+                warn: lowStockItems.length > 0,
+                onClick: () => navigate('/inventory?filter=low-stock'),
+              },
+              {
+                icon: <FiShoppingCart size={13} />,
+                iconBg: 'bg-gray-100 dark:bg-gray-800',
+                iconColor: 'text-gray-500 dark:text-gray-400',
+                label: 'Pending to Suppliers',
+                value: c(businessHealth.pendingPayments),
+                onClick: () => navigate('/dashboard/kpi/payable'),
+              },
+            ].map((item, i) => (
+              <StatRow key={i} {...item} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Low Stock Banner — Inventra-style alert row ── */}
       {lowStockItems.length > 0 && (
-        <div className="flex items-center justify-between bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40 rounded-xl px-5 py-4">
+        <div className="flex items-center justify-between bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/50 rounded-xl px-5 py-3.5">
           <div className="flex items-center gap-3">
-            <FiAlertTriangle className="w-5 h-5 text-amber-500 shrink-0" />
+            <div className="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-500 shrink-0">
+              <FiAlertTriangle size={16} />
+            </div>
             <div>
-              <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">Low Stock Alert</p>
-              <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">
+              <p className="text-[13px] font-bold text-amber-800 dark:text-amber-500 m-0">Low Stock Alert</p>
+              <p className="text-[12px] text-amber-700 dark:text-amber-600/70 m-0 mt-0.5">
                 {lowStockItems.filter((i) => i.current === 0).length} out of stock
                 &nbsp;·&nbsp;
                 {lowStockItems.filter((i) => i.current > 0).length} running low
@@ -813,7 +810,7 @@ export default function DashboardPage() {
           </div>
           <button
             onClick={() => navigate('/inventory?filter=low-stock')}
-            className="text-xs font-semibold text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 px-3 py-1.5 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors shrink-0"
+            className="text-[12px] font-bold text-amber-800 dark:text-amber-500 bg-white dark:bg-gray-800 border border-amber-400 dark:border-amber-700 rounded-lg px-3.5 py-1.5 cursor-pointer shrink-0 hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors"
           >
             View Inventory
           </button>

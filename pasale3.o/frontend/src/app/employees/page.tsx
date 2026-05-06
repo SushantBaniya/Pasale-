@@ -357,13 +357,10 @@ function useToast() {
 // ─── STAT CARD ────────────────────────────────────────────────────────────────
 function StatCard({ label, value, sub }) {
   return (
-    <div style={{
-      background: "#f8fafc", borderRadius: 10, padding: "14px 16px",
-      border: "1px solid #f1f5f9",
-    }}>
-      <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6 }}>{label}</div>
-      <div style={{ fontSize: 22, fontWeight: 700, color: "#0f172a", lineHeight: 1.1 }}>{value}</div>
-      {sub && <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 3 }}>{sub}</div>}
+    <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 transition-colors">
+      <div className="text-[11px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1.5">{label}</div>
+      <div className="text-2xl font-bold text-gray-900 dark:text-white leading-tight">{value}</div>
+      {sub && <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{sub}</div>}
     </div>
   );
 }
@@ -372,58 +369,45 @@ function StatCard({ label, value, sub }) {
 function EmployeeCard({ emp, onEdit, onDelete, onView }) {
   const statusName = typeof emp.status === "string" ? emp.status : emp.status?.name || "Active";
   const deptName = typeof emp.department === "string" ? emp.department : emp.department?.name || emp.department;
-  const deptColor = DEPT_COLORS[deptName] || DEPT_COLORS.default;
   const statusColor = STATUS_COLORS[statusName] || STATUS_COLORS.Active;
+  const deptColor = DEPT_COLORS[deptName] || DEPT_COLORS.default;
 
   return (
-    <div style={{
-      background: "#fff", borderRadius: 14, border: "1px solid #f1f5f9",
-      overflow: "hidden", transition: "box-shadow .2s",
-    }}
-      onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,.07)"}
-      onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}
-    >
-      <div style={{ padding: "16px 18px 14px" }}>
+    <div className="bg-white dark:bg-gray-800 rounded-[14px] border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-md hover:border-gray-200 dark:hover:border-gray-600 group flex flex-col h-full">
+      <div className="p-4 flex-1">
         {/* Header row */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 14 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{
-              width: 40, height: 40, borderRadius: 10, background: avatarGrad(emp.id),
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#fff", fontWeight: 600, fontSize: 13, flexShrink: 0,
-            }}>
+        <div className="flex items-start justify-between gap-2 mb-3.5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-semibold text-sm shrink-0"
+                 style={{ background: avatarGrad(emp.id) }}>
               {getInitials(emp.name)}
             </div>
             <div>
-              <div style={{ fontWeight: 600, fontSize: 14, color: "#0f172a" }}>{emp.name}</div>
-              <div style={{ fontSize: 12, color: "#64748b", marginTop: 1 }}>{emp.position}</div>
+              <div className="font-semibold text-sm text-gray-900 dark:text-white">{emp.name}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{emp.position}</div>
             </div>
           </div>
-          <span style={{
-            fontSize: 11, fontWeight: 600, padding: "3px 9px", borderRadius: 20,
-            background: statusColor.bg, color: statusColor.text, whiteSpace: "nowrap",
-          }}>
+          <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+                style={{ background: statusColor.bg, color: statusColor.text }}>
             {statusName}
           </span>
         </div>
 
         {/* Info rows */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-          <div style={{ fontSize: 12, color: "#64748b", display: "flex", alignItems: "center", gap: 6 }}>
+        <div className="flex flex-col gap-1.5">
+          <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
             <Icon d={ICONS.mail} size={12} />
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{emp.email}</span>
+            <span className="truncate">{emp.email}</span>
           </div>
-          <div style={{ fontSize: 12, color: "#64748b", display: "flex", alignItems: "center", gap: 6 }}>
+          <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
             <Icon d={ICONS.phone} size={12} />
             {emp.phone_no}
           </div>
           {deptName && (
-            <div style={{ marginTop: 6 }}>
-              <span style={{
-                fontSize: 11, fontWeight: 600, padding: "3px 9px", borderRadius: 20,
-                background: deptColor.bg, color: deptColor.text,
-              }}>
-                <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", background: deptColor.dot, marginRight: 4, verticalAlign: "middle" }} />
+            <div className="mt-1.5">
+              <span className="inline-flex items-center text-[11px] font-semibold px-2.5 py-1 rounded-full"
+                    style={{ background: deptColor.bg, color: deptColor.text }}>
+                <span className="w-1 h-1 rounded-full mr-1.5" style={{ background: deptColor.dot }} />
                 {deptName}
               </span>
             </div>
@@ -432,20 +416,14 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
       </div>
 
       {/* Action bar */}
-      <div style={{ borderTop: "1px solid #f8fafc", display: "flex" }}>
-        <button onClick={() => onView(emp)} style={cardBtn("#3b82f6", false)}>View</button>
-        <button onClick={() => onEdit(emp)} style={cardBtn("#64748b", true)}>Edit</button>
-        <button onClick={() => onDelete(emp)} style={cardBtn("#ef4444", true)}>Remove</button>
+      <div className="border-t border-gray-50 dark:border-gray-700/50 flex shrink-0">
+        <button onClick={() => onView(emp)} className="flex-1 py-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">View</button>
+        <button onClick={() => onEdit(emp)} className="flex-1 py-2.5 text-xs font-semibold text-gray-600 dark:text-gray-400 border-l border-gray-50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">Edit</button>
+        <button onClick={() => onDelete(emp)} className="flex-1 py-2.5 text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border-l border-gray-50 dark:border-gray-700/50 transition-colors">Remove</button>
       </div>
     </div>
   );
 }
-
-const cardBtn = (color, border) => ({
-  flex: 1, padding: "9px 0", background: "none", border: "none",
-  borderLeft: border ? "1px solid #f8fafc" : "none",
-  cursor: "pointer", fontSize: 12, color, fontWeight: 600,
-});
 
 // ─── EMPLOYEE ROW (list view) ─────────────────────────────────────────────────
 function EmployeeRow({ emp, onEdit, onDelete, onView }) {
@@ -454,45 +432,41 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
   const statusColor = STATUS_COLORS[statusName] || STATUS_COLORS.Active;
   const deptColor = DEPT_COLORS[deptName] || DEPT_COLORS.default;
   return (
-    <tr style={{ borderBottom: "1px solid #f1f5f9", transition: "background .1s" }}
-      onMouseEnter={e => e.currentTarget.style.background = "#f8fafc"}
-      onMouseLeave={e => e.currentTarget.style.background = ""}
-    >
-      <td style={{ padding: "14px 16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 36, height: 36, borderRadius: 9, background: avatarGrad(emp.id),
-            display: "flex", alignItems: "center", justifyContent: "center",
-            color: "#fff", fontWeight: 600, fontSize: 12, flexShrink: 0,
-          }}>{getInitials(emp.name)}</div>
+    <tr className="border-b border-gray-100 dark:border-gray-700/50 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50 group">
+      <td className="px-4 py-3.5">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-[9px] flex items-center justify-center text-white font-semibold text-xs shrink-0"
+               style={{ background: avatarGrad(emp.id) }}>{getInitials(emp.name)}</div>
           <div>
-            <div style={{ fontWeight: 600, fontSize: 13, color: "#0f172a" }}>{emp.name}</div>
-            <div style={{ fontSize: 12, color: "#94a3b8" }}>{emp.email}</div>
+            <div className="font-semibold text-[13px] text-gray-900 dark:text-white">{emp.name}</div>
+            <div className="text-xs text-gray-400 dark:text-gray-500">{emp.email}</div>
           </div>
         </div>
       </td>
-      <td style={{ padding: "14px 16px", fontSize: 13, color: "#475569" }}>{emp.position}</td>
-      <td style={{ padding: "14px 16px" }}>
+      <td className="px-4 py-3.5 text-[13px] text-gray-600 dark:text-gray-400">{emp.position}</td>
+      <td className="px-4 py-3.5">
         {deptName && (
-          <span style={{ fontSize: 11, fontWeight: 600, padding: "3px 9px", borderRadius: 20, background: deptColor.bg, color: deptColor.text }}>
+          <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+                style={{ background: deptColor.bg, color: deptColor.text }}>
             {deptName}
           </span>
         )}
       </td>
-      <td style={{ padding: "14px 16px", fontSize: 13, color: "#475569" }}>{emp.phone_no}</td>
-      <td style={{ padding: "14px 16px", fontSize: 13, color: "#0f172a", fontWeight: 600 }}>
+      <td className="px-4 py-3.5 text-[13px] text-gray-600 dark:text-gray-400">{emp.phone_no}</td>
+      <td className="px-4 py-3.5 text-[13px] text-gray-900 dark:text-white font-semibold">
         NPR {emp.salary ? Number(emp.salary).toLocaleString() : "—"}
       </td>
-      <td style={{ padding: "14px 16px" }}>
-        <span style={{ fontSize: 11, fontWeight: 600, padding: "3px 9px", borderRadius: 20, background: statusColor.bg, color: statusColor.text }}>
+      <td className="px-4 py-3.5">
+        <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+              style={{ background: statusColor.bg, color: statusColor.text }}>
           {statusName}
         </span>
       </td>
-      <td style={{ padding: "14px 16px" }}>
-        <div style={{ display: "flex", gap: 4 }}>
-          <button onClick={() => onView(emp)} style={rowBtn("#3b82f6")} title="View"><Icon d={ICONS.users} size={13} /></button>
-          <button onClick={() => onEdit(emp)} style={rowBtn("#64748b")} title="Edit"><Icon d={ICONS.edit} size={13} /></button>
-          <button onClick={() => onDelete(emp)} style={rowBtn("#ef4444")} title="Delete"><Icon d={ICONS.trash} size={13} /></button>
+      <td className="px-4 py-3.5">
+        <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button onClick={() => onView(emp)} className="p-1.5 rounded text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors" title="View"><Icon d={ICONS.users} size={14} /></button>
+          <button onClick={() => onEdit(emp)} className="p-1.5 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="Edit"><Icon d={ICONS.edit} size={14} /></button>
+          <button onClick={() => onDelete(emp)} className="p-1.5 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="Delete"><Icon d={ICONS.trash} size={14} /></button>
         </div>
       </td>
     </tr>
@@ -517,29 +491,20 @@ interface FieldProps {
 }
 
 function Field({ label, name, value, onChange, type = "text", options, required, placeholder }: FieldProps) {
-  const base = {
-    width: "100%", padding: "9px 12px", borderRadius: 8, fontSize: 13,
-    border: "1px solid #e2e8f0", outline: "none", background: "#f8fafc",
-    boxSizing: "border-box" as any, fontFamily: "inherit", color: "#0f172a",
-  };
+  const baseClassName = "w-full px-3 py-2.5 rounded-lg text-[13px] border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 outline-none text-gray-900 dark:text-white transition-colors focus:border-blue-500 dark:focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500";
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-      <label style={{ fontSize: 12, fontWeight: 600, color: "#374151" }}>
-        {label} {required && <span style={{ color: "#ef4444" }}>*</span>}
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
       {options ? (
-        <select name={name} value={value} onChange={onChange} style={base}
-          onFocus={e => e.target.style.borderColor = "#3b82f6"}
-          onBlur={e => e.target.style.borderColor = "#e2e8f0"}
-        >
+        <select name={name} value={value} onChange={onChange} className={baseClassName}>
           <option value="">— Select —</option>
           {options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
       ) : (
         <input type={type} name={name} value={value} onChange={onChange}
-          placeholder={placeholder || label} style={base} required={required}
-          onFocus={e => e.target.style.borderColor = "#3b82f6"}
-          onBlur={e => e.target.style.borderColor = "#e2e8f0"}
+          placeholder={placeholder || label} className={baseClassName} required={required}
         />
       )}
     </div>
@@ -605,30 +570,27 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
 
   return (
     <>
-      {open && <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.35)", zIndex: 200, backdropFilter: "blur(2px)" }} />}
-      <div style={{
-        position: "fixed", top: 0, right: 0, height: "100vh", width: 420, maxWidth: "100vw",
-        background: "#fff", zIndex: 201, boxShadow: "-4px 0 32px rgba(0,0,0,.1)",
-        transform: open ? "translateX(0)" : "translateX(100%)",
-        transition: "transform .3s cubic-bezier(.4,0,.2,1)",
-        display: "flex", flexDirection: "column",
-      }}>
-        <div style={{ padding: "20px 24px 16px", borderBottom: "1px solid #f1f5f9", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div 
+        onClick={onClose} 
+        className={`fixed inset-0 bg-black/40 dark:bg-black/60 z-[200] backdrop-blur-sm transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} 
+      />
+      <div className={`fixed top-0 right-0 h-screen w-[420px] max-w-[100vw] bg-white dark:bg-gray-800 z-[201] shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="px-6 py-5 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
           <div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>{employee ? "Edit Employee" : "Add Employee"}</div>
-            <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>{employee ? `Updating ${employee.name}` : "Fill in the details below"}</div>
+            <div className="text-base font-bold text-gray-900 dark:text-white">{employee ? "Edit Employee" : "Add Employee"}</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{employee ? `Updating ${employee.name}` : "Fill in the details below"}</div>
           </div>
-          <button onClick={onClose} style={{ background: "#f8fafc", border: "none", borderRadius: 7, padding: 7, cursor: "pointer", color: "#64748b" }}>
+          <button onClick={onClose} className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/50 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors">
             <Icon d={ICONS.close} size={15} />
           </button>
         </div>
 
-        <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4">
           <Field label="Full Name" name="name" value={form.name} onChange={handleChange} required placeholder="e.g. Priya Sharma" />
           <Field label="Email Address" name="email" value={form.email} onChange={handleChange} type="email" required placeholder="name@company.com" />
           <Field label="Phone Number" name="phone_no" value={form.phone_no} onChange={handleChange} required placeholder="+977-9XXXXXXXX" />
           <Field label="Position / Title" name="position" value={form.position} onChange={handleChange} required placeholder="e.g. Store Manager" />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <div className="grid grid-cols-2 gap-3">
             <Field label="Department" name="department" value={form.department} onChange={handleChange}
               options={options?.departments?.length ? options.departments : ["Operations", "Sales", "Inventory", "Finance", "HR"]} />
             <Field label="Salary (NPR)" name="salary" value={form.salary} onChange={handleChange} type="number" placeholder="25000" />
@@ -636,39 +598,39 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
           <Field label="Status" name="status" value={form.status} onChange={handleChange} options={["Active", "On Leave", "Inactive"]} />
           
           {employee && employee.id && (
-            <div style={{ marginTop: 10, borderTop: "1px solid #f1f5f9", paddingTop: 16 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", marginBottom: 12 }}>Skills & Proficiency</div>
+            <div className="mt-2.5 pt-4 border-t border-gray-100 dark:border-gray-700/50">
+              <div className="text-[13px] font-bold text-gray-900 dark:text-white mb-3">Skills & Proficiency</div>
               {skillsLoading ? (
-                <div style={{ fontSize: 12, color: "#94a3b8" }}>Loading skills...</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Loading skills...</div>
               ) : (
                 <>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+                  <div className="flex flex-col gap-2 mb-3">
                     {employeeSkills.map(es => (
-                      <div key={es.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#f8fafc", padding: "8px 12px", borderRadius: 6, border: "1px solid #e2e8f0" }}>
+                      <div key={es.id} className="flex items-center justify-between bg-gray-50 dark:bg-gray-900/50 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700">
                         <div>
-                          <div style={{ fontSize: 12, fontWeight: 600, color: "#334155" }}>{es.skill_name}</div>
-                          <div style={{ fontSize: 11, color: "#64748b" }}>{es.proficiency_level}</div>
+                          <div className="text-xs font-semibold text-gray-700 dark:text-gray-300">{es.skill_name}</div>
+                          <div className="text-[11px] text-gray-500 dark:text-gray-400">{es.proficiency_level}</div>
                         </div>
-                        <button onClick={() => handleRemoveSkill(es.skill.id || es.skill)} style={{ background: "none", border: "none", cursor: "pointer", color: "#ef4444" }}>
+                        <button onClick={() => handleRemoveSkill(es.skill.id || es.skill)} className="text-red-500 hover:text-red-600 dark:hover:text-red-400 p-1">
                           <Icon d={ICONS.close} size={12} />
                         </button>
                       </div>
                     ))}
-                    {employeeSkills.length === 0 && <div style={{ fontSize: 12, color: "#94a3b8" }}>No skills assigned yet.</div>}
+                    {employeeSkills.length === 0 && <div className="text-xs text-gray-500 dark:text-gray-400">No skills assigned yet.</div>}
                   </div>
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <select value={newSkillForm.skill} onChange={e => setNewSkillForm({...newSkillForm, skill: e.target.value})} style={{ flex: 1, padding: "6px 8px", borderRadius: 6, border: "1px solid #e2e8f0", fontSize: 12 }}>
+                  <div className="flex gap-2">
+                    <select value={newSkillForm.skill} onChange={e => setNewSkillForm({...newSkillForm, skill: e.target.value})} className="flex-1 px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-gray-100">
                       <option value="">Select skill...</option>
                       {allSkills.filter(s => !employeeSkills.find(es => (es.skill.id || es.skill) === s.id)).map(s => (
                         <option key={s.id} value={s.id}>{s.name}</option>
                       ))}
                     </select>
-                    <select value={newSkillForm.proficiency_level} onChange={e => setNewSkillForm({...newSkillForm, proficiency_level: e.target.value})} style={{ width: 100, padding: "6px 8px", borderRadius: 6, border: "1px solid #e2e8f0", fontSize: 12 }}>
+                    <select value={newSkillForm.proficiency_level} onChange={e => setNewSkillForm({...newSkillForm, proficiency_level: e.target.value})} className="w-28 px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-gray-100">
                       <option value="Beginner">Beginner</option>
                       <option value="Intermediate">Intermediate</option>
                       <option value="Advanced">Advanced</option>
                     </select>
-                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} style={{ padding: "6px 10px", background: newSkillForm.skill ? "#3b82f6" : "#cbd5e1", color: "#fff", border: "none", borderRadius: 6, cursor: newSkillForm.skill ? "pointer" : "not-allowed", fontSize: 12, fontWeight: 600 }}>Add</button>
+                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors ${newSkillForm.skill ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed'}`}>Add</button>
                   </div>
                 </>
               )}
@@ -676,13 +638,9 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
           )}
         </div>
 
-        <div style={{ padding: "14px 24px", borderTop: "1px solid #f1f5f9", display: "flex", gap: 8 }}>
-          <button onClick={onClose} style={{ flex: 1, padding: "10px 0", borderRadius: 9, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#475569" }}>Cancel</button>
-          <button onClick={handleSubmit} disabled={loading} style={{
-            flex: 2, padding: "10px 0", borderRadius: 9, border: "none",
-            background: loading ? "#93c5fd" : "#3b82f6",
-            cursor: loading ? "not-allowed" : "pointer", fontSize: 13, fontWeight: 700, color: "#fff",
-          }}>
+        <div className="px-6 py-3.5 border-t border-gray-100 dark:border-gray-700/50 flex gap-2">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold text-[13px] hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={handleSubmit} disabled={loading} className={`flex-[2] py-2.5 rounded-lg border-none font-bold text-[13px] text-white transition-colors ${loading ? 'bg-blue-300 dark:bg-blue-800 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
             {loading ? "Saving…" : employee ? "Update Employee" : "Add Employee"}
           </button>
         </div>
@@ -694,15 +652,15 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
 // ─── CONFIRM DELETE MODAL ─────────────────────────────────────────────────────
 function DeleteModal({ emp, onConfirm, onCancel, loading }) {
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(3px)", padding: 20 }}>
-      <div style={{ background: "#fff", borderRadius: 16, padding: "24px", width: 360, maxWidth: "100%", boxShadow: "0 8px 40px rgba(0,0,0,.15)", border: "1px solid #f1f5f9" }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#0f172a", marginBottom: 8 }}>Remove employee?</div>
-        <div style={{ fontSize: 13, color: "#64748b", marginBottom: 20 }}>
-          This will permanently remove <strong>{emp?.name}</strong>. This action cannot be undone.
+    <div className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[300] flex items-center justify-center p-5 backdrop-blur-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl w-[360px] max-w-full p-6 shadow-2xl border border-gray-100 dark:border-gray-700/50 text-center sm:text-left">
+        <div className="text-base font-bold text-gray-900 dark:text-white mb-2">Remove employee?</div>
+        <div className="text-[13px] text-gray-500 dark:text-gray-400 mb-6">
+          This will permanently remove <strong className="text-gray-900 dark:text-white">{emp?.name}</strong>. This action cannot be undone.
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={onCancel} style={{ flex: 1, padding: "9px 0", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontWeight: 600, fontSize: 13, color: "#475569" }}>Cancel</button>
-          <button onClick={onConfirm} disabled={loading} style={{ flex: 1, padding: "9px 0", borderRadius: 8, border: "none", background: "#ef4444", cursor: loading ? "not-allowed" : "pointer", fontWeight: 700, fontSize: 13, color: "#fff", opacity: loading ? 0.7 : 1 }}>
+        <div className="flex flex-col-reverse sm:flex-row gap-2.5">
+          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={onConfirm} disabled={loading} className={`flex-1 py-2.5 rounded-lg border-none text-sm font-bold text-white transition-colors ${loading ? 'bg-red-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'}`}>
             {loading ? "Removing…" : "Yes, Remove"}
           </button>
         </div>
@@ -729,53 +687,42 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
   return (
     <div
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.35)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(3px)", padding: 20 }}
+      className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[200] flex items-center justify-center backdrop-blur-sm p-5"
     >
-      <div style={{ background: "#fff", borderRadius: 16, width: 420, maxWidth: "100%", maxHeight: "90vh", overflow: "auto", border: "1px solid #f1f5f9", boxShadow: "0 8px 40px rgba(0,0,0,.12)" }}>
+      <div className="bg-white dark:bg-gray-800 rounded-[16px] w-[420px] max-w-full max-h-[90vh] overflow-y-auto border border-gray-100 dark:border-gray-700/50 shadow-2xl">
 
         {/* Header */}
-        <div style={{ padding: "18px 20px 16px", borderBottom: "1px solid #f1f5f9", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "#0f172a" }}>Employee details</span>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: "2px 4px" }}>
+        <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
+          <span className="text-sm font-bold text-gray-900 dark:text-white">Employee details</span>
+          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
             <Icon d={ICONS.close} size={15} />
           </button>
         </div>
 
-        <div style={{ padding: "20px" }}>
+        <div className="p-5">
           {/* Profile row */}
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
-            <div style={{
-              width: 52, height: 52, borderRadius: 13, background: avatarGrad(emp.id),
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#fff", fontWeight: 700, fontSize: 17, flexShrink: 0,
-            }}>
+          <div className="flex items-center gap-3.5 mb-5">
+            <div className="w-[52px] h-[52px] rounded-xl flex items-center justify-center text-white font-bold text-[17px] shrink-0" style={{ background: avatarGrad(emp.id) }}>
               {getInitials(emp.name)}
             </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>{emp.name}</div>
-              <div style={{ fontSize: 13, color: "#64748b", marginTop: 2 }}>{emp.position}</div>
+            <div className="flex-1 min-w-0">
+              <div className="text-base font-bold text-gray-900 dark:text-white truncate">{emp.name}</div>
+              <div className="text-[13px] text-gray-500 dark:text-gray-400 mt-0.5 truncate">{emp.position}</div>
             </div>
-            <span style={{
-              fontSize: 11, fontWeight: 600, padding: "4px 10px", borderRadius: 20,
-              background: statusColor.bg, color: statusColor.text, whiteSpace: "nowrap",
-            }}>
+            <span className="text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap" style={{ background: statusColor.bg, color: statusColor.text }}>
               {statusName}
             </span>
           </div>
 
           {/* Details table */}
-          <div style={{ border: "1px solid #f1f5f9", borderRadius: 10, overflow: "hidden" }}>
+          <div className="border border-gray-100 dark:border-gray-700/50 rounded-xl overflow-hidden">
             {details.map(({ icon, label, value }, i) => (
-              <div key={label} style={{
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-                padding: "11px 14px", gap: 12,
-                borderTop: i > 0 ? "1px solid #f1f5f9" : "none",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#94a3b8", flexShrink: 0 }}>
+              <div key={label} className={`flex items-center justify-between px-3.5 py-3 ${i > 0 ? "border-t border-gray-100 dark:border-gray-700/50" : ""}`}>
+                <div className="flex items-center gap-2 text-gray-400 shrink-0">
                   <Icon d={icon} size={13} />
-                  <span style={{ fontSize: 12, color: "#94a3b8" }}>{label}</span>
+                  <span className="text-xs">{label}</span>
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 500, color: "#0f172a", textAlign: "right", wordBreak: "break-all" }}>{value}</span>
+                <span className="text-[13px] font-semibold text-gray-900 dark:text-white text-right break-all ml-4">{value}</span>
               </div>
             ))}
           </div>
@@ -783,7 +730,7 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
           {/* Edit button */}
           <button
             onClick={() => { onClose(); onEdit(emp); }}
-            style={{ marginTop: 14, width: "100%", padding: "11px 0", borderRadius: 9, border: "none", background: "#3b82f6", color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
+            className="mt-4 w-full py-3 rounded-[10px] bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors"
           >
             Edit profile
           </button>
