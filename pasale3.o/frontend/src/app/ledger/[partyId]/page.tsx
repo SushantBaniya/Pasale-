@@ -24,7 +24,7 @@ export default function LedgerPage() {
   const ledgerEntries = useMemo(() => {
     if (!party) return [];
 
-    let entries = transactions
+    const entries = transactions
       .filter((t) => {
         if (t.partyId !== party.id && t.partyName?.toLowerCase() !== party.name.toLowerCase()) {
           return false;

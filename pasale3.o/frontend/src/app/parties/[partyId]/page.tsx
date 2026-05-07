@@ -69,7 +69,7 @@ export default function PartyDetailPage() {
   const filteredTransactions = useMemo(() => {
     if (activeTab === 'all') return partyTransactions;
 
-    let filtered = partyTransactions.filter((tx) => {
+    const filtered = partyTransactions.filter((tx) => {
       switch (activeTab) {
         case 'sale':
           return tx.type === 'selling';
