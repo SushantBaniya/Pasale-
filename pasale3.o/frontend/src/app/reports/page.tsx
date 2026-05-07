@@ -92,35 +92,35 @@ export default function ReportsPage() {
   }, [quickDateRange]);
 
   const chartData = useMemo(() => {
-    if (!realData?.trends?.daily_sales) return [];
-    const salesMap = new Map(realData.trends.daily_sales.map((item: any) => [item.date, item.sales]));
-    const expenseMap = new Map(realData.trends.daily_expenses.map((item: any) => [item.date, item.expenses]));
-    const allDates = Array.from(new Set([...salesMap.keys(), ...expenseMap.keys()])).sort();
-    return allDates.map(date => ({
-      date: new Date(date as string).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
-      sales: salesMap.get(date) || 0,
-      expenses: expenseMap.get(date) || 0,
-      profit: Number(salesMap.get(date) || 0) - Number(expenseMap.get(date) || 0)
+    // Determine the array from either legacy 'trends' or new 'cashflow' structure
+    const dataPoints = realData?.cashflow?.daily || [];
+    if (!dataPoints || dataPoints.length === 0) return [];
+    
+    return dataPoints.map((item: any) => ({
+      date: item.label,
+      sales: item.inflow || 0,
+      expenses: item.outflow || 0,
+      profit: (item.inflow || 0) - (item.outflow || 0)
     }));
   }, [realData]);
 
   // Using explicit Tailwind classes to avoid dynamic string purging issues
   const getSummaryCards = () => {
-    if (!realData) return [];
+    if (!realData?.summary) return [];
     const summary = realData.summary;
     const aov = summary.order_count > 0 ? summary.total_sales / summary.order_count : 0;
 
     return [
       {
-        label: t('reports.totalRevenue'), value: summary.total_sales, icon: FiTrendingUp,
+        label: t('reports.totalRevenue'), value: summary?.total_sales || 0, icon: FiTrendingUp,
         theme: { bg: 'bg-blue-50', text: 'text-blue-600', glow: 'bg-blue-500/5' }
       },
       {
-        label: t('reports.totalExpenses'), value: summary.total_expenses, icon: FiTrendingDown,
+        label: t('reports.totalExpenses'), value: summary?.total_expenses || 0, icon: FiTrendingDown,
         theme: { bg: 'bg-rose-50', text: 'text-rose-600', glow: 'bg-rose-500/5' }
       },
       {
-        label: t('reports.grossProfit'), value: summary.net_profit, icon: NepaliRupeeIcon,
+        label: t('reports.grossProfit'), value: summary?.net_profit || 0, icon: NepaliRupeeIcon,
         theme: { bg: 'bg-blue-50', text: 'text-blue-600', glow: 'bg-blue-500/5' }
       },
       {
@@ -150,9 +150,9 @@ export default function ReportsPage() {
     <div className="space-y-6 animate-in fade-in duration-500">
 
       {/* Date Control Bar */}
-      <Card className="p-3 bg-white border border-gray-200/60 shadow-sm rounded-2xl print:hidden">
+      <Card className="p-3 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 shadow-sm rounded-2xl print:hidden">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="inline-flex bg-slate-100 p-1 rounded-xl">
+          <div className="inline-flex bg-slate-100 dark:bg-gray-900 p-1 rounded-xl">
             {(['week', 'month', 'quarter', 'year'] as const).map((range) => (
               <button
                 key={range}
@@ -224,15 +224,15 @@ export default function ReportsPage() {
       {/* Main KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {getSummaryCards().map((card, idx) => (
-          <Card key={idx} className="p-6 bg-white border border-gray-200/60 shadow-sm rounded-2xl relative overflow-hidden group hover:shadow-md transition-all duration-300">
+          <Card key={idx} className="p-6 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 shadow-sm rounded-2xl relative overflow-hidden group hover:shadow-md transition-all duration-300">
             <div className={`absolute top-0 right-0 w-32 h-32 -mr-12 -mt-12 ${card.theme.glow} rounded-full transition-transform duration-500 group-hover:scale-150`} />
-            <div className="flex items-start gap-4">
-              <div className={`p-3.5 rounded-2xl ${card.theme.bg} ${card.theme.text} shadow-sm ring-1 ring-inset ring-white/50`}>
+            <div className="flex items-start gap-4 relative z-10">
+              <div className={`p-3.5 rounded-2xl ${card.theme.bg} dark:bg-opacity-10 ${card.theme.text} shadow-sm ring-1 ring-inset ring-white/50 dark:ring-gray-700/50`}>
                 <card.icon className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-sm font-medium text-slate-500 mb-1">{card.label}</p>
-                <p className="text-2xl font-semibold text-slate-900 tracking-tight">{c(card.value)}</p>
+                <p className="text-sm font-medium text-slate-500 dark:text-gray-400 mb-1">{card.label}</p>
+                <p className="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight">{c(card.value)}</p>
               </div>
             </div>
           </Card>
@@ -241,15 +241,15 @@ export default function ReportsPage() {
 
       {/* Primary Analytics Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 p-6 bg-white border border-gray-200/60 shadow-sm rounded-2xl">
+        <Card className="lg:col-span-2 p-6 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 shadow-sm rounded-2xl">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-base font-semibold text-slate-900">Revenue & Profit Trajectory</h3>
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white">Revenue & Profit Trajectory</h3>
             <div className="flex gap-5">
-              <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
+              <div className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-gray-400">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm" /> Revenue
               </div>
-              <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm" /> Profit
+              <div className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-gray-400">
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-sm" /> Profit
               </div>
             </div>
           </div>
@@ -293,8 +293,8 @@ export default function ReportsPage() {
           </div>
         </Card>
 
-        <Card className="p-6 bg-white border border-gray-200/60 shadow-sm rounded-2xl flex flex-col">
-          <h3 className="text-base font-semibold text-slate-900 mb-6">Sales by Category</h3>
+        <Card className="p-6 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 shadow-sm rounded-2xl flex flex-col">
+          <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-6">Sales by Category</h3>
           <div className="h-64 flex-shrink-0">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -321,12 +321,12 @@ export default function ReportsPage() {
           </div>
           <div className="mt-auto space-y-3">
             {(realData?.category_distribution || []).slice(0, 4).map((item: any, idx: number) => (
-              <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-50/80 hover:bg-slate-100 transition-colors">
+              <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-50/80 dark:bg-gray-900/50 hover:bg-slate-100 dark:hover:bg-gray-700/50 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
-                  <span className="text-sm font-medium text-slate-700 truncate">{item.name}</span>
+                  <span className="text-sm font-medium text-slate-700 dark:text-gray-300 truncate">{item.name}</span>
                 </div>
-                <span className="text-sm font-semibold text-slate-900">{c(item.value)}</span>
+                <span className="text-sm font-semibold text-slate-900 dark:text-white">{c(item.value)}</span>
               </div>
             ))}
           </div>
@@ -337,9 +337,9 @@ export default function ReportsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* Top Products */}
-        <Card className="p-6 bg-white border border-gray-200/60 shadow-sm rounded-2xl">
+        <Card className="p-6 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 shadow-sm rounded-2xl">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-semibold text-slate-900 flex items-center gap-2">
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
               <FiAward className="text-amber-500" /> Best Sellers
             </h3>
           </div>
@@ -347,13 +347,13 @@ export default function ReportsPage() {
             {(realData?.top_products || []).map((product: any, idx: number) => (
               <div key={idx} className="group">
                 <div className="flex justify-between items-end mb-2">
-                  <span className="text-sm font-medium text-slate-700 truncate pr-4">{product.name}</span>
-                  <span className="text-sm font-semibold text-slate-900 whitespace-nowrap">{product.quantity} units</span>
+                  <span className="text-sm font-medium text-slate-700 dark:text-gray-300 truncate pr-4">{product.name}</span>
+                  <span className="text-sm font-semibold text-slate-900 dark:text-white whitespace-nowrap">{product.quantity} units</span>
                 </div>
-                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-slate-100 dark:bg-gray-700 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-blue-500 rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${(product.quantity / (realData.top_products[0]?.quantity || 1)) * 100}%` }}
+                    style={{ width: `${(product.quantity / (realData?.top_products?.[0]?.quantity || 1)) * 100}%` }}
                   />
                 </div>
               </div>
@@ -362,69 +362,73 @@ export default function ReportsPage() {
         </Card>
 
         {/* Top Customers */}
-        <Card className="p-6 bg-white border border-gray-200/60 shadow-sm rounded-2xl">
+        <Card className="lg:col-span-2 p-6 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 shadow-sm rounded-2xl">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-semibold text-slate-900 flex items-center gap-2">
-              <FiUsers className="text-violet-500" /> Top Customers
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+              <FiUsers className="text-blue-500" /> Top Customers
             </h3>
           </div>
-          <div className="space-y-3">
-            {(realData?.top_customers || []).map((customer: any, idx: number) => (
-              <div key={idx} className="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-semibold text-xs">
-                    {customer.name.charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">{customer.name}</p>
-                    <p className="text-xs text-slate-500">{customer.orders} Orders</p>
-                  </div>
-                </div>
-                <p className="text-sm font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">
-                  {c(customer.spent)}
-                </p>
-              </div>
-            ))}
-            {(!realData?.top_customers?.length) && (
-              <div className="py-10 text-center">
-                <p className="text-sm text-slate-400">No customer data available</p>
-              </div>
-            )}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr>
+                  <th className="pb-3 border-b border-slate-100 dark:border-gray-700 font-medium text-slate-500 dark:text-gray-400 text-sm">Customer Name</th>
+                  <th className="pb-3 border-b border-slate-100 dark:border-gray-700 font-medium text-slate-500 dark:text-gray-400 text-sm text-right">Orders</th>
+                  <th className="pb-3 border-b border-slate-100 dark:border-gray-700 font-medium text-slate-500 dark:text-gray-400 text-sm text-right">Total Spent</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50 dark:divide-gray-700/50">
+                {(realData?.top_customers || []).map((customer: any, idx: number) => (
+                  <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-gray-700/20 transition-colors">
+                    <td className="py-3 text-sm font-medium text-slate-700 dark:text-gray-300">{customer.name}</td>
+                    <td className="py-3 text-sm text-slate-600 dark:text-gray-400 text-right">{customer.orders}</td>
+                    <td className="py-3 text-sm font-semibold text-slate-900 dark:text-white text-right">{c(customer.spent)}</td>
+                  </tr>
+                ))}
+                {(!realData?.top_customers?.length) && (
+                  <tr>
+                    <td colSpan={3} className="py-10 text-center text-sm text-slate-400">
+                      No customer data available
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </Card>
 
         {/* Business Health Indicators */}
-        <Card className="p-6 bg-white border border-gray-200/60 shadow-sm rounded-2xl">
-          <h3 className="text-base font-semibold text-slate-900 mb-6">Health Metrics</h3>
+        <Card className="p-6 bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700/60 shadow-sm rounded-2xl">
+          <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-6">Health Metrics</h3>
           <div className="flex flex-col gap-4">
 
-            <div className="flex items-center p-4 rounded-xl border border-slate-100 bg-slate-50/50">
-              <div className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 text-violet-500 mr-4">
+            <div className="flex items-center p-4 rounded-xl border border-slate-100 dark:border-gray-700 bg-slate-50/50 dark:bg-gray-900/50">
+              <div className="p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-slate-100 dark:border-gray-700 text-violet-500 mr-4">
                 <FiTarget className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-0.5">Total Orders</p>
-                <p className="text-xl font-semibold text-slate-900">{(realData?.summary?.order_count || 0)}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">Total Orders</p>
+                <p className="text-xl font-semibold text-slate-900 dark:text-white">{(realData?.summary?.order_count || 0)}</p>
               </div>
             </div>
 
-            <div className={`flex items-center p-4 rounded-xl border ${realData?.summary?.low_stock_count > 0 ? 'bg-amber-50/50 border-amber-100' : 'bg-blue-50/50 border-blue-100'}`}>
-              <div className={`p-3 bg-white rounded-xl shadow-sm border ${realData?.summary?.low_stock_count > 0 ? 'border-amber-100 text-amber-500' : 'border-blue-100 text-blue-500'} mr-4`}>
+            <div className={`flex items-center p-4 rounded-xl border ${realData?.summary?.low_stock_count > 0 ? 'bg-amber-50/50 border-amber-100 dark:bg-amber-900/10 dark:border-amber-900/50' : 'bg-blue-50/50 border-blue-100 dark:bg-blue-900/10 dark:border-blue-900/50'}`}>
+              <div className={`p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border ${realData?.summary?.low_stock_count > 0 ? 'border-amber-100 dark:border-amber-900/50 text-amber-500' : 'border-blue-100 dark:border-blue-900/50 text-blue-500'} mr-4`}>
                 <FiPackage className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-0.5">Low Stock Alerts</p>
-                <p className="text-xl font-semibold text-slate-900">{realData?.summary?.low_stock_count || 0}</p>
+                <p className="text-xs font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">Low Stock Alerts</p>
+                <p className="text-xl font-semibold text-slate-900 dark:text-white">{realData?.summary?.low_stock_count || 0}</p>
               </div>
             </div>
 
-            <div className="flex items-center p-4 rounded-xl border border-blue-100 bg-blue-50/50">
-              <div className="p-3 bg-white rounded-xl shadow-sm border border-blue-100 text-blue-500 mr-4">
+            <div className="flex items-center p-4 rounded-xl border border-blue-100 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-900/10">
+              <div className="p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-blue-100 dark:border-blue-900/50 text-blue-500 mr-4">
                 <FiPercent className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-0.5">Avg. Profit Margin</p>
-                <p className="text-xl font-semibold text-slate-900">
+                <p className="text-xs font-medium text-slate-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">Avg. Profit Margin</p>
+                <p className="text-xl font-semibold text-slate-900 dark:text-white">
                   {realData?.summary?.total_sales > 0
                     ? ((realData.summary.net_profit / realData.summary.total_sales) * 100).toFixed(1)
                     : 0}%
@@ -439,7 +443,7 @@ export default function ReportsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-900 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <PageHeader title="Business Intelligence" subtitle="Live performance tracking and analytical insights" />
 
