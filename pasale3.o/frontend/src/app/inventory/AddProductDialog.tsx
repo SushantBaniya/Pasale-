@@ -90,7 +90,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
       };
 
       const endpoint = isEdit && initialData?.id
-        ? `${API_BASE_URL}/products/b${businessId}/?id=${initialData.id}`
+        ? `${API_BASE_URL}/products/b${businessId}/p${initialData.id}/`
         : `${API_BASE_URL}/products/b${businessId}/`;
 
       const res = await fetch(endpoint, {
