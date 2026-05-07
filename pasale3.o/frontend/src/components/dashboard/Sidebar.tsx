@@ -41,7 +41,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
   const logout = useAuthStore((state) => state.logout);
   const { userProfile } = useAuthStore();
   const { businessName } = useBusinessStore();
-  const [showUsefulTools, setShowUsefulTools] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -59,6 +58,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
     { path: '/expense-monitoring', icon: FiTrendingDown, label: 'Expense' },
     { path: '/billing', icon: FiCreditCard, label: 'Billing' },
     { path: '/reports', icon: FiBarChart2, label: 'Reports' },
+    { path: '/employees', icon: FiUser, label: 'Employees' },
+    { path: '/counters', icon: FiGrid, label: 'Counters' },
   ];
 
   const othersMenuItems = [
@@ -212,36 +213,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
           )}
 
           <div className="px-2 space-y-0.5">
-            {/* Useful Tools (Expandable) */}
-            <button
-              onClick={() => setShowUsefulTools(!showUsefulTools)}
-              className={`
-                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
-                ${isCollapsed ? 'justify-center px-2' : ''}
-                text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200
-              `}
-              title={isCollapsed ? 'Useful Tools' : undefined}
-            >
-              <FiTool className="w-[18px] h-[18px] shrink-0" />
-              {!isCollapsed && (
-                <>
-                  <span className="text-[13px] truncate flex-1 text-left">Useful Tools</span>
-                  <FiChevronRight className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${showUsefulTools ? 'rotate-90' : ''}`} />
-                </>
-              )}
-            </button>
-
-            {showUsefulTools && !isCollapsed && (
-              <div className="ml-6 space-y-0.5 border-l-2 border-gray-100 dark:border-gray-800 pl-3">
-                <Link to="/employees" onClick={() => onClose?.()} className="flex items-center gap-2 px-2 py-1.5 text-[12px] text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                  <FiUser className="w-3.5 h-3.5" /> Employees
-                </Link>
-                <Link to="/counters" onClick={() => onClose?.()} className="flex items-center gap-2 px-2 py-1.5 text-[12px] text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                  <FiGrid className="w-3.5 h-3.5" /> Counters
-                </Link>
-              </div>
-            )}
-
             {/* Help & Support */}
             <button
               className={`
