@@ -355,8 +355,8 @@ class LoginView(APIView):
 class ApiProductView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request, business_id=None):
-        product_id = request.query_params.get('id')
+    def get(self, request, business_id=None, product_id=None, **kwargs):
+        product_id = product_id or request.query_params.get('id')
         business_id = business_id or request.query_params.get('business_id')
 
         if not business_id:
@@ -423,12 +423,12 @@ class ApiProductView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, business_id=None, **kwargs):
+    def delete(self, request, business_id=None, product_id=None, **kwargs):
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Get the product ID from the query parameters
-        product_id = request.query_params.get('id')
+        # Get the product ID from the query parameters or URL
+        product_id = product_id or request.query_params.get('id')
         if not product_id:
             return Response({'error': 'Product ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
