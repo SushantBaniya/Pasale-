@@ -27,6 +27,9 @@ export interface Party {
   phone?: string;
   email?: string;
   address?: string;
+  panNumber?: string;
+  avatar?: string;
+  creditLimit?: number;
   balance: number; // Positive = receivable, Negative = payable
 }
 
@@ -107,10 +110,33 @@ export const useDataStore = create<DataState>((set, get) => ({
 
   addTransaction: (transaction) => {
     set((state) => {
+      // Update party balance if transaction is related to a party
+      let updatedParties = state.parties;
+      if (transaction.partyId) {
+        updatedParties = state.parties.map((p) => {
+          if (p.id === transaction.partyId) {
+            let newBalance = p.balance || 0;
+            if (transaction.type === 'payment_in') {
+              newBalance -= transaction.amount; // Received money, decreases receivable (or increases payable)
+            } else if (transaction.type === 'payment_out') {
+              newBalance += transaction.amount; // Paid money, decreases payable (or increases receivable)
+            } else if (transaction.type === 'selling') {
+              newBalance += transaction.amount; // Sold goods, increases receivable
+            } else if (transaction.type === 'purchase') {
+              newBalance -= transaction.amount; // Bought goods, increases payable
+            }
+            return { ...p, balance: newBalance };
+          }
+          return p;
+        });
+      }
+
       const newState = {
         ...state,
         transactions: [transaction, ...state.transactions],
+        parties: updatedParties,
       };
+      
       // Persist to localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('pasale-data', JSON.stringify({
