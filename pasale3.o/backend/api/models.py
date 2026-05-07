@@ -184,9 +184,21 @@ class Product(models.Model):
 
 class Party(models.Model):
     id = models.AutoField(primary_key=True)  # Explicit primary key
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='parties', null=True, blank=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    phone_no = models.CharField(max_length=15, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    pan_number = models.CharField(max_length=20, blank=True, null=True)
+    avatar = models.ImageField(upload_to='parties/', null=True, blank=True)
+    open_balance = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal('0.00'))
+    credit_limit = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal('0.00'))
+    
     Category_type = models.CharField(max_length=20)
     is_active = models.BooleanField(default=True)
-
     is_updated_at = models.DateTimeField(auto_now=True)
 
    # meta class for ordering and plural name(settings)
@@ -194,10 +206,36 @@ class Party(models.Model):
         verbose_name_plural = 'Parties'
 
     def __str__(self):
-        if hasattr(self, 'Customer'):
-            return f"Customer: {self.Customer.name}"
-        elif hasattr(self, 'Supplier'):
-            return f"Supplier: {self.Supplier.name}"
+        return self.name if self.name else f"Party {self.id}"
+
+
+class PaymentTransaction(models.Model):
+    id = models.AutoField(primary_key=True)
+    business_id = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='payment_transactions', null=True, blank=True)
+    party = models.ForeignKey(
+        Party, on_delete=models.CASCADE, related_name='payment_transactions')
+    
+    receipt_number = models.CharField(max_length=50, blank=True, null=True)
+    is_manual_receipt = models.BooleanField(default=False)
+    date = models.DateField()
+    
+    PAYMENT_TYPES = [
+        ('payment_in', 'Payment In'),
+        ('payment_out', 'Payment Out'),
+    ]
+    transaction_type = models.CharField(max_length=20, choices=PAYMENT_TYPES)
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    payment_method = models.ForeignKey(
+        PaymentMethod, on_delete=models.SET_NULL, null=True, blank=True)
+    remarks = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='payments/', null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.transaction_type} - {self.party.name} - {self.amount}"
 
 
 class Customer(models.Model):

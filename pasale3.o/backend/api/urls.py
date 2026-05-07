@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CounterView, EmployeeView, OrderView, ManualAssignView, OrderStatusView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView, DepartmentView, SkillView, EmployeeSkillView, ShiftCRUDView
+from .views import CounterView, EmployeeView, OrderView, ManualAssignView, OrderStatusView, SignupView, VerifySignupOtpView, ApiProductView, LoginView, ApiPartyView, ApiPaymentTransactionView, ApiExpenseView, ApiBillingView, ForgetPasswordView,VerifyForgetPasswordOtpView, ResetPasswordView, StaffSchedulerView, AssociationRulesView, ReorderSuggestionsView, StockAlertsView, ResolveAlertView, RetrainAprioriView, DepartmentView, SkillView, EmployeeSkillView, ShiftCRUDView
 from .views_reports import BusinessSummaryView
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -20,6 +20,11 @@ urlpatterns = [
          ApiPartyView.as_view(), name='ApiPartyView'),
     path('parties/b<int:business_id>/p<int:party_id>/',
          ApiPartyView.as_view(), name='ApiPartyView'),
+
+    path('payment-transactions/b<int:business_id>/',
+         ApiPaymentTransactionView.as_view(), name='ApiPaymentTransactionView'),
+    path('payment-transactions/b<int:business_id>/t<int:transaction_id>/',
+         ApiPaymentTransactionView.as_view(), name='ApiPaymentTransactionView'),
 
     path('expenses/b<int:business_id>/',
          ApiExpenseView.as_view(), name='ApiExpenseView'),

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule, Department, EmployeeStatus
+from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule, Department, EmployeeStatus, PaymentTransaction
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,6 +22,13 @@ class ProductSerializer(serializers.ModelSerializer):
 class PartySerializer(serializers.ModelSerializer):
     class Meta:
         model = Party
+        fields = "__all__"
+
+class PaymentTransactionSerializer(serializers.ModelSerializer):
+    party_name = serializers.CharField(source='party.name', read_only=True)
+
+    class Meta:
+        model = PaymentTransaction
         fields = "__all__"
 
 

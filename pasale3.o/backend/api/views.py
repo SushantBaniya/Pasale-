@@ -446,31 +446,24 @@ class ApiProductView(APIView):
 class ApiPartyView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
-        party_id = request.query_params.get('id')
-        category_type = request.query_params.get('category_type')
+    def get(self, request, business_id=None, party_id=None):
+        if not business_id:
+             business_id = request.query_params.get('business_id')
+        if not business_id:
+             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         if party_id:
             try:
-                party = Party.objects.get(id=party_id)
+                party = Party.objects.get(id=party_id, business_id=business_id)
                 serializer = PartySerializer(party)
-                # Include related customer/supplier data
-                response_data = serializer.data
-                if hasattr(party, 'Customer'):
-                    response_data['customer'] = CustomerSerializer(
-                        party.Customer).data
-                elif hasattr(party, 'Supplier'):
-                    response_data['supplier'] = SupplierSerializer(
-                        party.Supplier).data
-                return Response(response_data, status=status.HTTP_200_OK)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             except Party.DoesNotExist:
                 return Response({'error': 'Party not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        # Filter by category type if provided
+        category_type = request.query_params.get('category_type')
+        parties = Party.objects.filter(business_id=business_id)
         if category_type:
-            parties = Party.objects.filter(Category_type=category_type)
-        else:
-            parties = Party.objects.all()
+            parties = parties.filter(Category_type=category_type)
 
         paginator = PageNumberPagination()
         paginator.page_size = 10
@@ -478,194 +471,141 @@ class ApiPartyView(APIView):
         serializer = PartySerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        category = data.get('Category_type')
+    def post(self, request, business_id=None):
+        if not business_id:
+             business_id = request.query_params.get('business_id')
+        if not business_id:
+             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Validate category type
+        data = request.data.copy()
+        data['business_id'] = business_id
+        
+        category = data.get('Category_type')
         if category not in ['Customer', 'Supplier']:
             return Response({"error": "Invalid Category. Must be 'Customer' or 'Supplier'"},
                             status=status.HTTP_400_BAD_REQUEST)
 
-        # Check if Customer already exists
-        if category == 'Customer':
-            name = data.get('name')
-            email = data.get('email')
-            phone_no = data.get('phone_no')
-            customer_code = data.get('Customer_code')
+        serializer = PartySerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'message': f'{category} created successfully!',
+                'party': serializer.data
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            # Build filter conditions for duplicate check
-            existing_customer = None
-
-            # Check by email if provided
-            if email:
-                existing_customer = Customer.objects.filter(
-                    email=email).first()
-                if existing_customer:
-                    return Response({
-                        'error': 'A customer with this email already exists.',
-                        'existing_customer': CustomerSerializer(existing_customer).data
-                    }, status=status.HTTP_400_BAD_REQUEST)
-
-            # Check by phone number if provided
-            if phone_no:
-                existing_customer = Customer.objects.filter(
-                    phone_no=phone_no).first()
-                if existing_customer:
-                    return Response({
-                        'error': 'A customer with this phone number already exists.',
-                        'existing_customer': CustomerSerializer(existing_customer).data
-                    }, status=status.HTTP_400_BAD_REQUEST)
-
-            if customer_code:
-                existing_customer = Customer.objects.filter(
-                    Customer_code=customer_code).first()
-                if existing_customer:
-                    return Response({
-                        'error': 'A customer with this Customer code already exists.',
-                        'existing_customer': CustomerSerializer(existing_customer).data
-                    }, status=status.HTTP_400_BAD_REQUEST)
-
-        # Check if Supplier already exists
-        elif category == 'Supplier':
-            name = data.get('name')
-            code = data.get('code')
-
-            # Check by code (unique identifier for supplier)
-            if code:
-                existing_supplier = Supplier.objects.filter(code=code).first()
-                if existing_supplier:
-                    return Response({
-                        'error': 'A supplier with this code already exists.',
-                        'existing_supplier': SupplierSerializer(existing_supplier).data
-                    }, status=status.HTTP_400_BAD_REQUEST)
-
-            # Check by name
-            if name:
-                existing_supplier = Supplier.objects.filter(
-                    name=name).first()
-                if existing_supplier:
-                    return Response({
-                        'error': 'A supplier with this name already exists.',
-                        'existing_supplier': SupplierSerializer(existing_supplier).data
-                    }, status=status.HTTP_400_BAD_REQUEST)
-
-        # Open an atomic transaction
-        with transaction.atomic():
-            # Create the Party object first
-            party = Party.objects.create(
-                Category_type=category,
-                is_active=data.get('is_active', True)
-            )
-
-            # Branching Logic based on the Category
-            if category == 'Customer':
-                customer = Customer.objects.create(
-                    party=party,
-                    name=data.get('name'),
-                    Customer_code=data.get('Customer_code'),
-                    email=data.get('email'),
-                    phone_no=data.get('phone_no'),
-                    address=data.get('address'),
-                    open_balance=data.get('open_balance', 0.0),
-                    credit_limmit=data.get('credit_limmit', 0.0),
-                    preferred_payment_method=data.get(
-                        'preferred_payment_method'),
-                    loyalty_points=data.get('loyalty_points', 0),
-                    referred_by=data.get('referred_by'),
-                    notes=data.get('notes', ''),
-                )
-                serializer = PartySerializer(party)
-                return Response({
-                    'message': 'Customer created successfully!',
-                    'party': serializer.data,
-                    'customer': CustomerSerializer(customer).data
-                }, status=status.HTTP_201_CREATED)
-
-            elif category == 'Supplier':
-                supplier = Supplier.objects.create(
-                    party=party,
-                    name=data.get('name'),
-                    code=data.get('code'),
-                )
-                serializer = PartySerializer(party)
-                return Response({
-                    'message': 'Supplier created successfully!',
-                    'party': serializer.data,
-                    'supplier': SupplierSerializer(supplier).data
-                }, status=status.HTTP_201_CREATED)
-
-    def put(self, request, *args, **kwargs):
-        party_id = request.query_params.get('id')
+    def put(self, request, business_id=None, party_id=None):
+        if not business_id:
+             business_id = request.query_params.get('business_id')
         if not party_id:
-            return Response({'error': 'Party ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+             party_id = request.query_params.get('id')
+             
+        if not business_id or not party_id:
+            return Response({'error': 'Business ID and Party ID are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            party = Party.objects.get(id=party_id)
+            party = Party.objects.get(id=party_id, business_id=business_id)
         except Party.DoesNotExist:
             return Response({'error': 'Party not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        data = request.data
-
-        # Update related customer or supplier
-        if party.Category_type == 'Customer' and hasattr(party, 'Customer'):
-            customer = party.Customer
-            customer.name = data.get('name', customer.name)
-            customer.email = data.get('email', customer.email)
-            customer.phone_no = data.get('phone_no', customer.phone_no)
-            customer.address = data.get('address', customer.address)
-            customer.Customer_code = data.get(
-                'Customer_code', customer.Customer_code)
-            customer.open_balance = data.get(
-                'open_balance', customer.open_balance)
-            customer.credit_limmit = data.get(
-                'credit_limmit', customer.credit_limmit)
-            customer.preferred_payment_method = data.get(
-                'preferred_payment_method', customer.preferred_payment_method)
-            customer.loyalty_points = data.get(
-                'loyalty_points', customer.loyalty_points)
-            customer.referred_by = data.get(
-                'referred_by', customer.referred_by)
-            customer.notes = data.get('notes', customer.notes)
-            customer.save()
-
+        serializer = PartySerializer(party, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
             return Response({
-                'message': 'Customer updated successfully!',
-                'party': PartySerializer(party).data,
-                'customer': CustomerSerializer(customer).data
+                'message': 'Party updated successfully!',
+                'party': serializer.data
             }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        elif party.Category_type == 'Supplier' and hasattr(party, 'Supplier'):
-            supplier = party.Supplier
-            supplier.name = data.get('name', supplier.name)
-            supplier.code = data.get('code', supplier.code)
-            supplier.save()
-
-            return Response({
-                'message': 'Supplier updated successfully!',
-                'party': PartySerializer(party).data,
-                'supplier': SupplierSerializer(supplier).data
-            }, status=status.HTTP_200_OK)
-        if party.is_updated_at:
-            time_since_last_update = timezone.now() - party.is_updated_at
-            if time_since_last_update > PARTY_INACTIVITY_PERIOD:
-                party.is_active = False
-
-        party.save()
-        return Response({'error': 'No related customer or supplier found'}, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, *args, **kwargs):
-        party_id = request.query_params.get('id')
+    def delete(self, request, business_id=None, party_id=None):
+        if not business_id:
+             business_id = request.query_params.get('business_id')
         if not party_id:
-            return Response({'error': 'Party ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+             party_id = request.query_params.get('id')
+             
+        if not business_id or not party_id:
+            return Response({'error': 'Business ID and Party ID are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            party = Party.objects.get(id=party_id)
+            party = Party.objects.get(id=party_id, business_id=business_id)
         except Party.DoesNotExist:
             return Response({'error': 'Party not found'}, status=status.HTTP_404_NOT_FOUND)
 
         party.delete()
         return Response({'message': 'Party deleted successfully!'}, status=status.HTTP_200_OK)
+
+
+class ApiPaymentTransactionView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id=None, transaction_id=None):
+        if not business_id:
+             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if transaction_id:
+            try:
+                txn = PaymentTransaction.objects.get(id=transaction_id, business_id=business_id)
+                serializer = PaymentTransactionSerializer(txn)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except PaymentTransaction.DoesNotExist:
+                return Response({'error': 'Transaction not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        party_id = request.query_params.get('party_id')
+        txns = PaymentTransaction.objects.filter(business_id=business_id).order_by('-date', '-created_at')
+        
+        if party_id:
+            txns = txns.filter(party_id=party_id)
+
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+        result_page = paginator.paginate_queryset(txns, request)
+        serializer = PaymentTransactionSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
+    def post(self, request, business_id=None):
+        if not business_id:
+             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = request.data.copy()
+        data['business_id'] = business_id
+
+        serializer = PaymentTransactionSerializer(data=data)
+        if serializer.is_valid():
+            with transaction.atomic():
+                txn = serializer.save()
+                # Update party balance
+                party = txn.party
+                if txn.transaction_type == 'payment_in':
+                    party.open_balance -= txn.amount
+                elif txn.transaction_type == 'payment_out':
+                    party.open_balance += txn.amount
+                party.save()
+                
+            return Response({
+                'message': 'Transaction recorded successfully!',
+                'transaction': PaymentTransactionSerializer(txn).data
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, business_id=None, transaction_id=None):
+        if not business_id or not transaction_id:
+            return Response({'error': 'Business ID and Transaction ID are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            txn = PaymentTransaction.objects.get(id=transaction_id, business_id=business_id)
+        except PaymentTransaction.DoesNotExist:
+            return Response({'error': 'Transaction not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        with transaction.atomic():
+            party = txn.party
+            if txn.transaction_type == 'payment_in':
+                party.open_balance += txn.amount
+            elif txn.transaction_type == 'payment_out':
+                party.open_balance -= txn.amount
+            party.save()
+            txn.delete()
+            
+        return Response({'message': 'Transaction deleted successfully!'}, status=status.HTTP_200_OK)
 
 
 class ApiExpenseView(APIView):
