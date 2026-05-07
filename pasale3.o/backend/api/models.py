@@ -425,8 +425,8 @@ class Billing(models.Model):
 
     def calculate_totals(self):
         """Calculate subtotal from all invoice items"""
-        self.subtotal = sum(item.total_price for item in self.items.all())
-        self.total = self.subtotal - self.discount + self.tax_vat
+        self.sub_total = sum(item.total_price for item in self.items.all())
+        self.total_amount = self.sub_total - self.discount + self.tax
         self.save()
 
     def __str__(self):

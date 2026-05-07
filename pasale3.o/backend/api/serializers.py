@@ -68,6 +68,10 @@ class BillingItemSerializer(serializers.ModelSerializer):
 
 class BillingSerializer(serializers.ModelSerializer):
     items = BillingItemSerializer(many=True, read_only=True)
+    party = PartySerializer(read_only=True)
+    party_id = serializers.PrimaryKeyRelatedField(
+        source='party', queryset=Party.objects.all(), write_only=True, required=False, allow_null=True
+    )
 
     class Meta:
         model = Billing

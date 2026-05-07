@@ -59,6 +59,12 @@ def create_product(data):
     try:
         data = dict(data)
 
+        # Auto-handle category string names
+        if 'category' in data and isinstance(data['category'], str) and not data['category'].isdigit():
+            from api.models import Category
+            cat, _ = Category.objects.get_or_create(name=data['category'])
+            data['category'] = cat.id
+
         required_fields = ['product_name', 'category',
                            'unit_price', 'quantity', 'business_id']
         for field in required_fields:

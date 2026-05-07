@@ -461,7 +461,7 @@ class ApiPartyView(APIView):
                 return Response({'error': 'Party not found'}, status=status.HTTP_404_NOT_FOUND)
 
         category_type = request.query_params.get('category_type')
-        parties = Party.objects.filter(business_id=business_id)
+        parties = Party.objects.filter(business_id=business_id).order_by('-id')
         if category_type:
             parties = parties.filter(Category_type=category_type)
 
@@ -701,6 +701,8 @@ class ApiBillingView(APIView):
 
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        billing_data['business_id'] = business_id
 
         try:
             with transaction.atomic():
@@ -720,6 +722,17 @@ class ApiBillingView(APIView):
                             item_serializer.save()
                         else:
                             return Response(item_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+                    # Update party open_balance if invoice is Unpaid
+                    if billing.party and billing.invoice_status == 'Unpaid':
+                        party = billing.party
+                        # Calculate due amount from total_amount if due_amount is not set properly by frontend
+                        due = billing.total_amount
+                        if billing.transaction_type == 'Sales':
+                            party.open_balance += due
+                        elif billing.transaction_type == 'Purchase':
+                            party.open_balance -= due
+                        party.save()
 
                     return Response({'message': 'Billing created successfully!',
                                      'billing': BillingSerializer(billing).data}, status=status.HTTP_201_CREATED)

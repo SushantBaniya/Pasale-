@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from '../../utils/i18n';
 import { useAuthStore } from '../../store/authStore';
+import { useBusinessStore } from '../../store/businessStore';
 import {
   FiGrid,
   FiUsers,
-  FiBell,
+  FiPackage,
   FiFileText,
   FiTrendingDown,
   FiSettings,
@@ -13,19 +13,20 @@ import {
   FiX,
   FiMenu,
   FiChevronLeft,
-  FiPackage,
-  FiBriefcase,
   FiBarChart2,
-  FiClock,
+  FiShoppingCart,
+  FiDollarSign,
+  FiHelpCircle,
+  FiBookOpen,
+  FiStar,
+  FiTool,
+  FiChevronDown,
+  FiChevronRight,
+  FiZap,
+  FiCreditCard,
+  FiBook,
+  FiUser,
 } from 'react-icons/fi';
-import { NepaliRupeeIcon } from '../ui/NepaliRupeeIcon';
-
-// Wrapper component to make NepaliRupeeIcon work like react-icons
-const RupeeIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <NepaliRupeeIcon className={className} />
-);
-
-
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -37,8 +38,10 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const logout = useAuthStore((state) => state.logout);
+  const { userProfile } = useAuthStore();
+  const { businessName } = useBusinessStore();
+  const [showUsefulTools, setShowUsefulTools] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -46,20 +49,33 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
     window.location.href = '/welcome';
   };
 
-  const menuItems = [
-    { path: '/dashboard', icon: FiGrid, labelKey: 'sidebar.dashboard' },
-    { path: '/transactions', icon: RupeeIcon, labelKey: 'sidebar.transactions' },
-    { path: '/parties', icon: FiUsers, labelKey: 'sidebar.parties' },
-    { path: '/inventory', icon: FiPackage, labelKey: 'sidebar.inventory' },
-    { path: '/employees', icon: FiBriefcase, labelKey: 'sidebar.employees' },
-    { path: '/billing', icon: FiFileText, labelKey: 'sidebar.billing' },
-    { path: '/reports', icon: FiBarChart2, labelKey: 'sidebar.businessReports' },
-    { path: '/expense-monitoring', icon: FiTrendingDown, labelKey: 'sidebar.expenseMonitoring' },
-    { path: '/counters', icon: FiGrid, labelKey: 'sidebar.counters' },
-    { path: '/settings', icon: FiSettings, labelKey: 'sidebar.settings' },
+  const businessMenuItems = [
+    { path: '/dashboard', icon: FiGrid, label: 'Dashboard' },
+    { path: '/quick-pos', icon: FiZap, label: 'Quick POS' },
+    { path: '/parties', icon: FiUsers, label: 'Parties' },
+    { path: '/inventory', icon: FiPackage, label: 'Inventory' },
+    { path: '/sales', icon: FiDollarSign, label: 'Sales' },
+    { path: '/purchase', icon: FiShoppingCart, label: 'Purchase' },
+    { path: '/expense-monitoring', icon: FiTrendingDown, label: 'Expense' },
+    { path: '/billing', icon: FiCreditCard, label: 'Other Income' },
+    { path: '/reports', icon: FiBarChart2, label: 'Reports' },
   ];
 
+  const othersMenuItems = [
+    { path: '/settings', icon: FiSettings, label: 'Settings' },
+  ];
 
+  const getUserDisplayName = () => {
+    if (businessName) return businessName;
+    if (userProfile?.businessName) return userProfile.businessName;
+    if (userProfile?.name) return userProfile.name;
+    return 'User';
+  };
+
+  const getInitial = () => {
+    const name = getUserDisplayName();
+    return name.charAt(0).toUpperCase();
+  };
 
   return (
     <>
@@ -73,20 +89,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
       )}
 
       <aside className={`
-        ${isCollapsed ? 'lg:w-20' : 'lg:w-64'} bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 
+        ${isCollapsed ? 'lg:w-20' : 'lg:w-64'} bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 
         h-screen fixed left-0 top-0 flex flex-col z-50 
         transition-all duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} 
+        ${isOpen ? 'translate-x-0 shadow-2xl w-64' : '-translate-x-full w-64'} 
         lg:translate-x-0
       `}>
-        {/* Header with close button on mobile and toggle on desktop */}
-        <div className={`p-4 sm:p-6 border-b border-gray-100 dark:border-gray-800 flex items-center shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+        {/* Logo & Toggle */}
+        <div className={`px-4 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
           {!isCollapsed && (
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-500/20">
-                <FiGrid className="w-4 h-4 text-white" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center shadow-sm">
+                <span className="text-white font-bold text-sm">P</span>
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 truncate tracking-tight">
+              <h1 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">
                 Pasale
               </h1>
             </div>
@@ -95,66 +111,220 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
           {/* Desktop Toggle Button */}
           <button
             onClick={onToggleCollapse}
-            className="hidden lg:flex p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="hidden lg:flex p-1.5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            {isCollapsed ? <FiMenu className="w-5 h-5" /> : <FiChevronLeft className="w-5 h-5" />}
+            {isCollapsed ? <FiMenu className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
           </button>
 
           {/* Mobile Close Button */}
           <button
             onClick={onClose}
-            className="lg:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="lg:hidden p-1.5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
             aria-label="Close sidebar"
           >
             <FiX className="w-5 h-5" />
           </button>
         </div>
 
-        <nav className="flex-1 p-3 sm:p-4 space-y-1 sm:space-y-2 overflow-y-auto scrollbar-none">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path ||
-              (item.path === '/dashboard' && location.pathname === '/');
+        {/* User Profile Section */}
+        {!isCollapsed && (
+          <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                {getInitial()}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                  {getUserDisplayName()}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Business Admin
+                </p>
+              </div>
+              <FiChevronDown className="w-4 h-4 text-gray-400 shrink-0" />
+            </div>
+          </div>
+        )}
 
+        {isCollapsed && (
+          <div className="px-2 py-3 border-b border-gray-100 dark:border-gray-800 flex justify-center">
+            <div className="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold text-sm">
+              {getInitial()}
+            </div>
+          </div>
+        )}
 
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => onClose?.()}
-                className={`
-                  group flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300
-                  ${isCollapsed ? 'justify-center px-2' : ''}
-                  ${isActive
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-600 text-white shadow-md shadow-blue-500/25 dark:shadow-blue-900/30'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-blue-600 dark:hover:text-blue-400'
-                  }
-                `}
-                title={isCollapsed ? t(item.labelKey) : undefined}
-              >
-                <Icon className={`w-5 h-5 shrink-0 transition-transform duration-300 ${!isActive && 'group-hover:scale-110'}`} />
-                {!isCollapsed && (
-                  <span className={`font-medium text-sm sm:text-base truncate flex-1 ${isActive ? 'font-semibold tracking-wide text-white' : ''}`}>
-                    {t(item.labelKey)}
-                  </span>
-                )}
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto scrollbar-none py-2">
+          {/* BUSINESS Section */}
+          {!isCollapsed && (
+            <div className="px-4 pt-3 pb-1">
+              <span className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                Business
+              </span>
+            </div>
+          )}
+          
+          <div className="px-2 space-y-0.5">
+            {businessMenuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path ||
+                (item.path === '/dashboard' && location.pathname === '/') ||
+                (item.path !== '/dashboard' && location.pathname.startsWith(item.path + '/'));
 
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => onClose?.()}
+                  className={`
+                    group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative
+                    ${isCollapsed ? 'justify-center px-2' : ''}
+                    ${isActive
+                      ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 font-semibold'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200'
+                    }
+                  `}
+                  title={isCollapsed ? item.label : undefined}
+                >
+                  {isActive && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-teal-600 dark:bg-teal-500 rounded-r-full" />
+                  )}
+                  <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-teal-600 dark:text-teal-400' : ''}`} />
+                  {!isCollapsed && (
+                    <span className="text-[13px] truncate flex-1">
+                      {item.label}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
 
-              </Link>
-            );
-          })}
+          {/* OTHERS Section */}
+          {!isCollapsed && (
+            <div className="px-4 pt-5 pb-1">
+              <span className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                Others
+              </span>
+            </div>
+          )}
+
+          <div className="px-2 space-y-0.5">
+            {/* Useful Tools (Expandable) */}
+            <button
+              onClick={() => setShowUsefulTools(!showUsefulTools)}
+              className={`
+                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
+                ${isCollapsed ? 'justify-center px-2' : ''}
+                text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200
+              `}
+              title={isCollapsed ? 'Useful Tools' : undefined}
+            >
+              <FiTool className="w-[18px] h-[18px] shrink-0" />
+              {!isCollapsed && (
+                <>
+                  <span className="text-[13px] truncate flex-1 text-left">Useful Tools</span>
+                  <FiChevronRight className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${showUsefulTools ? 'rotate-90' : ''}`} />
+                </>
+              )}
+            </button>
+
+            {showUsefulTools && !isCollapsed && (
+              <div className="ml-6 space-y-0.5 border-l-2 border-gray-100 dark:border-gray-800 pl-3">
+                <Link to="/employees" onClick={() => onClose?.()} className="flex items-center gap-2 px-2 py-1.5 text-[12px] text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                  <FiUser className="w-3.5 h-3.5" /> Employees
+                </Link>
+                <Link to="/counters" onClick={() => onClose?.()} className="flex items-center gap-2 px-2 py-1.5 text-[12px] text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                  <FiGrid className="w-3.5 h-3.5" /> Counters
+                </Link>
+              </div>
+            )}
+
+            {/* Help & Support */}
+            <button
+              className={`
+                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
+                ${isCollapsed ? 'justify-center px-2' : ''}
+                text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200
+              `}
+              title={isCollapsed ? 'Help & Support' : undefined}
+            >
+              <FiHelpCircle className="w-[18px] h-[18px] shrink-0" />
+              {!isCollapsed && <span className="text-[13px] truncate flex-1 text-left">Help & Support</span>}
+            </button>
+
+            {/* Tutorials */}
+            <button
+              className={`
+                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
+                ${isCollapsed ? 'justify-center px-2' : ''}
+                text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200
+              `}
+              title={isCollapsed ? 'Tutorials' : undefined}
+            >
+              <FiBookOpen className="w-[18px] h-[18px] shrink-0" />
+              {!isCollapsed && <span className="text-[13px] truncate flex-1 text-left">Tutorials</span>}
+            </button>
+
+            {/* What's New */}
+            <button
+              className={`
+                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
+                ${isCollapsed ? 'justify-center px-2' : ''}
+                text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200
+              `}
+              title={isCollapsed ? "What's New" : undefined}
+            >
+              <FiStar className="w-[18px] h-[18px] shrink-0" />
+              {!isCollapsed && <span className="text-[13px] truncate flex-1 text-left">What's New</span>}
+            </button>
+
+            {/* Settings */}
+            {othersMenuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => onClose?.()}
+                  className={`
+                    group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative
+                    ${isCollapsed ? 'justify-center px-2' : ''}
+                    ${isActive
+                      ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 font-semibold'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200'
+                    }
+                  `}
+                  title={isCollapsed ? item.label : undefined}
+                >
+                  {isActive && (
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-teal-600 dark:bg-teal-500 rounded-r-full" />
+                  )}
+                  <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-teal-600 dark:text-teal-400' : ''}`} />
+                  {!isCollapsed && (
+                    <span className="text-[13px] truncate flex-1">
+                      {item.label}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
         </nav>
 
-        {/* Logout button - fixed at bottom with safe area padding */}
-        <div className="p-3 sm:p-4 border-t border-gray-100 dark:border-gray-800 shrink-0 pb-safe mb-4 sm:mb-0">
+        {/* Logout button */}
+        <div className="px-2 py-3 border-t border-gray-100 dark:border-gray-800 shrink-0">
           <button
             onClick={handleLogout}
-            className={`group w-full flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 ${isCollapsed ? 'justify-center px-2' : ''}`}
-            title={isCollapsed ? t('common.logout') : undefined}
+            className={`group w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400 transition-all duration-200 ${isCollapsed ? 'justify-center px-2' : ''}`}
+            title={isCollapsed ? 'Logout' : undefined}
           >
-            <FiLogOut className="w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-12" />
-            {!isCollapsed && <span className="font-medium text-sm sm:text-base">{t('common.logout')}</span>}
+            <FiLogOut className="w-[18px] h-[18px] shrink-0 transition-transform duration-200 group-hover:scale-110" />
+            {!isCollapsed && <span className="text-[13px] font-medium">Logout</span>}
           </button>
         </div>
       </aside>

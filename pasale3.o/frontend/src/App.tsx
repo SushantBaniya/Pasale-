@@ -22,8 +22,14 @@ import ExpenseMonitoringPage from './app/expense-monitoring/page';
 import NotificationsPage from './app/notifications/page';
 import SettingsPage from './app/settings/page';
 import InventoryPage from './app/inventory/page';
+import AddNewItemPage from './app/inventory/new';
 import ReportsPage from './app/reports/page';
 import BillingPage from './app/billing/page';
+import SalesPage from './app/sales/page';
+import CreateSalesInvoicePage from './app/sales/new';
+import PurchasePage from './app/purchase/page';
+import CreatePurchaseBillPage from './app/purchase/new';
+import QuickPOSPage from './app/quick-pos/page';
 import KPIDetailPage from './app/dashboard/kpi/[type]/page';
 import TransactionDetailPage from './app/transactions/detail';
 import TodaysSalesPage from './app/dashboard/todays-sales/page';
@@ -101,8 +107,14 @@ function App() {
             <Route path="/expense-monitoring" element={<ExpenseMonitoringPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/inventory" element={<InventoryPage />} />
+            <Route path="/inventory/new" element={<AddNewItemPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/billing" element={<BillingPage />} />
+            <Route path="/sales" element={<SalesPage />} />
+            <Route path="/sales/new" element={<CreateSalesInvoicePage />} />
+            <Route path="/purchase" element={<PurchasePage />} />
+            <Route path="/purchase/new" element={<CreatePurchaseBillPage />} />
+            <Route path="/quick-pos" element={<QuickPOSPage />} />
             <Route path="/employees" element={<EmployeesPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/dashboard/kpi/:type" element={<KPIDetailPage />} />
