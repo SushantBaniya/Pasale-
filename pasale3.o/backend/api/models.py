@@ -387,9 +387,9 @@ class Billing(models.Model):
 
     # Invoice details
     invoice_number = models.CharField(max_length=50, unique=True)
-    invoice_date = models.DateField(null=True, blank=True)
+    invoice_date = models.DateField(null=True, blank=True, db_index=True)
     due_date = models.DateField(null=True, blank=True)
-    transaction_type = models.CharField(max_length=20, default='Sales')
+    transaction_type = models.CharField(max_length=20, default='Sales', db_index=True)
 
     payment_method = models.ForeignKey(
         PaymentMethod, on_delete=models.SET_NULL, null=True)
@@ -400,7 +400,7 @@ class Billing(models.Model):
         ('Draft', 'Draft'),
     ]
     invoice_status = models.CharField(
-        max_length=20, choices=invoice_choices, default='Draft')
+        max_length=20, choices=invoice_choices, default='Draft', db_index=True)
     # Customer details
     party = models.ForeignKey(
         Party, on_delete=models.CASCADE, related_name='billings', null=True, blank=True)

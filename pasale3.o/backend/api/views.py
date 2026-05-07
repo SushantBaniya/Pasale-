@@ -684,7 +684,7 @@ class ApiBillingView(APIView):
                 return Response({'error': 'Billing record not found'}, status=status.HTTP_404_NOT_FOUND)
 
         status_filter = request.query_params.get('status')
-        billings = Billing.objects.filter(business_id=business_id)
+        billings = Billing.objects.filter(business_id=business_id).select_related('party').prefetch_related('items__item').order_by('-id')
 
         if status_filter:
             billings = billings.filter(invoice_status__iexact=status_filter)
