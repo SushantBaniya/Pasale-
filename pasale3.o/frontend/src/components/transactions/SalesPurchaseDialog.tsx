@@ -274,7 +274,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto my-4 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
-        <div className={`px-6 py-4 ${isSales ? 'bg-gradient-to-r from-emerald-600 to-emerald-700' : 'bg-gradient-to-r from-blue-600 to-blue-700'}`}>
+        <div className={`px-6 py-4 ${isSales ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-blue-600 to-blue-700'}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
@@ -298,8 +298,8 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
         {/* Success Message */}
         {success && (
-          <div className="m-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl text-emerald-700 dark:text-emerald-400 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-800 flex items-center justify-center">
+          <div className="m-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl text-blue-700 dark:text-blue-400 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-800 flex items-center justify-center">
               <FiCheck className="w-5 h-5" />
             </div>
             <span className="font-medium">{isSales ? 'Invoice' : 'Bill'} saved successfully!</span>
@@ -568,7 +568,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 <div className="border-t border-gray-200 dark:border-gray-600 pt-3">
                   <div className="flex justify-between text-lg font-bold">
                     <span className="text-gray-900 dark:text-gray-100">Total Amount</span>
-                    <span className={isSales ? 'text-emerald-600' : 'text-blue-600'}>Rs. {totals.totalAmount.toLocaleString()}</span>
+                    <span className={isSales ? 'text-blue-600' : 'text-blue-600'}>Rs. {totals.totalAmount.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -599,7 +599,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 <div className="flex justify-end pt-2">
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                     paymentStatus === 'paid' 
-                      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
                       : paymentStatus === 'partial'
                       ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
                       : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
@@ -627,7 +627,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
             </Button>
             <Button
               type="submit"
-              className={`${isSales ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-blue-600 hover:bg-blue-700'} text-white px-6`}
+              className={`${isSales ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'} text-white px-6`}
               disabled={isSubmitting}
             >
               {isSubmitting ? (

@@ -53,7 +53,7 @@ const CATEGORY_CONFIG: Record<string, { icon: React.ElementType; color: string; 
   'Rent': { icon: FiHome, color: '#8b5cf6', bgColor: 'bg-purple-100 dark:bg-purple-900/30' },
   'Utilities': { icon: FiZap, color: '#f59e0b', bgColor: 'bg-amber-100 dark:bg-amber-900/30' },
   'Salary': { icon: FiUsers, color: '#3b82f6', bgColor: 'bg-blue-100 dark:bg-blue-900/30' },
-  'Inventory': { icon: FiPackage, color: '#10b981', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30' },
+  'Inventory': { icon: FiPackage, color: '#10b981', bgColor: 'bg-blue-100 dark:bg-blue-900/30' },
   'Transport': { icon: FiTruck, color: '#ec4899', bgColor: 'bg-pink-100 dark:bg-pink-900/30' },
   'Food': { icon: FiCoffee, color: '#f97316', bgColor: 'bg-orange-100 dark:bg-orange-900/30' },
   'Office Supplies': { icon: FiShoppingBag, color: '#06b6d4', bgColor: 'bg-cyan-100 dark:bg-cyan-900/30' },

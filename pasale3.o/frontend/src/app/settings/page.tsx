@@ -331,7 +331,7 @@ export default function SettingsPage() {
             </button>
             <button
               onClick={() => updateGeneralSettings({ calendarType: 'BS' })}
-              className={`px-3 py-1 rounded-md text-sm transition-colors ${general.calendarType === 'BS' ? 'bg-emerald-500 text-white' : 'text-gray-400'}`}
+              className={`px-3 py-1 rounded-md text-sm transition-colors ${general.calendarType === 'BS' ? 'bg-blue-500 text-white' : 'text-gray-400'}`}
             >
               BS
             </button>
@@ -727,8 +727,8 @@ export default function SettingsPage() {
 
       <Card className="p-6 bg-gray-800/50 border-gray-700">
         <div className="text-center py-8">
-          <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FiCreditCard className="w-8 h-8 text-emerald-400" />
+          <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <FiCreditCard className="w-8 h-8 text-blue-400" />
           </div>
           <h3 className="text-white font-semibold text-lg mb-2">Free Plan</h3>
           <p className="text-gray-400 mb-4">You are currently on the free plan</p>
@@ -750,7 +750,7 @@ export default function SettingsPage() {
               <li>Up to 50 Parties</li>
             </ul>
           </div>
-          <Button className="bg-emerald-500 hover:bg-emerald-600">
+          <Button className="bg-blue-500 hover:bg-blue-600">
             Upgrade to Pro
           </Button>
         </div>
@@ -993,7 +993,7 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Success Message */}
       {success && (
-        <div className="fixed top-4 right-4 z-50 p-3 bg-emerald-500/20 border border-emerald-500/50 rounded-lg text-emerald-400 text-sm font-medium animate-in slide-in-from-top duration-300">
+        <div className="fixed top-4 right-4 z-50 p-3 bg-blue-500/20 border border-blue-500/50 rounded-lg text-blue-400 text-sm font-medium animate-in slide-in-from-top duration-300">
           <FiCheck className="inline-block w-4 h-4 mr-2" />
           {success}
         </div>

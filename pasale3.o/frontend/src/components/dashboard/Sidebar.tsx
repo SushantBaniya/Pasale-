@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
         <div className={`px-4 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
           {!isCollapsed && (
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center shadow-sm">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm">
                 <span className="text-white font-bold text-sm">P</span>
               </div>
               <h1 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">
@@ -127,34 +127,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
             <FiX className="w-5 h-5" />
           </button>
         </div>
-
-        {/* User Profile Section */}
-        {!isCollapsed && (
-          <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
-                {getInitial()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
-                  {getUserDisplayName()}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Business Admin
-                </p>
-              </div>
-              <FiChevronDown className="w-4 h-4 text-gray-400 shrink-0" />
-            </div>
-          </div>
-        )}
-
-        {isCollapsed && (
-          <div className="px-2 py-3 border-b border-gray-100 dark:border-gray-800 flex justify-center">
-            <div className="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold text-sm">
-              {getInitial()}
-            </div>
-          </div>
-        )}
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto scrollbar-none py-2">
@@ -183,16 +155,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                     group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative
                     ${isCollapsed ? 'justify-center px-2' : ''}
                     ${isActive
-                      ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 font-semibold'
+                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-semibold'
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200'
                     }
                   `}
                   title={isCollapsed ? item.label : undefined}
                 >
                   {isActive && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-teal-600 dark:bg-teal-500 rounded-r-full" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-blue-600 dark:bg-blue-500 rounded-r-full" />
                   )}
-                  <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-teal-600 dark:text-teal-400' : ''}`} />
+                  <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-blue-600 dark:text-blue-400' : ''}`} />
                   {!isCollapsed && (
                     <span className="text-[13px] truncate flex-1">
                       {item.label}
@@ -266,16 +238,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                     group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative
                     ${isCollapsed ? 'justify-center px-2' : ''}
                     ${isActive
-                      ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 font-semibold'
+                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-semibold'
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200'
                     }
                   `}
                   title={isCollapsed ? item.label : undefined}
                 >
                   {isActive && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-teal-600 dark:bg-teal-500 rounded-r-full" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-blue-600 dark:bg-blue-500 rounded-r-full" />
                   )}
-                  <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-teal-600 dark:text-teal-400' : ''}`} />
+                  <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-blue-600 dark:text-blue-400' : ''}`} />
                   {!isCollapsed && (
                     <span className="text-[13px] truncate flex-1">
                       {item.label}

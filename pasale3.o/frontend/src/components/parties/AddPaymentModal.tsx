@@ -27,7 +27,7 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
   const isPaymentIn = type === 'payment_in';
   const title = isPaymentIn ? 'Add Payment In' : 'Add Payment Out';
   const amountLabel = isPaymentIn ? 'Received Amount' : 'Paid Amount';
-  const saveBtnColor = isPaymentIn ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-red-500 hover:bg-red-600';
+  const saveBtnColor = isPaymentIn ? 'bg-blue-600 hover:bg-blue-700' : 'bg-red-500 hover:bg-red-600';
 
   const handleSave = (e: React.FormEvent, isSaveAndNew: boolean = false) => {
     e.preventDefault();
@@ -75,7 +75,7 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
               <div>
                 <div className="flex justify-between">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Receipt Number</label>
-                  <span className="text-xs text-emerald-500 font-medium">Manual</span>
+                  <span className="text-xs text-blue-500 font-medium">Manual</span>
                 </div>
                 <input
                   type="text"
@@ -100,7 +100,7 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
             <div>
               <div className="flex justify-between">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Party Name</label>
-                <span className="text-xs text-emerald-500 font-medium">Rs. 0.00</span>
+                <span className="text-xs text-blue-500 font-medium">Rs. 0.00</span>
               </div>
               <select
                 value={partyId}

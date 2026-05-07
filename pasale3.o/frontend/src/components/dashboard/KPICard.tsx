@@ -30,8 +30,8 @@ export const KPICard: React.FC<KPICardProps> = ({
   const { c, n, language } = useTranslation();
 
   const borderColors = {
-    green: 'border-l-emerald-500 hover:border-l-emerald-600',
-    emerald: 'border-l-emerald-500 hover:border-l-emerald-600',
+    green: 'border-l-blue-500 hover:border-l-blue-600',
+    emerald: 'border-l-blue-500 hover:border-l-blue-600',
     blue: 'border-l-blue-500 hover:border-l-blue-600',
     sky: 'border-l-sky-500 hover:border-l-sky-600',
     red: 'border-l-red-500 hover:border-l-red-600',
@@ -39,13 +39,13 @@ export const KPICard: React.FC<KPICardProps> = ({
     purple: 'border-l-purple-500 hover:border-l-purple-600',
     orange: 'border-l-orange-500 hover:border-l-orange-600',
     amber: 'border-l-amber-500 hover:border-l-amber-600',
-    teal: 'border-l-teal-500 hover:border-l-teal-600',
+    teal: 'border-l-blue-500 hover:border-l-blue-600',
     indigo: 'border-l-indigo-500 hover:border-l-indigo-600',
   };
 
   const iconBgColors = {
-    green: 'bg-emerald-50 dark:bg-emerald-900/30',
-    emerald: 'bg-emerald-50 dark:bg-emerald-900/30',
+    green: 'bg-blue-50 dark:bg-blue-900/30',
+    emerald: 'bg-blue-50 dark:bg-blue-900/30',
     blue: 'bg-blue-50 dark:bg-blue-900/30',
     sky: 'bg-sky-50 dark:bg-sky-900/30',
     red: 'bg-red-50 dark:bg-red-900/30',
@@ -53,13 +53,13 @@ export const KPICard: React.FC<KPICardProps> = ({
     purple: 'bg-purple-50 dark:bg-purple-900/30',
     orange: 'bg-orange-50 dark:bg-orange-900/30',
     amber: 'bg-amber-50 dark:bg-amber-900/30',
-    teal: 'bg-teal-50 dark:bg-teal-900/30',
+    teal: 'bg-blue-50 dark:bg-blue-900/30',
     indigo: 'bg-indigo-50 dark:bg-indigo-900/30',
   };
 
   const iconColors = {
-    green: 'text-emerald-600 dark:text-emerald-400',
-    emerald: 'text-emerald-600 dark:text-emerald-400',
+    green: 'text-blue-600 dark:text-blue-400',
+    emerald: 'text-blue-600 dark:text-blue-400',
     blue: 'text-blue-600 dark:text-blue-400',
     sky: 'text-sky-600 dark:text-sky-400',
     red: 'text-red-600 dark:text-red-400',
@@ -67,7 +67,7 @@ export const KPICard: React.FC<KPICardProps> = ({
     purple: 'text-purple-600 dark:text-purple-400',
     orange: 'text-orange-600 dark:text-orange-400',
     amber: 'text-amber-600 dark:text-amber-400',
-    teal: 'text-teal-600 dark:text-teal-400',
+    teal: 'text-blue-600 dark:text-blue-400',
     indigo: 'text-indigo-600 dark:text-indigo-400',
   };
 
@@ -133,8 +133,8 @@ export const KPICard: React.FC<KPICardProps> = ({
         {/* Change indicator & Subtitle */}
         <div className="mt-3 flex items-center justify-between">
           {change !== undefined ? (
-            <div className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium ${changeType === 'positive' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
-              <span className={`inline-flex items-center justify-center p-1 rounded-full ${changeType === 'positive' ? 'bg-emerald-100/50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-rose-100/50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400'}`}>
+            <div className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium ${changeType === 'positive' ? 'text-blue-600 dark:text-blue-400' : 'text-rose-600 dark:text-rose-400'}`}>
+              <span className={`inline-flex items-center justify-center p-1 rounded-full ${changeType === 'positive' ? 'bg-blue-100/50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'bg-rose-100/50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400'}`}>
                 {changeType === 'positive' ? <FiTrendingUp className="w-3 h-3" /> : <FiTrendingDown className="w-3 h-3" />}
               </span>
               <span>{n(Math.abs(change))}% {changeType === 'positive' ? 'increase' : 'decrease'}</span>

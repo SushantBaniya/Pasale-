@@ -213,7 +213,7 @@ export default function TransactionsPage() {
   const getStatusColor = (status: Status) => {
     switch (status) {
       case 'paid':
-        return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400';
+        return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
       case 'pending':
         return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400';
       case 'overdue':
@@ -234,7 +234,7 @@ export default function TransactionsPage() {
         {/* Header - Modern Gradient Style */}
         {/* Header - Modern Gradient Style */}
         <div className="relative mb-6">
-          <div className="absolute inset-0 bg-linear-to-br from-emerald-600 via-teal-600 to-cyan-700 rounded-2xl shadow-xl shadow-emerald-500/20 overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-br from-blue-600 via-blue-600 to-cyan-700 rounded-2xl shadow-xl shadow-blue-500/20 overflow-hidden">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
           </div>
 
@@ -305,7 +305,7 @@ export default function TransactionsPage() {
               <div className="relative">
                 <Button
                   onClick={() => setShowNewTransactionMenu(!showNewTransactionMenu)}
-                  className="bg-white text-emerald-700 hover:bg-emerald-50 shadow-lg hover:shadow-xl transition-all font-bold px-6 border-0"
+                  className="bg-white text-blue-700 hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all font-bold px-6 border-0"
                 >
                   <FiPlus className="w-5 h-5 mr-2" />
                   {t('transactions.addTransaction')}
@@ -321,9 +321,9 @@ export default function TransactionsPage() {
                     {/* Add Sales */}
                     <button
                       onClick={() => { navigate('/billing'); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center shrink-0">
                         <FiShoppingCart className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
@@ -383,7 +383,7 @@ export default function TransactionsPage() {
                       onClick={() => { setAddMode('payment_in'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
                     >
-                      <FiArrowDownLeft className="w-4 h-4 text-emerald-500" />
+                      <FiArrowDownLeft className="w-4 h-4 text-blue-500" />
                       Payment In
                     </button>
 
@@ -639,7 +639,7 @@ export default function TransactionsPage() {
                     <div className="flex items-center gap-3 sm:gap-4">
                       {/* Icon */}
                       <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${transaction.type === 'selling'
-                        ? 'bg-linear-to-br from-emerald-400 to-emerald-600 text-white'
+                        ? 'bg-linear-to-br from-blue-400 to-blue-600 text-white'
                         : transaction.type === 'purchase'
                           ? 'bg-linear-to-br from-blue-400 to-blue-600 text-white'
                           : 'bg-linear-to-br from-red-400 to-red-600 text-white'
@@ -673,7 +673,7 @@ export default function TransactionsPage() {
                             {d(transaction.date)}
                           </span>
                           <span className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${transaction.type === 'selling'
-                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                            ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
                             : transaction.type === 'purchase'
                               ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
                               : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
@@ -690,7 +690,7 @@ export default function TransactionsPage() {
                       {/* Amount */}
                       <div className="text-right shrink-0">
                         <p className={`text-base sm:text-lg font-bold ${transaction.type === 'selling'
-                          ? 'text-emerald-600 dark:text-emerald-400'
+                          ? 'text-blue-600 dark:text-blue-400'
                           : 'text-gray-900 dark:text-gray-100'
                           }`}>
                           {transaction.type === 'selling' ? '+' : '-'}{c(transaction.amount)}
@@ -744,7 +744,7 @@ export default function TransactionsPage() {
                   {t('common.showing')} <span className="font-semibold">{n(filteredTransactions.length)}</span> {t('transactions.transactions')}
                 </p>
                 <div className="flex items-center gap-4 text-sm">
-                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">
                     ↑ {c(stats.income)}
                   </span>
                   <span className="text-red-600 dark:text-red-400 font-medium">

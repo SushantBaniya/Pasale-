@@ -121,7 +121,7 @@ export default function ReportsPage() {
       },
       {
         label: t('reports.grossProfit'), value: summary.net_profit, icon: NepaliRupeeIcon,
-        theme: { bg: 'bg-emerald-50', text: 'text-emerald-600', glow: 'bg-emerald-500/5' }
+        theme: { bg: 'bg-blue-50', text: 'text-blue-600', glow: 'bg-blue-500/5' }
       },
       {
         label: 'Avg. Order Value', value: aov, icon: FiTarget,
@@ -211,7 +211,7 @@ export default function ReportsPage() {
                     PDF Document
                   </button>
                   <button onClick={() => handleDownload('excel')} className="w-full text-left px-4 py-3 text-sm font-medium hover:bg-slate-50 text-slate-700 flex items-center gap-3 transition-colors">
-                    <div className="p-1.5 bg-emerald-50 rounded-md text-emerald-500"><FiBarChart2 size={16} /></div>
+                    <div className="p-1.5 bg-blue-50 rounded-md text-blue-500"><FiBarChart2 size={16} /></div>
                     Excel Spreadsheet
                   </button>
                 </div>
@@ -249,7 +249,7 @@ export default function ReportsPage() {
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm" /> Revenue
               </div>
               <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm" /> Profit
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm" /> Profit
               </div>
             </div>
           </div>
@@ -380,7 +380,7 @@ export default function ReportsPage() {
                     <p className="text-xs text-slate-500">{customer.orders} Orders</p>
                   </div>
                 </div>
-                <p className="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">
+                <p className="text-sm font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">
                   {c(customer.spent)}
                 </p>
               </div>
@@ -408,8 +408,8 @@ export default function ReportsPage() {
               </div>
             </div>
 
-            <div className={`flex items-center p-4 rounded-xl border ${realData?.summary?.low_stock_count > 0 ? 'bg-amber-50/50 border-amber-100' : 'bg-emerald-50/50 border-emerald-100'}`}>
-              <div className={`p-3 bg-white rounded-xl shadow-sm border ${realData?.summary?.low_stock_count > 0 ? 'border-amber-100 text-amber-500' : 'border-emerald-100 text-emerald-500'} mr-4`}>
+            <div className={`flex items-center p-4 rounded-xl border ${realData?.summary?.low_stock_count > 0 ? 'bg-amber-50/50 border-amber-100' : 'bg-blue-50/50 border-blue-100'}`}>
+              <div className={`p-3 bg-white rounded-xl shadow-sm border ${realData?.summary?.low_stock_count > 0 ? 'border-amber-100 text-amber-500' : 'border-blue-100 text-blue-500'} mr-4`}>
                 <FiPackage className="w-5 h-5" />
               </div>
               <div>

@@ -160,7 +160,7 @@ export default function CreatePurchaseBillPage() {
               <select
                 value={partyId}
                 onChange={(e) => setPartyId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Cash Purchase</option>
                 {parties.map((p: any) => (
@@ -174,7 +174,7 @@ export default function CreatePurchaseBillPage() {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -182,7 +182,7 @@ export default function CreatePurchaseBillPage() {
               <select
                 value={invoiceStatus}
                 onChange={(e) => setInvoiceStatus(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="Unpaid">Unpaid</option>
                 <option value="Paid">Paid</option>
@@ -209,7 +209,7 @@ export default function CreatePurchaseBillPage() {
               <select
                 value={item.product_id}
                 onChange={(e) => handleItemChange(index, 'product_id', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select item</option>
                 {products.map((p: any) => (
@@ -223,13 +223,13 @@ export default function CreatePurchaseBillPage() {
                 min={1}
                 value={item.quantity}
                 onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 text-sm text-center text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 text-sm text-center text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 type="number"
                 value={item.rate}
                 onChange={(e) => handleItemChange(index, 'rate', e.target.value)}
-                className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 text-sm text-center text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 text-sm text-center text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <div className="text-sm font-semibold text-gray-900 dark:text-white text-right py-2">
                 {item.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
@@ -245,7 +245,7 @@ export default function CreatePurchaseBillPage() {
 
           <button
             onClick={addRow}
-            className="inline-flex items-center gap-1.5 text-teal-600 dark:text-teal-400 text-sm font-semibold hover:text-teal-700 dark:hover:text-teal-300 mt-2 transition-colors"
+            className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:text-blue-700 dark:hover:text-blue-300 mt-2 transition-colors"
           >
             <FiPlus className="w-4 h-4" /> Add Row
           </button>
@@ -259,7 +259,7 @@ export default function CreatePurchaseBillPage() {
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="1">Cash</option>
                 <option value="2">Bank Transfer</option>
@@ -273,7 +273,7 @@ export default function CreatePurchaseBillPage() {
                 value={remarks}
                 onChange={(e) => setRemarks(e.target.value)}
                 placeholder="Add notes..."
-                className="w-full px-3 py-2 border border-teal-400 dark:border-teal-600 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-blue-400 dark:border-blue-600 rounded-lg bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -292,7 +292,7 @@ export default function CreatePurchaseBillPage() {
                 min={0}
                 value={discount}
                 onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                className="w-20 px-2 py-1 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-sm text-right text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-teal-500"
+                className="w-20 px-2 py-1 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-sm text-right text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
             <div className="flex items-center justify-between text-sm">
@@ -302,12 +302,12 @@ export default function CreatePurchaseBillPage() {
                 min={0}
                 value={taxPercent}
                 onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                className="w-20 px-2 py-1 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-sm text-right text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-teal-500"
+                className="w-20 px-2 py-1 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-sm text-right text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
             <div className="pt-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <span className="font-bold text-gray-900 dark:text-white">Grand Total</span>
-              <span className="text-xl font-bold text-teal-600 dark:text-teal-400">
+              <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
                 {grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
@@ -325,7 +325,7 @@ export default function CreatePurchaseBillPage() {
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="inline-flex items-center gap-2 px-5 py-2 bg-teal-600 text-white text-sm font-semibold rounded-lg hover:bg-teal-700 disabled:opacity-60 transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-60 transition-colors shadow-sm"
           >
             <FiSave className="w-4 h-4" />
             {saving ? 'Saving...' : 'Save Purchase Bill'}

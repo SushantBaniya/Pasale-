@@ -103,7 +103,7 @@ export default function LedgerPage() {
               <FiArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">{t('common.back')}</span>
             </Button>
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-linear-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-teal-500/30">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-linear-to-br from-blue-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
               <FiBook className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <div>

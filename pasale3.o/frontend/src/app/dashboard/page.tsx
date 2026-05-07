@@ -149,7 +149,7 @@ export default function DashboardPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
           <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Loading dashboard...</p>
         </div>
       </div>
@@ -167,19 +167,19 @@ export default function DashboardPage() {
         <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => navigate('/quick-pos')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-400 text-xs font-semibold rounded-lg hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 text-xs font-semibold rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
           >
             <FiZap className="w-3.5 h-3.5" /> Quick POS
           </button>
           <button
             onClick={() => navigate('/sales/new')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
           >
             <FiPlus className="w-3.5 h-3.5" /> Add Sales
           </button>
           <button
             onClick={() => navigate('/purchase/new')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
           >
             <FiPlus className="w-3.5 h-3.5" /> Add Purchase
           </button>
@@ -244,7 +244,7 @@ export default function DashboardPage() {
                   onClick={() => setChartPeriod(p)}
                   className={`px-3 py-1.5 text-[11px] font-semibold rounded-md border-none cursor-pointer transition-all duration-150 uppercase ${
                     chartPeriod === p
-                      ? 'bg-teal-600 text-white shadow-sm'
+                      ? 'bg-blue-600 text-white shadow-sm'
                       : 'bg-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                   }`}
                 >
@@ -320,7 +320,7 @@ export default function DashboardPage() {
               <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
                 Looks like you haven't created any reminders yet.
               </p>
-              <button className="inline-flex items-center gap-1.5 text-teal-600 dark:text-teal-400 text-sm font-semibold hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+              <button className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <FiPlus className="w-4 h-4" /> Add New Reminder
               </button>
             </div>

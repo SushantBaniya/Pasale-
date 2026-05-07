@@ -33,7 +33,7 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
 
   if (items.length === 0) {
     return (
-      <Card className="h-full flex flex-col bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800/30">
+      <Card className="h-full flex flex-col bg-linear-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border border-green-200 dark:border-green-800/30">
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-800/50 flex items-center justify-center mb-4">
             <FiPackage className="w-7 h-7 text-green-600 dark:text-green-400" />

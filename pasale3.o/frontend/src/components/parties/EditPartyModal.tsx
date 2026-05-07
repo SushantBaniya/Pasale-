@@ -101,7 +101,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
             
             {/* Top Section */}
             <div className="flex items-start gap-4">
-              <div className="flex flex-col items-center justify-center w-16 h-16 rounded-full border border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-400 cursor-pointer hover:border-emerald-500 hover:text-emerald-500 transition-colors">
+              <div className="flex flex-col items-center justify-center w-16 h-16 rounded-full border border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-400 cursor-pointer hover:border-blue-500 hover:text-blue-500 transition-colors">
                 <FiUser className="w-6 h-6 mb-1" />
                 <span className="text-[10px] font-medium">Upload</span>
               </div>
@@ -116,7 +116,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Enter full name"
-                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-gray-100"
+                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
                   />
                 </div>
                 <div>
@@ -126,7 +126,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="Enter phone number"
-                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-gray-100"
+                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
                   />
                 </div>
               </div>
@@ -140,7 +140,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                   onClick={() => setActiveTab('credit')}
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     activeTab === 'credit'
-                      ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                      ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                       : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
                   }`}
                 >
@@ -151,7 +151,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                   onClick={() => setActiveTab('additional')}
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     activeTab === 'additional'
-                      ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                      ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                       : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
                   }`}
                 >
@@ -171,7 +171,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                         value={openingBalance}
                         onChange={(e) => setOpeningBalance(e.target.value)}
                         placeholder="0.00"
-                        className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-gray-100 disabled:opacity-60"
+                        className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100 disabled:opacity-60"
                       />
                     </div>
                     <div>
@@ -181,7 +181,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                         value={creditLimit}
                         onChange={(e) => setCreditLimit(e.target.value)}
                         placeholder="0.00"
-                        className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-gray-100"
+                        className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
                       />
                     </div>
                   </div>
@@ -197,7 +197,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                           placeholder="Enter party's address"
-                          className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-gray-100"
+                          className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
                         />
                       </div>
                       <div>
@@ -207,7 +207,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Enter party's email"
-                          className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-gray-100"
+                          className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
                         />
                       </div>
                     </div>
@@ -218,7 +218,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                         value={panNumber}
                         onChange={(e) => setPanNumber(e.target.value)}
                         placeholder="Enter number"
-                        className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 dark:text-gray-100"
+                        className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
                       />
                     </div>
                   </div>
@@ -233,7 +233,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
           <button
             type="submit"
             form="party-form"
-            className="px-6 py-2 rounded-lg text-white font-medium shadow-md transition-colors bg-emerald-600 hover:bg-emerald-700"
+            className="px-6 py-2 rounded-lg text-white font-medium shadow-md transition-colors bg-blue-600 hover:bg-blue-700"
           >
             Save Changes
           </button>

@@ -435,7 +435,7 @@ export default function BillingPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-slate-500">Discount:</span>
-                  <span className="font-bold text-emerald-500">- Rs. {formatMoney(selectedBilling.discount)}</span>
+                  <span className="font-bold text-blue-500">- Rs. {formatMoney(selectedBilling.discount)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-slate-500">Paid:</span>

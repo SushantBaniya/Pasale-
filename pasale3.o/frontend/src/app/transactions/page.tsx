@@ -295,7 +295,7 @@ export default function TransactionsPage() {
   // Tabs configuration - 'selling' is the dataStore type for sales
   const tabs: { id: Tab; label: string; icon: React.ElementType; count: number; color: string }[] = [
     { id: 'all', label: 'All Transactions', icon: FiFileText, count: apiTransactions.length, color: 'text-gray-600' },
-    { id: 'sales', label: 'Sales', icon: FiShoppingCart, count: apiTransactions.filter((t) => t.type === 'selling').length, color: 'text-emerald-600' },
+    { id: 'sales', label: 'Sales', icon: FiShoppingCart, count: apiTransactions.filter((t) => t.type === 'selling').length, color: 'text-blue-600' },
     { id: 'purchase', label: 'Purchases', icon: FiPackage, count: apiTransactions.filter((t) => t.type === 'purchase').length, color: 'text-blue-600' },
     { id: 'payments', label: 'Payments', icon: FiCreditCard, count: apiTransactions.filter((t) => t.type === 'payment_in' || t.type === 'payment_out').length, color: 'text-purple-600' },
     { id: 'returns', label: 'Returns', icon: FiRotateCcw, count: apiTransactions.filter((t) => t.type === 'sales_return' || t.type === 'purchase_return').length, color: 'text-orange-600' },
@@ -309,7 +309,7 @@ export default function TransactionsPage() {
       label: 'Add Sales',
       desc: 'Create sales invoice',
       icon: FiShoppingCart,
-      color: 'bg-emerald-500',
+      color: 'bg-blue-500',
       onClick: () => setSalesDialog({ open: true })
     },
     {
@@ -373,7 +373,7 @@ export default function TransactionsPage() {
       label: 'Add Income',
       desc: 'Record other income',
       icon: FiTrendingUp,
-      color: 'bg-teal-500',
+      color: 'bg-blue-500',
       onClick: () => setIncomeDialog({ open: true })
     },
   ];

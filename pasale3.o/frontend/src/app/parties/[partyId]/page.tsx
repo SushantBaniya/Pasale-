@@ -173,7 +173,7 @@ export default function PartyDetailPage() {
 
             <Card className="p-6">
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Total Sales</p>
-              <p className="text-2xl font-bold text-emerald-600">{c(totalSales)}</p>
+              <p className="text-2xl font-bold text-blue-600">{c(totalSales)}</p>
               <p className="text-xs text-gray-400 mt-2">{n(partyTransactions.filter((t) => t.type === 'selling').length)} invoices</p>
             </Card>
 
@@ -281,7 +281,7 @@ export default function PartyDetailPage() {
                       <div className="flex items-center gap-4 flex-1">
                         <div
                           className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${tx.type === 'selling'
-                            ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600'
+                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600'
                             : tx.type === 'purchase'
                               ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600'
                               : 'bg-gray-100 dark:bg-gray-800 text-gray-600'
@@ -312,7 +312,7 @@ export default function PartyDetailPage() {
                       <div className="text-right">
                         <p
                           className={`font-bold text-lg ${tx.type === 'selling'
-                            ? 'text-emerald-600'
+                            ? 'text-blue-600'
                             : 'text-gray-900 dark:text-gray-100'
                             }`}
                         >

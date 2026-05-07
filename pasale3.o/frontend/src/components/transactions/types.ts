@@ -207,9 +207,9 @@ export const TRANSACTION_TYPE_CONFIG: Record<string, {
   selling: {
     label: 'Sales',
     color: 'emerald',
-    bgColor: 'bg-emerald-500',
-    textColor: 'text-emerald-600',
-    lightBg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    bgColor: 'bg-blue-500',
+    textColor: 'text-blue-600',
+    lightBg: 'bg-blue-50 dark:bg-blue-900/20',
     icon: 'shopping-cart',
     prefix: 'INV',
   },
@@ -279,9 +279,9 @@ export const TRANSACTION_TYPE_CONFIG: Record<string, {
   income: {
     label: 'Income',
     color: 'teal',
-    bgColor: 'bg-teal-500',
-    textColor: 'text-teal-600',
-    lightBg: 'bg-teal-50 dark:bg-teal-900/20',
+    bgColor: 'bg-blue-500',
+    textColor: 'text-blue-600',
+    lightBg: 'bg-blue-50 dark:bg-blue-900/20',
     icon: 'trending-up',
     prefix: 'INC',
   },
@@ -291,8 +291,8 @@ export const TRANSACTION_TYPE_CONFIG: Record<string, {
 export const STATUS_CONFIG = {
   paid: {
     label: 'Paid',
-    bgColor: 'bg-emerald-100 dark:bg-emerald-900/30',
-    textColor: 'text-emerald-700 dark:text-emerald-400',
+    bgColor: 'bg-blue-100 dark:bg-blue-900/30',
+    textColor: 'text-blue-700 dark:text-blue-400',
     icon: 'check-circle',
   },
   unpaid: {

@@ -398,7 +398,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     <td className="px-4 py-4 whitespace-nowrap text-right">
                       <span className={`text-sm font-bold ${
                         type === 'selling' || type === 'payment_in' || type === 'income'
-                          ? 'text-emerald-600 dark:text-emerald-400'
+                          ? 'text-blue-600 dark:text-blue-400'
                           : 'text-gray-900 dark:text-gray-100'
                       }`}>
                         {type === 'selling' || type === 'payment_in' || type === 'income' ? '+' : '-'}
@@ -518,7 +518,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
               <span className="font-semibold text-gray-900 dark:text-gray-100">{transactions.length}</span> transactions
             </span>
             <div className="flex items-center gap-4">
-              <span className="text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+              <span className="text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1">
                 <FiTrendingUp className="w-3.5 h-3.5" />
                 {formatCurrency(
                   filteredTransactions

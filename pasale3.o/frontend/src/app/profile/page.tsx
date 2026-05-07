@@ -60,7 +60,7 @@ export default function ProfilePage() {
     { label: 'Total Sales', value: '₹2,45,000', icon: FiCreditCard, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/30' },
     { label: 'Transactions', value: '156', icon: FiActivity, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/30' },
     { label: 'Active Since', value: 'Dec 2024', icon: FiCalendar, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/30' },
-    { label: 'Verified', value: 'Yes', icon: FiCheckCircle, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/30' },
+    { label: 'Verified', value: 'Yes', icon: FiCheckCircle, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/30' },
   ];
 
   return (

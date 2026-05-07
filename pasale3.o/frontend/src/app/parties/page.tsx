@@ -70,7 +70,7 @@ export default function PartiesPage() {
                 setSelectedPartyId(null);
                 setShowAddPartyModal(true);
               }}
-              className="flex items-center px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors"
+              className="flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <FiPlus className="w-4 h-4 mr-1" /> Add Party
             </button>
@@ -83,7 +83,7 @@ export default function PartiesPage() {
               placeholder="Search parties..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-gray-100 dark:bg-gray-900 border-none rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500"
+              className="w-full pl-9 pr-3 py-2 bg-gray-100 dark:bg-gray-900 border-none rounded-lg text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
@@ -109,7 +109,7 @@ export default function PartiesPage() {
                     onClick={() => setSelectedPartyId(party.id)}
                     className={`p-4 cursor-pointer transition-colors ${
                       selectedPartyId === party.id
-                        ? 'bg-emerald-50 dark:bg-emerald-900/20'
+                        ? 'bg-blue-50 dark:bg-blue-900/20'
                         : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
                     }`}
                   >
@@ -124,12 +124,12 @@ export default function PartiesPage() {
                       </div>
                       <div className="text-right shrink-0 ml-2">
                          <p className={`font-semibold text-sm ${
-                           balance > 0 ? 'text-emerald-600' : balance < 0 ? 'text-red-600' : 'text-gray-500'
+                           balance > 0 ? 'text-blue-600' : balance < 0 ? 'text-red-600' : 'text-gray-500'
                          }`}>
                            Rs. {Math.abs(balance).toFixed(2)}
                          </p>
                          <p className={`text-[10px] uppercase font-medium ${
-                           balance > 0 ? 'text-emerald-600' : balance < 0 ? 'text-red-600' : 'text-gray-400'
+                           balance > 0 ? 'text-blue-600' : balance < 0 ? 'text-red-600' : 'text-gray-400'
                          }`}>
                            {balance > 0 ? 'To Receive' : balance < 0 ? 'To Give' : 'Settled'}
                          </p>
@@ -169,7 +169,7 @@ export default function PartiesPage() {
                
                <div className="text-right">
                   <p className="text-gray-500 text-sm">{getPartyBalance(selectedParty.id) >= 0 ? 'Receivable' : 'Payable'}</p>
-                  <p className={`text-2xl font-bold ${getPartyBalance(selectedParty.id) >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                  <p className={`text-2xl font-bold ${getPartyBalance(selectedParty.id) >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
                      Rs. {Math.abs(getPartyBalance(selectedParty.id)).toFixed(2)}
                   </p>
                   <button className="text-gray-500 text-sm hover:text-gray-700 flex items-center justify-end gap-1 w-full mt-1">
@@ -187,7 +187,7 @@ export default function PartiesPage() {
                   <div className="flex gap-2">
                      <button 
                         onClick={() => setShowPaymentInModal(true)}
-                        className="flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow-sm"
+                        className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow-sm"
                      >
                         <FiArrowDownLeft className="w-4 h-4 mr-2" /> Payment In
                      </button>
@@ -221,7 +221,7 @@ export default function PartiesPage() {
                         ) : (
                            partyTransactions.map((tx) => (
                               <tr key={tx.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 text-sm">
-                                 <td className="py-4 px-4 font-medium text-emerald-600">
+                                 <td className="py-4 px-4 font-medium text-blue-600">
                                     {tx.type === 'payment_in' ? 'Payment In' : tx.type === 'payment_out' ? 'Payment Out' : tx.type}
                                     <span className="text-gray-400 font-normal ml-1">#{tx.id.substring(tx.id.length - 4)}</span>
                                  </td>
@@ -232,7 +232,7 @@ export default function PartiesPage() {
                                     Rs. {tx.amount.toFixed(2)}
                                  </td>
                                  <td className="py-4 px-4 text-center text-gray-400">—</td>
-                                 <td className={`py-4 px-4 text-right font-medium ${getPartyBalance(selectedParty.id) >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+                                 <td className={`py-4 px-4 text-right font-medium ${getPartyBalance(selectedParty.id) >= 0 ? 'text-blue-600' : 'text-red-500'}`}>
                                     Rs. {Math.abs(getPartyBalance(selectedParty.id)).toFixed(2)}
                                  </td>
                                  <td className="py-4 px-4 text-gray-500 truncate max-w-[150px]">

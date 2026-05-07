@@ -53,7 +53,7 @@ export default function InventoryPage() {
   const getStockColor = (qty: number) => {
     if (qty <= 0) return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
     if (qty <= 5) return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400';
-    return 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400';
+    return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
   };
 
   const handleDelete = async (id: number) => {
@@ -81,7 +81,7 @@ export default function InventoryPage() {
           </button>
           <button
             onClick={() => navigate('/inventory/new')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
           >
             <FiPlus className="w-3.5 h-3.5" /> Add New Item
           </button>
@@ -97,7 +97,7 @@ export default function InventoryPage() {
             placeholder="Search items by name or sku..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           />
         </div>
         <button className="p-2 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
@@ -123,7 +123,7 @@ export default function InventoryPage() {
               {loading ? (
                 <tr>
                   <td colSpan={6} className="py-16 text-center">
-                    <div className="w-8 h-8 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin mx-auto mb-2" />
+                    <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-2" />
                     <p className="text-sm text-gray-400">Loading inventory...</p>
                   </td>
                 </tr>
@@ -133,7 +133,7 @@ export default function InventoryPage() {
                     <p className="text-sm text-gray-400 dark:text-gray-500 mb-2">No items found</p>
                     <button
                       onClick={() => navigate('/inventory/new')}
-                      className="text-teal-600 dark:text-teal-400 text-sm font-semibold hover:underline"
+                      className="text-blue-600 dark:text-blue-400 text-sm font-semibold hover:underline"
                     >
                       Add your first item
                     </button>

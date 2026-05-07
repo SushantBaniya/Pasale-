@@ -69,10 +69,10 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
       <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
         <div className={`px-6 py-4 bg-gradient-to-r ${
-          type === 'selling' || type === 'payment_in' ? 'from-emerald-600 to-emerald-700' :
+          type === 'selling' || type === 'payment_in' ? 'from-blue-600 to-blue-700' :
           type === 'purchase' || type === 'payment_out' ? 'from-blue-600 to-blue-700' :
           type === 'expense' ? 'from-rose-600 to-rose-700' :
-          type === 'income' ? 'from-teal-600 to-teal-700' :
+          type === 'income' ? 'from-blue-600 to-blue-700' :
           type === 'quotation' ? 'from-purple-600 to-purple-700' :
           'from-gray-600 to-gray-700'
         }`}>

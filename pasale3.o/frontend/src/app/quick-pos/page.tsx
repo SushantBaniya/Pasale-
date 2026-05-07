@@ -169,7 +169,7 @@ export default function QuickPOSPage() {
         {/* POS Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
               <FiCreditCard className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -192,7 +192,7 @@ export default function QuickPOSPage() {
             placeholder="Search products or scan (F1)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all"
+            className="w-full pl-9 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
           />
         </div>
 
@@ -202,7 +202,7 @@ export default function QuickPOSPage() {
             onClick={() => setSelectedCategory('All')}
             className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
               selectedCategory === 'All'
-                ? 'bg-teal-600 text-white'
+                ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
@@ -214,7 +214,7 @@ export default function QuickPOSPage() {
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center py-16">
-              <div className="w-8 h-8 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin" />
+              <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -223,7 +223,7 @@ export default function QuickPOSPage() {
                   key={product.id}
                   onClick={() => addToCart(product)}
                   disabled={product.quantity <= 0}
-                  className={`flex flex-col items-center p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-teal-300 dark:hover:border-teal-600 hover:shadow-md transition-all duration-200 text-left group ${
+                  className={`flex flex-col items-center p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-md transition-all duration-200 text-left group ${
                     product.quantity <= 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
                   }`}
                 >
@@ -237,7 +237,7 @@ export default function QuickPOSPage() {
                     <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
                       {formatMoney(product.unit_price || 0)}
                     </span>
-                    <span className="w-5 h-5 rounded-full bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <FiPlus className="w-3 h-3" />
                     </span>
                   </div>
@@ -259,7 +259,7 @@ export default function QuickPOSPage() {
           <select
             value={partyId}
             onChange={(e) => setPartyId(e.target.value)}
-            className="w-full px-3 py-2 border-2 border-teal-500 rounded-lg bg-white dark:bg-gray-900 text-sm font-medium text-gray-900 dark:text-white focus:outline-none"
+            className="w-full px-3 py-2 border-2 border-blue-500 rounded-lg bg-white dark:bg-gray-900 text-sm font-medium text-gray-900 dark:text-white focus:outline-none"
           >
             <option value="">Walk-in Customer</option>
             {parties.map((p: any) => (
@@ -277,7 +277,7 @@ export default function QuickPOSPage() {
             <button
               onClick={() => setPaymentStatus('PAID')}
               className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-colors ${
-                paymentStatus === 'PAID' ? 'bg-teal-600 text-white' : 'text-gray-500'
+                paymentStatus === 'PAID' ? 'bg-blue-600 text-white' : 'text-gray-500'
               }`}
             >
               PAID
@@ -375,14 +375,14 @@ export default function QuickPOSPage() {
 
           {discountAmount > 0 && (
             <div className="flex justify-between text-xs">
-              <span className="font-semibold text-teal-600">DISCOUNT APPLIED</span>
-              <span className="text-teal-600 font-bold">-{formatMoney(discountAmount)}</span>
+              <span className="font-semibold text-blue-600">DISCOUNT APPLIED</span>
+              <span className="text-blue-600 font-bold">-{formatMoney(discountAmount)}</span>
             </div>
           )}
           {taxAmount > 0 && (
             <div className="flex justify-between text-xs">
-              <span className="font-semibold text-teal-600">TAX APPLIED</span>
-              <span className="text-teal-600 font-bold">+{formatMoney(taxAmount)}</span>
+              <span className="font-semibold text-blue-600">TAX APPLIED</span>
+              <span className="text-blue-600 font-bold">+{formatMoney(taxAmount)}</span>
             </div>
           )}
 
@@ -401,7 +401,7 @@ export default function QuickPOSPage() {
             <button
               onClick={() => handleCheckout('cash')}
               disabled={processing || cart.length === 0}
-              className="flex items-center justify-center gap-1.5 py-3 bg-teal-600 text-white font-bold text-xs rounded-xl hover:bg-teal-700 disabled:opacity-50 transition-colors shadow-sm"
+              className="flex items-center justify-center gap-1.5 py-3 bg-blue-600 text-white font-bold text-xs rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors shadow-sm"
             >
               <FiCreditCard className="w-4 h-4" />
               PAY IN CASH
