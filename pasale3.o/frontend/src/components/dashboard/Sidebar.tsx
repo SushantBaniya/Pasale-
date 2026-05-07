@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
     { path: '/sales', icon: FiDollarSign, label: 'Sales' },
     { path: '/purchase', icon: FiShoppingCart, label: 'Purchase' },
     { path: '/expense-monitoring', icon: FiTrendingDown, label: 'Expense' },
-    { path: '/billing', icon: FiCreditCard, label: 'Other Income' },
+    { path: '/billing', icon: FiCreditCard, label: 'Billing' },
     { path: '/reports', icon: FiBarChart2, label: 'Reports' },
   ];
 
