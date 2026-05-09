@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule, Department, EmployeeStatus, PaymentTransaction
+from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule, Department, EmployeeStatus, PaymentTransaction, PaymentMethod
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,12 +27,20 @@ class PartySerializer(serializers.ModelSerializer):
 class PaymentTransactionSerializer(serializers.ModelSerializer):
     party_name = serializers.CharField(source='party.name', read_only=True)
 
+    payment_method = serializers.SlugRelatedField(
+        slug_field='method_name', queryset=PaymentMethod.objects.all(), required=False, allow_null=True
+    )
+
     class Meta:
         model = PaymentTransaction
         fields = "__all__"
 
 
 class CustomerSerializer(serializers.ModelSerializer):
+    payment_method = serializers.SlugRelatedField(
+        slug_field='method_name', queryset=PaymentMethod.objects.all(), required=False, allow_null=True
+    )
+
     class Meta:
         model = Customer
         fields = "__all__"
@@ -71,6 +79,10 @@ class BillingSerializer(serializers.ModelSerializer):
     party = PartySerializer(read_only=True)
     party_id = serializers.PrimaryKeyRelatedField(
         source='party', queryset=Party.objects.all(), write_only=True, required=False, allow_null=True
+    )
+
+    payment_method = serializers.SlugRelatedField(
+        slug_field='method_name', queryset=PaymentMethod.objects.all(), required=False, allow_null=True
     )
 
     class Meta:
