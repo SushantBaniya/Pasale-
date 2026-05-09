@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule, Department, EmployeeStatus, PaymentTransaction, PaymentMethod
+from api.models import AprioriRule, Billing, BillingItem, Counter, Employee, Order, OrderItem, OrderItemStatus, OrderStatus, StockAlert, Product, Party, Customer, Supplier, SupplierInfo, Expense, Skill, EmployeeSkill, Shift, EmployeeSchedule, Department, EmployeeStatus, PaymentTransaction, PaymentMethod, ExpenseCategory
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,10 +60,14 @@ class SupplierInfoSerializer(serializers.ModelSerializer):
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(
+        slug_field='name', queryset=ExpenseCategory.objects.all(), required=False, allow_null=True
+    )
+
     class Meta:
         model = Expense
         fields = ['id', 'user', 'amount', 'description',
-                  'date', 'category', 'is_necessary']
+                  'date', 'category', 'is_necessary', 'payment_method', 'expense_number']
 
 
 class BillingItemSerializer(serializers.ModelSerializer):
@@ -76,9 +80,8 @@ class BillingItemSerializer(serializers.ModelSerializer):
 
 class BillingSerializer(serializers.ModelSerializer):
     items = BillingItemSerializer(many=True, read_only=True)
-    party = PartySerializer(read_only=True)
-    party_id = serializers.PrimaryKeyRelatedField(
-        source='party', queryset=Party.objects.all(), write_only=True, required=False, allow_null=True
+    party = serializers.PrimaryKeyRelatedField(
+        queryset=Party.objects.all(), required=False, allow_null=True
     )
 
     payment_method = serializers.SlugRelatedField(
@@ -88,6 +91,12 @@ class BillingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Billing
         fields = "__all__"
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        if instance.party:
+            rep['party'] = PartySerializer(instance.party).data
+        return rep
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

@@ -1,11 +1,6 @@
-from sys import exception
-from urllib import request
-from urllib3 import request
 from api.models import Product, Business, StockAlert
-from cache.keys import productkey, productkeys
-from cache.services import get_or_set_product_cache
 from api.serializers import ProductSerializer
-from rest_framework.pagination import PageNumberPagination, Response
+from rest_framework.response import Response
 
 
 def check_low_stock_and_alert(product_id):

@@ -195,6 +195,8 @@ export interface ApiExpenseData {
   date: string;
   description?: string;
   is_necessary?: boolean;
+  payment_method?: string;
+  expense_number?: string;
 }
 
 export const expenseApi = {

@@ -1,34 +1,10 @@
 from django.contrib import admin
-from .models import (
-    Billing,
-    BillingItem,
-    Business,
-    Business_Status,
-    Business_Type,
-    Category,
-    Counter,
-    Customer,
-    Department,
-    Employee,
-    EmployeeSchedule,
-    EmployeeSkill,
-    EmployeeStatus,
-    Expense,
-    ForgetPasswordOTP,
-    Order,
-    OrderItem,
-    OrderItemStatus,
-    OrderStatus,
-    Party,
-    PaymentMethod,
-    Product,
-    Shift,
-    Skill,
-    StockAlert,
-    Supplier,
-    SupplierInfo,
-)
-
+from api.models import AprioriRule, Billing, BillingItem, Business, Business_Status
+from api.models import Business_Type, Category, Counter, Customer, Department
+from api.models import Employee, EmployeeSchedule, EmployeeSkill, EmployeeStatus
+from api.models import Expense, ExpenseCategory, ForgetPasswordOTP, Order, OrderItem
+from api.models import OrderItemStatus, OrderStatus, Party, PaymentMethod, Product
+from api.models import Shift, Skill, StockAlert, Supplier, SupplierInfo
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -150,7 +126,12 @@ class PaymentMethodAdmin(admin.ModelAdmin):
 
 @admin.register(Expense)
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'category', 'amount', 'date', 'is_necessary')
+    list_display = ('id', 'user', 'category', 'amount', 'date', 'expense_number', 'payment_method', 'is_necessary')
+
+
+@admin.register(ExpenseCategory)
+class ExpenseCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
 
 
 @admin.register(Billing)
@@ -188,3 +169,6 @@ class ShiftAdmin(admin.ModelAdmin):
 class StockAlertAdmin(admin.ModelAdmin):
     list_display = ('id', 'business_id', 'product',
                     'message', 'is_resolved', 'created_at')
+@admin.register(AprioriRule)
+class AprioriRuleAdmin(admin.ModelAdmin):
+    list_display = ('id', 'business_id', 'antecedent', 'consequent', 'confidence', 'lift', 'support')

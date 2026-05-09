@@ -1,34 +1,47 @@
-from .services.scheduler import WSMStaffScheduler  # ← make sure this import exists
+import json
+import traceback
+import random
+import logging
+from decimal import Decimal
+from datetime import timedelta
+
 from django.db.models import Prefetch
 from django.contrib.auth.models import User
-import json
+from django.core.mail import send_mail
+from django.utils import timezone
+from django.db import transaction, IntegrityError
+from django.db import models
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.core.mail import send_mail
-import random
-from .models import Business, Counter, Customer, Department, Employee, ForgetPasswordOTP, Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem, Shift, Order, OrderStatus, AprioriRule, EmployeeSchedule, Skill, EmployeeSkill
-from .serializers import CounterSerializer, ProductSerializer, PartySerializer, CustomerSerializer, StockAlertSerializer, SupplierSerializer, ExpenseSerializer, BillingSerializer, BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, ShiftSerializer, SchedulerRequestSerializer, OrderSerializer, AprioriRuleSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.utils import timezone
-from datetime import timedelta
 from rest_framework.pagination import PageNumberPagination
-from django.db import transaction
-from django.db import IntegrityError
-from django.db import models
-from decimal import Decimal
-import logging
-from .tasks import send_otp_email
-from cache.keys import productkey
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from api.models import (
+    Business, Counter, Customer, Department, Employee, ForgetPasswordOTP, 
+    Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem, 
+    Shift, Order, OrderStatus, AprioriRule, EmployeeSchedule, Skill, 
+    EmployeeSkill, PaymentTransaction, OrderItem, ExpenseCategory
+)
+from api.serializers import (
+    CounterSerializer, ProductSerializer, PartySerializer, 
+    StockAlertSerializer, ExpenseSerializer, BillingSerializer, 
+    BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, 
+    ShiftSerializer, SchedulerRequestSerializer, OrderSerializer, 
+    AprioriRuleSerializer, PaymentTransactionSerializer
+)
+from api.tasks import send_otp_email
 from api.services.productService import check_low_stock_and_alert, create_product, get_product
 from api.services.employeeServices import get_all_employees, create_employee
-from .services.scheduler import WSMStaffScheduler
+from api.services.scheduler import WSMStaffScheduler
 from api.services.orderServices import get_order, create_order
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from .utils.apiriori_utils import get_reorder_suggestions, run_apriori, save_rules_to_db, create_apriori_stock_alerts, resolve_apriori_alerts
+from api.utils.apiriori_utils import get_reorder_suggestions, run_apriori, save_rules_to_db, create_apriori_stock_alerts, resolve_apriori_alerts
+
 
 
 # OTP Expiry Time (5 minutes)
@@ -696,51 +709,72 @@ class ApiBillingView(APIView):
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request, business_id=None):
-        billing_data = request.data.copy()
-        billing_data['user'] = request.user.id
-
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
         
-        billing_data['business_id'] = business_id
+        data = request.data.copy()
+        data['business_id'] = business_id
+        data['user'] = request.user.id
+        items_data = data.pop('items', [])
+
+        if not items_data:
+            return Response({'error': 'At least one billing item is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             with transaction.atomic():
-                serializer = BillingSerializer(data=billing_data)
-                if serializer.is_valid():
-                    billing = serializer.save()
+                # Handle payment method string to object conversion
+                pm_name = data.get('payment_method')
+                if pm_name and isinstance(pm_name, str):
+                    pm_obj, _ = PaymentMethod.objects.get_or_create(method_name=pm_name)
+                    data['payment_method'] = pm_obj.method_name # SlugRelatedField uses name
 
-                    # If there are billing items, create them
-                    items_data = request.data.pop('items', [])
-                    if not items_data:
-                        return Response({'error': 'At least one billing item is required.'},
-                                        status=status.HTTP_400_BAD_REQUEST)
-                    for item_data in items_data:
-                        item_data['billing'] = billing.id
-                        item_serializer = BillingItemSerializer(data=item_data)
-                        if item_serializer.is_valid():
-                            item_serializer.save()
-                        else:
-                            return Response(item_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-                    # Update party open_balance if invoice is Unpaid
-                    if billing.party and billing.invoice_status == 'Unpaid':
-                        party = billing.party
-                        # Calculate due amount from total_amount if due_amount is not set properly by frontend
-                        due = billing.total_amount
-                        if billing.transaction_type == 'Sales':
-                            party.open_balance += due
-                        elif billing.transaction_type == 'Purchase':
-                            party.open_balance -= due
-                        party.save()
-
-                    return Response({'message': 'Billing created successfully!',
-                                     'billing': BillingSerializer(billing).data}, status=status.HTTP_201_CREATED)
-                else:
+                serializer = BillingSerializer(data=data)
+                if not serializer.is_valid():
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                
+                billing = serializer.save()
+
+                for item_data in items_data:
+                    item_data['billing'] = billing.id
+                    # Ensure rate and total_price are handled if sent from frontend
+                    if 'rate' not in item_data and 'price' in item_data:
+                        item_data['rate'] = item_data['price']
+                    
+                    item_serializer = BillingItemSerializer(data=item_data)
+                    if not item_serializer.is_valid():
+                        raise ValueError(str(item_serializer.errors))
+                    
+                    billing_item = item_serializer.save()
+
+                    # Stock Management
+                    product = billing_item.item
+                    qty = billing_item.quantity
+                    if billing.transaction_type == 'Sales':
+                        product.quantity -= qty
+                    elif billing.transaction_type == 'Purchase':
+                        product.quantity += qty
+                    product.save()
+
+                # Update party balance for Unpaid invoices
+                if billing.party and billing.invoice_status == 'Unpaid':
+                    party = billing.party
+                    due = billing.total_amount
+                    if billing.transaction_type == 'Sales':
+                        party.open_balance += due
+                    elif billing.transaction_type == 'Purchase':
+                        party.open_balance -= due
+                    party.save()
+
+                return Response({
+                    'message': 'Billing created successfully!',
+                    'billing': BillingSerializer(billing).data
+                }, status=status.HTTP_201_CREATED)
 
         except ValueError as ve:
             return Response({'error': str(ve)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.error(f"Error creating billing: {str(e)}")
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def put(self, request, business_id=None):
         if not business_id:

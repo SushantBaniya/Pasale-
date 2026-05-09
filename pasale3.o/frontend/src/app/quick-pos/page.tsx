@@ -752,14 +752,6 @@ export default function QuickPOSPage() {
       };
       await billingApi.create(payload);
 
-      // deduct stock
-      for (const item of items) {
-        const prod = products.find(p => p.id === item.id);
-        if (prod) {
-          await productApi.update(item.id, { quantity: Math.max(0, prod.quantity - item.quantity) });
-        }
-      }
-
       toast.success('Sales Invoice Added Successfully');
       setItems([]);
       setDiscountPct(0);
