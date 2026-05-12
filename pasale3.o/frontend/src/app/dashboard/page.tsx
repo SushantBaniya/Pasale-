@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useBusinessStore } from '../../store/businessStore';
-import { reportApi, productApi, partyApi, billingApi, inventoryApi } from '../../utils/api';
+import { reportApi, productApi, partyApi, billingApi, inventoryApi, reminderApi } from '../../utils/api';
+import { ReminderModal } from '../../components/dashboard/ReminderModal';
 import {
   FiArrowDownLeft,
   FiArrowUpRight,
@@ -92,6 +93,19 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [chartPeriod, setChartPeriod] = useState<'daily' | 'weekly' | 'monthly'>('daily');
   const [showAddMore, setShowAddMore] = useState(false);
+  const [reminders, setReminders] = useState<any[]>([]);
+  const [isReminderModalOpen, setIsReminderModalOpen] = useState(false);
+
+  const handleAddReminder = async (data: any) => {
+    try {
+      const res = await reminderApi.addReminder(data);
+      if (res.data) {
+        setReminders([...reminders, res.data]);
+      }
+    } catch (error) {
+      console.error('Error adding reminder:', error);
+    }
+  };
 
   const getUserName = (): string => {
     if (userProfile?.name && userProfile.name !== 'Demo User Admin') return userProfile.name;
@@ -106,14 +120,17 @@ export default function DashboardPage() {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
-        const [data, alertsResponse, allProducts] = await Promise.all([
+        const [data, alertsResponse, allProducts, remindersResponse] = await Promise.all([
           reportApi.getSummary(),
           inventoryApi.getAlerts().catch(() => ({})),
-          productApi.getAll().catch(() => []) // Fetch products to calculate real-time alerts if needed
+          productApi.getAll().catch(() => []), // Fetch products to calculate real-time alerts if needed
+          reminderApi.getReminders().catch(() => ({ data: [] }))
         ]);
         
         setDashboardData(data);
-        
+        if (remindersResponse?.data) {
+          setReminders(remindersResponse.data);
+        }
         // Use backend alerts
         let alertsArray: any[] = [];
         if (Array.isArray(alertsResponse)) alertsArray = alertsResponse;
@@ -471,23 +488,57 @@ export default function DashboardPage() {
 
           {/* Upcoming Reminders */}
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-            <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Upcoming Reminders (0)</h3>
-            <div className="flex flex-col items-center py-6 text-center">
-              <FiBell className="w-10 h-10 text-gray-200 dark:text-gray-700 mb-3" />
-              <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
-                Reminder Not Created Yet!
-              </p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
-                Looks like you haven't created any reminders yet.
-              </p>
-              <button className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                <FiPlus className="w-4 h-4" /> Add New Reminder
-              </button>
-            </div>
+            <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-4">Upcoming Reminders ({reminders.length})</h3>
+            {reminders.length === 0 ? (
+              <div className="flex flex-col items-center py-6 text-center">
+                <FiBell className="w-10 h-10 text-gray-200 dark:text-gray-700 mb-3" />
+                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
+                  Reminder Not Created Yet!
+                </p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
+                  Looks like you haven't created any reminders yet.
+                </p>
+                <button
+                  onClick={() => setIsReminderModalOpen(true)}
+                  className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                >
+                  <FiPlus className="w-4 h-4" /> Add New Reminder
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {reminders.map((reminder) => (
+                  <div key={reminder.id} className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-semibold text-gray-900 dark:text-white">{reminder.title}</h4>
+                      {reminder.description && <p className="text-xs text-gray-500 dark:text-gray-400">{reminder.description}</p>}
+                    </div>
+                    <div className="text-right">
+                      <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                        {new Date(reminder.due_date).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+                <div className="flex justify-center mt-2">
+                  <button
+                    onClick={() => setIsReminderModalOpen(true)}
+                    className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                  >
+                    <FiPlus className="w-4 h-4" /> Add New Reminder
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
+      <ReminderModal
+        isOpen={isReminderModalOpen}
+        onClose={() => setIsReminderModalOpen(false)}
+        onAdd={handleAddReminder}
+      />
     </div>
   );
 }
