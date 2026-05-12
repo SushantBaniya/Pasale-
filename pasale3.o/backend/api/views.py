@@ -1712,3 +1712,52 @@ class ShiftCRUDView(APIView):
             return Response({'status': 'success', 'message': 'Shift deleted'})
         except Shift.DoesNotExist:
             return Response({'error': 'Shift not found'}, status=status.HTTP_404_NOT_FOUND)
+
+from .models import Reminder
+from .serializers import ReminderSerializer
+
+class ReminderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, business_id, reminder_id=None):
+        if reminder_id:
+            try:
+                reminder = Reminder.objects.get(id=reminder_id, business=business_id)
+                serializer = ReminderSerializer(reminder)
+                return Response({'status': 'success', 'data': serializer.data})
+            except Reminder.DoesNotExist:
+                return Response({'error': 'Reminder not found'}, status=status.HTTP_404_NOT_FOUND)
+        reminders = Reminder.objects.filter(business=business_id)
+        serializer = ReminderSerializer(reminders, many=True)
+        return Response({'status': 'success', 'data': serializer.data})
+
+    def post(self, request, business_id):
+        data = request.data.copy()
+        data['business'] = business_id
+        serializer = ReminderSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({'status': 'error', 'message': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, business_id, reminder_id):
+        try:
+            reminder = Reminder.objects.get(id=reminder_id, business=business_id)
+        except Reminder.DoesNotExist:
+            return Response({'error': 'Reminder not found'}, status=status.HTTP_404_NOT_FOUND)
+        data = request.data.copy()
+        data['business'] = business_id
+        serializer = ReminderSerializer(reminder, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'success', 'data': serializer.data})
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, business_id, reminder_id):
+        try:
+            reminder = Reminder.objects.get(id=reminder_id, business=business_id)
+            reminder.delete()
+            return Response({'status': 'success', 'message': 'Reminder deleted'})
+        except Reminder.DoesNotExist:
+            return Response({'error': 'Reminder not found'}, status=status.HTTP_404_NOT_FOUND)
+
