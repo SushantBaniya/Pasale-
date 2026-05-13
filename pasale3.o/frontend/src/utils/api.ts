@@ -372,6 +372,24 @@ export const reportApi = {
   },
 };
 
+export const reminderApi = {
+  getReminders: async (): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.get(`/reminders/b${bid}/`);
+  },
+  addReminder: async (data: any): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.post(`/reminders/b${bid}/`, data);
+  },
+  deleteReminder: async (id: number | string): Promise<any> => {
+    const bid = getBusinessId();
+    if (!bid) throw new Error('Business ID not found');
+    return apiClient.delete(`/reminders/b${bid}/r${id}/`);
+  },
+};
+
 export default {
   party: partyApi,
   product: productApi,
@@ -384,4 +402,5 @@ export default {
   inventory: inventoryApi,
   business: businessApi,
   report: reportApi,
+  reminder: reminderApi,
 };

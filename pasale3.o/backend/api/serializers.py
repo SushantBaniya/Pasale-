@@ -293,3 +293,11 @@ class ReorderSuggestionSerializer(serializers.Serializer):
     current_quantity = serializers.IntegerField()
     reorder_level = serializers.IntegerField()
     also_reorder = serializers.ListField()
+
+from .models import Reminder
+
+class ReminderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reminder
+        fields = '__all__'
+
