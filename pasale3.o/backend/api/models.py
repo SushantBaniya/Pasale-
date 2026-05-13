@@ -368,9 +368,11 @@ class Expense(models.Model):
     category = models.ForeignKey(
         ExpenseCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='expenses')
     amount = models.DecimalField(max_digits=12, decimal_places=2)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True, db_column='remarks')
     date = models.DateField()
     is_necessary = models.BooleanField(default=True)
+    expense_number = models.CharField(unique=True, max_length=50, blank=True, null=True, db_column='expense_no')
+    payment_method = models.CharField(max_length=50, default='Cash')
 
     def __str__(self):
         return self.user.username

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useBusinessStore } from '../../store/businessStore';
-import { reportApi, productApi, partyApi, billingApi } from '../../utils/api';
+import { reportApi, productApi, partyApi, billingApi, inventoryApi } from '../../utils/api';
 import {
   FiArrowDownLeft,
   FiArrowUpRight,
@@ -15,6 +15,7 @@ import {
   FiChevronDown,
   FiArrowRight,
   FiRefreshCw,
+  FiAlertTriangle,
 } from 'react-icons/fi';
 import {
   BarChart,
@@ -87,6 +88,7 @@ export default function DashboardPage() {
   const { businessName } = useBusinessStore();
   
   const [dashboardData, setDashboardData] = useState<any>(null);
+  const [stockAlerts, setStockAlerts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [chartPeriod, setChartPeriod] = useState<'daily' | 'weekly' | 'monthly'>('daily');
 
@@ -103,8 +105,38 @@ export default function DashboardPage() {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
-        const data = await reportApi.getSummary();
+        const [data, alertsResponse, allProducts] = await Promise.all([
+          reportApi.getSummary(),
+          inventoryApi.getAlerts().catch(() => ({})),
+          productApi.getAll().catch(() => []) // Fetch products to calculate real-time alerts if needed
+        ]);
+        
         setDashboardData(data);
+        
+        // Use backend alerts
+        let alertsArray: any[] = [];
+        if (Array.isArray(alertsResponse)) alertsArray = alertsResponse;
+        else if (alertsResponse && Array.isArray(alertsResponse.alerts)) alertsArray = alertsResponse.alerts;
+        else if (alertsResponse && alertsResponse.data && Array.isArray(alertsResponse.data.alerts)) alertsArray = alertsResponse.data.alerts;
+
+        // If no alerts from endpoint but products exist, dynamically generate them real-time
+        const items = allProducts?.results || allProducts || [];
+        if (alertsArray.length === 0 && Array.isArray(items) && items.length > 0) {
+          alertsArray = items
+            .filter((p: any) => {
+              const qty = p.quantity || 0;
+              const threshold = p.reorder_level || p.low_stock_threshold || 5;
+              return qty <= threshold;
+            })
+            .map((p: any) => ({
+              id: p.id,
+              product_name: p.product_name,
+              product_quantity: p.quantity || 0,
+              message: (p.quantity || 0) === 0 ? `Out of Stock: ${p.product_name}` : `Low Stock: ${p.product_name} (${p.quantity} left)`
+            }));
+        }
+
+        setStockAlerts(alertsArray);
       } catch (err) {
         console.error('Failed to fetch dashboard data:', err);
         // Set defaults
@@ -293,20 +325,52 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Right Panel — Total Balance + Reminders */}
+        {/* Right Panel — Reminders & Alerts */}
         <div className="space-y-4">
-          {/* Total Balance */}
+          {/* Stock Alerts */}
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold text-gray-900 dark:text-white">Total Balance (Cash & Bank)</h3>
-              <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                <FiRefreshCw className="w-4 h-4" />
-              </button>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <FiAlertTriangle className="w-4 h-4 text-orange-500" />
+                Stock Alerts
+              </h3>
+              {stockAlerts.length > 0 && (
+                <span className="bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  {stockAlerts.length}
+                </span>
+              )}
             </div>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              {formatFull(0)}
-            </p>
-            <p className="text-xs text-gray-400 dark:text-gray-500">Cash + Bank accounts</p>
+            
+            {stockAlerts.length === 0 ? (
+              <div className="flex flex-col items-center py-4 text-center">
+                <FiPackage className="w-8 h-8 text-gray-200 dark:text-gray-700 mb-2" />
+                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">
+                  All Good!
+                </p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">
+                  No items are running out of stock.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3 max-h-[160px] overflow-y-auto pr-1">
+                {stockAlerts.map((alert: any, idx: number) => (
+                  <div key={alert.id || idx} className="flex justify-between items-center bg-orange-50/50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30 p-3 rounded-lg">
+                    <div>
+                      <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 line-clamp-1">
+                        {alert.product_name || alert.message || 'Unknown Product'}
+                      </p>
+                      <p className="text-[11px] text-orange-600 dark:text-orange-400 mt-0.5 font-medium line-clamp-1">
+                        {alert.message || (alert.product_quantity === 0 ? 'Out of Stock' : 'Low Stock')}
+                      </p>
+                    </div>
+                    <div className="text-right whitespace-nowrap pl-2">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">{alert.product_quantity ?? 0}</p>
+                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Qty left</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Upcoming Reminders */}

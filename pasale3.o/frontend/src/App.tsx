@@ -18,10 +18,10 @@ import DashboardPage from './app/dashboard/page';
 import TransactionsPage from './app/transactions/page';
 import PartiesPage from './app/parties/page';
 
-import ExpenseMonitoringPage from './app/expense-monitoring/page';
+import ExpenseMonitoringPage from './app/expense/page';
 import NotificationsPage from './app/notifications/page';
 import SettingsPage from './app/settings/page';
-import InventoryPage from './app/inventory/page';
+import InventoryPage from './app/inventory/InventoryPage';
 import AddNewItemPage from './app/inventory/new';
 import ReportsPage from './app/reports/page';
 import BillingPage from './app/billing/page';
@@ -94,7 +94,7 @@ function App() {
           <Route path="/personal-verification" element={<PersonalVerificationPage />} />
           <Route path="/business-verification" element={<VerifyBusinessPage />} />
         </Route>
-        
+
         {/* Protected app */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
