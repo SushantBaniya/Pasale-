@@ -66,64 +66,64 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
         </Button>
       </div>
 
-      <div ref={reportRef} className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg print:shadow-none">
+      <div ref={reportRef} className="bg-white dark:bg-[#1A1A1A] p-8 rounded-lg shadow-lg print:shadow-none">
         {/* Header */}
-        <div className="text-center mb-8 border-b-2 border-gray-300 dark:border-gray-700 pb-4">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+        <div className="text-center mb-8 border-b-2 border-gray-300 dark:border-[#222222] pb-4">
+          <h1 className="text-3xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-2">
             BUSINESS FINANCIAL REPORT
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="#8A7060 dark:text-[#555555]">
             Generated on: {currentDate}
           </p>
         </div>
 
         {/* Profit & Loss Statement */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+          <h2 className="text-2xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-4">
             {t('businessReports.profitLoss')}
           </h2>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-gray-100 dark:bg-gray-700">
-                  <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-left font-semibold text-gray-900 dark:text-gray-100">
+                <tr className="#EDE5DA dark:bg-[#222222]">
+                  <th className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-left font-semibold #3D2B1A dark:text-[#E0E0E0]">
                     Description
                   </th>
-                  <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-gray-900 dark:text-gray-100">
+                  <th className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold #3D2B1A dark:text-[#E0E0E0]">
                     Amount
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.totalSales')}
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-green-600 dark:text-green-400">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold text-green-600 dark:text-green-400">
                     {formatCurrency(totalSales, language)}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.totalPurchases')}
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
                     -{formatCurrency(totalPurchases, language)}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.totalExpenses')}
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
                     -{formatCurrency(totalExpenses, language)}
                   </td>
                 </tr>
-                <tr className="bg-gray-50 dark:bg-gray-800/50 font-bold">
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                <tr className="#FAF7F3 dark:bg-[#1A1A1A]/50 font-bold">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.netProfit')}
                   </td>
-                  <td className={`border border-gray-300 dark:border-gray-600 px-4 py-3 text-right ${
+                  <td className={`border border-gray-300 dark:border-[#333333] px-4 py-3 text-right ${
                     profit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                   }`}>
                     {formatCurrency(profit, language)}
@@ -136,51 +136,51 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
 
         {/* Cash Flow Statement */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+          <h2 className="text-2xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-4">
             {t('businessReports.cashFlow')}
           </h2>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-gray-100 dark:bg-gray-700">
-                  <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-left font-semibold text-gray-900 dark:text-gray-100">
+                <tr className="#EDE5DA dark:bg-[#222222]">
+                  <th className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-left font-semibold #3D2B1A dark:text-[#E0E0E0]">
                     Description
                   </th>
-                  <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-gray-900 dark:text-gray-100">
+                  <th className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold #3D2B1A dark:text-[#E0E0E0]">
                     Amount
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.cashInHand')}
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-gray-900 dark:text-gray-100">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold #3D2B1A dark:text-[#E0E0E0]">
                     {formatCurrency(cashInHand, language)}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.totalReceivable')}
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-green-600 dark:text-green-400">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold text-green-600 dark:text-green-400">
                     {formatCurrency(totalReceivable, language)}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.totalPayable')}
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
                     -{formatCurrency(totalPayable, language)}
                   </td>
                 </tr>
-                <tr className="bg-gray-50 dark:bg-gray-800/50 font-bold">
-                  <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-gray-100">
+                <tr className="#FAF7F3 dark:bg-[#1A1A1A]/50 font-bold">
+                  <td className="border border-gray-300 dark:border-[#333333] px-4 py-3 #3D2B1A dark:text-[#E0E0E0]">
                     {t('businessReports.netBalance')}
                   </td>
-                  <td className={`border border-gray-300 dark:border-gray-600 px-4 py-3 text-right ${
+                  <td className={`border border-gray-300 dark:border-[#333333] px-4 py-3 text-right ${
                     netBalance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                   }`}>
                     {formatCurrency(netBalance, language)}
@@ -192,19 +192,19 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
         </div>
 
         {/* Footer */}
-        <div className="mt-12 pt-6 border-t-2 border-gray-300 dark:border-gray-700">
+        <div className="mt-12 pt-6 border-t-2 border-gray-300 dark:border-[#222222]">
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">Prepared by:</p>
-              <div className="border-t border-gray-300 dark:border-gray-600 pt-2">
-                <p className="font-semibold text-gray-900 dark:text-gray-100">Business Owner</p>
+              <p className="text-sm #8A7060 dark:text-[#555555] mb-8">Prepared by:</p>
+              <div className="border-t border-gray-300 dark:border-[#333333] pt-2">
+                <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">Business Owner</p>
               </div>
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">Audited by:</p>
-              <div className="border-t border-gray-300 dark:border-gray-600 pt-2">
-                <p className="text-gray-500 dark:text-gray-400">_____________________</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Auditor Signature</p>
+              <p className="text-sm #8A7060 dark:text-[#555555] mb-8">Audited by:</p>
+              <div className="border-t border-gray-300 dark:border-[#333333] pt-2">
+                <p className="#8A7060 dark:text-[#555555]">_____________________</p>
+                <p className="text-sm #8A7060 dark:text-[#555555]">Auditor Signature</p>
               </div>
             </div>
           </div>

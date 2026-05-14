@@ -157,7 +157,7 @@ function confLabel(c: number) {
 }
 function confColor(c: number) {
   if (c >= 0.8) return '#16a34a';
-  if (c >= 0.6) return '#2563eb';
+  if (c >= 0.6) return '#B8502E';
   if (c >= 0.4) return '#d97706';
   return '#6b7280';
 }
@@ -194,7 +194,7 @@ const IntelligencePanel: React.FC<{
       {/* Tab row */}
       <div style={{ display: 'flex', background: '#f3f4f6', borderRadius: 12, padding: 4, marginBottom: 16, gap: 4 }}>
         {tabBtn('alerts',  'Needs Attention',    alerts.length,  critical > 0 ? '#dc2626' : '#d97706')}
-        {tabBtn('reorder', 'Restock Now',         reorder.length, '#2563eb')}
+        {tabBtn('reorder', 'Restock Now',         reorder.length, '#B8502E')}
         {tabBtn('trends',  'Buying Patterns',     rules.length,   '#7c3aed')}
       </div>
 
@@ -242,7 +242,7 @@ const IntelligencePanel: React.FC<{
               background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10,
             }}>
               <div style={{ width: 36, height: 36, borderRadius: 8, background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <FiPackage size={16} color="#2563eb" />
+                <FiPackage size={16} color="#B8502E" />
               </div>
               <div style={{ flex: 1 }}>
                 <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#111827' }}>
@@ -255,7 +255,7 @@ const IntelligencePanel: React.FC<{
               </div>
               <div style={{ textAlign: 'right', flexShrink: 0 }}>
                 <p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>Suggested</p>
-                <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#2563eb' }}>{s.suggested_reorder} units</p>
+                <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#B8502E' }}>{s.suggested_reorder} units</p>
               </div>
             </div>
           ))}
@@ -449,7 +449,7 @@ export default function InventoryPage() {
           </button>
           <button
             onClick={openAdd}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', background: '#4f46e5', border: 'none', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#fff' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', background: '#D4623A', border: 'none', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#fff' }}
           >
             <FiPlus size={15} /> Add Product
           </button>
@@ -458,7 +458,7 @@ export default function InventoryPage() {
 
       {/* ── Stat Cards ── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 20 }}>
-        <StatCard label="Total Products"  value={products.length} sub={`${categories.length - 1} categories`} icon={<FiPackage size={20} />}   iconBg="#eef2ff" iconColor="#4f46e5" />
+        <StatCard label="Total Products"  value={products.length} sub={`${categories.length - 1} categories`} icon={<FiPackage size={20} />}   iconBg="#FDF1EC" iconColor="#D4623A" />
         <StatCard label="Stock Value"     value={formatMoney(totalValue)}                                       icon={<FiBarChart2 size={20} />}  iconBg="#f0fdf4" iconColor="#16a34a" />
         <StatCard label="Low Stock"       value={lowStockCount}  sub="Needs reorder"                            icon={<FiAlertTriangle size={20} />} iconBg="#fffbeb" iconColor="#d97706" />
         <StatCard label="Out of Stock"    value={outOfStockCount} sub="Needs restocking"                        icon={<FiXCircle size={20} />}    iconBg="#fef2f2" iconColor="#dc2626" />
@@ -470,7 +470,7 @@ export default function InventoryPage() {
           onClick={() => setShowIntelligence(v => !v)}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '9px 18px', background: '#4f46e5', border: 'none',
+            padding: '9px 18px', background: '#D4623A', border: 'none',
             borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#fff',
           }}
         >
@@ -502,7 +502,7 @@ export default function InventoryPage() {
               onClick={() => setStatusFilter(s)}
               style={{
                 padding: '6px 14px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600,
-                background: statusFilter === s ? '#4f46e5' : 'transparent',
+                background: statusFilter === s ? '#D4623A' : 'transparent',
                 color:      statusFilter === s ? '#fff'    : '#6b7280',
               }}
             >
@@ -512,8 +512,8 @@ export default function InventoryPage() {
           <div style={{ flex: 1 }} />
           {/* Grid / List toggle */}
           <div style={{ display: 'flex', border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>
-            <button onClick={() => setViewMode('list')} style={{ padding: '6px 10px', border: 'none', cursor: 'pointer', background: viewMode === 'list' ? '#eef2ff' : '#fff', color: viewMode === 'list' ? '#4f46e5' : '#9ca3af' }}><FiList size={15} /></button>
-            <button onClick={() => setViewMode('grid')} style={{ padding: '6px 10px', border: 'none', cursor: 'pointer', background: viewMode === 'grid' ? '#eef2ff' : '#fff', color: viewMode === 'grid' ? '#4f46e5' : '#9ca3af' }}><FiGrid size={15} /></button>
+            <button onClick={() => setViewMode('list')} style={{ padding: '6px 10px', border: 'none', cursor: 'pointer', background: viewMode === 'list' ? '#FDF1EC' : '#fff', color: viewMode === 'list' ? '#D4623A' : '#9ca3af' }}><FiList size={15} /></button>
+            <button onClick={() => setViewMode('grid')} style={{ padding: '6px 10px', border: 'none', cursor: 'pointer', background: viewMode === 'grid' ? '#FDF1EC' : '#fff', color: viewMode === 'grid' ? '#D4623A' : '#9ca3af' }}><FiGrid size={15} /></button>
           </div>
         </div>
 
@@ -566,14 +566,14 @@ export default function InventoryPage() {
               <tbody>
                 {loading ? (
                   <tr><td colSpan={9} style={{ textAlign: 'center', padding: '48px 0' }}>
-                    <div style={{ width: 28, height: 28, border: '3px solid #e5e7eb', borderTopColor: '#4f46e5', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 10px' }} />
+                    <div style={{ width: 28, height: 28, border: '3px solid #e5e7eb', borderTopColor: '#D4623A', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 10px' }} />
                     <p style={{ margin: 0, fontSize: 13, color: '#9ca3af' }}>Loading inventory...</p>
                   </td></tr>
                 ) : filtered.length === 0 ? (
                   <tr><td colSpan={9} style={{ textAlign: 'center', padding: '48px 0' }}>
                     <FiPackage size={40} color="#e5e7eb" style={{ marginBottom: 10 }} />
                     <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: '#9ca3af' }}>No products found</p>
-                    <button onClick={openAdd} style={{ marginTop: 10, background: 'none', border: 'none', cursor: 'pointer', color: '#4f46e5', fontSize: 13, fontWeight: 600 }}>+ Add your first product</button>
+                    <button onClick={openAdd} style={{ marginTop: 10, background: 'none', border: 'none', cursor: 'pointer', color: '#D4623A', fontSize: 13, fontWeight: 600 }}>+ Add your first product</button>
                   </td></tr>
                 ) : filtered.map(p => {
                   const qty = p.quantity || 0;
@@ -584,10 +584,10 @@ export default function InventoryPage() {
                       <td style={td}><input type="checkbox" /></td>
                       <td style={td}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ width: 36, height: 36, borderRadius: 10, background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <div style={{ width: 36, height: 36, borderRadius: 10, background: '#FDF1EC', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             {p.product_Img
                               ? <img src={p.product_Img} alt="" style={{ width: 36, height: 36, borderRadius: 10, objectFit: 'cover' }} />
-                              : <FiPackage size={16} color="#4f46e5" />}
+                              : <FiPackage size={16} color="#D4623A" />}
                           </div>
                           <div>
                             <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#111827' }}>{p.product_name}</p>
@@ -599,7 +599,7 @@ export default function InventoryPage() {
                       <td style={td}><span style={{ fontSize: 12, color: '#9ca3af', fontFamily: 'monospace' }}>{p.sku || p.product_code || '—'}</span></td>
                       <td style={td}><span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>{qty} <span style={{ fontSize: 11, fontWeight: 400, color: '#9ca3af' }}>/ {thr} min</span></span></td>
                       <td style={td}><span style={{ fontSize: 13, fontWeight: 500, color: '#374151' }}>{formatMoney(p.unit_price)}</span></td>
-                      <td style={td}><span style={{ fontSize: 13, fontWeight: 600, color: '#4f46e5' }}>{formatMoney((p.unit_price || 0) * qty)}</span></td>
+                      <td style={td}><span style={{ fontSize: 13, fontWeight: 600, color: '#D4623A' }}>{formatMoney((p.unit_price || 0) * qty)}</span></td>
                       <td style={td}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: st.bgColor, color: st.textColor }}>
                           <span style={{ width: 6, height: 6, borderRadius: '50%', background: st.dotColor }} />
@@ -631,10 +631,10 @@ export default function InventoryPage() {
             return (
               <div key={p.id} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: '#FDF1EC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {p.product_Img
                       ? <img src={p.product_Img} alt="" style={{ width: 44, height: 44, borderRadius: 12, objectFit: 'cover' }} />
-                      : <FiPackage size={20} color="#4f46e5" />}
+                      : <FiPackage size={20} color="#D4623A" />}
                   </div>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 8px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: st.bgColor, color: st.textColor, height: 'fit-content' }}>
                     <span style={{ width: 5, height: 5, borderRadius: '50%', background: st.dotColor }} />
@@ -645,7 +645,7 @@ export default function InventoryPage() {
                 <p style={{ margin: '3px 0 12px', fontSize: 12, color: '#9ca3af' }}>{getCategoryName(p.category)}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 12, borderTop: '1px solid #f3f4f6' }}>
                   <div><p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>Stock</p><p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#374151' }}>{qty} units</p></div>
-                  <div style={{ textAlign: 'right' }}><p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>Price</p><p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#4f46e5' }}>{formatMoney(p.unit_price)}</p></div>
+                  <div style={{ textAlign: 'right' }}><p style={{ margin: 0, fontSize: 11, color: '#9ca3af' }}>Price</p><p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#D4623A' }}>{formatMoney(p.unit_price)}</p></div>
                 </div>
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                   <button onClick={() => openEdit(p)} style={{ flex: 1, padding: '7px 0', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 500, color: '#374151' }}>Edit</button>
@@ -659,10 +659,10 @@ export default function InventoryPage() {
             onClick={openAdd}
             style={{ background: '#fafafa', border: '2px dashed #e5e7eb', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer', minHeight: 180 }}
           >
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: '#eef2ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FiPlus size={22} color="#4f46e5" />
+            <div style={{ width: 44, height: 44, borderRadius: 12, background: '#FDF1EC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <FiPlus size={22} color="#D4623A" />
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#4f46e5' }}>Add Product</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#D4623A' }}>Add Product</span>
           </button>
         </div>
       )}
@@ -680,7 +680,7 @@ export default function InventoryPage() {
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
         table tbody tr:hover { background: #fafafa; }
-        input:focus, select:focus { outline: none; border-color: #4f46e5 !important; }
+        input:focus, select:focus { outline: none; border-color: #D4623A !important; }
       `}</style>
     </div>
   );

@@ -19,7 +19,6 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // Calculate stock percentage for progress bar
   const getStockPercentage = (current: number, min: number) => {
     if (current === 0) return 0;
     const percentage = (current / min) * 100;
@@ -33,13 +32,13 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
 
   if (items.length === 0) {
     return (
-      <Card className="h-full flex flex-col bg-linear-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border border-green-200 dark:border-green-800/30">
+      <Card className="h-full flex flex-col bg-linear-to-br from-[#3A7A5A]/5 to-[#3A7A5A]/10 dark:from-green-900/20 dark:to-blue-900/20 border border-[#3A7A5A]/20 dark:border-green-800/30">
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-green-100 dark:bg-green-800/50 flex items-center justify-center mb-4">
-            <FiPackage className="w-7 h-7 text-green-600 dark:text-green-400" />
+          <div className="w-14 h-14 rounded-2xl bg-[#3A7A5A]/10 dark:bg-green-800/50 flex items-center justify-center mb-4">
+            <FiPackage className="w-7 h-7 text-[#3A7A5A] dark:text-green-400" />
           </div>
-          <h3 className="text-lg font-bold text-green-800 dark:text-green-300 mb-2">All Stocked Up!</h3>
-          <p className="text-sm text-green-600 dark:text-green-400">No low stock items at the moment</p>
+          <h3 className="text-lg font-bold text-[#3A7A5A] dark:text-green-300 mb-2">All Stocked Up!</h3>
+          <p className="text-sm text-[#3A7A5A]/80 dark:text-green-400">No low stock items at the moment</p>
         </div>
       </Card>
     );
@@ -51,7 +50,7 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
   return (
     <Card className="h-full flex flex-col overflow-hidden">
       {/* Header with gradient */}
-      <div className="bg-linear-to-r from-orange-500 to-red-500 p-4 text-white">
+      <div className="bg-gradient-to-r from-[#D4623A] to-[#8A3A1E] p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -69,7 +68,6 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
           </div>
         </div>
         
-        {/* Quick stats */}
         <div className="flex gap-4 mt-3 pt-3 border-t border-white/20">
           {criticalCount > 0 && (
             <div className="flex items-center gap-1.5">
@@ -99,20 +97,20 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
               onClick={() => navigate('/inventory')}
               className={`p-3 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${
                 isCritical 
-                  ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/50 hover:border-red-300' 
-                  : 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800/50 hover:border-orange-300'
+                  ? 'bg-[#FDF1EC] dark:bg-red-900/20 border-[#D4623A]/30 dark:border-red-800/50 hover:border-[#D4623A]/50' 
+                  : 'bg-[#FDF1EC] dark:bg-orange-900/20 border-[#D4623A]/20 dark:border-orange-800/50 hover:border-[#D4623A]/40'
               }`}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-sm text-gray-900 dark:text-gray-100 truncate">
+                  <h4 className="font-semibold text-sm text-[#3D2B1A] dark:text-[#E0E0E0] truncate">
                     {item.name}
                   </h4>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold ${
                       isCritical 
-                        ? 'bg-red-100 dark:bg-red-800/50 text-red-700 dark:text-red-300' 
-                        : 'bg-orange-100 dark:bg-orange-800/50 text-orange-700 dark:text-orange-300'
+                        ? 'bg-[#D4623A]/15 dark:bg-red-800/50 text-[#D4623A] dark:text-red-300' 
+                        : 'bg-[#D4623A]/10 dark:bg-orange-800/50 text-[#D4623A] dark:text-orange-300'
                     }`}>
                       {isCritical ? <FiTrendingDown className="w-2.5 h-2.5" /> : <FiAlertTriangle className="w-2.5 h-2.5" />}
                       {status.label}
@@ -122,22 +120,19 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
                 <div className="text-right shrink-0">
                   <span className={`text-lg font-bold ${
                     isCritical 
-                      ? 'text-red-600 dark:text-red-400' 
-                      : 'text-orange-600 dark:text-orange-400'
+                      ? 'text-[#D4623A] dark:text-red-400' 
+                      : 'text-[#D4623A] dark:text-orange-400'
                   }`}>
                     {item.current}
                   </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">/{item.minStock}</span>
+                  <span className="text-xs text-[#8A7060] dark:text-[#555555]">/{item.minStock}</span>
                 </div>
               </div>
               
-              {/* Progress bar */}
-              <div className="h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[#EDE5DA] dark:bg-[#222222] rounded-full overflow-hidden">
                 <div 
                   className={`h-full rounded-full transition-all ${
-                    isCritical 
-                      ? 'bg-red-500' 
-                      : 'bg-orange-500'
+                    isCritical ? 'bg-[#D4623A]' : 'bg-[#D4623A]/70'
                   }`}
                   style={{ width: `${percentage}%` }}
                 />
@@ -148,10 +143,10 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
       </div>
 
       {/* Footer action */}
-      <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+      <div className="p-3 border-t border-[#E5D8CC] dark:border-[#222222] bg-[#FAF7F3] dark:bg-[#1A1A1A]/50">
         <button
           onClick={() => navigate('/inventory')}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-linear-to-r from-blue-500 to-indigo-500 text-white font-medium text-sm rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all shadow-sm hover:shadow-md"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#D4623A] hover:bg-[#B8502E] text-white font-medium text-sm rounded-xl transition-all shadow-sm hover:shadow-md"
         >
           <FiPackage className="w-4 h-4" />
           Manage Inventory
@@ -161,4 +156,3 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
     </Card>
   );
 };
-

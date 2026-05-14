@@ -213,7 +213,7 @@ export default function TransactionsPage() {
   const getStatusColor = (status: Status) => {
     switch (status) {
       case 'paid':
-        return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+        return 'bg-[#FDF1EC] text-[#B8502E] dark:bg-[#D4623A]/20 dark:text-[#D4623A]';
       case 'pending':
         return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400';
       case 'overdue':
@@ -224,7 +224,7 @@ export default function TransactionsPage() {
   const tabs = [
     { id: 'all' as Tab, label: t('transactions.all'), icon: FiFileText, count: transactions.length },
     { id: 'selling' as Tab, label: t('transactions.sales'), icon: FiArrowUpRight, count: transactions.filter(t => t.type === 'selling').length, color: 'text-green-600' },
-    { id: 'purchase' as Tab, label: t('transactions.purchases'), icon: FiArrowDownLeft, count: transactions.filter(t => t.type === 'purchase').length, color: 'text-blue-600' },
+    { id: 'purchase' as Tab, label: t('transactions.purchases'), icon: FiArrowDownLeft, count: transactions.filter(t => t.type === 'purchase').length, color: 'text-[#D4623A]' },
     { id: 'expense' as Tab, label: t('transactions.expenses'), icon: FiCreditCard, count: transactions.filter(t => t.type === 'expense').length, color: 'text-red-600' },
   ];
 
@@ -234,7 +234,7 @@ export default function TransactionsPage() {
         {/* Header - Modern Gradient Style */}
         {/* Header - Modern Gradient Style */}
         <div className="relative mb-6">
-          <div className="absolute inset-0 bg-linear-to-br from-blue-600 via-blue-600 to-cyan-700 rounded-2xl shadow-xl shadow-blue-500/20 overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-br from-[#D4623A] via-blue-600 to-cyan-700 rounded-2xl shadow-xl shadow-blue-500/20 overflow-hidden">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
           </div>
 
@@ -275,26 +275,26 @@ export default function TransactionsPage() {
                   <FiChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1 sm:ml-2" />
                 </Button>
                 {showExportMenu && (
-                  <div className="absolute right-0 mt-2 w-44 sm:w-48 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 py-2 z-50 animate-in fade-in slide-in-from-top-2">
+                  <div className="absolute right-0 mt-2 w-44 sm:w-48 bg-white dark:bg-[#1A1A1A] rounded-xl shadow-2xl border #E5D8CC dark:border-[#222222] py-2 z-50 animate-in fade-in slide-in-from-top-2">
                     <button
                       onClick={() => handleExport('pdf')}
-                      className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-[#CCCCCC] hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors"
                     >
                       <FiFileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
                       {t('transactions.exportAsPdf')}
                     </button>
                     <button
                       onClick={() => handleExport('excel')}
-                      className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-[#CCCCCC] hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors"
                     >
                       <FiFileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-500" />
                       {t('transactions.exportAsExcel')}
                     </button>
                     <button
                       onClick={() => handleExport('csv')}
-                      className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      className="w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-700 dark:text-[#CCCCCC] hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors"
                     >
-                      <FiFileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500" />
+                      <FiFileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D4623A]" />
                       {t('transactions.exportAsCsv')}
                     </button>
                   </div>
@@ -305,7 +305,7 @@ export default function TransactionsPage() {
               <div className="relative">
                 <Button
                   onClick={() => setShowNewTransactionMenu(!showNewTransactionMenu)}
-                  className="bg-white text-blue-700 hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all font-bold px-6 border-0"
+                  className="bg-white text-[#B8502E] hover:bg-[#FDF1EC] shadow-lg hover:shadow-xl transition-all font-bold px-6 border-0"
                 >
                   <FiPlus className="w-5 h-5 mr-2" />
                   {t('transactions.addTransaction')}
@@ -313,36 +313,36 @@ export default function TransactionsPage() {
                 </Button>
 
                 {showNewTransactionMenu && (
-                  <div className="absolute right-0 top-full mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 py-2 z-100 animate-in fade-in slide-in-from-top-2">
-                    <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-                      <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Shortcuts</p>
+                  <div className="absolute right-0 top-full mt-2 w-72 bg-white dark:bg-[#1A1A1A] rounded-xl shadow-2xl border #E5D8CC dark:border-[#222222] py-2 z-100 animate-in fade-in slide-in-from-top-2">
+                    <div className="px-4 py-2 border-b #E5D8CC dark:border-[#222222]">
+                      <p className="text-xs font-bold #8A7060 dark:text-[#555555] uppercase tracking-wider">Shortcuts</p>
                     </div>
 
                     {/* Add Sales */}
                     <button
                       onClick={() => { navigate('/billing'); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/15 transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-[#D4623A] flex items-center justify-center shrink-0">
                         <FiShoppingCart className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold text-gray-900 dark:text-gray-100">Add Sales</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">Create new invoice</p>
+                        <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">Add Sales</p>
+                        <p className="text-xs #8A7060 dark:text-[#555555]">Create new invoice</p>
                       </div>
                     </button>
 
                     {/* Add Purchase */}
                     <button
                       onClick={() => { setAddMode('purchase'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/15 transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-[#D4623A] flex items-center justify-center shrink-0">
                         <FiArrowDownLeft className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold text-gray-900 dark:text-gray-100">Add Purchase</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">Record purchase</p>
+                        <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">Add Purchase</p>
+                        <p className="text-xs #8A7060 dark:text-[#555555]">Record purchase</p>
                       </div>
                     </button>
 
@@ -355,8 +355,8 @@ export default function TransactionsPage() {
                         <FiUser className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold text-gray-900 dark:text-gray-100">Add Party</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">New customer/supplier</p>
+                        <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">Add Party</p>
+                        <p className="text-xs #8A7060 dark:text-[#555555]">New customer/supplier</p>
                       </div>
                     </button>
 
@@ -369,28 +369,28 @@ export default function TransactionsPage() {
                         <FiPackage className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold text-gray-900 dark:text-gray-100">Add Product</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">Manage inventory</p>
+                        <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">Add Product</p>
+                        <p className="text-xs #8A7060 dark:text-[#555555]">Manage inventory</p>
                       </div>
                     </button>
 
-                    <div className="px-4 py-2 border-t border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
-                      <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quick Transactions</p>
+                    <div className="px-4 py-2 border-t border-b #E5D8CC dark:border-[#222222] #FAF7F3/50 dark:bg-[#1A1A1A]/50">
+                      <p className="text-xs font-bold #8A7060 dark:text-[#555555] uppercase tracking-wider">Quick Transactions</p>
                     </div>
 
                     {/* Payment In */}
                     <button
                       onClick={() => { setAddMode('payment_in'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-[#CCCCCC]"
                     >
-                      <FiArrowDownLeft className="w-4 h-4 text-blue-500" />
+                      <FiArrowDownLeft className="w-4 h-4 text-[#D4623A]" />
                       Payment In
                     </button>
 
                     {/* Payment Out */}
                     <button
                       onClick={() => { setAddMode('payment_out'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-[#CCCCCC]"
                     >
                       <FiArrowUpRight className="w-4 h-4 text-red-500" />
                       Payment Out
@@ -399,16 +399,16 @@ export default function TransactionsPage() {
                     {/* Quotation */}
                     <button
                       onClick={() => { setAddMode('quotation'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-[#CCCCCC]"
                     >
-                      <FiFileText className="w-4 h-4 text-blue-500" />
+                      <FiFileText className="w-4 h-4 text-[#D4623A]" />
                       Quotation
                     </button>
 
                     {/* Sales Return */}
                     <button
                       onClick={() => { setAddMode('sales_return'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-[#CCCCCC]"
                     >
                       <FiCheckCircle className="w-4 h-4 text-orange-500" />
                       Sales Return
@@ -417,7 +417,7 @@ export default function TransactionsPage() {
                     {/* Purchase Return */}
                     <button
                       onClick={() => { setAddMode('purchase_return'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-[#CCCCCC]"
                     >
                       <FiShoppingCart className="w-4 h-4 text-purple-500" />
                       Purchase Return
@@ -426,7 +426,7 @@ export default function TransactionsPage() {
                     {/* Expense */}
                     <button
                       onClick={() => { setAddMode('expense'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-[#CCCCCC]"
                     >
                       <FiCreditCard className="w-4 h-4 text-red-600" />
                       Expense
@@ -435,7 +435,7 @@ export default function TransactionsPage() {
                     {/* Income */}
                     <button
                       onClick={() => { setAddMode('income'); setShowAddDialog(true); setShowNewTransactionMenu(false); }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-200"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:#FAF7F3 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-[#CCCCCC]"
                     >
                       <FiTrendingUp className="w-4 h-4 text-green-600" />
                       Income
@@ -488,9 +488,9 @@ export default function TransactionsPage() {
         {/* Tabs and Filters */}
         <Card className="p-3 sm:p-4 mb-4 sm:mb-6">
           {/* Quick Date Filters */}
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4 pb-3 sm:pb-4 border-b #E5D8CC dark:border-[#222222]">
             <FiCalendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
-            <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 mr-1 sm:mr-2">{t('transactions.quickFilter')}:</span>
+            <span className="text-xs sm:text-sm font-medium #8A7060 dark:text-[#555555] mr-1 sm:mr-2">{t('transactions.quickFilter')}:</span>
             {(['today', 'week', 'month', 'custom'] as QuickFilter[]).map((filter) => (
               <button
                 key={filter}
@@ -499,8 +499,8 @@ export default function TransactionsPage() {
                   if (filter === 'custom') setShowFilters(true);
                 }}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${quickFilter === filter
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  ? 'bg-[#D4623A] text-white shadow-lg shadow-blue-500/30'
+                  : '#EDE5DA dark:bg-[#1A1A1A] #8A7060 dark:text-[#555555] hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
               >
                 {filter === 'today' ? t('common.today') : filter === 'week' ? t('common.thisWeek') : filter === 'month' ? t('common.thisMonth') : t('transactions.custom')}
@@ -517,15 +517,15 @@ export default function TransactionsPage() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === tab.id
-                    ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ? 'bg-gray-900 dark:bg-white text-white dark:#3D2B1A shadow-lg'
+                    : '#EDE5DA dark:bg-[#1A1A1A] #8A7060 dark:text-[#555555] hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
                 >
                   <Icon className={`w-4 h-4 ${activeTab !== tab.id ? tab.color : ''}`} />
                   {tab.label}
                   <span className={`px-2 py-0.5 rounded-full text-xs ${activeTab === tab.id
-                    ? 'bg-white/20 text-white dark:bg-gray-900/20 dark:text-gray-900'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                    ? 'bg-white/20 text-white dark:bg-[#111111]/20 dark:#3D2B1A'
+                    : 'bg-gray-200 dark:bg-[#222222] #8A7060 dark:text-[#555555]'
                     }`}>
                     {n(tab.count)}
                   </span>
@@ -536,16 +536,16 @@ export default function TransactionsPage() {
 
           {/* Advanced Filters */}
           {showFilters && (
-            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 mb-4 animate-in fade-in slide-in-from-top-2">
+            <div className="#FAF7F3 dark:bg-[#1A1A1A]/50 rounded-xl p-4 mb-4 animate-in fade-in slide-in-from-top-2">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#CCCCCC]">
                     {t('transactions.party')}
                   </label>
                   <select
                     value={selectedPartyId}
                     onChange={(e) => setSelectedPartyId(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors"
                   >
                     <option value="">{t('transactions.allParties')}</option>
                     {parties.map((p) => (
@@ -554,7 +554,7 @@ export default function TransactionsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#CCCCCC]">
                     {t('transactions.from')}
                   </label>
                   <Input
@@ -565,7 +565,7 @@ export default function TransactionsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#CCCCCC]">
                     {t('transactions.to')}
                   </label>
                   <Input
@@ -588,13 +588,13 @@ export default function TransactionsPage() {
                 placeholder={t('transactions.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-700 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] #E5D8CC dark:border-[#222222] focus:outline-none focus:border-[#D4623A] transition-colors"
               />
             </div>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortBy)}
-              className="px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-blue-500 transition-colors"
+              className="px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors"
             >
               <option value="date">{t('transactions.sortByDate')}</option>
               <option value="amount">{t('transactions.sortByAmount')}</option>
@@ -602,7 +602,7 @@ export default function TransactionsPage() {
             </select>
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-              className="p-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-blue-500 hover:text-blue-600 transition-colors"
+              className="p-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #8A7060 dark:text-[#555555] hover:border-[#D4623A] hover:text-[#D4623A] transition-colors"
             >
               {sortOrder === 'asc' ? '↑ ASC' : '↓ DESC'}
             </button>
@@ -613,13 +613,13 @@ export default function TransactionsPage() {
         <Card className="overflow-hidden">
           {filteredTransactions.length === 0 ? (
             <div className="p-16 text-center">
-              <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 #EDE5DA dark:bg-[#1A1A1A] rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiFileText className="w-10 h-10 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              <h3 className="text-xl font-semibold #3D2B1A dark:text-[#E0E0E0] mb-2">
                 {t('transactions.noTransactions')}
               </h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-6">
+              <p className="#8A7060 dark:text-[#555555] mb-6">
                 {t('transactions.noTransactionsDesc')}
               </p>
               <Button onClick={() => setShowAddDialog(true)}>
@@ -634,14 +634,14 @@ export default function TransactionsPage() {
                 return (
                   <div
                     key={transaction.id}
-                    className="p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group"
+                    className="p-3 sm:p-4 hover:#FAF7F3 dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     <div className="flex items-center gap-3 sm:gap-4">
                       {/* Icon */}
                       <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${transaction.type === 'selling'
-                        ? 'bg-linear-to-br from-blue-400 to-blue-600 text-white'
+                        ? 'bg-linear-to-br from-blue-400 to-[#B8502E] text-white'
                         : transaction.type === 'purchase'
-                          ? 'bg-linear-to-br from-blue-400 to-blue-600 text-white'
+                          ? 'bg-linear-to-br from-blue-400 to-[#B8502E] text-white'
                           : 'bg-linear-to-br from-red-400 to-red-600 text-white'
                         }`}>
                         {transaction.type === 'selling' ? (
@@ -656,7 +656,7 @@ export default function TransactionsPage() {
                       {/* Details */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5">
-                          <h3 className="font-medium text-sm sm:text-base text-gray-900 dark:text-gray-100 truncate">
+                          <h3 className="font-medium text-sm sm:text-base #3D2B1A dark:text-[#E0E0E0] truncate">
                             {transaction.partyName || transaction.description}
                           </h3>
                           <span className={`hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${getStatusColor(status)}`}>
@@ -664,7 +664,7 @@ export default function TransactionsPage() {
                             <span className="capitalize">{status}</span>
                           </span>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">
+                        <p className="text-xs sm:text-sm #8A7060 dark:text-[#555555] truncate">
                           {transaction.description}
                         </p>
                         <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1">
@@ -673,9 +673,9 @@ export default function TransactionsPage() {
                             {d(transaction.date)}
                           </span>
                           <span className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium ${transaction.type === 'selling'
-                            ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                            ? 'bg-[#FDF1EC] text-[#B8502E] dark:bg-[#D4623A]/20 dark:text-[#D4623A]'
                             : transaction.type === 'purchase'
-                              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                              ? 'bg-[#FDF1EC] text-[#B8502E] dark:bg-[#D4623A]/20 dark:text-[#D4623A]'
                               : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                             }`}>
                             {transaction.type === 'selling' ? t('transactions.sales') : transaction.type === 'purchase' ? t('transactions.purchases') : t('transactions.expenses')}
@@ -690,8 +690,8 @@ export default function TransactionsPage() {
                       {/* Amount */}
                       <div className="text-right shrink-0">
                         <p className={`text-base sm:text-lg font-bold ${transaction.type === 'selling'
-                          ? 'text-blue-600 dark:text-blue-400'
-                          : 'text-gray-900 dark:text-gray-100'
+                          ? 'text-[#D4623A] dark:text-[#D4623A]'
+                          : '#3D2B1A dark:text-[#E0E0E0]'
                           }`}>
                           {transaction.type === 'selling' ? '+' : '-'}{c(transaction.amount)}
                         </p>
@@ -701,21 +701,21 @@ export default function TransactionsPage() {
                       <div className="hidden sm:flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => navigate(`/transactions/${transaction.id}`)}
-                          className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                          className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 #8A7060 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                           title={t('common.view')}
                         >
                           <FiEye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleCreateBill(transaction)}
-                          className="p-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
+                          className="p-2 rounded-lg hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/20 text-[#D4623A] hover:text-[#B8502E] dark:hover:text-[#D4623A] transition-colors"
                           title={t('billing.createBill')}
                         >
                           <FiPrinter className="w-4 h-4" />
                         </button>
                         <button
                           onClick={(e) => handleMenuClick(e, transaction.id)}
-                          className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                          className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 #8A7060 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                           title={t('common.more')}
                         >
                           <FiMoreVertical className="w-4 h-4" />
@@ -725,7 +725,7 @@ export default function TransactionsPage() {
                       {/* Mobile menu button */}
                       <button
                         onClick={(e) => handleMenuClick(e, transaction.id)}
-                        className="sm:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 transition-colors"
+                        className="sm:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 #8A7060 transition-colors"
                       >
                         <FiMoreVertical className="w-4 h-4" />
                       </button>
@@ -738,19 +738,19 @@ export default function TransactionsPage() {
 
           {/* Results Summary */}
           {filteredTransactions.length > 0 && (
-            <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
+            <div className="px-6 py-4 #FAF7F3 dark:bg-[#1A1A1A]/50 border-t #E5D8CC dark:border-[#222222]">
               <div className="flex flex-wrap items-center justify-between gap-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm #8A7060 dark:text-[#555555]">
                   {t('common.showing')} <span className="font-semibold">{n(filteredTransactions.length)}</span> {t('transactions.transactions')}
                 </p>
                 <div className="flex items-center gap-4 text-sm">
-                  <span className="text-blue-600 dark:text-blue-400 font-medium">
+                  <span className="text-[#D4623A] dark:text-[#D4623A] font-medium">
                     ↑ {c(stats.income)}
                   </span>
                   <span className="text-red-600 dark:text-red-400 font-medium">
                     ↓ {c(stats.expenses)}
                   </span>
-                  <span className={`font-bold ${stats.balance >= 0 ? 'text-blue-600 dark:text-blue-400' : 'text-red-600 dark:text-red-400'}`}>
+                  <span className={`font-bold ${stats.balance >= 0 ? 'text-[#D4623A] dark:text-[#D4623A]' : 'text-red-600 dark:text-red-400'}`}>
                     = {c(stats.balance)}
                   </span>
                 </div>
@@ -767,7 +767,7 @@ export default function TransactionsPage() {
         {selectedTransactionId && dropdownPosition && (
           <div className="fixed inset-0 z-50" onClick={closeDropdown}>
             <div
-              className="absolute bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 py-2 w-48 z-50"
+              className="absolute bg-white dark:bg-[#1A1A1A] rounded-xl shadow-2xl border #E5D8CC dark:border-[#222222] py-2 w-48 z-50"
               style={{
                 top: dropdownPosition.top,
                 left: dropdownPosition.left
@@ -779,7 +779,7 @@ export default function TransactionsPage() {
                   navigate(`/transactions/${selectedTransactionId}`);
                   closeDropdown();
                 }}
-                className="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3"
+                className="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-[#CCCCCC] hover:#EDE5DA dark:hover:bg-gray-700 flex items-center gap-3"
               >
                 <FiEye className="w-4 h-4" />
                 {t('transactions.viewDetails')}
@@ -792,7 +792,7 @@ export default function TransactionsPage() {
                   }
                   closeDropdown();
                 }}
-                className="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3"
+                className="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-[#CCCCCC] hover:#EDE5DA dark:hover:bg-gray-700 flex items-center gap-3"
               >
                 <FiPrinter className="w-4 h-4" />
                 {t('billing.createBill')}
@@ -802,12 +802,12 @@ export default function TransactionsPage() {
                   alert(t('common.featureComingSoon'));
                   closeDropdown();
                 }}
-                className="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3"
+                className="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-[#CCCCCC] hover:#EDE5DA dark:hover:bg-gray-700 flex items-center gap-3"
               >
                 <FiEdit2 className="w-4 h-4" />
                 {t('transactions.editTransaction')}
               </button>
-              <div className="border-t border-gray-200 dark:border-gray-700 my-1" />
+              <div className="border-t #E5D8CC dark:border-[#222222] my-1" />
               <button
                 onClick={() => {
                   if (confirm(t('common.confirmDelete'))) {

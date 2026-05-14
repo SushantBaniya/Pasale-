@@ -254,7 +254,7 @@ export const exportToPDF = (data: ExportData) => {
             transform: translateX(-50%);
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, #8b5cf6, #6366f1);
+            background: linear-gradient(90deg, #8A3A1E, #6366f1);
           }
           
           .company-name {
@@ -274,7 +274,7 @@ export const exportToPDF = (data: ExportData) => {
           .report-title {
             font-size: 20px;
             font-weight: 600;
-            color: #4f46e5;
+            color: #D4623A;
             margin-bottom: 8px;
           }
           
@@ -313,7 +313,7 @@ export const exportToPDF = (data: ExportData) => {
             content: '';
             width: 4px;
             height: 16px;
-            background: linear-gradient(180deg, #6366f1, #8b5cf6);
+            background: linear-gradient(180deg, #6366f1, #8A3A1E);
             border-radius: 2px;
           }
           
@@ -334,9 +334,9 @@ export const exportToPDF = (data: ExportData) => {
             transition: all 0.2s ease;
           }
           
-          .stat-card:nth-child(2) { border-left-color: #10b981; }
+          .stat-card:nth-child(2) { border-left-color: #3A7A5A; }
           .stat-card:nth-child(3) { border-left-color: #f59e0b; }
-          .stat-card:nth-child(4) { border-left-color: #ef4444; }
+          .stat-card:nth-child(4) { border-left-color: #D4623A; }
           
           .stat-label {
             font-size: 11px;
@@ -391,7 +391,7 @@ export const exportToPDF = (data: ExportData) => {
           }
           
           .data-table th {
-            background: linear-gradient(180deg, #4f46e5 0%, #6366f1 100%);
+            background: linear-gradient(180deg, #D4623A 0%, #6366f1 100%);
             color: white;
             padding: 10px 12px;
             text-align: left;
@@ -770,7 +770,7 @@ export const exportToHTML = (data: ExportData) => {
       transform: translateX(-50%);
       width: 80px;
       height: 3px;
-      background: linear-gradient(90deg, #8b5cf6, #6366f1);
+      background: linear-gradient(90deg, #8A3A1E, #6366f1);
     }
     
     .company-name {
@@ -790,7 +790,7 @@ export const exportToHTML = (data: ExportData) => {
     .report-title {
       font-size: 24px;
       font-weight: 600;
-      color: #4f46e5;
+      color: #D4623A;
       margin-bottom: 12px;
     }
     
@@ -817,7 +817,7 @@ export const exportToHTML = (data: ExportData) => {
     }
     
     .action-buttons button {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      background: linear-gradient(135deg, #6366f1, #8A3A1E);
       color: white;
       border: none;
       padding: 10px 24px;
@@ -856,7 +856,7 @@ export const exportToHTML = (data: ExportData) => {
       content: '';
       width: 5px;
       height: 20px;
-      background: linear-gradient(180deg, #6366f1, #8b5cf6);
+      background: linear-gradient(180deg, #6366f1, #8A3A1E);
       border-radius: 3px;
     }
     
@@ -882,9 +882,9 @@ export const exportToHTML = (data: ExportData) => {
       box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
     
-    .stat-card:nth-child(2) { border-left-color: #10b981; }
+    .stat-card:nth-child(2) { border-left-color: #3A7A5A; }
     .stat-card:nth-child(3) { border-left-color: #f59e0b; }
-    .stat-card:nth-child(4) { border-left-color: #ef4444; }
+    .stat-card:nth-child(4) { border-left-color: #D4623A; }
     
     .stat-label {
       font-size: 12px;
@@ -939,7 +939,7 @@ export const exportToHTML = (data: ExportData) => {
     }
     
     .data-table th {
-      background: linear-gradient(180deg, #4f46e5 0%, #6366f1 100%);
+      background: linear-gradient(180deg, #D4623A 0%, #6366f1 100%);
       color: white;
       padding: 12px 16px;
       text-align: left;

@@ -4,14 +4,7 @@ import { Button } from '../ui/Button';
 import { useTranslation } from '../../utils/i18n';
 import { useThemeStore } from '../../store/themeStore';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 
 type Period = 'weekly' | 'monthly' | 'yearly';
@@ -26,16 +19,11 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
   const [period, setPeriod] = useState<Period>('weekly');
   const [isDark, setIsDark] = useState(false);
 
-  useEffect(() => {
-    setIsDark(theme === 'dark');
-  }, [theme]);
+  useEffect(() => { setIsDark(theme === 'dark'); }, [theme]);
 
-  // Transform data based on selected period
   const getChartData = () => {
-    if (period === 'weekly') {
-      return data; // Use provided weekly data
-    } else if (period === 'monthly') {
-      // Aggregate to monthly (example transformation)
+    if (period === 'weekly') return data;
+    else if (period === 'monthly') {
       return [
         { name: 'Jan', sales: 12000, revenue: 24000 },
         { name: 'Feb', sales: 15000, revenue: 30000 },
@@ -45,7 +33,6 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
         { name: 'Jun', sales: 20000, revenue: 40000 },
       ];
     } else {
-      // Yearly data
       return [
         { name: '2022', sales: 120000, revenue: 240000 },
         { name: '2023', sales: 150000, revenue: 300000 },
@@ -59,72 +46,25 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
   return (
     <Card className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-          Sales Analytics
-        </h3>
+        <h3 className="text-xl font-bold text-[#3D2B1A] dark:text-[#E0E0E0]">Sales Analytics</h3>
         <div className="flex gap-2">
-          <Button
-            size="sm"
-            variant={period === 'weekly' ? 'primary' : 'ghost'}
-            onClick={() => setPeriod('weekly')}
-          >
-            {t('dashboard.weekly')}
-          </Button>
-          <Button
-            size="sm"
-            variant={period === 'monthly' ? 'primary' : 'ghost'}
-            onClick={() => setPeriod('monthly')}
-          >
-            {t('dashboard.monthly')}
-          </Button>
-          <Button
-            size="sm"
-            variant={period === 'yearly' ? 'primary' : 'ghost'}
-            onClick={() => setPeriod('yearly')}
-          >
-            {t('dashboard.yearly')}
-          </Button>
+          <Button size="sm" variant={period === 'weekly' ? 'primary' : 'ghost'} onClick={() => setPeriod('weekly')}>{t('dashboard.weekly')}</Button>
+          <Button size="sm" variant={period === 'monthly' ? 'primary' : 'ghost'} onClick={() => setPeriod('monthly')}>{t('dashboard.monthly')}</Button>
+          <Button size="sm" variant={period === 'yearly' ? 'primary' : 'ghost'} onClick={() => setPeriod('yearly')}>{t('dashboard.yearly')}</Button>
         </div>
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#e5e7eb'} />
-          <XAxis
-            dataKey="name"
-            stroke={isDark ? '#9ca3af' : '#6b7280'}
-            tick={{ fill: isDark ? '#9ca3af' : '#6b7280' }}
-          />
-          <YAxis
-            stroke={isDark ? '#9ca3af' : '#6b7280'}
-            tick={{ fill: isDark ? '#9ca3af' : '#6b7280' }}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: isDark ? '#1f2937' : '#ffffff',
-              border: isDark ? '1px solid #374151' : '1px solid #e5e7eb',
-              borderRadius: '8px',
-              color: isDark ? '#f3f4f6' : '#111827',
-            }}
-          />
-          <Legend wrapperStyle={{ color: isDark ? '#f3f4f6' : '#111827' }} />
-          <Line
-            type="monotone"
-            dataKey="sales"
-            stroke="#3b82f6"
-            strokeWidth={2}
-            name="Sales"
-          />
-          <Line
-            type="monotone"
-            dataKey="revenue"
-            stroke="#8b5cf6"
-            strokeWidth={2}
-            name="Revenue"
-          />
+          <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#E5D8CC'} />
+          <XAxis dataKey="name" stroke={isDark ? '#9ca3af' : '#8A7060'} tick={{ fill: isDark ? '#9ca3af' : '#8A7060' }} />
+          <YAxis stroke={isDark ? '#9ca3af' : '#8A7060'} tick={{ fill: isDark ? '#9ca3af' : '#8A7060' }} />
+          <Tooltip contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #E5D8CC', borderRadius: '8px', color: isDark ? '#f3f4f6' : '#3D2B1A' }} />
+          <Legend wrapperStyle={{ color: isDark ? '#f3f4f6' : '#3D2B1A' }} />
+          <Line type="monotone" dataKey="sales" stroke="#D4623A" strokeWidth={2} name="Sales" />
+          <Line type="monotone" dataKey="revenue" stroke="#3A7A5A" strokeWidth={2} name="Revenue" />
         </LineChart>
       </ResponsiveContainer>
     </Card>
   );
 };
-

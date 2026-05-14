@@ -59,14 +59,14 @@ export default function PurchasePage() {
     <div className="max-w-[1300px] mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Purchase Bills</h1>
+        <h1 className="text-xl font-bold #3D2B1A dark:text-[#E0E0E0]">Purchase Bills</h1>
         <div className="flex items-center gap-2">
-          <button className="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-xs font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <button className="inline-flex items-center gap-1.5 px-3 py-2 border #E5D8CC dark:border-[#222222] #8A7060 dark:text-[#CCCCCC] text-xs font-semibold rounded-lg hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors">
             <FiDownload className="w-3.5 h-3.5" /> Export
           </button>
           <button
             onClick={() => navigate('/purchase/new')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#D4623A] text-white text-xs font-semibold rounded-lg hover:bg-[#B8502E] transition-colors shadow-sm"
           >
             <FiPlus className="w-3.5 h-3.5" /> Record Purchase Bill
           </button>
@@ -82,43 +82,43 @@ export default function PurchasePage() {
             placeholder="Search by supplier name or bill number..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full pl-9 pr-4 py-2 border #E5D8CC dark:border-[#222222] rounded-lg bg-white dark:bg-[#1A1A1A] text-sm #3D2B1A dark:text-[#E0E0E0] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#D4623A] focus:border-transparent transition-all"
           />
         </div>
-        <button className="p-2 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+        <button className="p-2 border #E5D8CC dark:border-[#222222] rounded-lg text-gray-400 hover:#8A7060 dark:hover:text-gray-300 hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors">
           <FiFilter className="w-4 h-4" />
         </button>
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-[#1A1A1A] border #E5D8CC dark:border-[#222222] rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30">
-                <th className="py-3 px-5 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">DATE</th>
-                <th className="py-3 px-5 text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">BILL NO</th>
-                <th className="py-3 px-5 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">PARTY NAME</th>
-                <th className="py-3 px-5 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">STATUS</th>
-                <th className="py-3 px-5 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">AMOUNT</th>
-                <th className="py-3 px-5 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-center">ACTIONS</th>
+              <tr className="border-b #E5D8CC dark:border-[#222222] #FAF7F3/50 dark:bg-[#111111]/30">
+                <th className="py-3 px-5 text-[11px] font-bold #8A7060 dark:text-[#555555] uppercase tracking-wider">DATE</th>
+                <th className="py-3 px-5 text-[11px] font-bold text-[#D4623A] dark:text-[#D4623A] uppercase tracking-wider">BILL NO</th>
+                <th className="py-3 px-5 text-[11px] font-bold #8A7060 dark:text-[#555555] uppercase tracking-wider">PARTY NAME</th>
+                <th className="py-3 px-5 text-[11px] font-bold #8A7060 dark:text-[#555555] uppercase tracking-wider">STATUS</th>
+                <th className="py-3 px-5 text-[11px] font-bold #8A7060 dark:text-[#555555] uppercase tracking-wider text-right">AMOUNT</th>
+                <th className="py-3 px-5 text-[11px] font-bold #8A7060 dark:text-[#555555] uppercase tracking-wider text-center">ACTIONS</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
                   <td colSpan={6} className="py-16 text-center">
-                    <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-2" />
+                    <div className="w-8 h-8 border-4 border-[#D4623A]/30 border-t-[#D4623A] rounded-full animate-spin mx-auto mb-2" />
                     <p className="text-sm text-gray-400">Loading purchase bills...</p>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-16 text-center">
-                    <p className="text-sm text-gray-400 dark:text-gray-500 mb-2">No purchase bills found</p>
+                    <p className="text-sm text-gray-400 dark:#8A7060 mb-2">No purchase bills found</p>
                     <button
                       onClick={() => navigate('/purchase/new')}
-                      className="text-blue-600 dark:text-blue-400 text-sm font-semibold hover:underline"
+                      className="text-[#D4623A] dark:text-[#D4623A] text-sm font-semibold hover:underline"
                     >
                       Record your first purchase
                     </button>
@@ -128,15 +128,15 @@ export default function PurchasePage() {
                 filtered.map((billing) => (
                   <tr
                     key={billing.id}
-                    className="border-b border-gray-50 dark:border-gray-700/50 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
+                    className="border-b border-gray-50 dark:border-[#222222]/50 hover:#FAF7F3/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
                   >
-                    <td className="py-3.5 px-5 text-sm text-gray-700 dark:text-gray-300">
+                    <td className="py-3.5 px-5 text-sm text-gray-700 dark:text-[#CCCCCC]">
                       {formatDate(billing.invoice_date)}
                     </td>
-                    <td className="py-3.5 px-5 text-sm font-semibold text-blue-600 dark:text-blue-400">
+                    <td className="py-3.5 px-5 text-sm font-semibold text-[#D4623A] dark:text-[#D4623A]">
                       #{billing.id}
                     </td>
-                    <td className="py-3.5 px-5 text-sm font-medium text-gray-900 dark:text-white">
+                    <td className="py-3.5 px-5 text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">
                       {billing.party?.name || 'Unknown Supplier'}
                     </td>
                     <td className="py-3.5 px-5">
@@ -150,11 +150,11 @@ export default function PurchasePage() {
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-5 text-sm font-semibold text-blue-600 dark:text-blue-400 text-right">
+                    <td className="py-3.5 px-5 text-sm font-semibold text-[#D4623A] dark:text-[#D4623A] text-right">
                       {formatMoney(billing.total_amount)}
                     </td>
                     <td className="py-3.5 px-5 text-center">
-                      <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                      <button className="p-1.5 hover:#EDE5DA dark:hover:bg-gray-700 rounded-lg transition-colors">
                         <FiMoreHorizontal className="w-4 h-4 text-gray-400" />
                       </button>
                     </td>

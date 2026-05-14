@@ -274,11 +274,11 @@ const MOCK_EMPLOYEES = [
   },
 ];
 const DEPT_COLORS = {
-  Operations: { bg: "#eff6ff", text: "#1d4ed8", dot: "#3b82f6" },
+  Operations: { bg: "#eff6ff", text: "#8A3A1E", dot: "#D4623A" },
   Sales: { bg: "#f0fdf4", text: "#15803d", dot: "#22c55e" },
   Inventory: { bg: "#fefce8", text: "#a16207", dot: "#eab308" },
   Finance: { bg: "#fdf2f8", text: "#9d174d", dot: "#ec4899" },
-  HR: { bg: "#f5f3ff", text: "#6d28d9", dot: "#8b5cf6" },
+  HR: { bg: "#f5f3ff", text: "#6d28d9", dot: "#8A3A1E" },
   default: { bg: "#f8fafc", text: "#475569", dot: "#94a3b8" },
 };
 
@@ -291,7 +291,7 @@ const STATUS_COLORS = {
 const getInitials = (name) =>
   name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) || "??";
 
-const AVATAR_COLORS = ["#3b82f6", "#8b5cf6", "#ec4899", "#22c55e", "#f59e0b", "#6366f1", "#06b6d4", "#10b981"];
+const AVATAR_COLORS = ["#D4623A", "#8A3A1E", "#ec4899", "#22c55e", "#f59e0b", "#6366f1", "#06b6d4", "#3A7A5A"];
 const avatarGrad = (id) => AVATAR_COLORS[(id - 1) % AVATAR_COLORS.length];
 
 // ─── ICONS ────────────────────────────────────────────────────────────────────
@@ -357,10 +357,10 @@ function useToast() {
 // ─── STAT CARD ────────────────────────────────────────────────────────────────
 function StatCard({ label, value, sub }) {
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 transition-colors">
-      <div className="text-[11px] text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider mb-1.5">{label}</div>
-      <div className="text-2xl font-bold text-gray-900 dark:text-white leading-tight">{value}</div>
-      {sub && <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{sub}</div>}
+    <div className="#FAF7F3 dark:bg-[#1A1A1A] rounded-xl p-4 border #E5D8CC dark:border-[#222222] transition-colors">
+      <div className="text-[11px] text-gray-400 dark:#8A7060 font-semibold uppercase tracking-wider mb-1.5">{label}</div>
+      <div className="text-2xl font-bold #3D2B1A dark:text-[#E0E0E0] leading-tight">{value}</div>
+      {sub && <div className="text-xs text-gray-400 dark:#8A7060 mt-1">{sub}</div>}
     </div>
   );
 }
@@ -373,7 +373,7 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
   const deptColor = DEPT_COLORS[deptName] || DEPT_COLORS.default;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-[14px] border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-md hover:border-gray-200 dark:hover:border-gray-600 group flex flex-col h-full">
+    <div className="bg-white dark:bg-[#1A1A1A] rounded-[14px] border #E5D8CC dark:border-[#222222] overflow-hidden transition-all hover:shadow-md hover:#E5D8CC dark:hover:border-gray-600 group flex flex-col h-full">
       <div className="p-4 flex-1">
         {/* Header row */}
         <div className="flex items-start justify-between gap-2 mb-3.5">
@@ -383,8 +383,8 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
               {getInitials(emp.name)}
             </div>
             <div>
-              <div className="font-semibold text-sm text-gray-900 dark:text-white">{emp.name}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{emp.position}</div>
+              <div className="font-semibold text-sm #3D2B1A dark:text-[#E0E0E0]">{emp.name}</div>
+              <div className="text-xs #8A7060 dark:text-[#555555] mt-0.5">{emp.position}</div>
             </div>
           </div>
           <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
@@ -395,11 +395,11 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
 
         {/* Info rows */}
         <div className="flex flex-col gap-1.5">
-          <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+          <div className="text-xs #8A7060 dark:text-[#555555] flex items-center gap-2">
             <Icon d={ICONS.mail} size={12} />
             <span className="truncate">{emp.email}</span>
           </div>
-          <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+          <div className="text-xs #8A7060 dark:text-[#555555] flex items-center gap-2">
             <Icon d={ICONS.phone} size={12} />
             {emp.phone_no}
           </div>
@@ -416,10 +416,10 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
       </div>
 
       {/* Action bar */}
-      <div className="border-t border-gray-50 dark:border-gray-700/50 flex shrink-0">
-        <button onClick={() => onView(emp)} className="flex-1 py-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">View</button>
-        <button onClick={() => onEdit(emp)} className="flex-1 py-2.5 text-xs font-semibold text-gray-600 dark:text-gray-400 border-l border-gray-50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">Edit</button>
-        <button onClick={() => onDelete(emp)} className="flex-1 py-2.5 text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border-l border-gray-50 dark:border-gray-700/50 transition-colors">Remove</button>
+      <div className="border-t border-gray-50 dark:border-[#222222]/50 flex shrink-0">
+        <button onClick={() => onView(emp)} className="flex-1 py-2.5 text-xs font-semibold text-[#D4623A] hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/15 transition-colors">View</button>
+        <button onClick={() => onEdit(emp)} className="flex-1 py-2.5 text-xs font-semibold #8A7060 dark:text-[#555555] border-l border-gray-50 dark:border-[#222222]/50 hover:#FAF7F3 dark:hover:bg-gray-700/50 transition-colors">Edit</button>
+        <button onClick={() => onDelete(emp)} className="flex-1 py-2.5 text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border-l border-gray-50 dark:border-[#222222]/50 transition-colors">Remove</button>
       </div>
     </div>
   );
@@ -432,18 +432,18 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
   const statusColor = STATUS_COLORS[statusName] || STATUS_COLORS.Active;
   const deptColor = DEPT_COLORS[deptName] || DEPT_COLORS.default;
   return (
-    <tr className="border-b border-gray-100 dark:border-gray-700/50 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/50 group">
+    <tr className="border-b #E5D8CC dark:border-[#222222]/50 transition-colors hover:#FAF7F3 dark:hover:bg-gray-800/50 group">
       <td className="px-4 py-3.5">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-[9px] flex items-center justify-center text-white font-semibold text-xs shrink-0"
                style={{ background: avatarGrad(emp.id) }}>{getInitials(emp.name)}</div>
           <div>
-            <div className="font-semibold text-[13px] text-gray-900 dark:text-white">{emp.name}</div>
-            <div className="text-xs text-gray-400 dark:text-gray-500">{emp.email}</div>
+            <div className="font-semibold text-[13px] #3D2B1A dark:text-[#E0E0E0]">{emp.name}</div>
+            <div className="text-xs text-gray-400 dark:#8A7060">{emp.email}</div>
           </div>
         </div>
       </td>
-      <td className="px-4 py-3.5 text-[13px] text-gray-600 dark:text-gray-400">{emp.position}</td>
+      <td className="px-4 py-3.5 text-[13px] #8A7060 dark:text-[#555555]">{emp.position}</td>
       <td className="px-4 py-3.5">
         {deptName && (
           <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
@@ -452,8 +452,8 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
           </span>
         )}
       </td>
-      <td className="px-4 py-3.5 text-[13px] text-gray-600 dark:text-gray-400">{emp.phone_no}</td>
-      <td className="px-4 py-3.5 text-[13px] text-gray-900 dark:text-white font-semibold">
+      <td className="px-4 py-3.5 text-[13px] #8A7060 dark:text-[#555555]">{emp.phone_no}</td>
+      <td className="px-4 py-3.5 text-[13px] #3D2B1A dark:text-[#E0E0E0] font-semibold">
         NPR {emp.salary ? Number(emp.salary).toLocaleString() : "—"}
       </td>
       <td className="px-4 py-3.5">
@@ -464,8 +464,8 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
       </td>
       <td className="px-4 py-3.5">
         <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button onClick={() => onView(emp)} className="p-1.5 rounded text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors" title="View"><Icon d={ICONS.users} size={14} /></button>
-          <button onClick={() => onEdit(emp)} className="p-1.5 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="Edit"><Icon d={ICONS.edit} size={14} /></button>
+          <button onClick={() => onView(emp)} className="p-1.5 rounded text-[#D4623A] hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/20 transition-colors" title="View"><Icon d={ICONS.users} size={14} /></button>
+          <button onClick={() => onEdit(emp)} className="p-1.5 rounded #8A7060 dark:text-[#555555] hover:#EDE5DA dark:hover:bg-gray-700 transition-colors" title="Edit"><Icon d={ICONS.edit} size={14} /></button>
           <button onClick={() => onDelete(emp)} className="p-1.5 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="Delete"><Icon d={ICONS.trash} size={14} /></button>
         </div>
       </td>
@@ -491,10 +491,10 @@ interface FieldProps {
 }
 
 function Field({ label, name, value, onChange, type = "text", options, required, placeholder }: FieldProps) {
-  const baseClassName = "w-full px-3 py-2.5 rounded-lg text-[13px] border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 outline-none text-gray-900 dark:text-white transition-colors focus:border-blue-500 dark:focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500";
+  const baseClassName = "w-full px-3 py-2.5 rounded-lg text-[13px] border #E5D8CC dark:border-[#222222] #FAF7F3 dark:bg-[#111111]/50 outline-none #3D2B1A dark:text-[#E0E0E0] transition-colors focus:border-[#D4623A] dark:focus:border-[#D4623A] focus:bg-white dark:focus:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500";
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+      <label className="text-xs font-semibold text-gray-700 dark:text-[#CCCCCC]">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {options ? (
@@ -574,13 +574,13 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
         onClick={onClose} 
         className={`fixed inset-0 bg-black/40 dark:bg-black/60 z-[200] backdrop-blur-sm transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} 
       />
-      <div className={`fixed top-0 right-0 h-screen w-[420px] max-w-[100vw] bg-white dark:bg-gray-800 z-[201] shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="px-6 py-5 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
+      <div className={`fixed top-0 right-0 h-screen w-[420px] max-w-[100vw] bg-white dark:bg-[#1A1A1A] z-[201] shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="px-6 py-5 border-b #E5D8CC dark:border-[#222222]/50 flex items-center justify-between">
           <div>
-            <div className="text-base font-bold text-gray-900 dark:text-white">{employee ? "Edit Employee" : "Add Employee"}</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{employee ? `Updating ${employee.name}` : "Fill in the details below"}</div>
+            <div className="text-base font-bold #3D2B1A dark:text-[#E0E0E0]">{employee ? "Edit Employee" : "Add Employee"}</div>
+            <div className="text-xs #8A7060 dark:text-[#555555] mt-0.5">{employee ? `Updating ${employee.name}` : "Fill in the details below"}</div>
           </div>
-          <button onClick={onClose} className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/50 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 transition-colors">
+          <button onClick={onClose} className="p-2 rounded-lg #FAF7F3 dark:bg-[#222222]/50 #8A7060 hover:text-gray-700 dark:text-[#555555] dark:hover:text-gray-300 transition-colors">
             <Icon d={ICONS.close} size={15} />
           </button>
         </div>
@@ -598,39 +598,39 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
           <Field label="Status" name="status" value={form.status} onChange={handleChange} options={["Active", "On Leave", "Inactive"]} />
           
           {employee && employee.id && (
-            <div className="mt-2.5 pt-4 border-t border-gray-100 dark:border-gray-700/50">
-              <div className="text-[13px] font-bold text-gray-900 dark:text-white mb-3">Skills & Proficiency</div>
+            <div className="mt-2.5 pt-4 border-t #E5D8CC dark:border-[#222222]/50">
+              <div className="text-[13px] font-bold #3D2B1A dark:text-[#E0E0E0] mb-3">Skills & Proficiency</div>
               {skillsLoading ? (
-                <div className="text-xs text-gray-500 dark:text-gray-400">Loading skills...</div>
+                <div className="text-xs #8A7060 dark:text-[#555555]">Loading skills...</div>
               ) : (
                 <>
                   <div className="flex flex-col gap-2 mb-3">
                     {employeeSkills.map(es => (
-                      <div key={es.id} className="flex items-center justify-between bg-gray-50 dark:bg-gray-900/50 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700">
+                      <div key={es.id} className="flex items-center justify-between #FAF7F3 dark:bg-[#111111]/50 px-3 py-2 rounded-lg border #E5D8CC dark:border-[#222222]">
                         <div>
-                          <div className="text-xs font-semibold text-gray-700 dark:text-gray-300">{es.skill_name}</div>
-                          <div className="text-[11px] text-gray-500 dark:text-gray-400">{es.proficiency_level}</div>
+                          <div className="text-xs font-semibold text-gray-700 dark:text-[#CCCCCC]">{es.skill_name}</div>
+                          <div className="text-[11px] #8A7060 dark:text-[#555555]">{es.proficiency_level}</div>
                         </div>
                         <button onClick={() => handleRemoveSkill(es.skill.id || es.skill)} className="text-red-500 hover:text-red-600 dark:hover:text-red-400 p-1">
                           <Icon d={ICONS.close} size={12} />
                         </button>
                       </div>
                     ))}
-                    {employeeSkills.length === 0 && <div className="text-xs text-gray-500 dark:text-gray-400">No skills assigned yet.</div>}
+                    {employeeSkills.length === 0 && <div className="text-xs #8A7060 dark:text-[#555555]">No skills assigned yet.</div>}
                   </div>
                   <div className="flex gap-2">
-                    <select value={newSkillForm.skill} onChange={e => setNewSkillForm({...newSkillForm, skill: e.target.value})} className="flex-1 px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-gray-100">
+                    <select value={newSkillForm.skill} onChange={e => setNewSkillForm({...newSkillForm, skill: e.target.value})} className="flex-1 px-2.5 py-1.5 rounded-lg border #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] text-xs #3D2B1A dark:text-[#E0E0E0]">
                       <option value="">Select skill...</option>
                       {allSkills.filter(s => !employeeSkills.find(es => (es.skill.id || es.skill) === s.id)).map(s => (
                         <option key={s.id} value={s.id}>{s.name}</option>
                       ))}
                     </select>
-                    <select value={newSkillForm.proficiency_level} onChange={e => setNewSkillForm({...newSkillForm, proficiency_level: e.target.value})} className="w-28 px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-gray-100">
+                    <select value={newSkillForm.proficiency_level} onChange={e => setNewSkillForm({...newSkillForm, proficiency_level: e.target.value})} className="w-28 px-2.5 py-1.5 rounded-lg border #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] text-xs #3D2B1A dark:text-[#E0E0E0]">
                       <option value="Beginner">Beginner</option>
                       <option value="Intermediate">Intermediate</option>
                       <option value="Advanced">Advanced</option>
                     </select>
-                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors ${newSkillForm.skill ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed'}`}>Add</button>
+                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors ${newSkillForm.skill ? 'bg-[#D4623A] hover:bg-[#B8502E]' : 'bg-gray-300 dark:bg-[#222222] cursor-not-allowed'}`}>Add</button>
                   </div>
                 </>
               )}
@@ -638,9 +638,9 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
           )}
         </div>
 
-        <div className="px-6 py-3.5 border-t border-gray-100 dark:border-gray-700/50 flex gap-2">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold text-[13px] hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
-          <button onClick={handleSubmit} disabled={loading} className={`flex-[2] py-2.5 rounded-lg border-none font-bold text-[13px] text-white transition-colors ${loading ? 'bg-blue-300 dark:bg-blue-800 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
+        <div className="px-6 py-3.5 border-t #E5D8CC dark:border-[#222222]/50 flex gap-2">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-lg border #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] text-gray-700 dark:text-[#CCCCCC] font-semibold text-[13px] hover:#FAF7F3 dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={handleSubmit} disabled={loading} className={`flex-[2] py-2.5 rounded-lg border-none font-bold text-[13px] text-white transition-colors ${loading ? 'bg-blue-300 dark:bg-blue-800 cursor-not-allowed' : 'bg-[#D4623A] hover:bg-[#B8502E]'}`}>
             {loading ? "Saving…" : employee ? "Update Employee" : "Add Employee"}
           </button>
         </div>
@@ -653,13 +653,13 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
 function DeleteModal({ emp, onConfirm, onCancel, loading }) {
   return (
     <div className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[300] flex items-center justify-center p-5 backdrop-blur-sm">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl w-[360px] max-w-full p-6 shadow-2xl border border-gray-100 dark:border-gray-700/50 text-center sm:text-left">
-        <div className="text-base font-bold text-gray-900 dark:text-white mb-2">Remove employee?</div>
-        <div className="text-[13px] text-gray-500 dark:text-gray-400 mb-6">
-          This will permanently remove <strong className="text-gray-900 dark:text-white">{emp?.name}</strong>. This action cannot be undone.
+      <div className="bg-white dark:bg-[#1A1A1A] rounded-2xl w-[360px] max-w-full p-6 shadow-2xl border #E5D8CC dark:border-[#222222]/50 text-center sm:text-left">
+        <div className="text-base font-bold #3D2B1A dark:text-[#E0E0E0] mb-2">Remove employee?</div>
+        <div className="text-[13px] #8A7060 dark:text-[#555555] mb-6">
+          This will permanently remove <strong className="#3D2B1A dark:text-[#E0E0E0]">{emp?.name}</strong>. This action cannot be undone.
         </div>
         <div className="flex flex-col-reverse sm:flex-row gap-2.5">
-          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg border #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] hover:#FAF7F3 dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
           <button onClick={onConfirm} disabled={loading} className={`flex-1 py-2.5 rounded-lg border-none text-sm font-bold text-white transition-colors ${loading ? 'bg-red-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'}`}>
             {loading ? "Removing…" : "Yes, Remove"}
           </button>
@@ -689,12 +689,12 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[200] flex items-center justify-center backdrop-blur-sm p-5"
     >
-      <div className="bg-white dark:bg-gray-800 rounded-[16px] w-[420px] max-w-full max-h-[90vh] overflow-y-auto border border-gray-100 dark:border-gray-700/50 shadow-2xl">
+      <div className="bg-white dark:bg-[#1A1A1A] rounded-[16px] w-[420px] max-w-full max-h-[90vh] overflow-y-auto border #E5D8CC dark:border-[#222222]/50 shadow-2xl">
 
         {/* Header */}
-        <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
-          <span className="text-sm font-bold text-gray-900 dark:text-white">Employee details</span>
-          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+        <div className="px-5 py-4 border-b #E5D8CC dark:border-[#222222]/50 flex items-center justify-between">
+          <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0]">Employee details</span>
+          <button onClick={onClose} className="p-1 text-gray-400 hover:#8A7060 dark:hover:text-gray-300 rounded hover:#FAF7F3 dark:hover:bg-gray-700/50 transition-colors">
             <Icon d={ICONS.close} size={15} />
           </button>
         </div>
@@ -706,8 +706,8 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
               {getInitials(emp.name)}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-base font-bold text-gray-900 dark:text-white truncate">{emp.name}</div>
-              <div className="text-[13px] text-gray-500 dark:text-gray-400 mt-0.5 truncate">{emp.position}</div>
+              <div className="text-base font-bold #3D2B1A dark:text-[#E0E0E0] truncate">{emp.name}</div>
+              <div className="text-[13px] #8A7060 dark:text-[#555555] mt-0.5 truncate">{emp.position}</div>
             </div>
             <span className="text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap" style={{ background: statusColor.bg, color: statusColor.text }}>
               {statusName}
@@ -715,14 +715,14 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
           </div>
 
           {/* Details table */}
-          <div className="border border-gray-100 dark:border-gray-700/50 rounded-xl overflow-hidden">
+          <div className="border #E5D8CC dark:border-[#222222]/50 rounded-xl overflow-hidden">
             {details.map(({ icon, label, value }, i) => (
-              <div key={label} className={`flex items-center justify-between px-3.5 py-3 ${i > 0 ? "border-t border-gray-100 dark:border-gray-700/50" : ""}`}>
+              <div key={label} className={`flex items-center justify-between px-3.5 py-3 ${i > 0 ? "border-t #E5D8CC dark:border-[#222222]/50" : ""}`}>
                 <div className="flex items-center gap-2 text-gray-400 shrink-0">
                   <Icon d={icon} size={13} />
                   <span className="text-xs">{label}</span>
                 </div>
-                <span className="text-[13px] font-semibold text-gray-900 dark:text-white text-right break-all ml-4">{value}</span>
+                <span className="text-[13px] font-semibold #3D2B1A dark:text-[#E0E0E0] text-right break-all ml-4">{value}</span>
               </div>
             ))}
           </div>
@@ -730,7 +730,7 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
           {/* Edit button */}
           <button
             onClick={() => { onClose(); onEdit(emp); }}
-            className="mt-4 w-full py-3 rounded-[10px] bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors"
+            className="mt-4 w-full py-3 rounded-[10px] bg-[#D4623A] hover:bg-[#B8502E] text-white font-bold text-sm transition-colors"
           >
             Edit profile
           </button>
@@ -894,7 +894,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
               {/* Info box */}
               <div style={{
                 background: "#eff6ff", borderRadius: 9, padding: "12px 14px",
-                marginBottom: 18, fontSize: 12, color: "#1d4ed8", lineHeight: 1.6,
+                marginBottom: 18, fontSize: 12, color: "#8A3A1E", lineHeight: 1.6,
               }}>
                 <strong>How WSM works:</strong> Each employee is scored across
                 5 factors. Adjust weights to match your business priority.
@@ -974,7 +974,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 disabled={!isWeightValid || loading || fetching || !unscheduledShifts.length}
                 style={{
                   width: "100%", padding: "11px 0", borderRadius: 9, border: "none",
-                  background: isWeightValid ? "#3b82f6" : "#e2e8f0",
+                  background: isWeightValid ? "#D4623A" : "#e2e8f0",
                   color: isWeightValid ? "#fff" : "#94a3b8",
                   fontWeight: 700, fontSize: 14,
                   cursor: isWeightValid ? "pointer" : "not-allowed",
@@ -993,7 +993,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 {[
                   ["Scheduled",   scheduleResult.scheduling_result?.scheduled_count,   "#166534", "#f0fdf4"],
                   ["Unscheduled", scheduleResult.scheduling_result?.unscheduled_count,  "#991b1b", "#fef2f2"],
-                  ["Success",     scheduleResult.scheduling_result?.success_rate,       "#1d4ed8", "#eff6ff"],
+                  ["Success",     scheduleResult.scheduling_result?.success_rate,       "#8A3A1E", "#eff6ff"],
                 ].map(([label, val, color, bg]) => (
                   <div key={label} style={{ background: bg, borderRadius: 9, padding: "10px 12px" }}>
                     <div style={{ fontSize: 11, color, fontWeight: 600, textTransform: "uppercase" }}>{label}</div>
@@ -1008,7 +1008,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
               </div>
 
               {scheduleResult.schedule_summary?.employee_summary?.length === 0 && (
-                <div style={{ textAlign: "center", padding: "20px", color: "#ef4444", fontSize: 13 }}>
+                <div style={{ textAlign: "center", padding: "20px", color: "#D4623A", fontSize: 13 }}>
                   No employees could be assigned. Check skills and availability in the backend.
                 </div>
               )}
@@ -1023,7 +1023,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 return (
                   <div key={shift.id} style={{
                     border: "1px solid #e2e8f0", borderRadius: 10, marginBottom: 8, overflow: "hidden",
-                    borderLeft: assigned ? "3px solid #22c55e" : "3px solid #ef4444",
+                    borderLeft: assigned ? "3px solid #22c55e" : "3px solid #D4623A",
                   }}>
                     {/* Shift header */}
                     <div
@@ -1084,7 +1084,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                               {/* Score bar */}
                               <div style={{ flex: 1, height: 4, background: "#f1f5f9", borderRadius: 2 }}>
                                 <div style={{
-                                  height: 4, borderRadius: 2, background: "#3b82f6",
+                                  height: 4, borderRadius: 2, background: "#D4623A",
                                   width: `${Math.round(r.score * 100)}%`,
                                 }} />
                               </div>
@@ -1097,7 +1097,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                                   fontSize: 11, padding: "4px 10px", borderRadius: 6,
                                   border: "1px solid #e2e8f0",
                                   background: manualOverrides[shift.id] === r.employee || (i === 0 && assigned === r.employee)
-                                    ? "#3b82f6" : "#fff",
+                                    ? "#D4623A" : "#fff",
                                   color: manualOverrides[shift.id] === r.employee || (i === 0 && assigned === r.employee)
                                     ? "#fff" : "#475569",
                                   cursor: "pointer",
@@ -1132,7 +1132,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                   disabled={applying}
                   style={{
                     flex: 2, padding: "10px 0", borderRadius: 9, border: "none",
-                    background: applying ? "#93c5fd" : "#3b82f6",
+                    background: applying ? "#93c5fd" : "#D4623A",
                     cursor: applying ? "not-allowed" : "pointer",
                     fontWeight: 700, fontSize: 13, color: "#fff",
                   }}
@@ -1176,7 +1176,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{
                       width: 28, height: 28, borderRadius: 7,
-                      background: "#3b82f6", display: "flex", alignItems: "center",
+                      background: "#D4623A", display: "flex", alignItems: "center",
                       justifyContent: "center", color: "#fff", fontSize: 10, fontWeight: 700,
                     }}>
                       {getInitials(e.employee)}
@@ -1192,7 +1192,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
 
               <button onClick={onClose} style={{
                 marginTop: 14, width: "100%", padding: "11px 0", borderRadius: 9,
-                border: "none", background: "#3b82f6", color: "#fff",
+                border: "none", background: "#D4623A", color: "#fff",
                 fontWeight: 700, fontSize: 14, cursor: "pointer",
               }}>
                 Done
@@ -1257,7 +1257,7 @@ function SkillsTab({ toast }) {
     <div style={{ padding: "20px 24px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>Skills Directory</h2>
-        <button onClick={() => { setEditingSkill(null); setForm({name:"", description:""}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Skill</button>
+        <button onClick={() => { setEditingSkill(null); setForm({name:"", description:""}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#D4623A", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Skill</button>
       </div>
 
       {loading ? (
@@ -1279,8 +1279,8 @@ function SkillsTab({ toast }) {
                   <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>{s.description || "-"}</td>
                   <td style={{ padding: "12px 16px" }}>
                     <div style={{ display: "flex", gap: 8 }}>
-                      <button onClick={() => { setEditingSkill(s); setForm({name: s.name, description: s.description||""}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#3b82f6" }}><Icon d={ICONS.edit} size={14}/></button>
-                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#ef4444" }}><Icon d={ICONS.trash} size={14}/></button>
+                      <button onClick={() => { setEditingSkill(s); setForm({name: s.name, description: s.description||""}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#D4623A" }}><Icon d={ICONS.edit} size={14}/></button>
+                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#D4623A" }}><Icon d={ICONS.trash} size={14}/></button>
                     </div>
                   </td>
                 </tr>
@@ -1305,7 +1305,7 @@ function SkillsTab({ toast }) {
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
               <button onClick={() => setShowModal(false)} style={{ padding: "8px 16px", background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
+              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#D4623A", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
             </div>
           </div>
         </div>
@@ -1369,7 +1369,7 @@ function ShiftsTab({ toast }) {
     <div style={{ padding: "20px 24px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>Shift Management</h2>
-        <button onClick={() => { setEditingShift(null); setForm({shift_date:"", start_time:"", end_time:"", required_skill:"", required_employees:1}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Shift</button>
+        <button onClick={() => { setEditingShift(null); setForm({shift_date:"", start_time:"", end_time:"", required_skill:"", required_employees:1}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#D4623A", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Shift</button>
       </div>
 
       {loading ? (
@@ -1403,8 +1403,8 @@ function ShiftsTab({ toast }) {
                   </td>
                   <td style={{ padding: "12px 16px" }}>
                     <div style={{ display: "flex", gap: 8 }}>
-                      <button onClick={() => { setEditingShift(s); setForm({shift_date: s.shift_date, start_time: s.start_time, end_time: s.end_time, required_skill: s.required_skill||"", required_employees: s.required_employees}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#3b82f6" }}><Icon d={ICONS.edit} size={14}/></button>
-                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#ef4444" }}><Icon d={ICONS.trash} size={14}/></button>
+                      <button onClick={() => { setEditingShift(s); setForm({shift_date: s.shift_date, start_time: s.start_time, end_time: s.end_time, required_skill: s.required_skill||"", required_employees: s.required_employees}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#D4623A" }}><Icon d={ICONS.edit} size={14}/></button>
+                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#D4623A" }}><Icon d={ICONS.trash} size={14}/></button>
                     </div>
                   </td>
                 </tr>
@@ -1446,7 +1446,7 @@ function ShiftsTab({ toast }) {
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
               <button onClick={() => setShowModal(false)} style={{ padding: "8px 16px", background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#3b82f6", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
+              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#D4623A", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
             </div>
           </div>
         </div>
@@ -1588,7 +1588,7 @@ export default function EmployeeManagement() {
           <button onClick={() => setShowScheduler(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#475569" }}>
             <Icon d={ICONS.schedule} size={13} /> Auto-Schedule
           </button>
-          <button onClick={() => { setEditTarget(null); setDrawerOpen(true); }} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "none", background: "#3b82f6", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#fff" }}>
+          <button onClick={() => { setEditTarget(null); setDrawerOpen(true); }} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "none", background: "#D4623A", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#fff" }}>
             <Icon d={ICONS.plus} size={13} /> Add Employee
           </button>
         </div>
@@ -1603,8 +1603,8 @@ export default function EmployeeManagement() {
         ].map(t => (
           <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
             background: "none", border: "none", padding: "12px 0", cursor: "pointer", fontSize: 13, fontWeight: 600,
-            color: activeTab === t.id ? "#3b82f6" : "#64748b",
-            borderBottom: activeTab === t.id ? "2px solid #3b82f6" : "2px solid transparent",
+            color: activeTab === t.id ? "#D4623A" : "#64748b",
+            borderBottom: activeTab === t.id ? "2px solid #D4623A" : "2px solid transparent",
             transition: "all .2s"
           }}>
             {t.label}
@@ -1646,7 +1646,7 @@ export default function EmployeeManagement() {
               <button key={mode} onClick={() => setViewMode(mode)} style={{
                 padding: "6px 10px", borderRadius: 5, border: "none", cursor: "pointer",
                 background: viewMode === mode ? "#fff" : "transparent",
-                color: viewMode === mode ? "#3b82f6" : "#94a3b8",
+                color: viewMode === mode ? "#D4623A" : "#94a3b8",
                 boxShadow: viewMode === mode ? "0 1px 3px rgba(0,0,0,.08)" : "none",
               }}>
                 <Icon d={ic} size={14} />
