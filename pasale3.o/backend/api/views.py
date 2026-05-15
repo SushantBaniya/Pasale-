@@ -474,14 +474,14 @@ class ApiPartyView(APIView):
 
         if party_id:
             try:
-                party = Party.objects.get(id=party_id, business_id=business_id)
+                party = Party.objects.select_related('business_id').get(id=party_id, business_id=business_id)
                 serializer = PartySerializer(party)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except Party.DoesNotExist:
                 return Response({'error': 'Party not found'}, status=status.HTTP_404_NOT_FOUND)
 
         category_type = request.query_params.get('category_type')
-        parties = Party.objects.filter(business_id=business_id).order_by('-id')
+        parties = Party.objects.filter(business_id=business_id).select_related('business_id').order_by('-id')
         if category_type:
             parties = parties.filter(Category_type=category_type)
 
@@ -564,14 +564,18 @@ class ApiPaymentTransactionView(APIView):
 
         if transaction_id:
             try:
-                txn = PaymentTransaction.objects.get(id=transaction_id, business_id=business_id)
+                txn = PaymentTransaction.objects.select_related(
+                    'party', 'business_id', 'payment_method'
+                ).get(id=transaction_id, business_id=business_id)
                 serializer = PaymentTransactionSerializer(txn)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except PaymentTransaction.DoesNotExist:
                 return Response({'error': 'Transaction not found'}, status=status.HTTP_404_NOT_FOUND)
 
         party_id = request.query_params.get('party_id')
-        txns = PaymentTransaction.objects.filter(business_id=business_id).order_by('-date', '-created_at')
+        txns = PaymentTransaction.objects.filter(business_id=business_id).select_related(
+            'party', 'business_id', 'payment_method'
+        ).order_by('-date', '-created_at')
         
         if party_id:
             txns = txns.filter(party_id=party_id)
@@ -634,7 +638,9 @@ class ApiExpenseView(APIView):
     def get(self, request, *args, **kwargs):
         paginator = PageNumberPagination()
         paginator.page_size = 10
-        expenses = Expense.objects.filter(user=request.user)
+        expenses = Expense.objects.filter(user=request.user).select_related(
+            'user', 'business_id', 'category'
+        )
         result_page = paginator.paginate_queryset(expenses, request)
         serializer = ExpenseSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
@@ -696,7 +702,9 @@ class ApiBillingView(APIView):
 
         if billing_id:
             try:
-                billing = Billing.objects.get(
+                billing = Billing.objects.select_related(
+                    'party', 'user', 'business_id', 'payment_method', 'order'
+                ).prefetch_related('items__item').get(
                     id=billing_id, business_id=business_id)
                 serializer = BillingSerializer(billing)
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -1133,8 +1141,12 @@ class StaffSchedulerView(APIView):
             shifts = Shift.objects.filter(
                 business_id=business_id,
                 assigned_employee_id=employee_id
+            ).select_related(
+                'business_id', 'assigned_employee', 'required_skill'
             ) if employee_id else Shift.objects.filter(
                 business_id=business_id
+            ).select_related(
+                'business_id', 'assigned_employee', 'required_skill'
             )
 
             serializer = ShiftSerializer(shifts, many=True)
@@ -1276,14 +1288,14 @@ class CounterView(APIView):
                 return Response({"error": "Business ID is required in the url"}, status=status.HTTP_400_BAD_REQUEST)
 
             if counter_id:
-                counter = Counter.objects.filter(
+                counter = Counter.objects.select_related('business_id').filter(
                     id=counter_id, business_id=business_id).first()
                 if not counter:
                     return Response({"error": "Counter not found"}, status=status.HTTP_404_NOT_FOUND)
                 serializer = CounterSerializer(counter)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                counters = Counter.objects.filter(business_id=business_id)
+                counters = Counter.objects.filter(business_id=business_id).select_related('business_id')
                 serializer = CounterSerializer(counters, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -1648,7 +1660,9 @@ class EmployeeSkillView(APIView):
 
     def get(self, request, business_id, employee_id):
         try:
-            employee_skills = EmployeeSkill.objects.filter(employee__business_id=business_id, employee_id=employee_id)
+            employee_skills = EmployeeSkill.objects.filter(
+                employee__business_id=business_id, employee_id=employee_id
+            ).select_related('employee', 'skill')
             serializer = EmployeeSkillSerializer(employee_skills, many=True)
             return Response({'status': 'success', 'data': serializer.data})
         except Exception as e:
@@ -1687,7 +1701,9 @@ class ShiftCRUDView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, business_id):
-        shifts = Shift.objects.filter(business_id=business_id).order_by('-shift_date', '-start_time')
+        shifts = Shift.objects.filter(business_id=business_id).select_related(
+            'business_id', 'assigned_employee', 'required_skill'
+        ).order_by('-shift_date', '-start_time')
         serializer = ShiftSerializer(shifts, many=True)
         return Response({'status': 'success', 'data': serializer.data})
 

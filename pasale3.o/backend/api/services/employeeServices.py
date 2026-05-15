@@ -19,14 +19,17 @@ def get_all_employees(business_id, employee_id=None):
     # for a single employee
     if employee_id:
         employee = Employee.objects.filter(
-            id=employee_id, business_id=business_id).first()
+            id=employee_id, business_id=business_id
+        ).select_related('department', 'business_id', 'status', 'manager').first()
         if not employee:
             return Response({"error": "Employee not found"}, status=status.HTTP_404_NOT_FOUND)
         serializer = EmployeeSerializer(employee)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # for all employees in a business
-    employees = Employee.objects.filter(business_id=business_id)
+    employees = Employee.objects.filter(business_id=business_id).select_related(
+        'department', 'business_id', 'status', 'manager'
+    ).prefetch_related('skills__skill')
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 

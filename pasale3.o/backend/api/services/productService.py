@@ -37,12 +37,15 @@ def get_product(product_id=None, business_id=None):
     try:
         if product_id:
             products = Product.objects.filter(
-                id=product_id, business_id=business_id).all()
+                id=product_id, business_id=business_id
+            ).select_related('category', 'business_id')
             serializer = ProductSerializer(products, many=True)
             return serializer.data
 
         if business_id:
-            products = Product.objects.filter(business_id=business_id).all()
+            products = Product.objects.filter(
+                business_id=business_id
+            ).select_related('category', 'business_id')
             serializer = ProductSerializer(products, many=True)
             return serializer.data
 
