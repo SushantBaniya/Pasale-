@@ -534,7 +534,13 @@ class StockAlert(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('product', 'is_resolved')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['product'],
+                condition=models.Q(is_resolved=False),
+                name='unique_unresolved_stockalert_per_product',
+            )
+        ]
 
     def __str__(self):
         return f"Alert for {self.product.product_name} - {'Resolved' if self.is_resolved else 'Pending'}"
