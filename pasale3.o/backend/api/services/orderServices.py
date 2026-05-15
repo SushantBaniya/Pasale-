@@ -12,6 +12,7 @@ from api.models import (
     OrderItemStatus,
     OrderStatus,
     Product,
+    StockAlert,
 )
 from api.serializers import OrderSerializer
 from orderCart.models import OrderCart
@@ -27,7 +28,8 @@ def get_order(business_id, order_id=None, counter_id=None, customer_id=None, sta
         orders = Order.objects.filter(business_id=business_id).select_related(
             'order_status', 'customer_id', 'business_id', 'counter'
         ).prefetch_related(
-            Prefetch('items', queryset=OrderItem.objects.select_related('status', 'product_id'))
+            Prefetch('items', queryset=OrderItem.objects.select_related(
+                'status', 'product_id'))
         )
 
         if order_id:
@@ -151,6 +153,7 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
             name__iexact='Pending').first()
 
         order_item_objects = []
+        qty_by_product_id = {}
         if items_data:
             for idx, item in enumerate(items_data):
                 item_missing = [
@@ -199,6 +202,9 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
                             item_status_id) or pending_item_status,
                     )
                 )
+                qty_by_product_id[product_obj.id] = (
+                    qty_by_product_id.get(product_obj.id, 0) + quantity
+                )
         else:
             for cart_item in cart_items:
                 unit_price = float(cart_item.unit_price)
@@ -212,9 +218,13 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
                         status=pending_item_status,
                     )
                 )
+                qty_by_product_id[cart_item.product_id] = (
+                    qty_by_product_id.get(cart_item.product_id, 0) + quantity
+                )
 
         # Pre-fetch status outside transaction
-        pending_order_status = OrderStatus.objects.filter(name__iexact='Pending').first()
+        pending_order_status = OrderStatus.objects.filter(
+            name__iexact='Pending').first()
         if not pending_order_status:
             pending_order_status = OrderStatus.objects.create(name='Pending')
 
@@ -235,18 +245,69 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
             created_items = OrderItem.objects.bulk_create(
                 order_item_objects) if order_item_objects else []
 
-            # Update product stock levels
-            for item in order_item_objects:
-                product = item.product_id  # This is the product object from product_map
-                if product:
-                    product.quantity = max(0, product.quantity - item.quantity)
-                    
-                    # Safety check for reorder_level
-                    reorder_level = product.reorder_level if product.reorder_level is not None else 10
-                    
-                    # Manually update is_low_stock since bulk_create/save might be skipped or needs explicit call
-                    product.is_low_stock = product.quantity <= reorder_level
-                    product.save(update_fields=['quantity', 'is_low_stock'])
+            # Update product stock levels in bulk and handle alerts once per product.
+            if qty_by_product_id:
+                locked_products = list(
+                    Product.objects.select_for_update()
+                    .filter(id__in=list(qty_by_product_id.keys()))
+                )
+                low_stock_ids = []
+                resolved_ids = []
+                for product in locked_products:
+                    sold_qty = qty_by_product_id.get(product.id, 0)
+                    if sold_qty:
+                        product.quantity = max(0, product.quantity - sold_qty)
+                        reorder_level = (
+                            product.reorder_level
+                            if product.reorder_level is not None
+                            else 10
+                        )
+                        product.is_low_stock = product.quantity <= reorder_level
+                        if product.is_low_stock:
+                            low_stock_ids.append(product.id)
+                        else:
+                            resolved_ids.append(product.id)
+
+                if locked_products:
+                    Product.objects.bulk_update(
+                        locked_products, ['quantity', 'is_low_stock']
+                    )
+
+                if low_stock_ids:
+                    existing_alerts = set(
+                        StockAlert.objects.filter(
+                            product_id__in=low_stock_ids,
+                            is_resolved=False,
+                        ).values_list('product_id', flat=True)
+                    )
+                    new_alerts = []
+                    for product in locked_products:
+                        if (
+                            product.id in low_stock_ids
+                            and product.id not in existing_alerts
+                            and product.business_id_id
+                        ):
+                            new_alerts.append(
+                                StockAlert(
+                                    product_id=product.id,
+                                    business_id=product.business_id_id,
+                                    is_resolved=False,
+                                    message=(
+                                        f"Low Stock Alert: {product.product_name} "
+                                        f"only has {product.quantity} left!"
+                                    ),
+                                )
+                            )
+                    if new_alerts:
+                        StockAlert.objects.bulk_create(
+                            new_alerts, ignore_conflicts=True
+                        )
+
+                if resolved_ids:
+                    StockAlert.objects.filter(
+                        product_id__in=resolved_ids,
+                        is_resolved=False,
+                    ).update(is_resolved=True)
 
             if has_customer:
                 OrderCart.objects.filter(
@@ -256,7 +317,8 @@ def create_order(data, business_id, counter_id=None, customer_id=None):
         order_obj = Order.objects.select_related(
             'order_status', 'customer_id', 'business_id', 'counter'
         ).prefetch_related(
-            Prefetch('items', queryset=OrderItem.objects.select_related('status', 'product_id'))
+            Prefetch('items', queryset=OrderItem.objects.select_related(
+                'status', 'product_id'))
         ).get(id=order_obj.id)
 
         response_data = OrderSerializer(order_obj).data
