@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import { useDataStore } from '../../store/dataStore';
 import { Button } from '../ui/Button';
 import { partyApi, billingApi, productApi } from '../../utils/api';
@@ -272,9 +272,9 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto my-4 bg-white dark:bg-[#111111] rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+      <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto my-4 bg-white dark:bg-[#0D0E12] rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
-        <div className={`px-6 py-4 ${isSales ? 'bg-gradient-to-r from-[#D4623A] to-blue-700' : 'bg-gradient-to-r from-[#D4623A] to-blue-700'}`}>
+        <div className={`px-6 py-4 ${isSales ? 'bg-gradient-to-r from-[#A3876A] to-blue-700' : 'bg-gradient-to-r from-[#A3876A] to-blue-700'}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
@@ -298,8 +298,8 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
         {/* Success Message */}
         {success && (
-          <div className="m-6 p-4 bg-[#FDF1EC] dark:bg-[#D4623A]/15 border border-[#D4623A]/30 dark:border-[#D4623A]/50 rounded-xl text-[#B8502E] dark:text-[#D4623A] flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#FDF1EC] dark:bg-blue-800 flex items-center justify-center">
+          <div className="m-6 p-4 bg-[#F5F0E6] dark:bg-[#A3876A]/15 border border-[#A3876A]/30 dark:border-[#A3876A]/50 rounded-xl text-[#8E7356] dark:text-[#A3876A] flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#F5F0E6] dark:bg-blue-800 flex items-center justify-center">
               <FiCheck className="w-5 h-5" />
             </div>
             <span className="font-medium">{isSales ? 'Invoice' : 'Bill'} saved successfully!</span>
@@ -311,7 +311,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {/* Party Selection */}
             <div className="lg:col-span-2 relative">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 <FiUser className="inline w-4 h-4 mr-1.5" />
                 {isSales ? 'Customer' : 'Supplier'} *
               </label>
@@ -327,13 +327,13 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                   onFocus={() => setShowPartyDropdown(true)}
                   placeholder={`Search ${isSales ? 'customer' : 'supplier'}...`}
                   className={`w-full px-4 py-3 rounded-xl border-2 ${
-                    errors.party ? 'border-red-500' : '#E5D8CC dark:border-[#222222]'
-                  } bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors`}
+                    errors.party ? 'border-red-500' : '#DDD7CC dark:border-[#1C1D24]'
+                  } bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors`}
                 />
                 <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 
                 {showPartyDropdown && filteredParties.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#1A1A1A] border #E5D8CC dark:border-[#222222] rounded-xl shadow-xl z-20 max-h-48 overflow-auto">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] rounded-xl shadow-xl z-20 max-h-48 overflow-auto">
                     {filteredParties.map((party) => (
                       <button
                         key={party.id}
@@ -343,10 +343,10 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                           setPartySearch('');
                           setShowPartyDropdown(false);
                         }}
-                        className="w-full px-4 py-3 text-left hover:#FAF7F3 dark:hover:bg-gray-700 flex items-center justify-between"
+                        className="w-full px-4 py-3 text-left hover:#F4F0EA dark:hover:bg-gray-700 flex items-center justify-between"
                       >
-                        <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">{party.name}</span>
-                        <span className="text-sm #8A7060">Balance: Rs. {party.balance.toLocaleString()}</span>
+                        <span className="font-medium #1A1C20 dark:text-[#EAE5DF]">{party.name}</span>
+                        <span className="text-sm #6B7280">Balance: Rs. {party.balance.toLocaleString()}</span>
                       </button>
                     ))}
                   </div>
@@ -357,7 +357,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
             {/* Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Date *
               </label>
@@ -366,14 +366,14 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className={`w-full px-4 py-3 rounded-xl border-2 ${
-                  errors.date ? 'border-red-500' : '#E5D8CC dark:border-[#222222]'
-                } bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors`}
+                  errors.date ? 'border-red-500' : '#DDD7CC dark:border-[#1C1D24]'
+                } bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors`}
               />
             </div>
 
             {/* Due Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Due Date
               </label>
@@ -381,7 +381,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors"
+                className="w-full px-4 py-3 rounded-xl border-2 #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors"
               />
             </div>
           </div>
@@ -389,7 +389,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
           {/* Items Table */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">
                 <FiPackage className="inline w-4 h-4 mr-1.5" />
                 Items
               </h3>
@@ -399,9 +399,9 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
               </Button>
             </div>
 
-            <div className="#FAF7F3 dark:bg-[#1A1A1A]/50 rounded-xl overflow-hidden border #E5D8CC dark:border-[#222222]">
+            <div className="#F4F0EA dark:bg-[#15161C]/50 rounded-xl overflow-hidden border #DDD7CC dark:border-[#1C1D24]">
               {/* Table Header */}
-              <div className="grid grid-cols-12 gap-2 px-4 py-3 #EDE5DA dark:bg-[#1A1A1A] text-xs font-semibold #8A7060 dark:text-[#555555] uppercase tracking-wider">
+              <div className="grid grid-cols-12 gap-2 px-4 py-3 #E3DDD2 dark:bg-[#15161C] text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
                 <div className="col-span-4">Item Name</div>
                 <div className="col-span-1 text-center">Qty</div>
                 <div className="col-span-2 text-center">Rate</div>
@@ -419,7 +419,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                       <select
                         value={item.productId || ''}
                         onChange={(e) => updateItem(item.id, 'productId', parseInt(e.target.value))}
-                        className="w-full px-3 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] text-sm focus:outline-none focus:border-[#D4623A]"
+                        className="w-full px-3 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] text-sm focus:outline-none focus:border-[#A3876A]"
                       >
                         <option value="">Select Product</option>
                         {apiProducts.map(p => (
@@ -433,7 +433,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                         value={item.quantity || ''}
                         onChange={(e) => updateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)}
                         min="0"
-                        className="w-full px-2 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] text-sm text-center focus:outline-none focus:border-[#D4623A]"
+                        className="w-full px-2 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] text-sm text-center focus:outline-none focus:border-[#A3876A]"
                       />
                     </div>
                     <div className="col-span-2">
@@ -443,7 +443,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                         onChange={(e) => updateItem(item.id, 'rate', parseFloat(e.target.value) || 0)}
                         min="0"
                         placeholder="0.00"
-                        className="w-full px-2 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] text-sm text-center focus:outline-none focus:border-[#D4623A]"
+                        className="w-full px-2 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] text-sm text-center focus:outline-none focus:border-[#A3876A]"
                       />
                     </div>
                     <div className="col-span-1">
@@ -453,7 +453,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                         onChange={(e) => updateItem(item.id, 'tax', parseFloat(e.target.value) || 0)}
                         min="0"
                         max="100"
-                        className="w-full px-2 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] text-sm text-center focus:outline-none focus:border-[#D4623A]"
+                        className="w-full px-2 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] text-sm text-center focus:outline-none focus:border-[#A3876A]"
                       />
                     </div>
                     <div className="col-span-2">
@@ -463,10 +463,10 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                         onChange={(e) => updateItem(item.id, 'discount', parseFloat(e.target.value) || 0)}
                         min="0"
                         placeholder="0.00"
-                        className="w-full px-2 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] text-sm text-center focus:outline-none focus:border-[#D4623A]"
+                        className="w-full px-2 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] text-sm text-center focus:outline-none focus:border-[#A3876A]"
                       />
                     </div>
-                    <div className="col-span-1 text-right font-semibold #3D2B1A dark:text-[#E0E0E0] text-sm">
+                    <div className="col-span-1 text-right font-semibold #1A1C20 dark:text-[#EAE5DF] text-sm">
                       Rs. {item.total.toLocaleString()}
                     </div>
                     <div className="col-span-1 flex justify-center">
@@ -490,7 +490,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             {/* Notes */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 <FiFileText className="inline w-4 h-4 mr-1.5" />
                 Notes
               </label>
@@ -499,12 +499,12 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 onChange={(e) => setNotes(e.target.value)}
                 rows={4}
                 placeholder="Add any additional notes..."
-                className="w-full px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors resize-none"
+                className="w-full px-4 py-3 rounded-xl border-2 #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors resize-none"
               />
 
               {/* Payment Mode */}
               <div className="mt-4">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                   Payment Mode
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -515,8 +515,8 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                       onClick={() => setPaymentMode(mode.value as PaymentMode)}
                       className={`px-3 py-2 rounded-lg text-sm font-medium border-2 transition-all flex items-center gap-1.5 ${
                         paymentMode === mode.value
-                          ? 'bg-[#D4623A] text-white border-blue-600'
-                          : 'bg-white dark:bg-[#1A1A1A] text-gray-700 dark:text-[#CCCCCC] #E5D8CC dark:border-[#333333] hover:border-blue-400'
+                          ? 'bg-[#A3876A] text-white border-blue-600'
+                          : 'bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#C8C3BC] #DDD7CC dark:border-[#2A2B36] hover:border-blue-400'
                       }`}
                     >
                       <DynamicIcon name={mode.icon} className="w-4 h-4" />
@@ -528,68 +528,68 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
             </div>
 
             {/* Totals */}
-            <div className="#FAF7F3 dark:bg-[#1A1A1A]/50 rounded-xl p-5 border #E5D8CC dark:border-[#222222]">
+            <div className="#F4F0EA dark:bg-[#15161C]/50 rounded-xl p-5 border #DDD7CC dark:border-[#1C1D24]">
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="#8A7060 dark:text-[#555555]">Subtotal</span>
-                  <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">Rs. {totals.subtotal.toLocaleString()}</span>
+                  <span className="#6B7280 dark:text-[#44454F]">Subtotal</span>
+                  <span className="font-medium #1A1C20 dark:text-[#EAE5DF]">Rs. {totals.subtotal.toLocaleString()}</span>
                 </div>
                 
                 {/* Additional Tax */}
                 <div className="flex justify-between items-center text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="#8A7060 dark:text-[#555555]">Additional Tax</span>
+                    <span className="#6B7280 dark:text-[#44454F]">Additional Tax</span>
                     <input
                       type="number"
                       value={additionalTax}
                       onChange={(e) => setAdditionalTax(parseFloat(e.target.value) || 0)}
-                      className="w-16 px-2 py-1 rounded border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] text-xs text-center"
+                      className="w-16 px-2 py-1 rounded border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-xs text-center"
                     />
-                    <span className="#8A7060">%</span>
+                    <span className="#6B7280">%</span>
                   </div>
-                  <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">+ Rs. {((totals.subtotal * additionalTax) / 100).toLocaleString()}</span>
+                  <span className="font-medium #1A1C20 dark:text-[#EAE5DF]">+ Rs. {((totals.subtotal * additionalTax) / 100).toLocaleString()}</span>
                 </div>
 
                 {/* Discount */}
                 <div className="flex justify-between items-center text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="#8A7060 dark:text-[#555555]">Discount</span>
+                    <span className="#6B7280 dark:text-[#44454F]">Discount</span>
                     <input
                       type="number"
                       value={additionalDiscount || ''}
                       onChange={(e) => setAdditionalDiscount(parseFloat(e.target.value) || 0)}
-                      className="w-20 px-2 py-1 rounded border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] text-xs text-center"
+                      className="w-20 px-2 py-1 rounded border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-xs text-center"
                       placeholder="0"
                     />
                   </div>
                   <span className="font-medium text-red-600">- Rs. {additionalDiscount.toLocaleString()}</span>
                 </div>
 
-                <div className="border-t #E5D8CC dark:border-[#333333] pt-3">
+                <div className="border-t #DDD7CC dark:border-[#2A2B36] pt-3">
                   <div className="flex justify-between text-lg font-bold">
-                    <span className="#3D2B1A dark:text-[#E0E0E0]">Total Amount</span>
-                    <span className={isSales ? 'text-[#D4623A]' : 'text-[#D4623A]'}>Rs. {totals.totalAmount.toLocaleString()}</span>
+                    <span className="#1A1C20 dark:text-[#EAE5DF]">Total Amount</span>
+                    <span className={isSales ? 'text-[#A3876A]' : 'text-[#A3876A]'}>Rs. {totals.totalAmount.toLocaleString()}</span>
                   </div>
                 </div>
 
                 {/* Paid Amount */}
                 <div className="flex justify-between items-center text-sm pt-2">
-                  <span className="#8A7060 dark:text-[#555555]">Amount Paid</span>
+                  <span className="#6B7280 dark:text-[#44454F]">Amount Paid</span>
                   <div className="flex items-center gap-2">
-                    <span className="#8A7060">Rs.</span>
+                    <span className="#6B7280">Rs.</span>
                     <input
                       type="number"
                       value={paidAmount || ''}
                       onChange={(e) => setPaidAmount(parseFloat(e.target.value) || 0)}
                       max={totals.totalAmount}
-                      className="w-28 px-3 py-2 rounded-lg border-2 #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] text-right font-semibold"
+                      className="w-28 px-3 py-2 rounded-lg border-2 #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-right font-semibold"
                     />
                   </div>
                 </div>
 
                 {/* Balance */}
                 <div className="flex justify-between text-sm">
-                  <span className="#8A7060 dark:text-[#555555]">Balance Due</span>
+                  <span className="#6B7280 dark:text-[#44454F]">Balance Due</span>
                   <span className={`font-bold ${balanceAmount > 0 ? 'text-red-600' : 'text-green-600'}`}>
                     Rs. {balanceAmount.toLocaleString()}
                   </span>
@@ -599,7 +599,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 <div className="flex justify-end pt-2">
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                     paymentStatus === 'paid' 
-                      ? 'bg-[#FDF1EC] text-[#B8502E] dark:bg-[#D4623A]/20 dark:text-[#D4623A]'
+                      ? 'bg-[#F5F0E6] text-[#8E7356] dark:bg-[#A3876A]/20 dark:text-[#A3876A]'
                       : paymentStatus === 'partial'
                       ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
                       : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
@@ -621,13 +621,13 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
           )}
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3 pt-4 border-t #E5D8CC dark:border-[#222222]">
+          <div className="flex justify-end gap-3 pt-4 border-t #DDD7CC dark:border-[#1C1D24]">
             <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button
               type="submit"
-              className={`${isSales ? 'bg-[#D4623A] hover:bg-[#B8502E]' : 'bg-[#D4623A] hover:bg-[#B8502E]'} text-white px-6`}
+              className={`${isSales ? 'bg-[#A3876A] hover:bg-[#8E7356]' : 'bg-[#A3876A] hover:bg-[#8E7356]'} text-white px-6`}
               disabled={isSubmitting}
             >
               {isSubmitting ? (

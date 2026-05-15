@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDataStore } from '../../../../store/dataStore';
 import { useTranslation } from '../../../../utils/i18n';
@@ -130,12 +130,12 @@ export default function KPIDetailPage() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => navigate('/dashboard')}
-          className="w-9 h-9 rounded-lg border #E5D8CC dark:border-[#222222] flex items-center justify-center #8A7060 hover:#EDE5DA dark:hover:bg-gray-800 transition-colors"
+          className="w-9 h-9 rounded-lg border #DDD7CC dark:border-[#1C1D24] flex items-center justify-center #6B7280 hover:#E3DDD2 dark:hover:bg-gray-800 transition-colors"
         >
           <FiArrowLeft className="w-4 h-4" />
         </button>
         <div>
-          <h1 className="text-xl font-bold #3D2B1A dark:text-[#E0E0E0]">{pageData.title}</h1>
+          <h1 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF]">{pageData.title}</h1>
           <p className="text-xs text-gray-400 mt-0.5">{pageData.description}</p>
         </div>
       </div>
@@ -161,7 +161,7 @@ export default function KPIDetailPage() {
       </div>
 
       {/* ── Search + Filter ── */}
-      <div className="bg-white dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-xl p-4 flex flex-col sm:flex-row gap-3">
+      <div className="bg-white dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-xl p-4 flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
@@ -169,7 +169,7 @@ export default function KPIDetailPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={`${t('common.search')}...`}
-            className="w-full pl-9 pr-4 py-2.5 text-sm border #E5D8CC dark:border-[#222222] rounded-lg #FAF7F3 dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-9 pr-4 py-2.5 text-sm border #DDD7CC dark:border-[#1C1D24] rounded-lg #F4F0EA dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
         {pageData.transactions && (
@@ -180,7 +180,7 @@ export default function KPIDetailPage() {
                 onClick={() => setDateFilter(f)}
                 className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${dateFilter === f
                   ? 'bg-blue-600 text-white'
-                  : '#EDE5DA dark:bg-[#1A1A1A] #8A7060 dark:text-[#555555] hover:bg-gray-200 dark:hover:bg-gray-700'
+                  : '#E3DDD2 dark:bg-[#15161C] #6B7280 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
               >
                 {f === 'all' ? t('common.all')
@@ -195,9 +195,9 @@ export default function KPIDetailPage() {
 
       {/* ── Transactions List ── */}
       {pageData.transactions && (
-        <div className="bg-white dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b #E5D8CC dark:border-[#222222] flex items-center justify-between">
-            <h2 className="text-sm font-semibold #3D2B1A dark:text-[#E0E0E0]">
+        <div className="bg-white dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b #DDD7CC dark:border-[#1C1D24] flex items-center justify-between">
+            <h2 className="text-sm font-semibold #1A1C20 dark:text-[#EAE5DF]">
               {t('relatedTransactions')}
             </h2>
             <span className="text-xs text-gray-400">
@@ -211,7 +211,7 @@ export default function KPIDetailPage() {
                 <button
                   key={tx.id}
                   onClick={() => navigate(`/transactions?id=${tx.id}`)}
-                  className="w-full flex items-center justify-between px-5 py-3.5 hover:#FAF7F3 dark:hover:bg-gray-800/60 transition-colors text-left group"
+                  className="w-full flex items-center justify-between px-5 py-3.5 hover:#F4F0EA dark:hover:bg-gray-800/60 transition-colors text-left group"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold ${tx.type === 'selling'
@@ -223,7 +223,7 @@ export default function KPIDetailPage() {
                       {tx.type === 'selling' ? '↑' : tx.type === 'purchase' ? '↓' : '−'}
                     </div>
                     <div>
-                      <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0] truncate max-w-[200px]">
+                      <p className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF] truncate max-w-[200px]">
                         {tx.partyName || tx.description}
                       </p>
                       <p className="text-xs text-gray-400 mt-0.5">
@@ -238,7 +238,7 @@ export default function KPIDetailPage() {
                   </div>
                   <span className={`text-sm font-semibold ${tx.type === 'selling'
                     ? 'text-green-600 dark:text-green-400'
-                    : 'text-gray-700 dark:text-[#CCCCCC]'
+                    : 'text-gray-700 dark:text-[#C8C3BC]'
                     }`}>
                     {tx.type === 'selling' ? '+' : '−'}{c(tx.amount)}
                   </span>
@@ -247,7 +247,7 @@ export default function KPIDetailPage() {
             </div>
           ) : (
             <div className="py-16 text-center">
-              <FiSearch className="w-8 h-8 text-gray-300 dark:#8A7060 mx-auto mb-2" />
+              <FiSearch className="w-8 h-8 text-gray-300 dark:#6B7280 mx-auto mb-2" />
               <p className="text-sm text-gray-400">{t('common.noResults')}</p>
             </div>
           )}
@@ -256,9 +256,9 @@ export default function KPIDetailPage() {
 
       {/* ── Parties List ── */}
       {pageData.parties && (
-        <div className="bg-white dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b #E5D8CC dark:border-[#222222] flex items-center justify-between">
-            <h2 className="text-sm font-semibold #3D2B1A dark:text-[#E0E0E0]">
+        <div className="bg-white dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b #DDD7CC dark:border-[#1C1D24] flex items-center justify-between">
+            <h2 className="text-sm font-semibold #1A1C20 dark:text-[#EAE5DF]">
               {t('relatedParties')}
             </h2>
             <span className="text-xs text-gray-400">
@@ -272,7 +272,7 @@ export default function KPIDetailPage() {
                 <button
                   key={party.id}
                   onClick={() => navigate(`/ledger/${party.id}`)}
-                  className="w-full flex items-center justify-between px-5 py-3.5 hover:#FAF7F3 dark:hover:bg-gray-800/60 transition-colors text-left group"
+                  className="w-full flex items-center justify-between px-5 py-3.5 hover:#F4F0EA dark:hover:bg-gray-800/60 transition-colors text-left group"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold ${party.type === 'customer'
@@ -282,7 +282,7 @@ export default function KPIDetailPage() {
                       {party.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                      <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">{party.name}</p>
+                      <p className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF]">{party.name}</p>
                       <p className="text-xs text-gray-400 mt-0.5">
                         {party.type === 'customer' ? t('parties.customer') : t('parties.supplier')}
                         {party.phone && ` · ${party.phone}`}
@@ -311,7 +311,7 @@ export default function KPIDetailPage() {
             </div>
           ) : (
             <div className="py-16 text-center">
-              <FiSearch className="w-8 h-8 text-gray-300 dark:#8A7060 mx-auto mb-2" />
+              <FiSearch className="w-8 h-8 text-gray-300 dark:#6B7280 mx-auto mb-2" />
               <p className="text-sm text-gray-400">{t('common.noResults')}</p>
             </div>
           )}

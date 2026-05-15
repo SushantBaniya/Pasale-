@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { useBusinessStore } from '../../store/businessStore';
 
@@ -52,17 +52,17 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   const displayTitle = dynamic ? `${getTimeGreeting()}, ${userName}` : title;
 
   return (
-    <div className="bg-white dark:bg-[#1A1A1A] border-b border-[#E5D8CC] dark:border-[#222222]">
+    <div className="bg-white dark:bg-[#15161C] border-b border-[#DDD7CC] dark:border-[#1C1D24]">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2 sm:py-2.5">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-            {icon && <div className="w-5 h-5 sm:w-6 sm:h-6 text-[#D4623A] dark:text-[#D4623A] shrink-0">{icon}</div>}
+            {icon && <div className="w-5 h-5 sm:w-6 sm:h-6 text-[#A3876A] dark:text-[#A3876A] shrink-0">{icon}</div>}
             <div className="min-w-0">
-              <h1 className="text-sm sm:text-base lg:text-lg font-semibold text-[#3D2B1A] dark:text-[#E0E0E0] truncate leading-tight">
+              <h1 className="text-sm sm:text-base lg:text-lg font-semibold text-[#1A1C20] dark:text-[#EAE5DF] truncate leading-tight">
                 {displayTitle}
               </h1>
               {subtitle && (
-                <p className="text-[10px] sm:text-xs text-[#8A7060] dark:text-[#555555] truncate leading-tight">
+                <p className="text-[10px] sm:text-xs text-[#6B7280] dark:text-[#44454F] truncate leading-tight">
                   {subtitle}
                 </p>
               )}

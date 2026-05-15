@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useDataStore } from '../../store/dataStore';
 import { Button } from '../ui/Button';
 import {
@@ -216,7 +216,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto my-4 bg-white dark:bg-[#111111] rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+      <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto my-4 bg-white dark:bg-[#0D0E12] rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
         <div className={`px-6 py-4 ${isSalesReturn ? 'bg-gradient-to-r from-orange-600 to-orange-700' : 'bg-gradient-to-r from-amber-600 to-amber-700'}`}>
           <div className="flex items-center justify-between">
@@ -242,8 +242,8 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
         {/* Success Message */}
         {success && (
-          <div className="m-6 p-4 bg-[#FDF1EC] dark:bg-[#D4623A]/15 border border-[#D4623A]/30 dark:border-[#D4623A]/50 rounded-xl text-[#B8502E] dark:text-[#D4623A] flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#FDF1EC] dark:bg-blue-800 flex items-center justify-center">
+          <div className="m-6 p-4 bg-[#F5F0E6] dark:bg-[#A3876A]/15 border border-[#A3876A]/30 dark:border-[#A3876A]/50 rounded-xl text-[#8E7356] dark:text-[#A3876A] flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#F5F0E6] dark:bg-blue-800 flex items-center justify-center">
               <FiCheck className="w-5 h-5" />
             </div>
             <span className="font-medium">Return processed successfully!</span>
@@ -255,7 +255,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {/* Party Selection */}
             <div className="relative">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 <FiUser className="inline w-4 h-4 mr-1.5" />
                 {isSalesReturn ? 'Customer' : 'Supplier'} *
               </label>
@@ -271,13 +271,13 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                   onFocus={() => setShowPartyDropdown(true)}
                   placeholder={`Search ${isSalesReturn ? 'customer' : 'supplier'}...`}
                   className={`w-full px-4 py-3 rounded-xl border-2 ${
-                    errors.party ? 'border-red-500' : '#E5D8CC dark:border-[#222222]'
-                  } bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors`}
+                    errors.party ? 'border-red-500' : '#DDD7CC dark:border-[#1C1D24]'
+                  } bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors`}
                 />
                 <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 
                 {showPartyDropdown && filteredParties.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#1A1A1A] border #E5D8CC dark:border-[#222222] rounded-xl shadow-xl z-20 max-h-48 overflow-auto">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] rounded-xl shadow-xl z-20 max-h-48 overflow-auto">
                     {filteredParties.map((party) => (
                       <button
                         key={party.id}
@@ -287,9 +287,9 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                           setPartySearch('');
                           setShowPartyDropdown(false);
                         }}
-                        className="w-full px-4 py-3 text-left hover:#FAF7F3 dark:hover:bg-gray-700"
+                        className="w-full px-4 py-3 text-left hover:#F4F0EA dark:hover:bg-gray-700"
                       >
-                        <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">{party.name}</span>
+                        <span className="font-medium #1A1C20 dark:text-[#EAE5DF]">{party.name}</span>
                       </button>
                     ))}
                   </div>
@@ -300,7 +300,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
             {/* Original Invoice */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 Original Invoice No.
               </label>
               <input
@@ -308,13 +308,13 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                 value={originalInvoice}
                 onChange={(e) => setOriginalInvoice(e.target.value)}
                 placeholder="e.g., INV-123456"
-                className="w-full px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors"
+                className="w-full px-4 py-3 rounded-xl border-2 #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors"
               />
             </div>
 
             {/* Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Return Date *
               </label>
@@ -323,15 +323,15 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className={`w-full px-4 py-3 rounded-xl border-2 ${
-                  errors.date ? 'border-red-500' : '#E5D8CC dark:border-[#222222]'
-                } bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors`}
+                  errors.date ? 'border-red-500' : '#DDD7CC dark:border-[#1C1D24]'
+                } bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors`}
               />
             </div>
           </div>
 
           {/* Reason for Return */}
           <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
               Reason for Return *
             </label>
             <div className="flex flex-wrap gap-2">
@@ -345,7 +345,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                       ? isSalesReturn
                         ? 'bg-orange-600 text-white border-orange-600'
                         : 'bg-amber-600 text-white border-amber-600'
-                      : 'bg-white dark:bg-[#1A1A1A] text-gray-700 dark:text-[#CCCCCC] #E5D8CC dark:border-[#333333] hover:border-gray-400'
+                      : 'bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#C8C3BC] #DDD7CC dark:border-[#2A2B36] hover:border-gray-400'
                   }`}
                 >
                   {r}
@@ -358,7 +358,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
           {/* Items Table */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">
                 <FiPackage className="inline w-4 h-4 mr-1.5" />
                 Items Being Returned
               </h3>
@@ -368,8 +368,8 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
               </Button>
             </div>
 
-            <div className="#FAF7F3 dark:bg-[#1A1A1A]/50 rounded-xl overflow-hidden border #E5D8CC dark:border-[#222222]">
-              <div className="grid grid-cols-12 gap-2 px-4 py-3 #EDE5DA dark:bg-[#1A1A1A] text-xs font-semibold #8A7060 dark:text-[#555555] uppercase">
+            <div className="#F4F0EA dark:bg-[#15161C]/50 rounded-xl overflow-hidden border #DDD7CC dark:border-[#1C1D24]">
+              <div className="grid grid-cols-12 gap-2 px-4 py-3 #E3DDD2 dark:bg-[#15161C] text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase">
                 <div className="col-span-5">Item Name</div>
                 <div className="col-span-2 text-center">Qty</div>
                 <div className="col-span-2 text-center">Rate</div>
@@ -386,7 +386,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                         value={item.name}
                         onChange={(e) => updateItem(item.id, 'name', e.target.value)}
                         placeholder="Item name"
-                        className="w-full px-3 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] text-sm"
+                        className="w-full px-3 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-sm"
                       />
                     </div>
                     <div className="col-span-2">
@@ -395,7 +395,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                         value={item.quantity || ''}
                         onChange={(e) => updateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)}
                         min="0"
-                        className="w-full px-2 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] text-sm text-center"
+                        className="w-full px-2 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-sm text-center"
                       />
                     </div>
                     <div className="col-span-2">
@@ -405,10 +405,10 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                         onChange={(e) => updateItem(item.id, 'rate', parseFloat(e.target.value) || 0)}
                         min="0"
                         placeholder="0.00"
-                        className="w-full px-2 py-2 rounded-lg border #E5D8CC dark:border-[#333333] bg-white dark:bg-[#222222] text-sm text-center"
+                        className="w-full px-2 py-2 rounded-lg border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-sm text-center"
                       />
                     </div>
-                    <div className="col-span-2 text-right font-semibold #3D2B1A dark:text-[#E0E0E0] text-sm">
+                    <div className="col-span-2 text-right font-semibold #1A1C20 dark:text-[#EAE5DF] text-sm">
                       Rs. {item.total.toLocaleString()}
                     </div>
                     <div className="col-span-1 flex justify-center">
@@ -432,7 +432,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             {/* Notes */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                 <FiFileText className="inline w-4 h-4 mr-1.5" />
                 Additional Notes
               </label>
@@ -441,12 +441,12 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                 onChange={(e) => setNotes(e.target.value)}
                 rows={4}
                 placeholder="Add any additional notes..."
-                className="w-full px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors resize-none"
+                className="w-full px-4 py-3 rounded-xl border-2 #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] transition-colors resize-none"
               />
 
               {/* Refund Mode */}
               <div className="mt-4">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">
                   Refund Mode
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -460,7 +460,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                           ? isSalesReturn
                             ? 'bg-orange-600 text-white border-orange-600'
                             : 'bg-amber-600 text-white border-amber-600'
-                          : 'bg-white dark:bg-[#1A1A1A] text-gray-700 dark:text-[#CCCCCC] #E5D8CC dark:border-[#333333] hover:border-gray-400'
+                          : 'bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#C8C3BC] #DDD7CC dark:border-[#2A2B36] hover:border-gray-400'
                       }`}
                     >
                       <span>{mode.icon}</span>
@@ -473,33 +473,33 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
             {/* Totals */}
             <div className={`p-5 rounded-xl border ${isSalesReturn ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800' : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'}`}>
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-4">Return Summary</h3>
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-4">Return Summary</h3>
               
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="#8A7060 dark:text-[#555555]">Subtotal</span>
-                  <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">Rs. {totals.subtotal.toLocaleString()}</span>
+                  <span className="#6B7280 dark:text-[#44454F]">Subtotal</span>
+                  <span className="font-medium #1A1C20 dark:text-[#EAE5DF]">Rs. {totals.subtotal.toLocaleString()}</span>
                 </div>
                 
                 <div className="flex justify-between text-sm">
-                  <span className="#8A7060 dark:text-[#555555]">Tax Amount</span>
-                  <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">Rs. {totals.taxAmount.toLocaleString()}</span>
+                  <span className="#6B7280 dark:text-[#44454F]">Tax Amount</span>
+                  <span className="font-medium #1A1C20 dark:text-[#EAE5DF]">Rs. {totals.taxAmount.toLocaleString()}</span>
                 </div>
 
-                <div className="border-t #E5D8CC dark:border-[#333333] pt-3">
+                <div className="border-t #DDD7CC dark:border-[#2A2B36] pt-3">
                   <div className="flex justify-between text-lg font-bold">
-                    <span className="#3D2B1A dark:text-[#E0E0E0]">Refund Amount</span>
+                    <span className="#1A1C20 dark:text-[#EAE5DF]">Refund Amount</span>
                     <span className={isSalesReturn ? 'text-orange-600' : 'text-amber-600'}>Rs. {totals.totalAmount.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 p-3 rounded-lg bg-white/50 dark:bg-[#1A1A1A]/50">
-                <p className="text-sm #8A7060 dark:text-[#555555]">
+              <div className="mt-4 p-3 rounded-lg bg-white/50 dark:bg-[#15161C]/50">
+                <p className="text-sm #6B7280 dark:text-[#44454F]">
                   <span className="font-medium">Reason:</span> {reason || 'Not specified'}
                 </p>
                 {originalInvoice && (
-                  <p className="text-sm #8A7060 dark:text-[#555555] mt-1">
+                  <p className="text-sm #6B7280 dark:text-[#44454F] mt-1">
                     <span className="font-medium">Original Invoice:</span> {originalInvoice}
                   </p>
                 )}
@@ -515,7 +515,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
           )}
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3 pt-4 border-t #E5D8CC dark:border-[#222222]">
+          <div className="flex justify-end gap-3 pt-4 border-t #DDD7CC dark:border-[#1C1D24]">
             <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
               Cancel
             </Button>

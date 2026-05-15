@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { productApi, partyApi, billingApi } from '../../utils/api';
 import toast from 'react-hot-toast';
 import {
@@ -55,14 +55,14 @@ function Modal({ open, onClose, title, children, wide = false }: {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
       <div
-        className={`bg-white dark:bg-[#111111] rounded-2xl shadow-2xl w-full mx-4 ${wide ? 'max-w-2xl' : 'max-w-md'}`}
+        className={`bg-white dark:bg-[#0D0E12] rounded-2xl shadow-2xl w-full mx-4 ${wide ? 'max-w-2xl' : 'max-w-md'}`}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b #E5D8CC dark:border-[#222222]">
-          <h2 className="text-base font-bold #3D2B1A dark:text-[#E0E0E0]">{title}</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b #DDD7CC dark:border-[#1C1D24]">
+          <h2 className="text-base font-bold #1A1C20 dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:#8A7060 hover:#EDE5DA dark:hover:bg-gray-800 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:#6B7280 hover:#E3DDD2 dark:hover:bg-gray-800 transition-colors"
           >
             <FiX className="w-4 h-4" />
           </button>
@@ -106,12 +106,12 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
   return (
     <Modal open={open} onClose={onClose} title="Apply Discount">
       <div className="space-y-4">
-        <div className="#FAF7F3 dark:bg-[#1A1A1A] rounded-xl px-4 py-3 flex justify-between items-center">
-          <span className="text-sm font-medium #8A7060 dark:text-[#555555]">Total Amount</span>
-          <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0]">{fmt(subtotal)}</span>
+        <div className="#F4F0EA dark:bg-[#15161C] rounded-xl px-4 py-3 flex justify-between items-center">
+          <span className="text-sm font-medium #6B7280 dark:text-[#44454F]">Total Amount</span>
+          <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">{fmt(subtotal)}</span>
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">Discount</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">Discount</label>
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
               <input
@@ -119,13 +119,13 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
                 placeholder="0"
                 value={pct}
                 onChange={e => handlePctChange(e.target.value)}
-                className="w-full px-3 py-2.5 pr-8 border-2 border-[#D4623A] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none"
+                className="w-full px-3 py-2.5 pr-8 border-2 border-[#A3876A] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">%</span>
             </div>
             <button
               onClick={() => setLinked(!linked)}
-              className={`w-9 h-9 flex items-center justify-center rounded-lg border-2 transition-colors ${linked ? 'border-[#D4623A] bg-[#FDF1EC] dark:bg-[#D4623A]/15 text-[#D4623A]' : '#E5D8CC dark:border-[#222222] text-gray-400'}`}
+              className={`w-9 h-9 flex items-center justify-center rounded-lg border-2 transition-colors ${linked ? 'border-[#A3876A] bg-[#F5F0E6] dark:bg-[#A3876A]/15 text-[#A3876A]' : '#DDD7CC dark:border-[#1C1D24] text-gray-400'}`}
             >
               <FiLink className="w-4 h-4" />
             </button>
@@ -136,7 +136,7 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
                 placeholder="0.00"
                 value={amt}
                 onChange={e => handleAmtChange(e.target.value)}
-                className="w-full px-3 py-2.5 pl-10 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-blue-400"
+                className="w-full px-3 py-2.5 pl-10 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-blue-400"
               />
             </div>
           </div>
@@ -144,13 +144,13 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
         <div className="flex gap-3 pt-2">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 border #E5D8CC dark:border-[#222222] text-sm font-semibold #8A7060 dark:text-[#CCCCCC] rounded-xl hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors"
+            className="flex-1 py-2.5 border #DDD7CC dark:border-[#1C1D24] text-sm font-semibold #6B7280 dark:text-[#C8C3BC] rounded-xl hover:#F4F0EA dark:hover:bg-gray-800 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleApply}
-            className="flex-1 py-2.5 bg-[#D4623A] text-white text-sm font-bold rounded-xl hover:bg-[#B8502E] transition-colors"
+            className="flex-1 py-2.5 bg-[#A3876A] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors"
           >
             Apply Discount
           </button>
@@ -171,18 +171,18 @@ function VATModal({ open, onClose, taxableAmount, onApply }: {
   return (
     <Modal open={open} onClose={onClose} title="Apply VAT / Tax">
       <div className="space-y-4">
-        <div className="#FAF7F3 dark:bg-[#1A1A1A] rounded-xl px-4 py-3 flex justify-between items-center">
-          <span className="text-sm font-medium #8A7060">Taxable Amount</span>
-          <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0]">{fmt(taxableAmount)}</span>
+        <div className="#F4F0EA dark:bg-[#15161C] rounded-xl px-4 py-3 flex justify-between items-center">
+          <span className="text-sm font-medium #6B7280">Taxable Amount</span>
+          <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">{fmt(taxableAmount)}</span>
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">Tax Rate</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-2">Tax Rate</label>
           <div className="relative">
             <input
               type="number"
               value={pct}
               onChange={e => setPct(e.target.value)}
-              className="w-full px-3 py-2.5 pr-8 border-2 border-[#D4623A] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none"
+              className="w-full px-3 py-2.5 pr-8 border-2 border-[#A3876A] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none"
             />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">%</span>
           </div>
@@ -191,7 +191,7 @@ function VATModal({ open, onClose, taxableAmount, onApply }: {
               <button
                 key={v}
                 onClick={() => setPct(v)}
-                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${pct === v ? 'bg-[#D4623A] text-white' : '#EDE5DA dark:bg-[#1A1A1A] #8A7060 dark:text-[#555555]'}`}
+                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${pct === v ? 'bg-[#A3876A] text-white' : '#E3DDD2 dark:bg-[#15161C] #6B7280 dark:text-[#44454F]'}`}
               >
                 {v}%
               </button>
@@ -199,12 +199,12 @@ function VATModal({ open, onClose, taxableAmount, onApply }: {
           </div>
         </div>
         <div className="flex gap-3 pt-2">
-          <button onClick={onClose} className="flex-1 py-2.5 border #E5D8CC dark:border-[#222222] text-sm font-semibold #8A7060 rounded-xl hover:#FAF7F3 transition-colors">
+          <button onClick={onClose} className="flex-1 py-2.5 border #DDD7CC dark:border-[#1C1D24] text-sm font-semibold #6B7280 rounded-xl hover:#F4F0EA transition-colors">
             Cancel
           </button>
           <button
             onClick={() => { onApply(parseFloat(pct) || 0); onClose(); }}
-            className="flex-1 py-2.5 bg-[#D4623A] text-white text-sm font-bold rounded-xl hover:bg-[#B8502E] transition-colors"
+            className="flex-1 py-2.5 bg-[#A3876A] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors"
           >
             Apply VAT
           </button>
@@ -256,22 +256,22 @@ function AddNewItemModal({ open, onClose, onSave }: {
     <Modal open={open} onClose={onClose} title="Add New Item" wide>
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Item Name</label>
+          <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Item Name</label>
           <input
             type="text"
             value={form.product_name}
             onChange={e => set('product_name', e.target.value)}
             placeholder="Enter item name"
-            className="w-full px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] focus:ring-1 focus:ring-[#D4623A]/20"
+            className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] focus:ring-1 focus:ring-[#A3876A]/20"
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Item Category</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Item Category</label>
             <select
               value={form.category}
               onChange={e => set('category', e.target.value)}
-              className="w-full px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+              className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
             >
               <option>General</option>
               <option>Electronics</option>
@@ -281,13 +281,13 @@ function AddNewItemModal({ open, onClose, onSave }: {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Item Type</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Item Type</label>
             <div className="flex gap-2">
               {['Product', 'Service'].map(t => (
                 <button
                   key={t}
                   onClick={() => set('item_type', t)}
-                  className={`flex-1 py-2.5 text-sm font-semibold rounded-xl border-2 transition-colors ${form.item_type === t ? 'border-[#D4623A] bg-[#FDF1EC] dark:bg-[#D4623A]/15 text-[#D4623A]' : '#E5D8CC dark:border-[#222222] #8A7060'}`}
+                  className={`flex-1 py-2.5 text-sm font-semibold rounded-xl border-2 transition-colors ${form.item_type === t ? 'border-[#A3876A] bg-[#F5F0E6] dark:bg-[#A3876A]/15 text-[#A3876A]' : '#DDD7CC dark:border-[#1C1D24] #6B7280'}`}
                 >
                   {t}
                 </button>
@@ -297,7 +297,7 @@ function AddNewItemModal({ open, onClose, onSave }: {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Sales Price</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Sales Price</label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">Rs.</span>
               <input
@@ -305,13 +305,13 @@ function AddNewItemModal({ open, onClose, onSave }: {
                 value={form.unit_price}
                 onChange={e => set('unit_price', e.target.value)}
                 placeholder="0"
-                className="w-full pl-9 pr-12 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+                className="w-full pl-9 pr-12 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">/PCS</span>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Purchase Price</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Purchase Price</label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">Rs.</span>
               <input
@@ -319,7 +319,7 @@ function AddNewItemModal({ open, onClose, onSave }: {
                 value={form.purchase_price}
                 onChange={e => set('purchase_price', e.target.value)}
                 placeholder="0"
-                className="w-full pl-9 pr-12 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+                className="w-full pl-9 pr-12 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">/PCS</span>
             </div>
@@ -327,24 +327,24 @@ function AddNewItemModal({ open, onClose, onSave }: {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Opening Stock</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Opening Stock</label>
             <div className="relative">
               <input
                 type="number"
                 value={form.quantity}
                 onChange={e => set('quantity', e.target.value)}
                 placeholder="0"
-                className="w-full px-3 pr-12 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+                className="w-full px-3 pr-12 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">PCS</span>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Primary Unit</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Primary Unit</label>
             <select
               value={form.unit}
               onChange={e => set('unit', e.target.value)}
-              className="w-full px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+              className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
             >
               <option>PIECES (PCS)</option>
               <option>KILOGRAMS (KG)</option>
@@ -356,52 +356,52 @@ function AddNewItemModal({ open, onClose, onSave }: {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Item Code</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Item Code</label>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={form.item_code}
                 onChange={e => set('item_code', e.target.value)}
                 placeholder="Enter item code"
-                className="flex-1 px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+                className="flex-1 px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
               />
               <button
                 onClick={generateCode}
-                className="px-3 py-2.5 #EDE5DA dark:bg-[#1A1A1A] #8A7060 dark:text-[#CCCCCC] text-xs font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors whitespace-nowrap"
+                className="px-3 py-2.5 #E3DDD2 dark:bg-[#15161C] #6B7280 dark:text-[#C8C3BC] text-xs font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors whitespace-nowrap"
               >
                 Generate
               </button>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">HS Code</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">HS Code</label>
             <input
               type="text"
               value={form.hs_code}
               onChange={e => set('hs_code', e.target.value)}
               placeholder="Enter HS code"
-              className="w-full px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+              className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
             />
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Description</label>
+          <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Description</label>
           <textarea
             value={form.description}
             onChange={e => set('description', e.target.value)}
             placeholder="Write description here..."
             rows={3}
-            className="w-full px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] resize-none"
+            className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] resize-none"
           />
         </div>
         <div className="flex gap-3 pt-1">
-          <button onClick={onClose} className="flex-1 py-2.5 border #E5D8CC dark:border-[#222222] text-sm font-semibold #8A7060 dark:text-[#CCCCCC] rounded-xl hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors">
+          <button onClick={onClose} className="flex-1 py-2.5 border #DDD7CC dark:border-[#1C1D24] text-sm font-semibold #6B7280 dark:text-[#C8C3BC] rounded-xl hover:#F4F0EA dark:hover:bg-gray-800 transition-colors">
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex-1 py-2.5 bg-[#D4623A] text-white text-sm font-bold rounded-xl hover:bg-[#B8502E] disabled:opacity-50 transition-colors"
+            className="flex-1 py-2.5 bg-[#A3876A] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors"
           >
             {saving ? 'Saving...' : 'Save'}
           </button>
@@ -430,31 +430,31 @@ function EditItemModal({ open, onClose, item, onSave }: {
     <Modal open={open} onClose={onClose} title={`Edit — ${item.name}`}>
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Rate / Price</label>
+          <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Rate / Price</label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Rs.</span>
             <input
               type="number"
               value={price}
               onChange={e => setPrice(e.target.value)}
-              className="w-full pl-10 pr-3 py-2.5 border-2 border-[#D4623A] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none"
+              className="w-full pl-10 pr-3 py-2.5 border-2 border-[#A3876A] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none"
             />
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Quantity</label>
+          <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Quantity</label>
           <input
             type="number"
             value={qty}
             onChange={e => setQty(e.target.value)}
-            className="w-full px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+            className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
           />
         </div>
         <div className="flex gap-3 pt-1">
-          <button onClick={onClose} className="flex-1 py-2.5 border #E5D8CC dark:border-[#222222] text-sm font-semibold #8A7060 rounded-xl hover:#FAF7F3 transition-colors">Cancel</button>
+          <button onClick={onClose} className="flex-1 py-2.5 border #DDD7CC dark:border-[#1C1D24] text-sm font-semibold #6B7280 rounded-xl hover:#F4F0EA transition-colors">Cancel</button>
           <button
             onClick={() => { onSave(item.id, parseFloat(price) || 0, parseInt(qty) || 1); onClose(); }}
-            className="flex-1 py-2.5 bg-[#D4623A] text-white text-sm font-bold rounded-xl hover:bg-[#B8502E] transition-colors"
+            className="flex-1 py-2.5 bg-[#A3876A] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors"
           >
             Update
           </button>
@@ -504,26 +504,26 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">
               Invoice No
-              <button className="ml-2 text-[#D4623A] font-bold normal-case">Manual</button>
+              <button className="ml-2 text-[#A3876A] font-bold normal-case">Manual</button>
             </label>
             <input
               type="text"
               value={invoiceNo}
               onChange={e => setInvoiceNo(e.target.value)}
               placeholder="Auto"
-              className="w-full px-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+              className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Invoice Date</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Invoice Date</label>
             <div className="relative">
               <input
                 type="date"
                 value={invoiceDate}
                 onChange={e => setInvoiceDate(e.target.value)}
-                className="w-full px-3 py-2.5 pr-10 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+                className="w-full px-3 py-2.5 pr-10 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
               />
               <FiCalendar className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
             </div>
@@ -531,14 +531,14 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
         </div>
         <div>
           <div className="flex justify-between items-center mb-1.5">
-            <label className="text-xs font-semibold #8A7060 uppercase tracking-wider">Bill To</label>
+            <label className="text-xs font-semibold #6B7280 uppercase tracking-wider">Bill To</label>
             <span className="text-xs font-bold text-gray-400">Rs. {balance.toFixed(2)}</span>
           </div>
           <div className="relative">
             <select
               value={partyId}
               onChange={e => setPartyId(e.target.value)}
-              className="w-full px-3 py-2.5 pr-8 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] appearance-none"
+              className="w-full px-3 py-2.5 pr-8 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] appearance-none"
             >
               <option value="">Walk-in Customer</option>
               {parties.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -546,13 +546,13 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
             <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
         </div>
-        <div className="#FAF7F3 dark:bg-[#1A1A1A] rounded-xl px-4 py-3">
-          <span className="text-sm #8A7060">Total Amount: </span>
-          <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0]">{fmt(total)}</span>
+        <div className="#F4F0EA dark:bg-[#15161C] rounded-xl px-4 py-3">
+          <span className="text-sm #6B7280">Total Amount: </span>
+          <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">{fmt(total)}</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">
               <input type="checkbox" className="mr-1.5 accent-blue-600" defaultChecked /> Received Amount
             </label>
             <div className="relative">
@@ -561,17 +561,17 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
                 type="number"
                 value={receivedAmount}
                 onChange={e => setReceivedAmount(e.target.value)}
-                className="w-full pl-9 pr-3 py-2.5 border #E5D8CC dark:border-[#222222] rounded-xl text-sm #FAF7F3 dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A]"
+                className="w-full pl-9 pr-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm #F4F0EA dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Payment Method</label>
+            <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Payment Method</label>
             <div className="relative">
               <select
                 value={paymentMethod}
                 onChange={e => setPaymentMethod(e.target.value)}
-                className="w-full px-3 py-2.5 pr-8 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] appearance-none"
+                className="w-full px-3 py-2.5 pr-8 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] appearance-none"
               >
                 <option>Cash</option>
                 <option>Card</option>
@@ -584,46 +584,46 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-1.5">Notes or Remarks</label>
+          <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-1.5">Notes or Remarks</label>
           <textarea
             value={notes}
             onChange={e => setNotes(e.target.value)}
             rows={3}
-            className="w-full px-3 py-2.5 border-2 border-blue-400 rounded-xl text-sm bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none resize-none"
+            className="w-full px-3 py-2.5 border-2 border-blue-400 rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none resize-none"
           />
         </div>
         <div>
-          <label className="block text-xs font-semibold #8A7060 uppercase tracking-wider mb-2">Attach Images</label>
+          <label className="block text-xs font-semibold #6B7280 uppercase tracking-wider mb-2">Attach Images</label>
           <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={e => setImages(Array.from(e.target.files || []))} />
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => fileRef.current?.click()}
-              className="w-16 h-16 border-2 border-dashed border-gray-300 dark:border-[#222222] rounded-xl flex flex-col items-center justify-center text-gray-400 hover:border-blue-400 hover:text-[#D4623A] transition-colors"
+              className="w-16 h-16 border-2 border-dashed border-gray-300 dark:border-[#1C1D24] rounded-xl flex flex-col items-center justify-center text-gray-400 hover:border-blue-400 hover:text-[#A3876A] transition-colors"
             >
               <FiCamera className="w-5 h-5" />
             </button>
             {images.map((f, i) => (
-              <div key={i} className="w-16 h-16 rounded-xl bg-[#FDF1EC] dark:bg-[#D4623A]/15 flex items-center justify-center text-xs text-[#D4623A] font-medium truncate px-1 text-center">
+              <div key={i} className="w-16 h-16 rounded-xl bg-[#F5F0E6] dark:bg-[#A3876A]/15 flex items-center justify-center text-xs text-[#A3876A] font-medium truncate px-1 text-center">
                 {f.name.slice(0, 8)}
               </div>
             ))}
           </div>
         </div>
         <div className="flex gap-3 pt-2">
-          <button onClick={onClose} className="px-5 py-2.5 border #E5D8CC dark:border-[#222222] text-sm font-semibold #8A7060 dark:text-[#CCCCCC] rounded-xl hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors">
+          <button onClick={onClose} className="px-5 py-2.5 border #DDD7CC dark:border-[#1C1D24] text-sm font-semibold #6B7280 dark:text-[#C8C3BC] rounded-xl hover:#F4F0EA dark:hover:bg-gray-800 transition-colors">
             Cancel
           </button>
           <button
             onClick={() => handleConfirm(false)}
             disabled={saving}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-gray-300 dark:border-[#222222] text-sm font-bold text-gray-700 dark:text-[#CCCCCC] rounded-xl hover:#FAF7F3 dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-gray-300 dark:border-[#1C1D24] text-sm font-bold text-gray-700 dark:text-[#C8C3BC] rounded-xl hover:#F4F0EA dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
           >
             <FiSave className="w-4 h-4" /> Save Only
           </button>
           <button
             onClick={() => handleConfirm(true)}
             disabled={saving}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#D4623A] text-white text-sm font-bold rounded-xl hover:bg-[#B8502E] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#A3876A] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20"
           >
             <FiPrinter className="w-4 h-4" /> Save & Print
           </button>
@@ -776,13 +776,13 @@ export default function QuickPOSPage() {
   };
 
   return (
-    <div className="flex gap-0 h-[calc(100vh-64px)] #FAF7F3 dark:bg-gray-950 overflow-hidden">
+    <div className="flex gap-0 h-[calc(100vh-64px)] #F4F0EA dark:bg-gray-950 overflow-hidden">
 
       {/* ── LEFT: Product Catalog ── */}
       <div className="flex-1 flex flex-col min-w-0 px-6 py-5 overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <h1 className="text-xl font-bold #3D2B1A dark:text-[#E0E0E0]">Quick POS</h1>
+          <h1 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF]">Quick POS</h1>
           <div className="flex items-center gap-3">
             <div className="relative">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -791,12 +791,12 @@ export default function QuickPOSPage() {
                 placeholder="Search items..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="pl-9 pr-4 py-2 border #E5D8CC dark:border-[#222222] rounded-xl text-sm bg-white dark:bg-[#111111] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#D4623A]/30 focus:border-[#D4623A] w-56 transition-all"
+                className="pl-9 pr-4 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#0D0E12] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]/30 focus:border-[#A3876A] w-56 transition-all"
               />
             </div>
             <button
               onClick={() => setShowAddItem(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#111111] border #E5D8CC dark:border-[#222222] text-gray-700 dark:text-[#CCCCCC] text-sm font-semibold rounded-xl hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] text-gray-700 dark:text-[#C8C3BC] text-sm font-semibold rounded-xl hover:#F4F0EA dark:hover:bg-gray-800 transition-colors shadow-sm"
             >
               <FiPlus className="w-4 h-4" /> Add New Item
             </button>
@@ -810,8 +810,8 @@ export default function QuickPOSPage() {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`shrink-0 px-4 py-1.5 rounded-lg text-sm font-semibold transition-colors ${activeCategory === cat
-                ? 'bg-[#D4623A] text-white shadow-sm shadow-blue-500/20'
-                : 'bg-white dark:bg-[#111111] #8A7060 dark:text-[#555555] border #E5D8CC dark:border-[#222222] hover:#FAF7F3 dark:hover:bg-gray-800'
+                ? 'bg-[#A3876A] text-white shadow-sm shadow-blue-500/20'
+                : 'bg-white dark:bg-[#0D0E12] #6B7280 dark:text-[#44454F] border #DDD7CC dark:border-[#1C1D24] hover:#F4F0EA dark:hover:bg-gray-800'
               }`}
             >
               {cat}
@@ -823,7 +823,7 @@ export default function QuickPOSPage() {
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <div className="w-8 h-8 border-4 border-[#D4623A]/30 border-t-[#D4623A] rounded-full animate-spin" />
+              <div className="w-8 h-8 border-4 border-[#A3876A]/30 border-t-[#A3876A] rounded-full animate-spin" />
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-gray-400">
@@ -840,39 +840,39 @@ export default function QuickPOSPage() {
                 return (
                   <div key={p.id} className="relative">
                     {/* Info button */}
-                    <button className="absolute top-2 right-2 z-10 w-6 h-6 flex items-center justify-center text-gray-300 hover:#8A7060 transition-colors">
+                    <button className="absolute top-2 right-2 z-10 w-6 h-6 flex items-center justify-center text-gray-300 hover:#6B7280 transition-colors">
                       <FiInfo className="w-3.5 h-3.5" />
                     </button>
 
                     {inCart ? (
                       /* Selected state with qty controls */
-                      <div className="bg-white dark:bg-[#111111] border-2 border-[#D4623A] rounded-2xl p-4 flex flex-col items-center shadow-sm">
+                      <div className="bg-white dark:bg-[#0D0E12] border-2 border-[#A3876A] rounded-2xl p-4 flex flex-col items-center shadow-sm">
                         <div
                           className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 text-white text-sm font-bold"
                           style={{ backgroundColor: color }}
                         >
                           {initials(p.product_name)}
                         </div>
-                        <p className="text-xs font-bold #3D2B1A dark:text-[#E0E0E0] text-center mb-0.5 truncate w-full">{p.product_name}</p>
+                        <p className="text-xs font-bold #1A1C20 dark:text-[#EAE5DF] text-center mb-0.5 truncate w-full">{p.product_name}</p>
                         <p className="text-xs text-gray-400 mb-2">Qty: {p.quantity} PCS</p>
-                        <p className="text-xs font-bold text-gray-700 dark:text-[#CCCCCC] mb-3">{fmt(p.unit_price)}/PCS</p>
+                        <p className="text-xs font-bold text-gray-700 dark:text-[#C8C3BC] mb-3">{fmt(p.unit_price)}/PCS</p>
                         <div className="flex items-center gap-3 w-full justify-center">
                           <button
                             onClick={() => { if (inCart.quantity <= 1) removeItem(p.id); else updateQty(p.id, -1); }}
-                            className="w-7 h-7 flex items-center justify-center border #E5D8CC dark:border-[#222222] rounded-lg #8A7060 hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors"
+                            className="w-7 h-7 flex items-center justify-center border #DDD7CC dark:border-[#1C1D24] rounded-lg #6B7280 hover:#F4F0EA dark:hover:bg-gray-800 transition-colors"
                           >
                             <FiMinus className="w-3 h-3" />
                           </button>
-                          <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0] w-4 text-center">{inCart.quantity}</span>
+                          <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF] w-4 text-center">{inCart.quantity}</span>
                           <button
                             onClick={() => updateQty(p.id, 1)}
-                            className="w-7 h-7 flex items-center justify-center border #E5D8CC dark:border-[#222222] rounded-lg #8A7060 hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors"
+                            className="w-7 h-7 flex items-center justify-center border #DDD7CC dark:border-[#1C1D24] rounded-lg #6B7280 hover:#F4F0EA dark:hover:bg-gray-800 transition-colors"
                           >
                             <FiPlus className="w-3 h-3" />
                           </button>
                           <button
                             onClick={() => setEditItem(inCart)}
-                            className="w-7 h-7 flex items-center justify-center border #E5D8CC dark:border-[#222222] rounded-lg text-[#D4623A] hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/15 transition-colors"
+                            className="w-7 h-7 flex items-center justify-center border #DDD7CC dark:border-[#1C1D24] rounded-lg text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/15 transition-colors"
                           >
                             <FiEdit2 className="w-3 h-3" />
                           </button>
@@ -889,7 +889,7 @@ export default function QuickPOSPage() {
                       <button
                         onClick={() => !outOfStock && addItem(p)}
                         disabled={outOfStock}
-                        className={`w-full bg-white dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-2xl p-4 flex flex-col items-center hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md transition-all duration-150 ${outOfStock ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
+                        className={`w-full bg-white dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-2xl p-4 flex flex-col items-center hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md transition-all duration-150 ${outOfStock ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
                       >
                         <div
                           className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 text-white text-sm font-bold opacity-70"
@@ -897,10 +897,10 @@ export default function QuickPOSPage() {
                         >
                           {initials(p.product_name)}
                         </div>
-                        <p className="text-xs font-bold #3D2B1A dark:text-[#E0E0E0] text-center mb-0.5 truncate w-full">{p.product_name}</p>
+                        <p className="text-xs font-bold #1A1C20 dark:text-[#EAE5DF] text-center mb-0.5 truncate w-full">{p.product_name}</p>
                         <p className="text-xs text-gray-400 mb-2">Qty: {p.quantity} PCS</p>
-                        <p className="text-xs font-bold text-gray-700 dark:text-[#CCCCCC] mb-3">{fmt(p.unit_price)}/PCS</p>
-                        <span className="w-full py-1.5 #FAF7F3 dark:bg-[#1A1A1A] #8A7060 dark:text-[#555555] text-xs font-semibold rounded-lg text-center">
+                        <p className="text-xs font-bold text-gray-700 dark:text-[#C8C3BC] mb-3">{fmt(p.unit_price)}/PCS</p>
+                        <span className="w-full py-1.5 #F4F0EA dark:bg-[#15161C] #6B7280 dark:text-[#44454F] text-xs font-semibold rounded-lg text-center">
                           {outOfStock ? 'Out of Stock' : 'Click to Select'}
                         </span>
                       </button>
@@ -914,11 +914,11 @@ export default function QuickPOSPage() {
       </div>
 
       {/* ── RIGHT: Billing Panel ── */}
-      <div className="w-[320px] shrink-0 bg-white dark:bg-[#111111] border-l #E5D8CC dark:border-[#222222] flex flex-col">
+      <div className="w-[320px] shrink-0 bg-white dark:bg-[#0D0E12] border-l #DDD7CC dark:border-[#1C1D24] flex flex-col">
         {/* Billing Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b #E5D8CC dark:border-[#222222]">
+        <div className="flex items-center justify-between px-5 py-4 border-b #DDD7CC dark:border-[#1C1D24]">
           <div>
-            <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0]">
+            <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">
               Billing Items {items.length > 0 && `(${items.length})`}
             </span>
           </div>
@@ -945,21 +945,21 @@ export default function QuickPOSPage() {
                   <rect x="20" y="50" width="25" height="4" rx="2" fill="white" />
                 </svg>
               </div>
-              <p className="text-sm font-bold text-gray-400 dark:#8A7060">No Billing Items</p>
+              <p className="text-sm font-bold text-gray-400 dark:#6B7280">No Billing Items</p>
               <p className="text-xs text-gray-300 dark:text-gray-700 mt-0.5">Select items to record a sale</p>
             </div>
           ) : (
             items.map(item => (
-              <div key={item.id} className="border #E5D8CC dark:border-[#222222] rounded-xl p-3">
+              <div key={item.id} className="border #DDD7CC dark:border-[#1C1D24] rounded-xl p-3">
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0] truncate">{item.name}</p>
+                    <p className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF] truncate">{item.name}</p>
                     <p className="text-xs text-gray-400 mt-0.5">{item.quantity} PCS X {fmt(item.price)}</p>
                   </div>
                   <div className="flex items-center gap-1 ml-2">
                     <button
                       onClick={() => setEditItem(item)}
-                      className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-[#D4623A] transition-colors"
+                      className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-[#A3876A] transition-colors"
                     >
                       <FiEdit2 className="w-3 h-3" />
                     </button>
@@ -975,19 +975,19 @@ export default function QuickPOSPage() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => updateQty(item.id, -1)}
-                      className="w-6 h-6 flex items-center justify-center border #E5D8CC dark:border-[#222222] rounded-md #8A7060 hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors"
+                      className="w-6 h-6 flex items-center justify-center border #DDD7CC dark:border-[#1C1D24] rounded-md #6B7280 hover:#F4F0EA dark:hover:bg-gray-800 transition-colors"
                     >
                       <FiMinus className="w-2.5 h-2.5" />
                     </button>
-                    <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0] w-4 text-center">{item.quantity}</span>
+                    <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF] w-4 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQty(item.id, 1)}
-                      className="w-6 h-6 flex items-center justify-center border #E5D8CC dark:border-[#222222] rounded-md #8A7060 hover:#FAF7F3 dark:hover:bg-gray-800 transition-colors"
+                      className="w-6 h-6 flex items-center justify-center border #DDD7CC dark:border-[#1C1D24] rounded-md #6B7280 hover:#F4F0EA dark:hover:bg-gray-800 transition-colors"
                     >
                       <FiPlus className="w-2.5 h-2.5" />
                     </button>
                   </div>
-                  <span className="text-sm font-bold text-[#D4623A]">{fmt(item.price * item.quantity)}</span>
+                  <span className="text-sm font-bold text-[#A3876A]">{fmt(item.price * item.quantity)}</span>
                 </div>
               </div>
             ))
@@ -995,17 +995,17 @@ export default function QuickPOSPage() {
         </div>
 
         {/* Totals Section */}
-        <div className="border-t #E5D8CC dark:border-[#222222] px-5 py-4 space-y-2">
+        <div className="border-t #DDD7CC dark:border-[#1C1D24] px-5 py-4 space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">Sub Total</span>
-            <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0]">{fmt(subtotal)}</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">Sub Total</span>
+            <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">{fmt(subtotal)}</span>
           </div>
 
           {/* Discount row */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <span className="text-sm #8A7060">Discount</span>
-              <button onClick={() => setShowDiscount(true)} className="text-gray-400 hover:text-[#D4623A] transition-colors">
+              <span className="text-sm #6B7280">Discount</span>
+              <button onClick={() => setShowDiscount(true)} className="text-gray-400 hover:text-[#A3876A] transition-colors">
                 <FiEdit2 className="w-3 h-3" />
               </button>
               {finalDiscount > 0 && (
@@ -1017,7 +1017,7 @@ export default function QuickPOSPage() {
             {finalDiscount > 0 ? (
               <span className="text-sm font-semibold text-red-500">-{fmt(finalDiscount)}</span>
             ) : (
-              <button onClick={() => setShowDiscount(true)} className="text-xs font-semibold text-[#D4623A] hover:text-[#D4623A]">
+              <button onClick={() => setShowDiscount(true)} className="text-xs font-semibold text-[#A3876A] hover:text-[#A3876A]">
                 + Discount
               </button>
             )}
@@ -1026,8 +1026,8 @@ export default function QuickPOSPage() {
           {/* VAT row */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <span className="text-sm #8A7060">VAT {taxPct > 0 ? `${taxPct}%` : ''}</span>
-              <button onClick={() => setShowVAT(true)} className="text-gray-400 hover:text-[#D4623A] transition-colors">
+              <span className="text-sm #6B7280">VAT {taxPct > 0 ? `${taxPct}%` : ''}</span>
+              <button onClick={() => setShowVAT(true)} className="text-gray-400 hover:text-[#A3876A] transition-colors">
                 <FiEdit2 className="w-3 h-3" />
               </button>
               {taxPct > 0 && (
@@ -1037,9 +1037,9 @@ export default function QuickPOSPage() {
               )}
             </div>
             {taxAmount > 0 ? (
-              <span className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">{fmt(taxAmount)}</span>
+              <span className="text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">{fmt(taxAmount)}</span>
             ) : (
-              <button onClick={() => setShowVAT(true)} className="text-xs font-semibold text-[#D4623A] hover:text-[#D4623A]">
+              <button onClick={() => setShowVAT(true)} className="text-xs font-semibold text-[#A3876A] hover:text-[#A3876A]">
                 + Tax
               </button>
             )}
@@ -1047,21 +1047,21 @@ export default function QuickPOSPage() {
 
           {/* Additional charges placeholder */}
           <div className="flex justify-between items-center">
-            <span className="text-xs font-semibold text-[#D4623A] cursor-pointer hover:text-[#D4623A]">+ Additional Charges</span>
+            <span className="text-xs font-semibold text-[#A3876A] cursor-pointer hover:text-[#A3876A]">+ Additional Charges</span>
           </div>
 
           {/* Grand Total */}
-          <div className="flex justify-between items-center pt-2 border-t #E5D8CC dark:border-[#222222]">
-            <span className="text-sm font-bold #3D2B1A dark:text-[#E0E0E0]">Total Amount</span>
-            <span className="text-base font-bold text-[#D4623A]">{fmt(grandTotal)}</span>
+          <div className="flex justify-between items-center pt-2 border-t #DDD7CC dark:border-[#1C1D24]">
+            <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">Total Amount</span>
+            <span className="text-base font-bold text-[#A3876A]">{fmt(grandTotal)}</span>
           </div>
 
           {/* Continue Billing */}
           <button
             onClick={() => { if (items.length === 0) { toast.error('Add items first'); return; } setShowConfirm(true); }}
             className={`w-full py-3 rounded-xl text-sm font-bold transition-all mt-1 ${items.length > 0
-              ? 'bg-[#D4623A] text-white hover:bg-[#B8502E] shadow-lg shadow-blue-500/20'
-              : '#EDE5DA dark:bg-[#1A1A1A] text-gray-400 cursor-not-allowed'
+              ? 'bg-[#A3876A] text-white hover:bg-[#8E7356] shadow-lg shadow-blue-500/20'
+              : '#E3DDD2 dark:bg-[#15161C] text-gray-400 cursor-not-allowed'
             }`}
           >
             Continue Billing

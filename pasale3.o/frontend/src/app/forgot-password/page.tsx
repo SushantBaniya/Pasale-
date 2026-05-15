@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from '../../utils/i18n';
 import { Button } from '../../components/ui/Button';
@@ -278,26 +278,26 @@ export default function ForgotPasswordPage() {
         return (
           <>
             <div className="text-center mb-6 sm:mb-8">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#FDF1EC] dark:bg-[#D4623A]/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <FiLock className="w-8 h-8 sm:w-10 sm:h-10 text-[#D4623A] dark:text-[#D4623A]" />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#F5F0E6] dark:bg-[#A3876A]/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <FiLock className="w-8 h-8 sm:w-10 sm:h-10 text-[#A3876A] dark:text-[#A3876A]" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-1.5 sm:mb-2">
+              <h2 className="text-xl sm:text-2xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                 {t('forgotPassword.title')}
               </h2>
-              <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
+              <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
                 {t('forgotPassword.subtitle')}
               </p>
             </div>
 
             {/* Method Toggle */}
-            <div className="flex gap-1.5 sm:gap-2 p-1 #EDE5DA dark:bg-[#1A1A1A] rounded-lg sm:rounded-xl mb-4 sm:mb-6">
+            <div className="flex gap-1.5 sm:gap-2 p-1 #E3DDD2 dark:bg-[#15161C] rounded-lg sm:rounded-xl mb-4 sm:mb-6">
               <button
                 type="button"
                 onClick={() => setMethod('phone')}
                 className={`flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   method === 'phone'
-                    ? 'bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] shadow-sm'
-                    : '#8A7060 dark:text-[#555555]'
+                    ? 'bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] shadow-sm'
+                    : '#6B7280 dark:text-[#44454F]'
                 }`}
               >
                 <FiPhone className="w-4 h-4" />
@@ -308,8 +308,8 @@ export default function ForgotPasswordPage() {
                 onClick={() => setMethod('email')}
                 className={`flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   method === 'email'
-                    ? 'bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] shadow-sm'
-                    : '#8A7060 dark:text-[#555555]'
+                    ? 'bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] shadow-sm'
+                    : '#6B7280 dark:text-[#44454F]'
                 }`}
               >
                 <FiMail className="w-4 h-4" />
@@ -319,7 +319,7 @@ export default function ForgotPasswordPage() {
 
             {method === 'email' ? (
               <div className="mb-4 sm:mb-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
                   {t('profile.email')}
                 </label>
                 <div className="relative">
@@ -330,15 +330,15 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="your@email.com"
                     className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                      errors.email ? 'border-red-500' : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                    } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                      errors.email ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                    } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                   />
                 </div>
                 {errors.email && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email}</p>}
               </div>
             ) : (
               <div className="mb-4 sm:mb-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
                   {t('login.phone')}
                 </label>
                 <div className="relative">
@@ -349,8 +349,8 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
                     placeholder="98XXXXXXXX"
                     className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                      errors.phone ? 'border-red-500' : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                    } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                      errors.phone ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                    } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                   />
                 </div>
                 {errors.phone && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.phone}</p>}
@@ -368,7 +368,7 @@ export default function ForgotPasswordPage() {
             <Button
               onClick={handleSendOTP}
               disabled={isLoading}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {isLoading ? (
                 <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -386,17 +386,17 @@ export default function ForgotPasswordPage() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <FiPhone className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 dark:text-green-400" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-1.5 sm:mb-2">
+              <h2 className="text-xl sm:text-2xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                 {t('verification.verifyOTP')}
               </h2>
-              <p className="text-sm sm:text-base #8A7060 dark:text-[#555555] break-all px-2">
+              <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F] break-all px-2">
                 {t('forgotPassword.codeSentTo')} {method === 'email' ? formData.email : formData.phone}
               </p>
             </div>
 
             {/* OTP Input */}
             <div className="mb-4 sm:mb-6">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-3 sm:mb-4 text-center">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-3 sm:mb-4 text-center">
                 {t('forgotPassword.enterOTP')}
               </label>
               <div className="flex gap-1.5 sm:gap-2 justify-center" onPaste={handleOTPPaste}>
@@ -411,8 +411,8 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => handleOTPChange(index, e.target.value)}
                     onKeyDown={(e) => handleOTPKeyDown(index, e)}
                     className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg sm:rounded-xl border-2 ${
-                      errors.otp ? 'border-red-500' : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                    } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                      errors.otp ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                    } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                   />
                 ))}
               </div>
@@ -422,14 +422,14 @@ export default function ForgotPasswordPage() {
             {/* Resend OTP */}
             <div className="text-center mb-4 sm:mb-6">
               {resendTimer > 0 ? (
-                <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
-                  {t('forgotPassword.resendIn')} <span className="font-semibold text-[#D4623A] dark:text-[#D4623A]">{resendTimer}s</span>
+                <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
+                  {t('forgotPassword.resendIn')} <span className="font-semibold text-[#A3876A] dark:text-[#A3876A]">{resendTimer}s</span>
                 </p>
               ) : (
                 <button
                   onClick={handleResendOTP}
                   disabled={isLoading}
-                  className="text-sm sm:text-base text-[#D4623A] dark:text-[#D4623A] font-semibold hover:text-[#B8502E] dark:hover:text-[#D4623A] flex items-center gap-1.5 sm:gap-2 mx-auto"
+                  className="text-sm sm:text-base text-[#A3876A] dark:text-[#A3876A] font-semibold hover:text-[#8E7356] dark:hover:text-[#A3876A] flex items-center gap-1.5 sm:gap-2 mx-auto"
                 >
                   <FiRefreshCw className="w-4 h-4" />
                   {t('verification.resendOTP')}
@@ -440,7 +440,7 @@ export default function ForgotPasswordPage() {
             <Button
               onClick={handleVerifyOTP}
               disabled={isLoading}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {isLoading ? (
                 <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -451,7 +451,7 @@ export default function ForgotPasswordPage() {
 
             <button
               onClick={() => setStep('request')}
-              className="w-full mt-3 sm:mt-4 py-2.5 sm:py-3 text-sm sm:text-base #8A7060 dark:text-[#555555] font-medium hover:#3D2B1A dark:hover:text-gray-200 flex items-center justify-center gap-1.5 sm:gap-2"
+              className="w-full mt-3 sm:mt-4 py-2.5 sm:py-3 text-sm sm:text-base #6B7280 dark:text-[#44454F] font-medium hover:#1A1C20 dark:hover:text-gray-200 flex items-center justify-center gap-1.5 sm:gap-2"
             >
               <FiArrowLeft className="w-4 h-4" />
               {t('forgotPassword.changeMethod')} {method === 'email' ? t('profile.email').toLowerCase() : t('login.phone').toLowerCase()}
@@ -466,17 +466,17 @@ export default function ForgotPasswordPage() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <FiLock className="w-8 h-8 sm:w-10 sm:h-10 text-purple-600 dark:text-purple-400" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-1.5 sm:mb-2">
+              <h2 className="text-xl sm:text-2xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                 {t('forgotPassword.createNewPassword')}
               </h2>
-              <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
+              <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
                 {t('forgotPassword.newPasswordHint')}
               </p>
             </div>
 
             <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
                   {t('forgotPassword.newPassword')}
                 </label>
                 <div className="relative">
@@ -487,13 +487,13 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
                     placeholder={t('forgotPassword.enterNewPassword')}
                     className={`w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                      errors.newPassword ? 'border-red-500' : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                    } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                      errors.newPassword ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                    } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#8A7060 dark:hover:text-gray-300"
+                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#6B7280 dark:hover:text-gray-300"
                   >
                     {showPassword ? <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiEye className="w-4 h-4 sm:w-5 sm:h-5" />}
                   </button>
@@ -502,7 +502,7 @@ export default function ForgotPasswordPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
                   {t('forgotPassword.confirmPassword')}
                 </label>
                 <div className="relative">
@@ -513,13 +513,13 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                     placeholder={t('forgotPassword.confirmNewPassword')}
                     className={`w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                      errors.confirmPassword ? 'border-red-500' : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                    } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                      errors.confirmPassword ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                    } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#8A7060 dark:hover:text-gray-300"
+                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#6B7280 dark:hover:text-gray-300"
                   >
                     {showConfirmPassword ? <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiEye className="w-4 h-4 sm:w-5 sm:h-5" />}
                   </button>
@@ -528,22 +528,22 @@ export default function ForgotPasswordPage() {
               </div>
 
               {/* Password Requirements */}
-              <div className="#EDE5DA dark:bg-[#222222] rounded-lg sm:rounded-xl p-3 sm:p-4">
-                <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1.5 sm:mb-2">{t('forgotPassword.passwordMustContain')}:</p>
+              <div className="#E3DDD2 dark:bg-[#1C1D24] rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">{t('forgotPassword.passwordMustContain')}:</p>
                 <ul className="text-xs sm:text-sm space-y-0.5 sm:space-y-1">
-                  <li className={`flex items-center gap-1.5 sm:gap-2 ${formData.newPassword.length >= 8 ? 'text-green-600 dark:text-green-400' : '#8A7060 dark:text-[#555555]'}`}>
+                  <li className={`flex items-center gap-1.5 sm:gap-2 ${formData.newPassword.length >= 8 ? 'text-green-600 dark:text-green-400' : '#6B7280 dark:text-[#44454F]'}`}>
                     <FiCheck className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${formData.newPassword.length >= 8 ? 'text-green-600 dark:text-green-400' : 'text-gray-400'}`} />
                     {t('forgotPassword.atLeast8Chars')}
                   </li>
-                  <li className={`flex items-center gap-1.5 sm:gap-2 ${/[A-Z]/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : '#8A7060 dark:text-[#555555]'}`}>
+                  <li className={`flex items-center gap-1.5 sm:gap-2 ${/[A-Z]/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : '#6B7280 dark:text-[#44454F]'}`}>
                     <FiCheck className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${/[A-Z]/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : 'text-gray-400'}`} />
                     {t('forgotPassword.oneUppercase')}
                   </li>
-                  <li className={`flex items-center gap-1.5 sm:gap-2 ${/[a-z]/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : '#8A7060 dark:text-[#555555]'}`}>
+                  <li className={`flex items-center gap-1.5 sm:gap-2 ${/[a-z]/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : '#6B7280 dark:text-[#44454F]'}`}>
                     <FiCheck className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${/[a-z]/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : 'text-gray-400'}`} />
                     {t('forgotPassword.oneLowercase')}
                   </li>
-                  <li className={`flex items-center gap-1.5 sm:gap-2 ${/\d/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : '#8A7060 dark:text-[#555555]'}`}>
+                  <li className={`flex items-center gap-1.5 sm:gap-2 ${/\d/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : '#6B7280 dark:text-[#44454F]'}`}>
                     <FiCheck className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${/\d/.test(formData.newPassword) ? 'text-green-600 dark:text-green-400' : 'text-gray-400'}`} />
                     {t('forgotPassword.oneNumber')}
                   </li>
@@ -554,7 +554,7 @@ export default function ForgotPasswordPage() {
             <Button
               onClick={handleResetPassword}
               disabled={isLoading}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {isLoading ? (
                 <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -571,15 +571,15 @@ export default function ForgotPasswordPage() {
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-bounce">
               <FiCheck className="w-10 h-10 sm:w-12 sm:h-12 text-green-600 dark:text-green-400" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-1.5 sm:mb-2">
+            <h2 className="text-xl sm:text-2xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
               {t('forgotPassword.successTitle')}
             </h2>
-            <p className="text-sm sm:text-base #8A7060 dark:text-[#555555] mb-6 sm:mb-8">
+            <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F] mb-6 sm:mb-8">
               {t('forgotPassword.successMessage')}
             </p>
             <Button
               onClick={() => navigate('/login')}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {t('forgotPassword.goToLogin')}
             </Button>
@@ -589,10 +589,10 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center #FAF7F3 dark:bg-[#111111] p-3 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center #F4F0EA dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-64 sm:w-96 h-64 sm:h-96 bg-[#D4623A]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-64 sm:w-96 h-64 sm:h-96 bg-[#A3876A]/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
       </div>
 
@@ -607,14 +607,14 @@ export default function ForgotPasswordPage() {
         {step !== 'success' && (
           <Link
             to="/login"
-            className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base #8A7060 dark:text-[#555555] hover:#3D2B1A dark:hover:text-gray-200 mb-4 sm:mb-6 font-medium"
+            className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base #6B7280 dark:text-[#44454F] hover:#1A1C20 dark:hover:text-gray-200 mb-4 sm:mb-6 font-medium"
           >
             <FiArrowLeft className="w-4 h-4" />
             Back to Login
           </Link>
         )}
 
-        <div className="bg-white dark:bg-[#1A1A1A] rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 lg:p-8 border #E5D8CC dark:border-[#222222]">
+        <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 lg:p-8 border #DDD7CC dark:border-[#1C1D24]">
           {renderStep()}
         </div>
 
@@ -626,8 +626,8 @@ export default function ForgotPasswordPage() {
                 key={s}
                 className={`h-1.5 sm:h-2 rounded-full transition-all ${
                   ['request', 'verify', 'reset'].indexOf(step) >= i
-                    ? 'w-6 sm:w-8 bg-[#D4623A]'
-                    : 'w-1.5 sm:w-2 bg-gray-300 dark:bg-[#2A2A2A]'
+                    ? 'w-6 sm:w-8 bg-[#A3876A]'
+                    : 'w-1.5 sm:w-2 bg-gray-300 dark:bg-[#22232C]'
                 }`}
               />
             ))}

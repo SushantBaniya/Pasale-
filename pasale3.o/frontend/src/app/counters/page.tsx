@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { counterApi, orderApi } from '../../utils/api';
 import { Button } from '../../components/ui/Button';
@@ -160,15 +160,15 @@ export default function CountersPage() {
       <div className="p-6 max-w-5xl mx-auto animate-in slide-in-from-right duration-300">
         <button
           onClick={() => setSelectedCounter(null)}
-          className="flex items-center gap-2 #8A7060 hover:text-indigo-600 mb-6 transition-colors group"
+          className="flex items-center gap-2 #6B7280 hover:text-indigo-600 mb-6 transition-colors group"
         >
           <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Back to Counters
         </button>
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-black #3D2B1A">Counter {selectedCounter.counter_number}</h1>
-            <p className="#8A7060">{selectedCounter.description || 'Manage active orders for this counter'}</p>
+            <h1 className="text-3xl font-black #1A1C20">Counter {selectedCounter.counter_number}</h1>
+            <p className="#6B7280">{selectedCounter.description || 'Manage active orders for this counter'}</p>
           </div>
           <div className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-2xl text-sm font-bold border border-indigo-100">
             {pendingOrders.length} Pending Orders
@@ -180,23 +180,23 @@ export default function CountersPage() {
             <div className="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
           </div>
         ) : pendingOrders.length === 0 ? (
-          <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 #FAF7F3 shadow-none">
+          <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 #F4F0EA shadow-none">
             <FiShoppingBag className="w-16 h-16 text-gray-200 mb-4" />
-            <h3 className="text-lg font-bold #3D2B1A mb-2">No pending orders</h3>
-            <p className="#8A7060 max-w-sm mb-6">There are no active orders on this counter. New orders from the cart will appear here.</p>
+            <h3 className="text-lg font-bold #1A1C20 mb-2">No pending orders</h3>
+            <p className="#6B7280 max-w-sm mb-6">There are no active orders on this counter. New orders from the cart will appear here.</p>
           </Card>
         ) : (
           <div className="space-y-6">
             {pendingOrders.map(order => (
               <Card key={order.id} className="overflow-hidden border-0 shadow-xl bg-white">
-                <div className="p-6 border-b #FAF7F3/50 flex items-center justify-between">
+                <div className="p-6 border-b #F4F0EA/50 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
                       <FiClock />
                     </div>
                     <div>
                       <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Order Reference</p>
-                      <p className="font-bold #3D2B1A">#{order.id}</p>
+                      <p className="font-bold #1A1C20">#{order.id}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -206,26 +206,26 @@ export default function CountersPage() {
                 </div>
 
                 <div className="p-6">
-                  <h4 className="text-sm font-bold #3D2B1A mb-4 flex items-center gap-2">
+                  <h4 className="text-sm font-bold #1A1C20 mb-4 flex items-center gap-2">
                     <FiBox className="text-indigo-600" /> Order Items
                   </h4>
                   <div className="space-y-3">
                     {order.items?.map(item => (
-                      <div key={item.id} className="flex items-center justify-between p-3 #FAF7F3 rounded-xl">
+                      <div key={item.id} className="flex items-center justify-between p-3 #F4F0EA rounded-xl">
                         <div className="flex items-center gap-3">
-                          <span className="w-8 h-8 bg-white border rounded-lg flex items-center justify-center text-xs font-bold #8A7060 shadow-sm">
+                          <span className="w-8 h-8 bg-white border rounded-lg flex items-center justify-center text-xs font-bold #6B7280 shadow-sm">
                             {item.quantity}x
                           </span>
                           <span className="font-bold text-gray-700">{item.product_name}</span>
                         </div>
-                        <span className="font-medium #8A7060">Rs. {item.total_price.toLocaleString()}</span>
+                        <span className="font-medium #6B7280">Rs. {item.total_price.toLocaleString()}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="p-6 bg-white border-t #E5D8CC flex items-center justify-between">
-                  <p className="#8A7060 text-sm font-medium">Ready to finalize this transaction?</p>
+                <div className="p-6 bg-white border-t #DDD7CC flex items-center justify-between">
+                  <p className="#6B7280 text-sm font-medium">Ready to finalize this transaction?</p>
                   <Button
                     onClick={() => handleCompleteOrder(order.id)}
                     disabled={completingId === order.id}
@@ -250,8 +250,8 @@ export default function CountersPage() {
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold #3D2B1A">Counters</h1>
-          <p className="text-sm #8A7060">Manage your business counters and points of sale</p>
+          <h1 className="text-2xl font-bold #1A1C20">Counters</h1>
+          <p className="text-sm #6B7280">Manage your business counters and points of sale</p>
         </div>
         <Button
           onClick={() => setShowAdd(true)}
@@ -273,10 +273,10 @@ export default function CountersPage() {
           <div className="w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
         </div>
       ) : counters.length === 0 ? (
-        <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 #FAF7F3">
+        <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 #F4F0EA">
           <FiMonitor className="w-16 h-16 text-gray-200 mb-4" />
-          <h3 className="text-lg font-bold #3D2B1A mb-2">No counters found</h3>
-          <p className="#8A7060 max-w-sm mb-6">You haven't added any counters yet. Add one to start managing your orders by counter.</p>
+          <h3 className="text-lg font-bold #1A1C20 mb-2">No counters found</h3>
+          <p className="#6B7280 max-w-sm mb-6">You haven't added any counters yet. Add one to start managing your orders by counter.</p>
           <Button onClick={() => setShowAdd(true)} variant="outline">
             Create First Counter
           </Button>
@@ -294,15 +294,15 @@ export default function CountersPage() {
                   <FiMonitor className="w-6 h-6" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${counter.is_active ? 'bg-green-100 text-green-700' : '#EDE5DA #8A7060'}`}>
+                  <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${counter.is_active ? 'bg-green-100 text-green-700' : '#E3DDD2 #6B7280'}`}>
                     {counter.is_active ? 'ACTIVE' : 'INACTIVE'}
                   </div>
                   <FiChevronRight className="text-gray-300 group-hover:text-indigo-600 transition-colors" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold #3D2B1A mb-1">Counter {counter.counter_number}</h3>
-              <p className="text-sm #8A7060 mb-6">{counter.description || 'No description provided'}</p>
-              <div className="pt-4 border-t #E5D8CC flex items-center justify-between">
+              <h3 className="text-xl font-bold #1A1C20 mb-1">Counter {counter.counter_number}</h3>
+              <p className="text-sm #6B7280 mb-6">{counter.description || 'No description provided'}</p>
+              <div className="pt-4 border-t #DDD7CC flex items-center justify-between">
                 <span className="text-xs text-gray-400 font-medium">VIEW PENDING ORDERS</span>
                 <FiShoppingBag className="text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
@@ -338,7 +338,7 @@ export default function CountersPage() {
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Optional description (e.g. First Floor Counter)"
-                  className="w-full px-4 py-2.5 border #E5D8CC rounded-xl #FAF7F3 #3D2B1A focus:outline-none focus:border-indigo-600 resize-none h-32"
+                  className="w-full px-4 py-2.5 border #DDD7CC rounded-xl #F4F0EA #1A1C20 focus:outline-none focus:border-indigo-600 resize-none h-32"
                 />
               </div>
               <div className="flex gap-3 pt-2">

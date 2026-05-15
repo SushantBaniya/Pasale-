@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import { FiX, FiSave, FiAlertCircle, FiCheck, FiImage } from 'react-icons/fi';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
@@ -164,7 +164,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
             {/* Item Name */}
             <div>
               <label style={labelStyle}>
-                Item Name <span style={{ color: '#D4623A' }}>*</span>
+                Item Name <span style={{ color: '#A3876A' }}>*</span>
               </label>
               <input
                 type="text"
@@ -239,7 +239,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
               </div>
               <div>
                 <label style={labelStyle}>
-                  Selling Price <span style={{ color: '#D4623A' }}>*</span>
+                  Selling Price <span style={{ color: '#A3876A' }}>*</span>
                 </label>
                 <input
                   type="number"

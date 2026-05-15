@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from '../../utils/i18n';
 import { Button } from '../../components/ui/Button';
@@ -258,10 +258,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center #FAF7F3 dark:bg-[#111111] p-3 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center #F4F0EA dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-20 sm:-top-40 -right-20 sm:-right-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-[#D4623A]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-20 sm:-top-40 -right-20 sm:-right-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-[#A3876A]/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-20 sm:-bottom-40 -left-20 sm:-left-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
       </div>
 
@@ -274,18 +274,18 @@ export default function SignupPage() {
       <div className={`w-full max-w-md transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Logo */}
         <div className="text-center mb-5 sm:mb-6 lg:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-[#D4623A] dark:text-[#D4623A]">Pasale</h1>
-          <p className="text-sm sm:text-base #8A7060 dark:text-[#555555] mt-1.5 sm:mt-2">{t('welcome.subtitle')}</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-[#A3876A] dark:text-[#A3876A]">Pasale</h1>
+          <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F] mt-1.5 sm:mt-2">{t('welcome.subtitle')}</p>
         </div>
 
-        <div className="bg-white dark:bg-[#1A1A1A] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border #E5D8CC dark:border-[#222222]">
+        <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border #DDD7CC dark:border-[#1C1D24]">
           {step === 'form' && (
             <>
               <div className="text-center mb-5 sm:mb-6">
-                <h2 className="text-2xl sm:text-3xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-1.5 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                   Create Account
                 </h2>
-                <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
+                <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
                   Fill in your details to get started
                 </p>
               </div>
@@ -301,7 +301,7 @@ export default function SignupPage() {
               <form onSubmit={handleFormSubmit} className="space-y-4">
                 {/* Username */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">
                     Username
                   </label>
                   <div className="relative">
@@ -314,8 +314,8 @@ export default function SignupPage() {
                       className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.username 
                           ? 'border-red-500 focus:border-red-500' 
-                          : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                      } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                          : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.username && (
@@ -325,7 +325,7 @@ export default function SignupPage() {
 
                 {/* Email */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">
                     {t('profile.email')}
                   </label>
                   <div className="relative">
@@ -338,8 +338,8 @@ export default function SignupPage() {
                       className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.email 
                           ? 'border-red-500 focus:border-red-500' 
-                          : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                      } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                          : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.email && (
@@ -349,7 +349,7 @@ export default function SignupPage() {
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">
                     Phone Number
                   </label>
                   <div className="relative">
@@ -362,8 +362,8 @@ export default function SignupPage() {
                       className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.phone_no 
                           ? 'border-red-500 focus:border-red-500' 
-                          : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                      } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                          : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.phone_no && (
@@ -373,7 +373,7 @@ export default function SignupPage() {
 
                 {/* Business Name */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">
                     Business Name
                   </label>
                   <div className="relative">
@@ -386,8 +386,8 @@ export default function SignupPage() {
                       className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.business_name 
                           ? 'border-red-500 focus:border-red-500' 
-                          : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                      } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                          : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.business_name && (
@@ -397,7 +397,7 @@ export default function SignupPage() {
 
                 {/* Password */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">
                     {t('login.password')}
                   </label>
                   <div className="relative">
@@ -410,13 +410,13 @@ export default function SignupPage() {
                       className={`w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.password 
                           ? 'border-red-500 focus:border-red-500' 
-                          : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
-                      } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
+                          : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
+                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#8A7060 dark:hover:text-gray-300"
+                      className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#6B7280 dark:hover:text-gray-300"
                     >
                       {showPassword ? <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiEye className="w-4 h-4 sm:w-5 sm:h-5" />}
                     </button>
@@ -428,7 +428,7 @@ export default function SignupPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -443,11 +443,11 @@ export default function SignupPage() {
               </form>
 
               <div className="mt-6 text-center">
-                <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
+                <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
                   Already have an account?{' '}
                   <Link 
                     to="/login"
-                    className="font-semibold text-[#D4623A] dark:text-[#D4623A] hover:text-[#B8502E] dark:hover:text-[#D4623A]"
+                    className="font-semibold text-[#A3876A] dark:text-[#A3876A] hover:text-[#8E7356] dark:hover:text-[#A3876A]"
                   >
                     Login
                   </Link>
@@ -462,17 +462,17 @@ export default function SignupPage() {
               <div className="text-center mb-5 sm:mb-6 lg:mb-8">
                 <button
                   onClick={goBackToForm}
-                  className="flex items-center gap-1 #8A7060 hover:text-gray-700 dark:text-[#555555] dark:hover:text-gray-200 mb-4"
+                  className="flex items-center gap-1 #6B7280 hover:text-gray-700 dark:text-[#44454F] dark:hover:text-gray-200 mb-4"
                 >
                   <FiArrowLeft className="w-4 h-4" />
                   <span className="text-sm">Back</span>
                 </button>
-                <h2 className="text-2xl sm:text-3xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-1.5 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                   Verify Email
                 </h2>
-                <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
+                <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
                   Enter the 6-digit code sent to <br />
-                  <span className="font-medium text-gray-700 dark:text-[#CCCCCC]">{formData.email}</span>
+                  <span className="font-medium text-gray-700 dark:text-[#C8C3BC]">{formData.email}</span>
                 </p>
               </div>
 
@@ -498,14 +498,14 @@ export default function SignupPage() {
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleOtpKeyDown(index, e)}
                       onPaste={handleOtpPaste}
-                      className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg sm:rounded-xl border-2 #E5D8CC dark:border-[#333333] focus:border-[#D4623A] bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors"
+                      className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg sm:rounded-xl border-2 #DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A] bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors"
                     />
                   ))}
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -519,13 +519,13 @@ export default function SignupPage() {
                 </Button>
 
                 <div className="text-center">
-                  <p className="text-sm #8A7060 dark:text-[#555555]">
+                  <p className="text-sm #6B7280 dark:text-[#44454F]">
                     Didn't receive the code?{' '}
                     <button
                       type="button"
                       onClick={handleResendOtp}
                       disabled={isLoading}
-                      className="font-semibold text-[#D4623A] dark:text-[#D4623A] hover:text-[#B8502E] dark:hover:text-[#D4623A] disabled:opacity-50"
+                      className="font-semibold text-[#A3876A] dark:text-[#A3876A] hover:text-[#8E7356] dark:hover:text-[#A3876A] disabled:opacity-50"
                     >
                       Resend
                     </button>
@@ -540,13 +540,13 @@ export default function SignupPage() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiCheck className="w-8 h-8 sm:w-10 sm:h-10 text-green-500" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-2">
                 Account Created!
               </h2>
-              <p className="text-sm sm:text-base #8A7060 dark:text-[#555555] mb-4">
+              <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F] mb-4">
                 Your account has been verified successfully.
               </p>
-              <p className="text-sm text-gray-400 dark:#8A7060">
+              <p className="text-sm text-gray-400 dark:#6B7280">
                 Redirecting to login...
               </p>
             </div>
@@ -554,7 +554,7 @@ export default function SignupPage() {
         </div>
 
         {/* Info message */}
-        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-[#FDF1EC] dark:bg-[#D4623A]/15 border border-[#D4623A]/30 dark:border-[#D4623A]/50 rounded-lg sm:rounded-xl">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-[#F5F0E6] dark:bg-[#A3876A]/15 border border-[#A3876A]/30 dark:border-[#A3876A]/50 rounded-lg sm:rounded-xl">
           <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 text-center">
             <span className="font-semibold">Note:</span> OTP will be sent to your email address for verification
           </p>

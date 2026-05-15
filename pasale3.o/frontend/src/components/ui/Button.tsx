@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'white';
@@ -17,15 +17,15 @@ export const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   ...props
 }) => {
-  const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-[#111111] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center active:scale-[0.98]';
+  const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-[#0D0E12] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center active:scale-[0.98]';
 
   const variantClasses = {
-    primary: 'bg-[#D4623A] text-white hover:bg-[#B8502E] focus:ring-[#D4623A] shadow-sm hover:shadow-md',
-    secondary: 'bg-[#3D2B1A] text-[#F5EDE3] hover:bg-[#2A1D12] dark:bg-[#1A1A1A] dark:text-[#999999] dark:border dark:border-[#333333] dark:hover:bg-[#222222] dark:hover:text-[#E0E0E0] focus:ring-[#3D2B1A] dark:focus:ring-[#333333] shadow-sm hover:shadow-md',
-    outline: 'border-2 border-[#D4623A] text-[#D4623A] dark:text-[#D4623A] hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/10 focus:ring-[#D4623A]',
-    ghost: 'text-[#3D2B1A] dark:text-[#CCCCCC] hover:bg-[#EDE5DA] dark:hover:bg-[#1A1A1A] focus:ring-[#D4623A]',
+    primary: 'bg-[#A3876A] text-white hover:bg-[#8E7356] focus:ring-[#A3876A] shadow-sm hover:shadow-md',
+    secondary: 'bg-[#1A1C20] text-[#EBE5DA] hover:bg-[#2A1D12] dark:bg-[#15161C] dark:text-[#999999] dark:border dark:border-[#2A2B36] dark:hover:bg-[#1C1D24] dark:hover:text-[#EAE5DF] focus:ring-[#1A1C20] dark:focus:ring-[#2A2B36] shadow-sm hover:shadow-md',
+    outline: 'border-2 border-[#A3876A] text-[#A3876A] dark:text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/10 focus:ring-[#A3876A]',
+    ghost: 'text-[#1A1C20] dark:text-[#C8C3BC] hover:bg-[#E3DDD2] dark:hover:bg-[#15161C] focus:ring-[#A3876A]',
     danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-sm hover:shadow-md',
-    white: 'bg-white text-[#3D2B1A] dark:bg-[#1A1A1A] dark:text-[#E0E0E0] dark:border dark:border-[#333333] hover:bg-[#FAF7F3] dark:hover:bg-[#222222] focus:ring-white dark:focus:ring-[#333333] shadow-lg hover:shadow-xl border-0',
+    white: 'bg-white text-[#1A1C20] dark:bg-[#15161C] dark:text-[#EAE5DF] dark:border dark:border-[#2A2B36] hover:bg-[#F4F0EA] dark:hover:bg-[#1C1D24] focus:ring-white dark:focus:ring-[#2A2B36] shadow-lg hover:shadow-xl border-0',
   };
 
   const sizeClasses = {

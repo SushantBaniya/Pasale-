@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../../utils/i18n';
 import { useAuthStore } from '../../store/authStore';
@@ -209,14 +209,14 @@ export default function SettingsPage() {
     label: string;
     description?: string;
   }) => (
-    <div className="flex items-center justify-between py-4 border-b #E5D8CC last:border-0 dark:border-slate-700">
+    <div className="flex items-center justify-between py-4 border-b #DDD7CC last:border-0 dark:border-slate-700">
       <div className="flex-1 pr-8">
-        <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">{label}</p>
-        {description && <p className="text-xs #8A7060 mt-0.5 dark:text-[#555555]">{description}</p>}
+        <p className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF]">{label}</p>
+        {description && <p className="text-xs #6B7280 mt-0.5 dark:text-[#44454F]">{description}</p>}
       </div>
       <button
         onClick={() => onChange(!enabled)}
-        className={`relative flex-shrink-0 w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${enabled ? 'bg-[#D4623A]' : 'bg-gray-200 dark:bg-slate-700'}`}
+        className={`relative flex-shrink-0 w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${enabled ? 'bg-[#A3876A]' : 'bg-gray-200 dark:bg-slate-700'}`}
         aria-label={label}
       >
         <span
@@ -239,15 +239,15 @@ export default function SettingsPage() {
     onChange: (v: string) => void;
     options: { value: string; label: string }[];
   }) => (
-    <div className="flex items-center justify-between py-4 border-b #E5D8CC last:border-0 dark:border-slate-700">
+    <div className="flex items-center justify-between py-4 border-b #DDD7CC last:border-0 dark:border-slate-700">
       <div className="flex-1 pr-8">
-        <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">{label}</p>
-        {description && <p className="text-xs #8A7060 mt-0.5 dark:text-[#555555]">{description}</p>}
+        <p className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF]">{label}</p>
+        {description && <p className="text-xs #6B7280 mt-0.5 dark:text-[#44454F]">{description}</p>}
       </div>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="text-sm text-gray-700 #FAF7F3 border #E5D8CC rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:text-[#E0E0E0] dark:bg-slate-800 dark:border-slate-700"
+        className="text-sm text-gray-700 #F4F0EA border #DDD7CC rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:text-[#EAE5DF] dark:bg-slate-800 dark:border-slate-700"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
@@ -257,10 +257,10 @@ export default function SettingsPage() {
   );
 
   const SectionCard = ({ title, children }: { title?: string; children: React.ReactNode }) => (
-    <div className="bg-white rounded-xl border #E5D8CC shadow-sm overflow-hidden mb-4 dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
+    <div className="bg-white rounded-xl border #DDD7CC shadow-sm overflow-hidden mb-4 dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
         {title && (
-          <div className="px-6 py-4 border-b #E5D8CC dark:border-slate-700">
-            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide dark:text-[#CCCCCC]">{title}</h3>
+          <div className="px-6 py-4 border-b #DDD7CC dark:border-slate-700">
+            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide dark:text-[#C8C3BC]">{title}</h3>
           </div>
         )}
         <div className="px-6">{children}</div>
@@ -268,14 +268,14 @@ export default function SettingsPage() {
   );
 
   const PageTitle = ({ title }: { title: string }) => (
-    <h2 className="text-xl font-semibold #3D2B1A mb-6 dark:text-[#E0E0E0]">{title}</h2>
+    <h2 className="text-xl font-semibold #1A1C20 mb-6 dark:text-[#EAE5DF]">{title}</h2>
   );
 
   const SaveBtn = ({ onClick, label = 'Save Settings' }: { onClick: () => void; label?: string }) => (
     <div className="flex justify-end mt-2 mb-4">
       <button
         onClick={onClick}
-        className="px-6 py-2.5 bg-[#D4623A] hover:bg-[#B8502E] text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
+        className="px-6 py-2.5 bg-[#A3876A] hover:bg-[#8E7356] text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
       >
         {label}
       </button>
@@ -290,31 +290,31 @@ export default function SettingsPage() {
       {/* Appearance */}
       <SectionCard title="Appearance">
         <div className="py-4">
-          <p className="text-xs #8A7060 mb-4 dark:text-[#555555]">To adjust website theme, choose from three preset options</p>
+          <p className="text-xs #6B7280 mb-4 dark:text-[#44454F]">To adjust website theme, choose from three preset options</p>
           <div className="flex gap-4">
             {(['light', 'classic', 'dark'] as Theme[]).map((t) => (
               <button
                 key={t}
                 onClick={() => { setTheme(t as any); updateGeneralSettings({ appearance: t }); }}
-                className={`relative rounded-xl overflow-hidden border-2 dark:border-slate-700 transition-all ${theme === t ? 'border-blue-600' : '#E5D8CC hover:border-gray-300'}`}
+                className={`relative rounded-xl overflow-hidden border-2 dark:border-slate-700 transition-all ${theme === t ? 'border-blue-600' : '#DDD7CC hover:border-gray-300'}`}
               >
-                <div className={`w-28 h-20 ${t === 'light' ? '#FAF7F3 dark:bg-slate-800' : t === 'classic' ? 'bg-slate-600' : 'bg-gray-900'}`}>
+                <div className={`w-28 h-20 ${t === 'light' ? '#F4F0EA dark:bg-slate-800' : t === 'classic' ? 'bg-slate-600' : 'bg-gray-900'}`}>
                   <div className={`flex h-full`}>
-                    <div className={`w-8 h-full ${t === 'light' ? 'bg-white dark:bg-slate-700 border-r #E5D8CC dark:border-slate-700' : t === 'classic' ? 'bg-slate-700' : 'bg-gray-800'}`} />
+                    <div className={`w-8 h-full ${t === 'light' ? 'bg-white dark:bg-slate-700 border-r #DDD7CC dark:border-slate-700' : t === 'classic' ? 'bg-slate-700' : 'bg-gray-800'}`} />
                     <div className="flex-1 p-2">
                       <div className={`h-1.5 w-10 rounded mb-1 ${t === 'light' ? 'bg-gray-300' : 'bg-gray-600'}`} />
                       <div className={`h-1.5 w-7 rounded ${t === 'light' ? 'bg-gray-200' : 'bg-gray-700'}`} />
                     </div>
                   </div>
                   {/* blue accent */}
-                  <div className="absolute top-2 left-2 w-4 h-4 rounded bg-[#D4623A]" />
+                  <div className="absolute top-2 left-2 w-4 h-4 rounded bg-[#A3876A]" />
                 </div>
                 {theme === t && (
-                  <div className="absolute top-1.5 right-1.5 w-5 h-5 bg-[#D4623A] rounded-full flex items-center justify-center">
+                  <div className="absolute top-1.5 right-1.5 w-5 h-5 bg-[#A3876A] rounded-full flex items-center justify-center">
                     <FiCheck className="w-3 h-3 text-white" />
                   </div>
                 )}
-                <p className={`text-center py-2 text-xs font-medium ${theme === t ? 'text-[#D4623A]' : '#8A7060 dark:text-[#555555]'}`}>
+                <p className={`text-center py-2 text-xs font-medium ${theme === t ? 'text-[#A3876A]' : '#6B7280 dark:text-[#44454F]'}`}>
                   {t === 'light' ? 'Light Theme' : t === 'classic' ? 'Classic Theme' : 'Dark Theme'}
                 </p>
               </button>
@@ -353,17 +353,17 @@ export default function SettingsPage() {
 
       {/* Calendar & Format */}
       <SectionCard>
-        <div className="flex items-center justify-between py-4 border-b #E5D8CC dark:border-slate-700">
+        <div className="flex items-center justify-between py-4 border-b #DDD7CC dark:border-slate-700">
           <div>
-            <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">Calendar</p>
-            <p className="text-xs #8A7060 mt-0.5 dark:#8A7060">To adjust calendar type, choose from available options</p>
+            <p className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF]">Calendar</p>
+            <p className="text-xs #6B7280 mt-0.5 dark:#6B7280">To adjust calendar type, choose from available options</p>
           </div>
-          <div className="flex #EDE5DA rounded-lg p-0.5 dark:bg-slate-700/40">
+          <div className="flex #E3DDD2 rounded-lg p-0.5 dark:bg-slate-700/40">
             {(['AD', 'BS'] as const).map((cal) => (
               <button
                 key={cal}
                 onClick={() => updateGeneralSettings({ calendarType: cal })}
-                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${general.calendarType === cal ? 'bg-[#D4623A] text-white shadow-sm' : '#8A7060 dark:text-[#555555] hover:text-gray-700 dark:hover:text-gray-200'}`}
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${general.calendarType === cal ? 'bg-[#A3876A] text-white shadow-sm' : '#6B7280 dark:text-[#44454F] hover:text-gray-700 dark:hover:text-gray-200'}`}
               >
                 {cal}
               </button>
@@ -422,67 +422,67 @@ export default function SettingsPage() {
 
       <SectionCard>
         {/* Profile Header */}
-        <div className="py-5 flex items-center gap-4 border-b #E5D8CC dark:border-slate-700">
+        <div className="py-5 flex items-center gap-4 border-b #DDD7CC dark:border-slate-700">
           <div className="relative">
             {accountForm.photo ? (
               <img src={accountForm.photo} alt="Profile" className="w-14 h-14 rounded-full object-cover" />
             ) : (
-              <div className="w-14 h-14 rounded-full bg-[#D4623A]/10 flex items-center justify-center">
-                <FiUser className="w-6 h-6 text-[#D4623A]" />
+              <div className="w-14 h-14 rounded-full bg-[#A3876A]/10 flex items-center justify-center">
+                <FiUser className="w-6 h-6 text-[#A3876A]" />
               </div>
             )}
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#D4623A] rounded-full flex items-center justify-center shadow"
+              className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#A3876A] rounded-full flex items-center justify-center shadow"
             >
               <FiEdit2 className="w-2.5 h-2.5 text-white" />
             </button>
           </div>
           <div>
-            <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{accountForm.name || 'Your Name'}</p>
-            <p className="text-sm #8A7060 dark:#8A7060">{accountForm.email}</p>
-            <p className="text-xs text-[#D4623A] mt-0.5">Signed in via Google</p>
+            <p className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{accountForm.name || 'Your Name'}</p>
+            <p className="text-sm #6B7280 dark:#6B7280">{accountForm.email}</p>
+            <p className="text-xs text-[#A3876A] mt-0.5">Signed in via Google</p>
           </div>
           <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
         </div>
 
         {/* Full Name */}
-        <div className="py-4 border-b #E5D8CC dark:border-slate-700">
-          <label className="text-xs font-medium #8A7060 uppercase tracking-wide mb-2 block dark:#8A7060">Full Name</label>
+        <div className="py-4 border-b #DDD7CC dark:border-slate-700">
+          <label className="text-xs font-medium #6B7280 uppercase tracking-wide mb-2 block dark:#6B7280">Full Name</label>
           <div className="relative">
-            <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:#8A7060" />
+            <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:#6B7280" />
             <input
               value={accountForm.name}
               onChange={(e) => setAccountForm({ ...accountForm, name: e.target.value })}
-              className="w-full pl-9 pr-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm #3D2B1A focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+              className="w-full pl-9 pr-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm #1A1C20 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
             />
           </div>
         </div>
 
         {/* Email */}
-        <div className="py-4 border-b #E5D8CC dark:border-slate-700">
-          <label className="text-xs font-medium #8A7060 uppercase tracking-wide mb-2 block dark:#8A7060">Email Address</label>
+        <div className="py-4 border-b #DDD7CC dark:border-slate-700">
+          <label className="text-xs font-medium #6B7280 uppercase tracking-wide mb-2 block dark:#6B7280">Email Address</label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#8A7060">✉</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#6B7280">✉</span>
             <input
               value={accountForm.email}
               disabled
-              className="w-full pl-9 pr-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm text-gray-400 cursor-not-allowed dark:bg-slate-800 dark:border-slate-700 dark:#8A7060"
+              className="w-full pl-9 pr-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm text-gray-400 cursor-not-allowed dark:bg-slate-800 dark:border-slate-700 dark:#6B7280"
             />
           </div>
-          <p className="text-xs text-gray-400 mt-1 dark:#8A7060">Email cannot be changed</p>
+          <p className="text-xs text-gray-400 mt-1 dark:#6B7280">Email cannot be changed</p>
         </div>
 
         {/* Phone */}
         <div className="py-4">
-          <label className="text-xs font-medium #8A7060 uppercase tracking-wide mb-2 block dark:#8A7060">Phone Number</label>
+          <label className="text-xs font-medium #6B7280 uppercase tracking-wide mb-2 block dark:#6B7280">Phone Number</label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#8A7060">📱</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#6B7280">📱</span>
             <input
               value={accountForm.phone}
               onChange={(e) => setAccountForm({ ...accountForm, phone: e.target.value })}
               placeholder="Enter your phone number"
-              className="w-full pl-9 pr-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm #3D2B1A focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+              className="w-full pl-9 pr-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm #1A1C20 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
             />
           </div>
         </div>
@@ -498,7 +498,7 @@ export default function SettingsPage() {
         </button>
         <button
           onClick={() => { updateUserProfile({ name: accountForm.name, phone: accountForm.phone, email: accountForm.email, photo: accountForm.photo }); showSuccessMessage('Account updated!'); }}
-          className="px-6 py-2.5 bg-[#D4623A] hover:bg-[#B8502E] text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
+          className="px-6 py-2.5 bg-[#A3876A] hover:bg-[#8E7356] text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
         >
           Save Changes
         </button>
@@ -513,51 +513,51 @@ export default function SettingsPage() {
 
       <SectionCard>
         {/* Business Logo & Name Header */}
-        <div className="py-5 flex items-center gap-4 border-b #E5D8CC dark:border-slate-700">
+        <div className="py-5 flex items-center gap-4 border-b #DDD7CC dark:border-slate-700">
           <div className="relative">
             {businessForm.businessLogo ? (
               <img src={businessForm.businessLogo} alt="Logo" className="w-14 h-14 rounded-xl object-cover" />
             ) : (
-              <div className="w-14 h-14 rounded-xl bg-[#D4623A]/10 flex items-center justify-center">
-                <FiBriefcase className="w-7 h-7 text-[#D4623A]" />
+              <div className="w-14 h-14 rounded-xl bg-[#A3876A]/10 flex items-center justify-center">
+                <FiBriefcase className="w-7 h-7 text-[#A3876A]" />
               </div>
             )}
             <button
               onClick={() => businessLogoRef.current?.click()}
-              className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#D4623A] rounded-full flex items-center justify-center shadow"
+              className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#A3876A] rounded-full flex items-center justify-center shadow"
             >
               <span className="text-white text-xs">📷</span>
             </button>
           </div>
           <div>
-            <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{businessForm.businessName || 'Business Name'}</p>
-            <p className="text-xs text-gray-400 mt-0.5 dark:#8A7060">Click camera to update logo</p>
+            <p className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{businessForm.businessName || 'Business Name'}</p>
+            <p className="text-xs text-gray-400 mt-0.5 dark:#6B7280">Click camera to update logo</p>
           </div>
           <input ref={businessLogoRef} type="file" accept="image/*" onChange={handleBusinessLogoUpload} className="hidden" />
         </div>
 
         {/* Business Name */}
-        <div className="py-4 border-b #E5D8CC dark:border-slate-700">
-          <label className="text-xs font-medium #8A7060 uppercase tracking-wide mb-2 block dark:#8A7060">Business Name</label>
+        <div className="py-4 border-b #DDD7CC dark:border-slate-700">
+          <label className="text-xs font-medium #6B7280 uppercase tracking-wide mb-2 block dark:#6B7280">Business Name</label>
           <div className="relative">
-            <FiBriefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:#8A7060" />
+            <FiBriefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:#6B7280" />
             <input
               value={businessForm.businessName}
               onChange={(e) => setBusinessForm({ ...businessForm, businessName: e.target.value })}
-              className="w-full pl-9 pr-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm #3D2B1A focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+              className="w-full pl-9 pr-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm #1A1C20 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
             />
           </div>
         </div>
 
         {/* Business Category */}
-        <div className="py-4 border-b #E5D8CC dark:border-slate-700">
-          <label className="text-xs font-medium #8A7060 uppercase tracking-wide mb-2 block dark:#8A7060">Business Category</label>
+        <div className="py-4 border-b #DDD7CC dark:border-slate-700">
+          <label className="text-xs font-medium #6B7280 uppercase tracking-wide mb-2 block dark:#6B7280">Business Category</label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#8A7060">🏷</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#6B7280">🏷</span>
             <select
               value={businessForm.businessCategory}
               onChange={(e) => setBusinessForm({ ...businessForm, businessCategory: e.target.value })}
-              className="w-full pl-9 pr-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm #3D2B1A focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 appearance-none dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+              className="w-full pl-9 pr-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm #1A1C20 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 appearance-none dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
             >
               <option value="">Select Category</option>
               {businessCategories.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -567,14 +567,14 @@ export default function SettingsPage() {
 
         {/* Business Address */}
         <div className="py-4">
-          <label className="text-xs font-medium #8A7060 uppercase tracking-wide mb-2 block dark:#8A7060">Business Address</label>
+          <label className="text-xs font-medium #6B7280 uppercase tracking-wide mb-2 block dark:#6B7280">Business Address</label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#8A7060">📍</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm dark:#6B7280">📍</span>
             <input
               value={businessForm.businessAddress}
               onChange={(e) => setBusinessForm({ ...businessForm, businessAddress: e.target.value })}
               placeholder="Enter business address"
-              className="w-full pl-9 pr-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm #3D2B1A focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+              className="w-full pl-9 pr-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm #1A1C20 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
             />
           </div>
         </div>
@@ -643,13 +643,13 @@ export default function SettingsPage() {
     return (
       <div>
         <div className="flex items-center gap-3 mb-6">
-          <button onClick={onBack} className="p-1.5 hover:#EDE5DA rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700">
-            <FiArrowLeft className="w-4 h-4 #8A7060 dark:#8A7060" />
+          <button onClick={onBack} className="p-1.5 hover:#E3DDD2 rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700">
+            <FiArrowLeft className="w-4 h-4 #6B7280 dark:#6B7280" />
           </button>
-          <h2 className="text-xl font-semibold #3D2B1A flex-1 dark:text-[#E0E0E0]">{title}</h2>
+          <h2 className="text-xl font-semibold #1A1C20 flex-1 dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={() => { setShowAddCategory(true); setNewCategory(''); }}
-            className="flex items-center gap-2 px-4 py-2 bg-[#D4623A] text-white text-sm font-semibold rounded-lg hover:bg-[#B8502E] transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-[#A3876A] text-white text-sm font-semibold rounded-lg hover:bg-[#8E7356] transition-colors shadow-sm"
           >
             <FiPlus className="w-4 h-4" />
             Add New Category
@@ -658,25 +658,25 @@ export default function SettingsPage() {
 
         {/* Search */}
         <div className="relative mb-2">
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:#8A7060" />
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:#6B7280" />
           <input
             value={categorySearch}
             onChange={(e) => setCategorySearch(e.target.value)}
             placeholder="Search Category..."
-            className="w-full pl-9 pr-4 py-2.5 bg-white border #E5D8CC rounded-xl text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+            className="w-full pl-9 pr-4 py-2.5 bg-white border #DDD7CC rounded-xl text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
           />
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-xl border #E5D8CC shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
-          <div className="grid grid-cols-3 px-6 py-3 border-b #E5D8CC #FAF7F3 dark:border-slate-700 dark:bg-slate-800/20">
-            <span className="text-xs font-semibold #8A7060 uppercase tracking-wide dark:text-[#CCCCCC]">Category Name</span>
-            <span className="text-xs font-semibold #8A7060 uppercase tracking-wide text-right dark:text-[#CCCCCC]">Total Amount</span>
-            <span className="text-xs font-semibold #8A7060 uppercase tracking-wide text-right dark:text-[#CCCCCC]">Action</span>
+        <div className="bg-white rounded-xl border #DDD7CC shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
+          <div className="grid grid-cols-3 px-6 py-3 border-b #DDD7CC #F4F0EA dark:border-slate-700 dark:bg-slate-800/20">
+            <span className="text-xs font-semibold #6B7280 uppercase tracking-wide dark:text-[#C8C3BC]">Category Name</span>
+            <span className="text-xs font-semibold #6B7280 uppercase tracking-wide text-right dark:text-[#C8C3BC]">Total Amount</span>
+            <span className="text-xs font-semibold #6B7280 uppercase tracking-wide text-right dark:text-[#C8C3BC]">Action</span>
           </div>
 
           {filtered.map((cat, i) => (
-            <div key={cat.name} className="grid grid-cols-3 px-6 py-4 border-b border-gray-50 hover:#FAF7F3 transition-colors items-center dark:border-slate-700 dark:hover:bg-slate-700/40 dark:bg-slate-800/50">
+            <div key={cat.name} className="grid grid-cols-3 px-6 py-4 border-b border-gray-50 hover:#F4F0EA transition-colors items-center dark:border-slate-700 dark:hover:bg-slate-700/40 dark:bg-slate-800/50">
               {editingCategory?.index === i ? (
                 <>
                   <input
@@ -685,30 +685,30 @@ export default function SettingsPage() {
                     className="text-sm border border-blue-600 rounded-lg px-2 py-1 focus:outline-none"
                     autoFocus
                   />
-                  <span className="text-sm text-gray-700 text-right dark:text-[#CCCCCC]">Rs. {cat.total}</span>
+                  <span className="text-sm text-gray-700 text-right dark:text-[#C8C3BC]">Rs. {cat.total}</span>
                   <div className="flex justify-end gap-2">
                     <button
                       onClick={() => {
                         setCategories(prev => prev.map((c, idx) => idx === i ? { ...c, name: editingCategory.name } : c));
                         setEditingCategory(null);
                       }}
-                      className="text-[#D4623A] hover:text-[#B8502E] p-1"
+                      className="text-[#A3876A] hover:text-[#8E7356] p-1"
                     >
                       <FiCheck className="w-4 h-4" />
                     </button>
-                    <button onClick={() => setEditingCategory(null)} className="text-gray-400 hover:#8A7060 p-1 dark:#8A7060">
+                    <button onClick={() => setEditingCategory(null)} className="text-gray-400 hover:#6B7280 p-1 dark:#6B7280">
                       <FiX className="w-4 h-4" />
                     </button>
                   </div>
                 </>
               ) : (
                 <>
-                  <span className="text-sm #3D2B1A dark:text-[#E0E0E0]">{cat.name}</span>
-                  <span className="text-sm #8A7060 text-right dark:text-[#CCCCCC]">Rs. {cat.total}</span>
+                  <span className="text-sm #1A1C20 dark:text-[#EAE5DF]">{cat.name}</span>
+                  <span className="text-sm #6B7280 text-right dark:text-[#C8C3BC]">Rs. {cat.total}</span>
                   <div className="flex justify-end gap-2">
                     <button
                       onClick={() => setEditingCategory({ name: cat.name, index: i })}
-                      className="p-1.5 hover:#EDE5DA rounded-lg transition-colors text-gray-400 hover:#8A7060 dark:hover:bg-slate-700 dark:bg-slate-700 dark:#8A7060"
+                      className="p-1.5 hover:#E3DDD2 rounded-lg transition-colors text-gray-400 hover:#6B7280 dark:hover:bg-slate-700 dark:bg-slate-700 dark:#6B7280"
                     >
                       <FiEdit2 className="w-3.5 h-3.5" />
                     </button>
@@ -718,7 +718,7 @@ export default function SettingsPage() {
                           setCategories(prev => prev.filter((_, idx) => idx !== i));
                         }
                       }}
-                      className="p-1.5 hover:bg-red-50 rounded-lg transition-colors text-gray-400 hover:text-red-500 dark:#8A7060"
+                      className="p-1.5 hover:bg-red-50 rounded-lg transition-colors text-gray-400 hover:text-red-500 dark:#6B7280"
                     >
                       <FiTrash2 className="w-3.5 h-3.5" />
                     </button>
@@ -729,7 +729,7 @@ export default function SettingsPage() {
           ))}
 
           {filtered.length === 0 && (
-            <div className="py-12 text-center text-gray-400 text-sm dark:#8A7060">No categories found</div>
+            <div className="py-12 text-center text-gray-400 text-sm dark:#6B7280">No categories found</div>
           )}
         </div>
 
@@ -737,12 +737,12 @@ export default function SettingsPage() {
         {showAddCategory && (
           <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
             <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl dark:bg-slate-800 dark:shadow-none">
-              <h3 className="font-semibold #3D2B1A mb-4 dark:text-[#E0E0E0]">Add New Category</h3>
+              <h3 className="font-semibold #1A1C20 mb-4 dark:text-[#EAE5DF]">Add New Category</h3>
               <input
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
                 placeholder="Category name"
-                className="w-full px-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+                className="w-full px-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && newCategory.trim()) {
@@ -754,7 +754,7 @@ export default function SettingsPage() {
                 }}
               />
               <div className="flex gap-3">
-                <button onClick={() => setShowAddCategory(false)} className="flex-1 py-2 border #E5D8CC rounded-lg text-sm font-medium #8A7060 hover:#FAF7F3 dark:border-slate-700 dark:#8A7060 dark:hover:bg-slate-700/40 dark:bg-slate-800">Cancel</button>
+                <button onClick={() => setShowAddCategory(false)} className="flex-1 py-2 border #DDD7CC rounded-lg text-sm font-medium #6B7280 hover:#F4F0EA dark:border-slate-700 dark:#6B7280 dark:hover:bg-slate-700/40 dark:bg-slate-800">Cancel</button>
                 <button
                   onClick={() => {
                     if (newCategory.trim()) {
@@ -764,7 +764,7 @@ export default function SettingsPage() {
                       showSuccessMessage('Category added!');
                     }
                   }}
-                  className="flex-1 py-2 bg-[#D4623A] text-white rounded-lg text-sm font-semibold hover:bg-[#B8502E]"
+                  className="flex-1 py-2 bg-[#A3876A] text-white rounded-lg text-sm font-semibold hover:bg-[#8E7356]"
                 >
                   Add
                 </button>
@@ -800,20 +800,20 @@ export default function SettingsPage() {
     return (
       <div>
         <PageTitle title="Transaction Settings" />
-        <div className="bg-white rounded-xl border #E5D8CC shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
+        <div className="bg-white rounded-xl border #DDD7CC shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
           <button
             onClick={() => setTransactionSubView('income')}
-            className="w-full flex items-center justify-between px-6 py-4 border-b #E5D8CC hover:#FAF7F3 transition-colors dark:border-slate-700 dark:hover:bg-slate-700/40 dark:bg-slate-800"
+            className="w-full flex items-center justify-between px-6 py-4 border-b #DDD7CC hover:#F4F0EA transition-colors dark:border-slate-700 dark:hover:bg-slate-700/40 dark:bg-slate-800"
           >
-            <span className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">Manage Income Categories</span>
-            <FiChevronRight className="w-4 h-4 text-gray-400 dark:#8A7060" />
+            <span className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF]">Manage Income Categories</span>
+            <FiChevronRight className="w-4 h-4 text-gray-400 dark:#6B7280" />
           </button>
           <button
             onClick={() => setTransactionSubView('expense')}
-            className="w-full flex items-center justify-between px-6 py-4 hover:#FAF7F3 transition-colors dark:hover:bg-slate-700/40 dark:bg-slate-800"
+            className="w-full flex items-center justify-between px-6 py-4 hover:#F4F0EA transition-colors dark:hover:bg-slate-700/40 dark:bg-slate-800"
           >
-            <span className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">Manage Expense Categories</span>
-            <FiChevronRight className="w-4 h-4 text-gray-400 dark:#8A7060" />
+            <span className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF]">Manage Expense Categories</span>
+            <FiChevronRight className="w-4 h-4 text-gray-400 dark:#6B7280" />
           </button>
         </div>
       </div>
@@ -845,11 +845,11 @@ export default function SettingsPage() {
   const isFeatureActive = featureItems.some(f => f.id === activeSection);
 
   return (
-    <div className="min-h-screen #FAF7F3 flex #3D2B1A dark:bg-slate-900 dark:text-[#E0E0E0]">
+    <div className="min-h-screen #F4F0EA flex #1A1C20 dark:bg-slate-900 dark:text-[#EAE5DF]">
       {/* Success Toast */}
       {success && (
-        <div className="fixed top-5 right-5 z-[100] flex items-center gap-2 px-4 py-3 bg-white border border-blue-600/30 rounded-xl shadow-lg text-sm font-medium text-gray-700 animate-in slide-in-from-top-2 duration-300 dark:bg-slate-800 dark:border-blue-600/30 dark:shadow-none dark:text-[#E0E0E0]">
-          <div className="w-5 h-5 bg-[#D4623A] rounded-full flex items-center justify-center flex-shrink-0">
+        <div className="fixed top-5 right-5 z-[100] flex items-center gap-2 px-4 py-3 bg-white border border-blue-600/30 rounded-xl shadow-lg text-sm font-medium text-gray-700 animate-in slide-in-from-top-2 duration-300 dark:bg-slate-800 dark:border-blue-600/30 dark:shadow-none dark:text-[#EAE5DF]">
+          <div className="w-5 h-5 bg-[#A3876A] rounded-full flex items-center justify-center flex-shrink-0">
             <FiCheck className="w-3 h-3 text-white" />
           </div>
           {success}
@@ -857,16 +857,16 @@ export default function SettingsPage() {
       )}
 
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r #E5D8CC flex flex-col py-6 flex-shrink-0 min-h-screen dark:bg-slate-800 dark:border-slate-700">
+      <aside className="w-64 bg-white border-r #DDD7CC flex flex-col py-6 flex-shrink-0 min-h-screen dark:bg-slate-800 dark:border-slate-700">
         {/* Back & Title */}
         <div className="px-4 mb-6 flex items-center gap-2">
           <button
             onClick={() => navigate(-1)}
-            className="p-1.5 hover:#EDE5DA rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700"
+            className="p-1.5 hover:#E3DDD2 rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700"
           >
-            <FiArrowLeft className="w-4 h-4 #8A7060 dark:#8A7060" />
+            <FiArrowLeft className="w-4 h-4 #6B7280 dark:#6B7280" />
           </button>
-          <span className="font-semibold #3D2B1A dark:text-[#E0E0E0]">Settings</span>
+          <span className="font-semibold #1A1C20 dark:text-[#EAE5DF]">Settings</span>
         </div>
 
         <nav className="flex-1 px-3 space-y-0.5">
@@ -877,9 +877,9 @@ export default function SettingsPage() {
               <button
                 key={item.id}
                 onClick={() => { setActiveSection(item.id); setFeatureExpanded(false); setTransactionSubView('main'); }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#D4623A]/10 text-[#D4623A] font-semibold' : '#8A7060 hover:#FAF7F3 hover:#3D2B1A' } dark:text-[#E0E0E0] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#A3876A]/10 text-[#A3876A] font-semibold' : '#6B7280 hover:#F4F0EA hover:#1A1C20' } dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
               >
-                <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-[#D4623A]' : 'text-gray-400 dark:#8A7060'}`} />
+                <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-[#A3876A]' : 'text-gray-400 dark:#6B7280'}`} />
                 {item.label}
               </button>
             );
@@ -889,13 +889,13 @@ export default function SettingsPage() {
           <div className="pt-1">
             <button
               onClick={() => setFeatureExpanded(!featureExpanded)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ featureExpanded || isFeatureActive ? '#FAF7F3 #3D2B1A font-semibold' : '#8A7060 hover:#FAF7F3 hover:#3D2B1A' } dark:bg-slate-800 dark:text-[#E0E0E0] dark:hover:bg-slate-700/40`}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ featureExpanded || isFeatureActive ? '#F4F0EA #1A1C20 font-semibold' : '#6B7280 hover:#F4F0EA hover:#1A1C20' } dark:bg-slate-800 dark:text-[#EAE5DF] dark:hover:bg-slate-700/40`}
             >
               <div className="flex items-center gap-3">
-                <FiSettings className="w-4 h-4 text-gray-400 flex-shrink-0 dark:#8A7060" />
+                <FiSettings className="w-4 h-4 text-gray-400 flex-shrink-0 dark:#6B7280" />
                 Feature Settings
               </div>
-              {featureExpanded ? <FiChevronDown className="w-3.5 h-3.5 text-gray-400 dark:#8A7060" /> : <FiChevronRight className="w-3.5 h-3.5 text-gray-400 dark:#8A7060" />}
+              {featureExpanded ? <FiChevronDown className="w-3.5 h-3.5 text-gray-400 dark:#6B7280" /> : <FiChevronRight className="w-3.5 h-3.5 text-gray-400 dark:#6B7280" />}
             </button>
 
             {(featureExpanded || isFeatureActive) && (
@@ -907,9 +907,9 @@ export default function SettingsPage() {
                     <button
                       key={item.id}
                       onClick={() => { setActiveSection(item.id); setTransactionSubView('main'); }}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#D4623A]/10 text-[#D4623A] font-semibold' : '#8A7060 hover:#FAF7F3 hover:#3D2B1A' } dark:text-[#E0E0E0] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#A3876A]/10 text-[#A3876A] font-semibold' : '#6B7280 hover:#F4F0EA hover:#1A1C20' } dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
                     >
-                      <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${active ? 'text-[#D4623A]' : 'text-gray-400 dark:#8A7060'}`} />
+                      <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${active ? 'text-[#A3876A]' : 'text-gray-400 dark:#6B7280'}`} />
                       {item.label}
                     </button>
                   );
@@ -921,7 +921,7 @@ export default function SettingsPage() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto #FAF7F3 #3D2B1A dark:bg-slate-900 dark:text-[#E0E0E0]">
+      <main className="flex-1 overflow-auto #F4F0EA #1A1C20 dark:bg-slate-900 dark:text-[#EAE5DF]">
         <div className="max-w-3xl mx-auto px-8 py-8">
           {renderContent()}
         </div>
@@ -930,31 +930,31 @@ export default function SettingsPage() {
       {/* Bank Account Modal */}
       {showBankModal && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden #3D2B1A dark:bg-slate-800 dark:text-[#E0E0E0]">
-            <div className="flex items-center justify-between px-6 py-5 border-b #E5D8CC dark:border-slate-700">
-              <h3 className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{editingBank ? 'Edit Bank Account' : 'Bank Accounts'}</h3>
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden #1A1C20 dark:bg-slate-800 dark:text-[#EAE5DF]">
+            <div className="flex items-center justify-between px-6 py-5 border-b #DDD7CC dark:border-slate-700">
+              <h3 className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{editingBank ? 'Edit Bank Account' : 'Bank Accounts'}</h3>
               <button
                 onClick={() => { setShowBankModal(false); setEditingBank(null); setBankForm({ bankName: '', accountNumber: '', accountHolderName: '', branch: '', isPrimary: false }); }}
-                className="p-1.5 hover:#EDE5DA rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700/40"
+                className="p-1.5 hover:#E3DDD2 rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700/40"
               >
-                <FiX className="w-4 h-4 #8A7060 dark:#8A7060" />
+                <FiX className="w-4 h-4 #6B7280 dark:#6B7280" />
               </button>
             </div>
 
             <div className="px-6 py-5 space-y-4 max-h-[70vh] overflow-y-auto">
               {/* Existing Accounts */}
               {!editingBank && businessProfile.bankAccounts?.length > 0 && (
-                <div className="space-y-2 pb-4 border-b #E5D8CC dark:border-slate-700">
+                <div className="space-y-2 pb-4 border-b #DDD7CC dark:border-slate-700">
                   {businessProfile.bankAccounts.map((bank) => (
-                    <div key={bank.id} className="flex items-center justify-between p-3 #FAF7F3 rounded-xl dark:bg-slate-800/20">
+                    <div key={bank.id} className="flex items-center justify-between p-3 #F4F0EA rounded-xl dark:bg-slate-800/20">
                       <div>
-                        <p className="text-sm font-semibold #3D2B1A dark:text-[#E0E0E0]">{bank.bankName}</p>
-                        <p className="text-xs #8A7060 dark:text-[#CCCCCC]">{bank.accountNumber}</p>
-                        {bank.isPrimary && <span className="text-xs text-[#D4623A] font-semibold">Primary</span>}
+                        <p className="text-sm font-semibold #1A1C20 dark:text-[#EAE5DF]">{bank.bankName}</p>
+                        <p className="text-xs #6B7280 dark:text-[#C8C3BC]">{bank.accountNumber}</p>
+                        {bank.isPrimary && <span className="text-xs text-[#A3876A] font-semibold">Primary</span>}
                       </div>
                       <div className="flex gap-1">
                         <button onClick={() => handleEditBank(bank)} className="p-1.5 hover:bg-white rounded-lg transition-colors dark:bg-slate-800 dark:hover:bg-slate-700">
-                          <FiEdit2 className="w-3.5 h-3.5 #8A7060 dark:text-[#CCCCCC]" />
+                          <FiEdit2 className="w-3.5 h-3.5 #6B7280 dark:text-[#C8C3BC]" />
                         </button>
                         <button onClick={() => handleDeleteBank(bank.id)} className="p-1.5 hover:bg-red-50 rounded-lg transition-colors">
                           <FiTrash2 className="w-3.5 h-3.5 text-red-500" />
@@ -972,12 +972,12 @@ export default function SettingsPage() {
                 { label: 'Branch (Optional)', key: 'branch', placeholder: 'Enter branch name' },
               ].map(({ label, key, placeholder }) => (
                 <div key={key}>
-                  <label className="text-xs font-medium #8A7060 uppercase tracking-wide mb-1.5 block dark:#8A7060">{label}</label>
+                  <label className="text-xs font-medium #6B7280 uppercase tracking-wide mb-1.5 block dark:#6B7280">{label}</label>
                   <input
                     value={(bankForm as any)[key]}
                     onChange={(e) => setBankForm({ ...bankForm, [key]: e.target.value })}
                     placeholder={placeholder}
-                    className="w-full px-4 py-2.5 #FAF7F3 border #E5D8CC rounded-lg text-sm #3D2B1A focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#E0E0E0]"
+                    className="w-full px-4 py-2.5 #F4F0EA border #DDD7CC rounded-lg text-sm #1A1C20 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 dark:bg-slate-800 dark:border-slate-700 dark:text-[#EAE5DF]"
                   />
                 </div>
               ))}
@@ -987,23 +987,23 @@ export default function SettingsPage() {
                   type="checkbox"
                   checked={bankForm.isPrimary}
                   onChange={(e) => setBankForm({ ...bankForm, isPrimary: e.target.checked })}
-                  className="w-4 h-4 rounded border-gray-300 text-[#D4623A] focus:ring-blue-600/30 accent-blue-600 dark:border-slate-600"
+                  className="w-4 h-4 rounded border-gray-300 text-[#A3876A] focus:ring-blue-600/30 accent-blue-600 dark:border-slate-600"
                 />
-                <span className="text-sm text-gray-700 font-medium dark:text-[#E0E0E0]">Set as primary account</span>
+                <span className="text-sm text-gray-700 font-medium dark:text-[#EAE5DF]">Set as primary account</span>
               </label>
             </div>
 
-            <div className="px-6 py-4 border-t #E5D8CC flex gap-3 dark:border-slate-700">
+            <div className="px-6 py-4 border-t #DDD7CC flex gap-3 dark:border-slate-700">
               <button
                 onClick={() => { setShowBankModal(false); setEditingBank(null); setBankForm({ bankName: '', accountNumber: '', accountHolderName: '', branch: '', isPrimary: false }); }}
-                className="flex-1 py-2.5 border #E5D8CC rounded-xl text-sm font-semibold #8A7060 hover:#FAF7F3 transition-colors dark:border-slate-700 dark:text-[#E0E0E0] dark:hover:bg-slate-700/40 dark:bg-slate-800"
+                className="flex-1 py-2.5 border #DDD7CC rounded-xl text-sm font-semibold #6B7280 hover:#F4F0EA transition-colors dark:border-slate-700 dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveBankAccount}
                 disabled={!bankForm.bankName || !bankForm.accountNumber || !bankForm.accountHolderName}
-                className="flex-1 py-2.5 bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-xl text-sm font-semibold transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-2.5 bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-xl text-sm font-semibold transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {editingBank ? 'Save Changes' : 'Add Bank'}
               </button>

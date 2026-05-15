@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from '../../components/dashboard/Sidebar';
 import { Header } from '../../components/dashboard/Header';
@@ -36,7 +36,7 @@ export default function DashboardLayout() {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen h-full bg-[#FAF7F3] dark:bg-[#111111] overflow-x-hidden">
+    <div className="flex min-h-screen h-full bg-[#F4F0EA] dark:bg-[#0D0E12] overflow-x-hidden">
       <Sidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}

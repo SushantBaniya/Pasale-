@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { productApi, orderApi, counterApi, partyApi } from '../../utils/api';
 import { FiSearch, FiPlus, FiMinus, FiTrash2, FiArrowLeft, FiShoppingCart } from 'react-icons/fi';
@@ -167,7 +167,7 @@ export default function OrderCartPage() {
     subtitle: { fontSize: 12, color: '#9ca3af', marginTop: 2 },
     saveBtn: (disabled: boolean): React.CSSProperties => ({
       padding: '9px 20px', borderRadius: 8, border: 'none',
-      background: disabled ? '#a5b4fc' : '#D4623A',
+      background: disabled ? '#a5b4fc' : '#A3876A',
       color: '#fff', fontSize: 13, fontWeight: 500,
       cursor: disabled ? 'not-allowed' : 'pointer',
       fontFamily: 'inherit',
@@ -208,13 +208,13 @@ export default function OrderCartPage() {
     prodName: { fontSize: 13, fontWeight: 500, color: '#111827', marginBottom: 2 },
     prodCat: { fontSize: 11, color: '#9ca3af', marginBottom: 8 },
     prodRow: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
-    prodPrice: { fontSize: 13, fontWeight: 500, color: '#D4623A' },
+    prodPrice: { fontSize: 13, fontWeight: 500, color: '#A3876A' },
     addBtn: (inCart: boolean): React.CSSProperties => ({
       display: 'flex', alignItems: 'center', gap: 4,
       padding: '5px 9px', borderRadius: 6,
-      border: `1px solid ${inCart ? '#D4623A' : '#e5e7eb'}`,
-      background: inCart ? '#FDF1EC' : 'none',
-      color: inCart ? '#D4623A' : '#6b7280',
+      border: `1px solid ${inCart ? '#A3876A' : '#e5e7eb'}`,
+      background: inCart ? '#F5F0E6' : 'none',
+      color: inCart ? '#A3876A' : '#6b7280',
       fontSize: 12, fontWeight: 500, cursor: 'pointer',
       fontFamily: 'inherit', transition: 'all .15s',
     }),
@@ -254,7 +254,7 @@ export default function OrderCartPage() {
       color: '#6b7280', fontSize: 14, fontFamily: 'inherit',
     },
     qtyVal: { fontSize: 13, fontWeight: 500, minWidth: 20, textAlign: 'center' as const, color: '#111827' },
-    ciPrice: { fontSize: 13, fontWeight: 500, color: '#D4623A' },
+    ciPrice: { fontSize: 13, fontWeight: 500, color: '#A3876A' },
     footer: { padding: '12px 16px', borderTop: '1px solid #f1f5f9' },
     summaryRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13, marginBottom: 5 },
     summaryLabel: { color: '#9ca3af' },
@@ -265,10 +265,10 @@ export default function OrderCartPage() {
       marginTop: 8, paddingTop: 8, borderTop: '1px solid #f1f5f9',
     },
     totalLabel: { fontSize: 14, fontWeight: 600, color: '#111827' },
-    totalVal: { fontSize: 15, fontWeight: 600, color: '#D4623A' },
+    totalVal: { fontSize: 15, fontWeight: 600, color: '#A3876A' },
     addToCartBtn: (disabled: boolean): React.CSSProperties => ({
       width: '100%', marginTop: 12, padding: '11px 0', borderRadius: 8,
-      border: 'none', background: disabled ? '#a5b4fc' : '#D4623A',
+      border: 'none', background: disabled ? '#a5b4fc' : '#A3876A',
       color: '#fff', fontSize: 14, fontWeight: 500,
       cursor: disabled ? 'not-allowed' : 'pointer',
       fontFamily: 'inherit', transition: 'background .15s',
@@ -280,7 +280,7 @@ export default function OrderCartPage() {
     },
     spinner: {
       width: 32, height: 32, border: '3px solid #e0e7ff',
-      borderTop: '3px solid #D4623A', borderRadius: '50%',
+      borderTop: '3px solid #A3876A', borderRadius: '50%',
       animation: 'spin 0.8s linear infinite',
     },
   };
@@ -319,7 +319,7 @@ export default function OrderCartPage() {
               onChange={e => setSearch(e.target.value)}
               placeholder="Search products…"
               style={s.searchInput}
-              onFocus={e => (e.target.style.borderColor = '#D4623A')}
+              onFocus={e => (e.target.style.borderColor = '#A3876A')}
               onBlur={e => (e.target.style.borderColor = '#e5e7eb')}
             />
           </div>
@@ -343,7 +343,7 @@ export default function OrderCartPage() {
                     style={s.prodCard(inCart)}
                     onClick={() => addToCart(product)}
                     onMouseEnter={e => {
-                      (e.currentTarget as HTMLDivElement).style.borderColor = '#D4623A';
+                      (e.currentTarget as HTMLDivElement).style.borderColor = '#A3876A';
                       (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 12px rgba(79,70,229,.1)';
                     }}
                     onMouseLeave={e => {
@@ -396,7 +396,7 @@ export default function OrderCartPage() {
                   <div style={s.ciTop}>
                     <div style={s.ciName}>{item.name}</div>
                     <button style={s.removeBtn} onClick={() => removeFromCart(item.product_id)}
-                      onMouseEnter={e => (e.currentTarget.style.color = '#D4623A')}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#A3876A')}
                       onMouseLeave={e => (e.currentTarget.style.color = '#d1d5db')}
                     >
                       <FiTrash2 size={13} />

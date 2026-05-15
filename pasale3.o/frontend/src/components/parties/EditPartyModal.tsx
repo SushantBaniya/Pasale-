@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { FiX, FiUser } from 'react-icons/fi';
 import { Button } from '../ui/Button';
 import { Party } from '../../store/dataStore';
@@ -83,13 +83,13 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white dark:bg-[#1A1A1A] rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-[#15161C] rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b #E5D8CC dark:border-[#222222]">
-          <h2 className="text-xl font-bold #3D2B1A dark:text-[#E0E0E0]">{title}</h2>
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b #DDD7CC dark:border-[#1C1D24]">
+          <h2 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:#8A7060 dark:hover:text-gray-300 hover:#EDE5DA dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-2 text-gray-400 hover:#6B7280 dark:hover:text-gray-300 hover:#E3DDD2 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <FiX className="w-5 h-5" />
           </button>
@@ -101,13 +101,13 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
             
             {/* Top Section */}
             <div className="flex items-start gap-4">
-              <div className="flex flex-col items-center justify-center w-16 h-16 rounded-full border border-dashed border-gray-300 dark:border-[#333333] #FAF7F3 dark:bg-[#111111] text-gray-400 cursor-pointer hover:border-[#D4623A] hover:text-[#D4623A] transition-colors">
+              <div className="flex flex-col items-center justify-center w-16 h-16 rounded-full border border-dashed border-gray-300 dark:border-[#2A2B36] #F4F0EA dark:bg-[#0D0E12] text-gray-400 cursor-pointer hover:border-[#A3876A] hover:text-[#A3876A] transition-colors">
                 <FiUser className="w-6 h-6 mb-1" />
                 <span className="text-[10px] font-medium">Upload</span>
               </div>
               <div className="flex-1 grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1">
                     Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -116,17 +116,17 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Enter full name"
-                    className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
+                    className="w-full px-3 py-2 #F4F0EA dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-lg focus:ring-2 focus:ring-[#A3876A] outline-none #1A1C20 dark:text-[#EAE5DF]"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Phone Number</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1">Phone Number</label>
                   <input
                     type="text"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="Enter phone number"
-                    className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
+                    className="w-full px-3 py-2 #F4F0EA dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-lg focus:ring-2 focus:ring-[#A3876A] outline-none #1A1C20 dark:text-[#EAE5DF]"
                   />
                 </div>
               </div>
@@ -134,14 +134,14 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
 
             {/* Tabs */}
             <div>
-              <div className="flex border-b #E5D8CC dark:border-[#222222]">
+              <div className="flex border-b #DDD7CC dark:border-[#1C1D24]">
                 <button
                   type="button"
                   onClick={() => setActiveTab('credit')}
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     activeTab === 'credit'
-                      ? 'border-[#D4623A] text-[#D4623A] dark:text-[#D4623A]'
-                      : 'border-transparent #8A7060 hover:text-gray-700 dark:text-[#555555] dark:hover:text-gray-300'
+                      ? 'border-[#A3876A] text-[#A3876A] dark:text-[#A3876A]'
+                      : 'border-transparent #6B7280 hover:text-gray-700 dark:text-[#44454F] dark:hover:text-gray-300'
                   }`}
                 >
                   Credit Info
@@ -151,8 +151,8 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                   onClick={() => setActiveTab('additional')}
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     activeTab === 'additional'
-                      ? 'border-[#D4623A] text-[#D4623A] dark:text-[#D4623A]'
-                      : 'border-transparent #8A7060 hover:text-gray-700 dark:text-[#555555] dark:hover:text-gray-300'
+                      ? 'border-[#A3876A] text-[#A3876A] dark:text-[#A3876A]'
+                      : 'border-transparent #6B7280 hover:text-gray-700 dark:text-[#44454F] dark:hover:text-gray-300'
                   }`}
                 >
                   Additional Info
@@ -164,24 +164,24 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                 {activeTab === 'credit' && (
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Opening Balance</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1">Opening Balance</label>
                       <input
                         type="number"
                         disabled={!!party} // Cannot edit opening balance later in simple form
                         value={openingBalance}
                         onChange={(e) => setOpeningBalance(e.target.value)}
                         placeholder="0.00"
-                        className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0] disabled:opacity-60"
+                        className="w-full px-3 py-2 #F4F0EA dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-lg focus:ring-2 focus:ring-[#A3876A] outline-none #1A1C20 dark:text-[#EAE5DF] disabled:opacity-60"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Credit Limit</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1">Credit Limit</label>
                       <input
                         type="number"
                         value={creditLimit}
                         onChange={(e) => setCreditLimit(e.target.value)}
                         placeholder="0.00"
-                        className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
+                        className="w-full px-3 py-2 #F4F0EA dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-lg focus:ring-2 focus:ring-[#A3876A] outline-none #1A1C20 dark:text-[#EAE5DF]"
                       />
                     </div>
                   </div>
@@ -191,34 +191,34 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Address</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1">Address</label>
                         <input
                           type="text"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                           placeholder="Enter party's address"
-                          className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
+                          className="w-full px-3 py-2 #F4F0EA dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-lg focus:ring-2 focus:ring-[#A3876A] outline-none #1A1C20 dark:text-[#EAE5DF]"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Email</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1">Email</label>
                         <input
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Enter party's email"
-                          className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
+                          className="w-full px-3 py-2 #F4F0EA dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-lg focus:ring-2 focus:ring-[#A3876A] outline-none #1A1C20 dark:text-[#EAE5DF]"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">PAN Number</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1">PAN Number</label>
                       <input
                         type="text"
                         value={panNumber}
                         onChange={(e) => setPanNumber(e.target.value)}
                         placeholder="Enter number"
-                        className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
+                        className="w-full px-3 py-2 #F4F0EA dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-lg focus:ring-2 focus:ring-[#A3876A] outline-none #1A1C20 dark:text-[#EAE5DF]"
                       />
                     </div>
                   </div>
@@ -233,7 +233,7 @@ export function EditPartyModal({ isOpen, onClose, party, defaultType = 'customer
           <button
             type="submit"
             form="party-form"
-            className="px-6 py-2 rounded-lg text-white font-medium shadow-md transition-colors bg-[#D4623A] hover:bg-[#B8502E]"
+            className="px-6 py-2 rounded-lg text-white font-medium shadow-md transition-colors bg-[#A3876A] hover:bg-[#8E7356]"
           >
             Save Changes
           </button>

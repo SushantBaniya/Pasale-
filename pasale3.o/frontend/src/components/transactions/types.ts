@@ -1,4 +1,4 @@
-// Transaction Types and Interfaces for the Transaction Management System
+﻿// Transaction Types and Interfaces for the Transaction Management System
 
 // Use 'selling' for compatibility with existing dataStore
 export type TransactionType = 
@@ -207,18 +207,18 @@ export const TRANSACTION_TYPE_CONFIG: Record<string, {
   selling: {
     label: 'Sales',
     color: 'emerald',
-    bgColor: 'bg-[#D4623A]',
-    textColor: 'text-[#D4623A]',
-    lightBg: 'bg-[#FDF1EC] dark:bg-[#D4623A]/15',
+    bgColor: 'bg-[#A3876A]',
+    textColor: 'text-[#A3876A]',
+    lightBg: 'bg-[#F5F0E6] dark:bg-[#A3876A]/15',
     icon: 'shopping-cart',
     prefix: 'INV',
   },
   purchase: {
     label: 'Purchase',
     color: 'blue',
-    bgColor: 'bg-[#D4623A]',
-    textColor: 'text-[#D4623A]',
-    lightBg: 'bg-[#FDF1EC] dark:bg-[#D4623A]/15',
+    bgColor: 'bg-[#A3876A]',
+    textColor: 'text-[#A3876A]',
+    lightBg: 'bg-[#F5F0E6] dark:bg-[#A3876A]/15',
     icon: 'package',
     prefix: 'PO',
   },
@@ -279,9 +279,9 @@ export const TRANSACTION_TYPE_CONFIG: Record<string, {
   income: {
     label: 'Income',
     color: 'teal',
-    bgColor: 'bg-[#D4623A]',
-    textColor: 'text-[#D4623A]',
-    lightBg: 'bg-[#FDF1EC] dark:bg-[#D4623A]/15',
+    bgColor: 'bg-[#A3876A]',
+    textColor: 'text-[#A3876A]',
+    lightBg: 'bg-[#F5F0E6] dark:bg-[#A3876A]/15',
     icon: 'trending-up',
     prefix: 'INC',
   },
@@ -291,8 +291,8 @@ export const TRANSACTION_TYPE_CONFIG: Record<string, {
 export const STATUS_CONFIG = {
   paid: {
     label: 'Paid',
-    bgColor: 'bg-[#FDF1EC] dark:bg-[#D4623A]/20',
-    textColor: 'text-[#B8502E] dark:text-[#D4623A]',
+    bgColor: 'bg-[#F5F0E6] dark:bg-[#A3876A]/20',
+    textColor: 'text-[#8E7356] dark:text-[#A3876A]',
     icon: 'check-circle',
   },
   unpaid: {
@@ -309,8 +309,8 @@ export const STATUS_CONFIG = {
   },
   draft: {
     label: 'Draft',
-    bgColor: '#EDE5DA dark:bg-[#222222]',
-    textColor: 'text-gray-700 dark:text-[#CCCCCC]',
+    bgColor: '#E3DDD2 dark:bg-[#1C1D24]',
+    textColor: 'text-gray-700 dark:text-[#C8C3BC]',
     icon: 'file',
   },
   overdue: {

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDataStore } from '../../store/dataStore';
 import { useLanguageStore } from '../../store/languageStore';
@@ -35,10 +35,10 @@ export default function TransactionDetailPage() {
           Back
         </Button>
         <div>
-          <h1 className="text-3xl font-bold #3D2B1A dark:text-[#E0E0E0]">
+          <h1 className="text-3xl font-bold #1A1C20 dark:text-[#EAE5DF]">
             Transaction Details
           </h1>
-          <p className="#8A7060 dark:text-[#555555]">
+          <p className="#6B7280 dark:text-[#44454F]">
             {formatDate(transaction.date, language)}
           </p>
         </div>
@@ -47,22 +47,22 @@ export default function TransactionDetailPage() {
       <Card className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="#8A7060 dark:text-[#555555]">Type</p>
-            <p className="font-semibold #3D2B1A dark:text-[#E0E0E0] capitalize">{transaction.type}</p>
+            <p className="#6B7280 dark:text-[#44454F]">Type</p>
+            <p className="font-semibold #1A1C20 dark:text-[#EAE5DF] capitalize">{transaction.type}</p>
           </div>
           <div>
-            <p className="#8A7060 dark:text-[#555555]">Amount</p>
-            <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">
+            <p className="#6B7280 dark:text-[#44454F]">Amount</p>
+            <p className="font-semibold #1A1C20 dark:text-[#EAE5DF]">
               {formatCurrency(transaction.amount, language)}
             </p>
           </div>
           <div>
-            <p className="#8A7060 dark:text-[#555555]">Description</p>
-            <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{transaction.description}</p>
+            <p className="#6B7280 dark:text-[#44454F]">Description</p>
+            <p className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{transaction.description}</p>
           </div>
           <div>
-            <p className="#8A7060 dark:text-[#555555]">Party</p>
-            <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">
+            <p className="#6B7280 dark:text-[#44454F]">Party</p>
+            <p className="font-semibold #1A1C20 dark:text-[#EAE5DF]">
               {transaction.partyName || 'N/A'}
             </p>
           </div>
@@ -71,36 +71,36 @@ export default function TransactionDetailPage() {
 
       {transaction.items && transaction.items.length > 0 && (
         <Card className="p-6">
-          <h3 className="text-xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-4">
+          <h3 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-4">
             Items
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b #E5D8CC dark:border-[#222222]">
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">
+                <tr className="border-b #DDD7CC dark:border-[#1C1D24]">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">
                     Item
                   </th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">
                     Qty
                   </th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">
                     Price
                   </th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">
                     Total
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {transaction.items.map((item) => (
-                  <tr key={item.id} className="border-b #E5D8CC dark:border-[#222222]">
-                    <td className="py-3 px-4 text-sm #3D2B1A dark:text-[#E0E0E0]">{item.name}</td>
-                    <td className="py-3 px-4 text-sm #3D2B1A dark:text-[#E0E0E0]">{item.quantity}</td>
-                    <td className="py-3 px-4 text-sm #3D2B1A dark:text-[#E0E0E0]">
+                  <tr key={item.id} className="border-b #DDD7CC dark:border-[#1C1D24]">
+                    <td className="py-3 px-4 text-sm #1A1C20 dark:text-[#EAE5DF]">{item.name}</td>
+                    <td className="py-3 px-4 text-sm #1A1C20 dark:text-[#EAE5DF]">{item.quantity}</td>
+                    <td className="py-3 px-4 text-sm #1A1C20 dark:text-[#EAE5DF]">
                       {formatCurrency(item.price, language)}
                     </td>
-                    <td className="py-3 px-4 text-sm font-semibold #3D2B1A dark:text-[#E0E0E0]">
+                    <td className="py-3 px-4 text-sm font-semibold #1A1C20 dark:text-[#EAE5DF]">
                       {formatCurrency(item.total, language)}
                     </td>
                   </tr>

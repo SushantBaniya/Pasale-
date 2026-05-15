@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { FiDownload, FiUpload, FiPlus, FiSearch, FiFilter, FiMoreVertical, FiEye, FiTrash2, FiFileText, FiCheck, FiClock, FiAlertTriangle, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -88,7 +88,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
       case 'Paid':    return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
       case 'Unpaid':  return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
       case 'Overdue': return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
-      default:        return '#EDE5DA #3D2B1A dark:bg-[#111111]/30 dark:text-[#555555]';
+      default:        return '#E3DDD2 #1A1C20 dark:bg-[#0D0E12]/30 dark:text-[#44454F]';
     }
   };
 
@@ -100,8 +100,8 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
         <div className="flex justify-between items-start">
           <div>
             {/* font-medium instead of font-bold; text-2xl instead of text-4xl */}
-            <h1 className="text-2xl font-medium #3D2B1A dark:text-[#E0E0E0]">Invoices</h1>
-            <p className="text-sm #8A7060 dark:text-[#555555] mt-1">Manage all your invoices</p>
+            <h1 className="text-2xl font-medium #1A1C20 dark:text-[#EAE5DF]">Invoices</h1>
+            <p className="text-sm #6B7280 dark:text-[#44454F] mt-1">Manage all your invoices</p>
           </div>
           <div className="flex gap-2 flex-wrap">
             <Button variant="outline" onClick={handleExport}>
@@ -110,7 +110,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
             <Button variant="outline" onClick={handleImport}>
               <FiUpload className="w-4 h-4 mr-2" /> Import
             </Button>
-            <Button onClick={onNewInvoice} className="bg-[#D4623A] dark:bg-[#D4623A] hover:bg-[#B8502E] dark:hover:bg-[#D4623A] text-white">
+            <Button onClick={onNewInvoice} className="bg-[#A3876A] dark:bg-[#A3876A] hover:bg-[#8E7356] dark:hover:bg-[#A3876A] text-white">
               <FiPlus className="w-4 h-4 mr-2" /> New Invoice
             </Button>
           </div>
@@ -154,7 +154,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
       </div>
 
       {/* ── Search & Filters ── */}
-      <Card className="p-4 border #E5D8CC dark:border-[#222222]">
+      <Card className="p-4 border #DDD7CC dark:border-[#1C1D24]">
         <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center justify-between">
           <div className="flex-1 w-full relative">
             <FiSearch className="absolute left-3 top-3 text-gray-400 w-4 h-4" />
@@ -173,7 +173,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
                   key={status}
                   variant={filterStatus === val ? 'primary' : 'outline'}
                   onClick={() => { setFilterStatus(val); setCurrentPage(1); }}
-                  className={`text-sm ${filterStatus === val ? 'bg-[#D4623A] text-white hover:bg-[#B8502E]' : ''}`}
+                  className={`text-sm ${filterStatus === val ? 'bg-[#A3876A] text-white hover:bg-[#8E7356]' : ''}`}
                 >
                   {status}
                 </Button>
@@ -188,12 +188,12 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="#FAF7F3 dark:bg-[#1A1A1A]/50 border-b #E5D8CC dark:border-[#222222]">
+              <tr className="#F4F0EA dark:bg-[#15161C]/50 border-b #DDD7CC dark:border-[#1C1D24]">
                 <th className="px-5 py-3 text-left">
                   <input type="checkbox" className="rounded" />
                 </th>
                 {['Invoice ID', 'Issue Date', 'Client Name', 'Status', 'Assigned Staff', 'Services', 'Price', 'Actions'].map((h) => (
-                  <th key={h} className="px-5 py-3 text-left text-xs font-medium #8A7060 dark:text-[#555555] uppercase tracking-wide">
+                  <th key={h} className="px-5 py-3 text-left text-xs font-medium #6B7280 dark:text-[#44454F] uppercase tracking-wide">
                     {h}
                   </th>
                 ))}
@@ -202,7 +202,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
             <tbody>
               {paginatedInvoices.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="px-5 py-12 text-center text-sm text-gray-400 dark:#8A7060">
+                  <td colSpan={9} className="px-5 py-12 text-center text-sm text-gray-400 dark:#6B7280">
                     No invoices found
                   </td>
                 </tr>
@@ -210,26 +210,26 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
                 paginatedInvoices.map((invoice) => (
                   <tr
                     key={invoice.id}
-                    className="border-b #E5D8CC dark:border-[#222222]/60 hover:#FAF7F3 dark:hover:bg-gray-800/40 transition-colors"
+                    className="border-b #DDD7CC dark:border-[#1C1D24]/60 hover:#F4F0EA dark:hover:bg-gray-800/40 transition-colors"
                   >
                     <td className="px-5 py-3">
                       <input type="checkbox" className="rounded" />
                     </td>
 
                     {/* Invoice ID */}
-                    <td className="px-5 py-3 text-sm font-medium #3D2B1A dark:text-[#CCCCCC]">
+                    <td className="px-5 py-3 text-sm font-medium #1A1C20 dark:text-[#C8C3BC]">
                       {invoice.id}
                     </td>
 
                     {/* Issue Date */}
-                    <td className="px-5 py-3 text-sm #8A7060 dark:text-[#555555]">
+                    <td className="px-5 py-3 text-sm #6B7280 dark:text-[#44454F]">
                       {new Date(invoice.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                     </td>
 
                     {/* Client Name */}
-                    <td className="px-5 py-3 text-sm #3D2B1A dark:text-[#CCCCCC]">
+                    <td className="px-5 py-3 text-sm #1A1C20 dark:text-[#C8C3BC]">
                       <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 bg-[#D4623A] rounded-full flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
+                        <div className="w-7 h-7 bg-[#A3876A] rounded-full flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
                           {(invoice.partyName || 'N')[0]}
                         </div>
                         <span>{invoice.partyName || 'Unknown'}</span>
@@ -244,20 +244,20 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
                     </td>
 
                     {/* Assigned Staff */}
-                    <td className="px-5 py-3 text-sm #8A7060 dark:text-[#555555]">
+                    <td className="px-5 py-3 text-sm #6B7280 dark:text-[#44454F]">
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-gray-200 dark:bg-[#2A2A2A] rounded-full flex-shrink-0" />
+                        <div className="w-6 h-6 bg-gray-200 dark:bg-[#22232C] rounded-full flex-shrink-0" />
                         <span>Staff</span>
                       </div>
                     </td>
 
                     {/* Services */}
-                    <td className="px-5 py-3 text-sm #8A7060 dark:text-[#555555] max-w-[160px] truncate">
+                    <td className="px-5 py-3 text-sm #6B7280 dark:text-[#44454F] max-w-[160px] truncate">
                       {invoice.description}
                     </td>
 
                     {/* Price */}
-                    <td className="px-5 py-3 text-sm font-medium #3D2B1A dark:text-[#CCCCCC]">
+                    <td className="px-5 py-3 text-sm font-medium #1A1C20 dark:text-[#C8C3BC]">
                       {formatCurrency(invoice.amount, language)}
                     </td>
 
@@ -266,21 +266,21 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
                       <div className="relative">
                         <button
                           onClick={() => setOpenMenuId(openMenuId === invoice.id ? null : invoice.id)}
-                          className="p-1.5 hover:#EDE5DA dark:hover:bg-gray-700 rounded-lg transition-colors"
+                          className="p-1.5 hover:#E3DDD2 dark:hover:bg-gray-700 rounded-lg transition-colors"
                         >
                           <FiMoreVertical className="w-4 h-4 text-gray-400" />
                         </button>
                         {openMenuId === invoice.id && (
-                          <div className="absolute right-0 mt-1 w-36 bg-white dark:bg-[#1A1A1A] rounded-xl shadow-lg z-10 border #E5D8CC dark:border-[#222222] overflow-hidden">
+                          <div className="absolute right-0 mt-1 w-36 bg-white dark:bg-[#15161C] rounded-xl shadow-lg z-10 border #DDD7CC dark:border-[#1C1D24] overflow-hidden">
                             <button
                               onClick={() => { onViewInvoice(invoice); setOpenMenuId(null); }}
-                              className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-[#CCCCCC] hover:#FAF7F3 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                              className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
                             >
                               <FiEye className="w-4 h-4" /> View
                             </button>
                             <button
                               onClick={() => handleDeleteInvoice(invoice.id)}
-                              className="w-full text-left px-4 py-2.5 text-sm text-rose-600 dark:text-rose-400 hover:#FAF7F3 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
+                              className="w-full text-left px-4 py-2.5 text-sm text-rose-600 dark:text-rose-400 hover:#F4F0EA dark:hover:bg-gray-700 flex items-center gap-2 transition-colors"
                             >
                               <FiTrash2 className="w-4 h-4" /> Delete
                             </button>
@@ -300,7 +300,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
       {totalPages > 1 && (
         <Card className="p-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm #8A7060 dark:text-[#555555]">
+            <p className="text-sm #6B7280 dark:text-[#44454F]">
               Showing {((currentPage - 1) * itemsPerPage) + 1}–{Math.min(currentPage * itemsPerPage, filtered.length)} of {filtered.length} entries
             </p>
             <div className="flex gap-1.5">
@@ -322,7 +322,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
                     key={pageNum}
                     variant={currentPage === pageNum ? 'primary' : 'outline'}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={currentPage === pageNum ? 'bg-[#D4623A] text-white' : ''}
+                    className={currentPage === pageNum ? 'bg-[#A3876A] text-white' : ''}
                   >
                     {pageNum}
                   </Button>

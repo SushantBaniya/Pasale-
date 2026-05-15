@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDataStore } from '../../../store/dataStore';
 import { useLanguageStore } from '../../../store/languageStore';
@@ -29,34 +29,34 @@ export default function TodaysSalesPage() {
           Back to Dashboard
         </Button>
         <div>
-          <h1 className="text-3xl font-bold #3D2B1A dark:text-[#E0E0E0]">Today's Sales</h1>
-          <p className="#8A7060 dark:text-[#555555]">Detailed view of all sales recorded today.</p>
+          <h1 className="text-3xl font-bold #1A1C20 dark:text-[#EAE5DF]">Today's Sales</h1>
+          <p className="#6B7280 dark:text-[#44454F]">Detailed view of all sales recorded today.</p>
         </div>
       </div>
 
       <Card className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm #8A7060 dark:text-[#555555]">Total Amount</p>
-            <p className="text-3xl font-bold #3D2B1A dark:text-[#E0E0E0]">{formatCurrency(total, language)}</p>
+            <p className="text-sm #6B7280 dark:text-[#44454F]">Total Amount</p>
+            <p className="text-3xl font-bold #1A1C20 dark:text-[#EAE5DF]">{formatCurrency(total, language)}</p>
           </div>
           <div className="text-right">
-            <p className="text-sm #8A7060 dark:text-[#555555]">Orders</p>
-            <p className="text-2xl font-bold text-[#D4623A] dark:text-[#D4623A]">{sales.length}</p>
+            <p className="text-sm #6B7280 dark:text-[#44454F]">Orders</p>
+            <p className="text-2xl font-bold text-[#A3876A] dark:text-[#A3876A]">{sales.length}</p>
           </div>
         </div>
       </Card>
 
       <Card className="p-6">
         {sales.length === 0 ? (
-          <p className="#8A7060 dark:text-[#555555] text-center py-8">No sales recorded yet today.</p>
+          <p className="#6B7280 dark:text-[#44454F] text-center py-8">No sales recorded yet today.</p>
         ) : (
           <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {sales.map((sale) => (
               <div key={sale.id} className="py-4 flex items-center justify-between">
                 <div>
-                  <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{sale.description}</p>
-                  <p className="text-sm #8A7060 dark:text-[#555555]">
+                  <p className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{sale.description}</p>
+                  <p className="text-sm #6B7280 dark:text-[#44454F]">
                     {sale.partyName || 'Walk-in'} • {formatDate(sale.date, language)}
                   </p>
                 </div>

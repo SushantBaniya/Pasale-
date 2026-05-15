@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { FiX, FiPrinter, FiDownload, FiCheck } from 'react-icons/fi';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
@@ -71,7 +71,7 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
       case 'Overdue':
         return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
       default:
-        return '#EDE5DA #3D2B1A dark:bg-[#111111]/30 dark:text-[#555555]';
+        return '#E3DDD2 #1A1C20 dark:bg-[#0D0E12]/30 dark:text-[#44454F]';
     }
   };
 
@@ -87,15 +87,15 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 print:static print:bg-transparent">
-      <div className="bg-white dark:bg-[#111111] rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto print:max-h-none print:overflow-visible print:rounded-none print:shadow-none shadow-2xl">
+      <div className="bg-white dark:bg-[#0D0E12] rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto print:max-h-none print:overflow-visible print:rounded-none print:shadow-none shadow-2xl">
         {/* Header */}
-        <div className="sticky top-0 bg-white dark:bg-[#111111] border-b #E5D8CC dark:border-[#222222] p-4 flex justify-between items-center print:hidden">
-          <h2 className="text-xl font-bold #3D2B1A dark:text-[#E0E0E0]">Invoice Details</h2>
+        <div className="sticky top-0 bg-white dark:bg-[#0D0E12] border-b #DDD7CC dark:border-[#1C1D24] p-4 flex justify-between items-center print:hidden">
+          <h2 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF]">Invoice Details</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:#EDE5DA dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2 hover:#E3DDD2 dark:hover:bg-gray-800 rounded-lg transition-colors"
           >
-            <FiX className="w-5 h-5 #8A7060 dark:text-[#555555]" />
+            <FiX className="w-5 h-5 #6B7280 dark:text-[#44454F]" />
           </button>
         </div>
 
@@ -104,44 +104,44 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
           {/* Invoice Header */}
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4 print:grid-cols-4">
             <div>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Invoice ID</p>
-              <p className="text-lg font-bold #3D2B1A dark:text-[#E0E0E0]">{currentInvoice.id}</p>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Invoice ID</p>
+              <p className="text-lg font-bold #1A1C20 dark:text-[#EAE5DF]">{currentInvoice.id}</p>
             </div>
             <div>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Issue Date</p>
-              <p className="text-lg font-bold #3D2B1A dark:text-[#E0E0E0]">
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Issue Date</p>
+              <p className="text-lg font-bold #1A1C20 dark:text-[#EAE5DF]">
                 {new Date(currentInvoice.date).toLocaleDateString()}
               </p>
             </div>
             <div>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Status</p>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Status</p>
               <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeColor(getInvoiceStatus())}`}>
                 {getInvoiceStatus()}
               </span>
             </div>
             <div>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Due Date</p>
-              <p className="text-lg font-bold #3D2B1A dark:text-[#E0E0E0]">
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Due Date</p>
+              <p className="text-lg font-bold #1A1C20 dark:text-[#EAE5DF]">
                 {new Date(new Date(currentInvoice.date).getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}
               </p>
             </div>
           </div>
 
-          <hr className="#E5D8CC dark:border-[#222222]" />
+          <hr className="#DDD7CC dark:border-[#1C1D24]" />
 
           {/* Party Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-4 #FAF7F3 dark:bg-[#1A1A1A]/50">
-              <h3 className="font-semibold #3D2B1A dark:text-[#E0E0E0] mb-2">Client Information</h3>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Name: {currentInvoice.partyName || 'Walk-in Customer'}</p>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Invoice ID: {currentInvoice.id}</p>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Date: {new Date(currentInvoice.date).toLocaleDateString()}</p>
+            <Card className="p-4 #F4F0EA dark:bg-[#15161C]/50">
+              <h3 className="font-semibold #1A1C20 dark:text-[#EAE5DF] mb-2">Client Information</h3>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Name: {currentInvoice.partyName || 'Walk-in Customer'}</p>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Invoice ID: {currentInvoice.id}</p>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Date: {new Date(currentInvoice.date).toLocaleDateString()}</p>
             </Card>
-            <Card className="p-4 #FAF7F3 dark:bg-[#1A1A1A]/50">
-              <h3 className="font-semibold #3D2B1A dark:text-[#E0E0E0] mb-2">Invoice Summary</h3>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Items: {items.length}</p>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Amount: {formatCurrency(currentInvoice.amount, language)}</p>
-              <p className="text-sm #8A7060 dark:text-[#555555]">Status: {getInvoiceStatus()}</p>
+            <Card className="p-4 #F4F0EA dark:bg-[#15161C]/50">
+              <h3 className="font-semibold #1A1C20 dark:text-[#EAE5DF] mb-2">Invoice Summary</h3>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Items: {items.length}</p>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Amount: {formatCurrency(currentInvoice.amount, language)}</p>
+              <p className="text-sm #6B7280 dark:text-[#44454F]">Status: {getInvoiceStatus()}</p>
             </Card>
           </div>
 
@@ -149,29 +149,29 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="#EDE5DA dark:bg-[#1A1A1A]">
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">Item Description</th>
-                  <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">Quantity</th>
-                  <th className="px-4 py-2 text-right text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">Unit Price</th>
-                  <th className="px-4 py-2 text-right text-sm font-semibold text-gray-700 dark:text-[#CCCCCC]">Amount</th>
+                <tr className="#E3DDD2 dark:bg-[#15161C]">
+                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">Item Description</th>
+                  <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">Quantity</th>
+                  <th className="px-4 py-2 text-right text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">Unit Price</th>
+                  <th className="px-4 py-2 text-right text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {items.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-4 py-3 text-center #8A7060 dark:text-[#555555]">
+                    <td colSpan={4} className="px-4 py-3 text-center #6B7280 dark:text-[#44454F]">
                       No items in this invoice
                     </td>
                   </tr>
                 ) : (
                   items.map((item, index) => (
-                    <tr key={index} className="border-b #E5D8CC dark:border-[#222222]">
-                      <td className="px-4 py-3 text-sm #3D2B1A dark:text-[#E0E0E0]">{item.name}</td>
-                      <td className="px-4 py-3 text-center text-sm #3D2B1A dark:text-[#E0E0E0]">{item.quantity}</td>
-                      <td className="px-4 py-3 text-right text-sm #3D2B1A dark:text-[#E0E0E0]">
+                    <tr key={index} className="border-b #DDD7CC dark:border-[#1C1D24]">
+                      <td className="px-4 py-3 text-sm #1A1C20 dark:text-[#EAE5DF]">{item.name}</td>
+                      <td className="px-4 py-3 text-center text-sm #1A1C20 dark:text-[#EAE5DF]">{item.quantity}</td>
+                      <td className="px-4 py-3 text-right text-sm #1A1C20 dark:text-[#EAE5DF]">
                         {formatCurrency(item.price, language)}
                       </td>
-                      <td className="px-4 py-3 text-right text-sm font-semibold #3D2B1A dark:text-[#E0E0E0]">
+                      <td className="px-4 py-3 text-right text-sm font-semibold #1A1C20 dark:text-[#EAE5DF]">
                         {formatCurrency(item.total, language)}
                       </td>
                     </tr>
@@ -186,32 +186,32 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
             <div />
             <Card className="p-4 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="#8A7060 dark:text-[#555555]">Subtotal</span>
-                <span className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{formatCurrency(subtotal, language)}</span>
+                <span className="#6B7280 dark:text-[#44454F]">Subtotal</span>
+                <span className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{formatCurrency(subtotal, language)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="#8A7060 dark:text-[#555555]">VAT (13%)</span>
-                <span className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{formatCurrency(tax, language)}</span>
+                <span className="#6B7280 dark:text-[#44454F]">VAT (13%)</span>
+                <span className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{formatCurrency(tax, language)}</span>
               </div>
-              <hr className="#E5D8CC dark:border-[#222222]" />
+              <hr className="#DDD7CC dark:border-[#1C1D24]" />
               <div className="flex justify-between text-lg font-bold">
-                <span className="#3D2B1A dark:text-[#E0E0E0]">Total</span>
-                <span className="text-[#D4623A] dark:text-[#D4623A]">{formatCurrency(grandTotal, language)}</span>
+                <span className="#1A1C20 dark:text-[#EAE5DF]">Total</span>
+                <span className="text-[#A3876A] dark:text-[#A3876A]">{formatCurrency(grandTotal, language)}</span>
               </div>
             </Card>
           </div>
 
           {/* Notes */}
-          <Card className="p-4 #FAF7F3 dark:bg-[#1A1A1A]/50">
-            <h3 className="font-semibold #3D2B1A dark:text-[#E0E0E0] mb-2">Notes</h3>
-            <p className="text-sm #8A7060 dark:text-[#555555]">
+          <Card className="p-4 #F4F0EA dark:bg-[#15161C]/50">
+            <h3 className="font-semibold #1A1C20 dark:text-[#EAE5DF] mb-2">Notes</h3>
+            <p className="text-sm #6B7280 dark:text-[#44454F]">
               {currentInvoice.description?.replace('[PAID]', '').trim() || 'No additional notes'}
             </p>
           </Card>
         </div>
 
         {/* Action Buttons */}
-        <div className="sticky bottom-0 bg-white dark:bg-[#111111] border-t #E5D8CC dark:border-[#222222] p-6 flex justify-end gap-3 print:hidden">
+        <div className="sticky bottom-0 bg-white dark:bg-[#0D0E12] border-t #DDD7CC dark:border-[#1C1D24] p-6 flex justify-end gap-3 print:hidden">
           <Button variant="outline" onClick={handlePrint}>
             <FiPrinter className="w-4 h-4 mr-2" />
             Print

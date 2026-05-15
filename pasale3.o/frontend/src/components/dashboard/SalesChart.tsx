@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useTranslation } from '../../utils/i18n';
@@ -46,7 +46,7 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
   return (
     <Card className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold text-[#3D2B1A] dark:text-[#E0E0E0]">Sales Analytics</h3>
+        <h3 className="text-xl font-bold text-[#1A1C20] dark:text-[#EAE5DF]">Sales Analytics</h3>
         <div className="flex gap-2">
           <Button size="sm" variant={period === 'weekly' ? 'primary' : 'ghost'} onClick={() => setPeriod('weekly')}>{t('dashboard.weekly')}</Button>
           <Button size="sm" variant={period === 'monthly' ? 'primary' : 'ghost'} onClick={() => setPeriod('monthly')}>{t('dashboard.monthly')}</Button>
@@ -56,12 +56,12 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#E5D8CC'} />
-          <XAxis dataKey="name" stroke={isDark ? '#9ca3af' : '#8A7060'} tick={{ fill: isDark ? '#9ca3af' : '#8A7060' }} />
-          <YAxis stroke={isDark ? '#9ca3af' : '#8A7060'} tick={{ fill: isDark ? '#9ca3af' : '#8A7060' }} />
-          <Tooltip contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #E5D8CC', borderRadius: '8px', color: isDark ? '#f3f4f6' : '#3D2B1A' }} />
-          <Legend wrapperStyle={{ color: isDark ? '#f3f4f6' : '#3D2B1A' }} />
-          <Line type="monotone" dataKey="sales" stroke="#D4623A" strokeWidth={2} name="Sales" />
+          <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#DDD7CC'} />
+          <XAxis dataKey="name" stroke={isDark ? '#9ca3af' : '#6B7280'} tick={{ fill: isDark ? '#9ca3af' : '#6B7280' }} />
+          <YAxis stroke={isDark ? '#9ca3af' : '#6B7280'} tick={{ fill: isDark ? '#9ca3af' : '#6B7280' }} />
+          <Tooltip contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #DDD7CC', borderRadius: '8px', color: isDark ? '#f3f4f6' : '#1A1C20' }} />
+          <Legend wrapperStyle={{ color: isDark ? '#f3f4f6' : '#1A1C20' }} />
+          <Line type="monotone" dataKey="sales" stroke="#A3876A" strokeWidth={2} name="Sales" />
           <Line type="monotone" dataKey="revenue" stroke="#3A7A5A" strokeWidth={2} name="Revenue" />
         </LineChart>
       </ResponsiveContainer>
