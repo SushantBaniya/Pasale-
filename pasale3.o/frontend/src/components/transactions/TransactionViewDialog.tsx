@@ -66,13 +66,13 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+      <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#111111] rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
         <div className={`px-6 py-4 bg-gradient-to-r ${
-          type === 'selling' || type === 'payment_in' ? 'from-blue-600 to-blue-700' :
-          type === 'purchase' || type === 'payment_out' ? 'from-blue-600 to-blue-700' :
+          type === 'selling' || type === 'payment_in' ? 'from-[#D4623A] to-blue-700' :
+          type === 'purchase' || type === 'payment_out' ? 'from-[#D4623A] to-blue-700' :
           type === 'expense' ? 'from-rose-600 to-rose-700' :
-          type === 'income' ? 'from-blue-600 to-blue-700' :
+          type === 'income' ? 'from-[#D4623A] to-blue-700' :
           type === 'quotation' ? 'from-purple-600 to-purple-700' :
           'from-gray-600 to-gray-700'
         }`}>
@@ -115,12 +115,12 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
             <div className="space-y-4">
               {/* Transaction Number */}
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                  <FiHash className="w-5 h-5 text-gray-500" />
+                <div className="w-10 h-10 rounded-lg #EDE5DA dark:bg-[#1A1A1A] flex items-center justify-center shrink-0">
+                  <FiHash className="w-5 h-5 #8A7060" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Transaction Number</p>
-                  <p className="font-semibold text-gray-900 dark:text-gray-100">
+                  <p className="text-sm #8A7060 dark:text-[#555555]">Transaction Number</p>
+                  <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">
                     {transaction.transactionNumber || transaction.id || '-'}
                   </p>
                 </div>
@@ -128,16 +128,16 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
 
               {/* Date */}
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                  <FiCalendar className="w-5 h-5 text-gray-500" />
+                <div className="w-10 h-10 rounded-lg #EDE5DA dark:bg-[#1A1A1A] flex items-center justify-center shrink-0">
+                  <FiCalendar className="w-5 h-5 #8A7060" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Date</p>
-                  <p className="font-semibold text-gray-900 dark:text-gray-100">
+                  <p className="text-sm #8A7060 dark:text-[#555555]">Date</p>
+                  <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">
                     {formatDate(transaction.date)}
                   </p>
                   {transaction.dueDate && (
-                    <p className="text-sm text-gray-500">Due: {formatDate(transaction.dueDate)}</p>
+                    <p className="text-sm #8A7060">Due: {formatDate(transaction.dueDate)}</p>
                   )}
                 </div>
               </div>
@@ -145,14 +145,14 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
               {/* Party */}
               {transaction.partyName && (
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                    <FiUser className="w-5 h-5 text-gray-500" />
+                  <div className="w-10 h-10 rounded-lg #EDE5DA dark:bg-[#1A1A1A] flex items-center justify-center shrink-0">
+                    <FiUser className="w-5 h-5 #8A7060" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-sm #8A7060 dark:text-[#555555]">
                       {transaction.partyType === 'customer' ? 'Customer' : 'Supplier'}
                     </p>
-                    <p className="font-semibold text-gray-900 dark:text-gray-100">
+                    <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">
                       {transaction.partyName}
                     </p>
                   </div>
@@ -162,12 +162,12 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
               {/* Category (for expense/income) */}
               {transaction.category && (
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                    <FiPackage className="w-5 h-5 text-gray-500" />
+                  <div className="w-10 h-10 rounded-lg #EDE5DA dark:bg-[#1A1A1A] flex items-center justify-center shrink-0">
+                    <FiPackage className="w-5 h-5 #8A7060" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Category</p>
-                    <p className="font-semibold text-gray-900 dark:text-gray-100 capitalize">
+                    <p className="text-sm #8A7060 dark:text-[#555555]">Category</p>
+                    <p className="font-semibold #3D2B1A dark:text-[#E0E0E0] capitalize">
                       {transaction.category}
                     </p>
                   </div>
@@ -177,12 +177,12 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
               {/* Payment Mode */}
               {transaction.paymentMode && (
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                    <FiCreditCard className="w-5 h-5 text-gray-500" />
+                  <div className="w-10 h-10 rounded-lg #EDE5DA dark:bg-[#1A1A1A] flex items-center justify-center shrink-0">
+                    <FiCreditCard className="w-5 h-5 #8A7060" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Payment Mode</p>
-                    <p className="font-semibold text-gray-900 dark:text-gray-100 capitalize">
+                    <p className="text-sm #8A7060 dark:text-[#555555]">Payment Mode</p>
+                    <p className="font-semibold #3D2B1A dark:text-[#E0E0E0] capitalize">
                       {transaction.paymentMode}
                     </p>
                   </div>
@@ -191,14 +191,14 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
             </div>
 
             {/* Right Column - Amount Summary */}
-            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-5 border border-gray-200 dark:border-gray-700">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Amount Summary</h3>
+            <div className="#FAF7F3 dark:bg-[#1A1A1A]/50 rounded-xl p-5 border #E5D8CC dark:border-[#222222]">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-4">Amount Summary</h3>
               
               <div className="space-y-3">
                 {transaction.subtotal !== undefined && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
-                    <span className="font-medium text-gray-900 dark:text-gray-100">
+                    <span className="#8A7060 dark:text-[#555555]">Subtotal</span>
+                    <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">
                       Rs. {(transaction.subtotal || 0).toLocaleString()}
                     </span>
                   </div>
@@ -206,8 +206,8 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
 
                 {transaction.taxAmount > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600 dark:text-gray-400">Tax</span>
-                    <span className="font-medium text-gray-900 dark:text-gray-100">
+                    <span className="#8A7060 dark:text-[#555555]">Tax</span>
+                    <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">
                       + Rs. {(transaction.taxAmount || 0).toLocaleString()}
                     </span>
                   </div>
@@ -215,16 +215,16 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
 
                 {transaction.discountAmount > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600 dark:text-gray-400">Discount</span>
+                    <span className="#8A7060 dark:text-[#555555]">Discount</span>
                     <span className="font-medium text-red-600">
                       - Rs. {(transaction.discountAmount || 0).toLocaleString()}
                     </span>
                   </div>
                 )}
 
-                <div className="border-t border-gray-200 dark:border-gray-600 pt-3">
+                <div className="border-t #E5D8CC dark:border-[#333333] pt-3">
                   <div className="flex justify-between text-lg font-bold">
-                    <span className="text-gray-900 dark:text-gray-100">Total Amount</span>
+                    <span className="#3D2B1A dark:text-[#E0E0E0]">Total Amount</span>
                     <span className={typeConfig.textColor}>
                       Rs. {(transaction.totalAmount || transaction.amount || 0).toLocaleString()}
                     </span>
@@ -234,13 +234,13 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                 {transaction.paidAmount !== undefined && transaction.paidAmount !== transaction.totalAmount && (
                   <>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600 dark:text-gray-400">Paid Amount</span>
+                      <span className="#8A7060 dark:text-[#555555]">Paid Amount</span>
                       <span className="font-medium text-green-600">
                         Rs. {(transaction.paidAmount || 0).toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600 dark:text-gray-400">Balance Due</span>
+                      <span className="#8A7060 dark:text-[#555555]">Balance Due</span>
                       <span className="font-bold text-red-600">
                         Rs. {(transaction.balanceAmount || 0).toLocaleString()}
                       </span>
@@ -254,9 +254,9 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
           {/* Items Table */}
           {transaction.items && transaction.items.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Items</h3>
-              <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                <div className="grid grid-cols-12 gap-2 px-4 py-3 bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-3">Items</h3>
+              <div className="#FAF7F3 dark:bg-[#1A1A1A]/50 rounded-xl overflow-hidden border #E5D8CC dark:border-[#222222]">
+                <div className="grid grid-cols-12 gap-2 px-4 py-3 #EDE5DA dark:bg-[#1A1A1A] text-xs font-semibold #8A7060 dark:text-[#555555] uppercase">
                   <div className="col-span-5">Item</div>
                   <div className="col-span-2 text-center">Qty</div>
                   <div className="col-span-2 text-center">Rate</div>
@@ -265,16 +265,16 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                 <div className="divide-y divide-gray-200 dark:divide-gray-700">
                   {transaction.items.map((item: any, index: number) => (
                     <div key={index} className="grid grid-cols-12 gap-2 px-4 py-3 text-sm">
-                      <div className="col-span-5 font-medium text-gray-900 dark:text-gray-100">
+                      <div className="col-span-5 font-medium #3D2B1A dark:text-[#E0E0E0]">
                         {item.name}
                       </div>
-                      <div className="col-span-2 text-center text-gray-600 dark:text-gray-400">
+                      <div className="col-span-2 text-center #8A7060 dark:text-[#555555]">
                         {item.quantity}
                       </div>
-                      <div className="col-span-2 text-center text-gray-600 dark:text-gray-400">
+                      <div className="col-span-2 text-center #8A7060 dark:text-[#555555]">
                         Rs. {(item.rate || item.price || 0).toLocaleString()}
                       </div>
-                      <div className="col-span-3 text-right font-semibold text-gray-900 dark:text-gray-100">
+                      <div className="col-span-3 text-right font-semibold #3D2B1A dark:text-[#E0E0E0]">
                         Rs. {(item.total || (item.quantity * (item.rate || item.price || 0))).toLocaleString()}
                       </div>
                     </div>
@@ -287,11 +287,11 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
           {/* Notes/Description */}
           {(transaction.notes || transaction.description) && (
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
                 {transaction.notes ? 'Notes' : 'Description'}
               </h3>
-              <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
-                <p className="text-gray-700 dark:text-gray-300">
+              <div className="p-4 #FAF7F3 dark:bg-[#1A1A1A]/50 rounded-xl border #E5D8CC dark:border-[#222222]">
+                <p className="text-gray-700 dark:text-[#CCCCCC]">
                   {transaction.notes || transaction.description}
                 </p>
               </div>
@@ -299,7 +299,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
           )}
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex justify-end gap-3 pt-4 border-t #E5D8CC dark:border-[#222222]">
             <Button type="button" variant="secondary" onClick={onClose}>
               Close
             </Button>
@@ -310,7 +310,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
               </Button>
             )}
             {onPrint && (
-              <Button type="button" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={onPrint}>
+              <Button type="button" className="bg-[#D4623A] hover:bg-[#B8502E] text-white" onClick={onPrint}>
                 <FiPrinter className="w-4 h-4 mr-2" />
                 Print / Invoice
               </Button>

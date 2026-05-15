@@ -164,7 +164,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
             {/* Item Name */}
             <div>
               <label style={labelStyle}>
-                Item Name <span style={{ color: '#ef4444' }}>*</span>
+                Item Name <span style={{ color: '#D4623A' }}>*</span>
               </label>
               <input
                 type="text"
@@ -239,7 +239,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
               </div>
               <div>
                 <label style={labelStyle}>
-                  Selling Price <span style={{ color: '#ef4444' }}>*</span>
+                  Selling Price <span style={{ color: '#D4623A' }}>*</span>
                 </label>
                 <input
                   type="number"

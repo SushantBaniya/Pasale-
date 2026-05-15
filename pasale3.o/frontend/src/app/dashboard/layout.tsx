@@ -36,7 +36,7 @@ export default function DashboardLayout() {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen h-full bg-gray-50 dark:bg-gray-900 overflow-x-hidden">
+    <div className="flex min-h-screen h-full bg-[#FAF7F3] dark:bg-[#111111] overflow-x-hidden">
       <Sidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
@@ -63,4 +63,3 @@ export default function DashboardLayout() {
     </div>
   );
 }
-

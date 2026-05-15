@@ -162,7 +162,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+      <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#111111] rounded-2xl shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
         <div className={`px-6 py-4 ${isPaymentIn ? 'bg-gradient-to-r from-green-600 to-green-700' : 'bg-gradient-to-r from-red-600 to-red-700'}`}>
           <div className="flex items-center justify-between">
@@ -188,8 +188,8 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
         {/* Success Message */}
         {success && (
-          <div className="m-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl text-blue-700 dark:text-blue-400 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-800 flex items-center justify-center">
+          <div className="m-6 p-4 bg-[#FDF1EC] dark:bg-[#D4623A]/15 border border-[#D4623A]/30 dark:border-[#D4623A]/50 rounded-xl text-[#B8502E] dark:text-[#D4623A] flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#FDF1EC] dark:bg-blue-800 flex items-center justify-center">
               <FiCheck className="w-5 h-5" />
             </div>
             <span className="font-medium">Payment recorded successfully!</span>
@@ -199,7 +199,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Party Selection */}
           <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
               <FiUser className="inline w-4 h-4 mr-1.5" />
               {isPaymentIn ? 'Received From (Customer)' : 'Paid To (Supplier)'} *
             </label>
@@ -215,13 +215,13 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                 onFocus={() => setShowPartyDropdown(true)}
                 placeholder={`Search ${isPaymentIn ? 'customer' : 'supplier'}...`}
                 className={`w-full px-4 py-3 rounded-xl border-2 ${
-                  errors.party ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-blue-500 transition-colors`}
+                  errors.party ? 'border-red-500' : '#E5D8CC dark:border-[#222222]'
+                } bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors`}
               />
               <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               
               {showPartyDropdown && filteredParties.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-20 max-h-48 overflow-auto">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#1A1A1A] border #E5D8CC dark:border-[#222222] rounded-xl shadow-xl z-20 max-h-48 overflow-auto">
                   {filteredParties.map((party) => (
                     <button
                       key={party.id}
@@ -231,9 +231,9 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                         setPartySearch('');
                         setShowPartyDropdown(false);
                       }}
-                      className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-between"
+                      className="w-full px-4 py-3 text-left hover:#FAF7F3 dark:hover:bg-gray-700 flex items-center justify-between"
                     >
-                      <span className="font-medium text-gray-900 dark:text-gray-100">{party.name}</span>
+                      <span className="font-medium #3D2B1A dark:text-[#E0E0E0]">{party.name}</span>
                       <span className={`text-sm ${party.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                         {party.balance >= 0 ? 'To Receive' : 'To Pay'}: Rs. {Math.abs(party.balance).toLocaleString()}
                       </span>
@@ -248,7 +248,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
             {selectedParty && (
               <div className={`mt-2 p-3 rounded-lg ${selectedParty.balance >= 0 ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'}`}>
                 <p className="text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">Current Balance: </span>
+                  <span className="#8A7060 dark:text-[#555555]">Current Balance: </span>
                   <span className={`font-semibold ${selectedParty.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     Rs. {Math.abs(selectedParty.balance).toLocaleString()} {selectedParty.balance >= 0 ? '(Receivable)' : '(Payable)'}
                   </span>
@@ -259,20 +259,20 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
           {/* Amount */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
               <FiDollarSign className="inline w-4 h-4 mr-1.5" />
               Amount *
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">Rs.</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 #8A7060 font-semibold">Rs.</span>
               <input
                 type="number"
                 value={amount || ''}
                 onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
                 placeholder="0.00"
                 className={`w-full pl-14 pr-4 py-4 rounded-xl border-2 text-2xl font-bold ${
-                  errors.amount ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-blue-500 transition-colors`}
+                  errors.amount ? 'border-red-500' : '#E5D8CC dark:border-[#222222]'
+                } bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors`}
               />
             </div>
             {errors.amount && <p className="text-red-500 text-xs mt-1">{errors.amount}</p>}
@@ -281,7 +281,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
           {/* Date & Reference */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Date *
               </label>
@@ -290,12 +290,12 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 className={`w-full px-4 py-3 rounded-xl border-2 ${
-                  errors.date ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'
-                } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-blue-500 transition-colors`}
+                  errors.date ? 'border-red-500' : '#E5D8CC dark:border-[#222222]'
+                } bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors`}
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
                 <FiHash className="inline w-4 h-4 mr-1.5" />
                 Reference No.
               </label>
@@ -304,14 +304,14 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                 value={referenceNumber}
                 onChange={(e) => setReferenceNumber(e.target.value)}
                 placeholder="e.g., CHQ-123"
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors"
               />
             </div>
           </div>
 
           {/* Payment Mode */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
               Payment Mode
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -325,7 +325,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                       ? isPaymentIn
                         ? 'bg-green-600 text-white border-green-600'
                         : 'bg-red-600 text-white border-red-600'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-gray-400'
+                      : 'bg-white dark:bg-[#1A1A1A] text-gray-700 dark:text-[#CCCCCC] #E5D8CC dark:border-[#333333] hover:border-gray-400'
                   }`}
                 >
                   <span className="text-xl">{mode.icon}</span>
@@ -337,7 +337,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-2">
               <FiFileText className="inline w-4 h-4 mr-1.5" />
               Notes
             </label>
@@ -346,7 +346,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
               placeholder="Add any additional notes..."
-              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+              className="w-full px-4 py-3 rounded-xl border-2 #E5D8CC dark:border-[#222222] bg-white dark:bg-[#1A1A1A] #3D2B1A dark:text-[#E0E0E0] focus:outline-none focus:border-[#D4623A] transition-colors resize-none"
             />
           </div>
 
@@ -354,7 +354,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <div className={`p-4 rounded-xl ${isPaymentIn ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'}`}>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm #8A7060 dark:text-[#555555]">
                   {isPaymentIn ? 'Amount to Receive' : 'Amount to Pay'}
                 </p>
                 <p className={`text-2xl font-bold ${isPaymentIn ? 'text-green-600' : 'text-red-600'}`}>
@@ -375,7 +375,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
           )}
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex justify-end gap-3 pt-4 border-t #E5D8CC dark:border-[#222222]">
             <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
               Cancel
             </Button>

@@ -75,7 +75,7 @@ export const PartyActionDropdown: React.FC<PartyActionDropdownProps> = ({
             {variant === 'primary' ? (
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium transition-all shadow-lg hover:shadow-xl active:scale-95 ${isOpen ? 'bg-blue-800' : 'bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium transition-all shadow-lg hover:shadow-xl active:scale-95 ${isOpen ? 'bg-blue-800' : 'bg-linear-to-r from-[#D4623A] to-blue-700 hover:from-blue-700 hover:to-blue-800'
                         }`}
                 >
                     <FiPlus className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
@@ -84,16 +84,16 @@ export const PartyActionDropdown: React.FC<PartyActionDropdownProps> = ({
             ) : (
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                    className="p-2 hover:#EDE5DA dark:hover:bg-gray-800 rounded-lg transition-colors"
                 >
-                    <FiMoreVertical className="w-5 h-5 text-gray-500" />
+                    <FiMoreVertical className="w-5 h-5 #8A7060" />
                 </button>
             )}
 
             {isOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                    <div className="p-2 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/50">
-                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-2">
+                <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#1A1A1A] rounded-xl shadow-2xl border #E5D8CC dark:border-[#222222] z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    <div className="p-2 border-b #E5D8CC dark:border-[#222222] #FAF7F3/50 dark:bg-[#111111]/50">
+                        <p className="text-xs font-semibold #8A7060 dark:text-[#555555] uppercase tracking-wider px-2">
                             Create New
                         </p>
                     </div>
@@ -101,63 +101,63 @@ export const PartyActionDropdown: React.FC<PartyActionDropdownProps> = ({
                     <div className="p-1">
                         <button
                             onClick={() => handleAction('sales', `/billing?partyId=${party.id}&type=sales`, 'selling', 'Sale from {party}')}
-                            className="w-full text-left px-3 py-2.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg flex items-center gap-3 transition-colors group"
+                            className="w-full text-left px-3 py-2.5 hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/15 rounded-lg flex items-center gap-3 transition-colors group"
                         >
-                            <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+                            <div className="w-8 h-8 rounded-lg bg-[#FDF1EC] dark:bg-[#D4623A]/20 flex items-center justify-center text-[#D4623A] group-hover:scale-110 transition-transform">
                                 <FiArrowUpRight className="w-4 h-4" />
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Sales Invoice</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Bill to customer</p>
+                                <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">Sales Invoice</p>
+                                <p className="text-xs #8A7060 dark:text-[#555555]">Bill to customer</p>
                             </div>
                         </button>
 
                         <button
                             onClick={() => handleAction('purchase', `/billing?partyId=${party.id}&type=purchase`, 'purchase', 'Purchase from {party}')}
-                            className="w-full text-left px-3 py-2.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg flex items-center gap-3 transition-colors group"
+                            className="w-full text-left px-3 py-2.5 hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/15 rounded-lg flex items-center gap-3 transition-colors group"
                         >
-                            <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+                            <div className="w-8 h-8 rounded-lg bg-[#FDF1EC] dark:bg-[#D4623A]/20 flex items-center justify-center text-[#D4623A] group-hover:scale-110 transition-transform">
                                 <FiArrowDownLeft className="w-4 h-4" />
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Purchase Invoice</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Bill from supplier</p>
+                                <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">Purchase Invoice</p>
+                                <p className="text-xs #8A7060 dark:text-[#555555]">Bill from supplier</p>
                             </div>
                         </button>
 
                         <button
                             onClick={() => handleAction('payment', `/transactions?partyId=${party.id}&type=payment`, 'payment_out', 'Payment to/from {party}')}
-                            className="w-full text-left px-3 py-2.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg flex items-center gap-3 transition-colors group"
+                            className="w-full text-left px-3 py-2.5 hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/15 rounded-lg flex items-center gap-3 transition-colors group"
                         >
                             <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
                                 <FiCreditCard className="w-4 h-4" />
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Record Payment</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">In or Out</p>
+                                <p className="text-sm font-medium #3D2B1A dark:text-[#E0E0E0]">Record Payment</p>
+                                <p className="text-xs #8A7060 dark:text-[#555555]">In or Out</p>
                             </div>
                         </button>
 
-                        <div className="my-1 border-t border-gray-100 dark:border-gray-700"></div>
+                        <div className="my-1 border-t #E5D8CC dark:border-[#222222]"></div>
 
                         <button
                             onClick={() => handleAction('quotation', `/billing?partyId=${party.id}&type=quotation`, 'quotation', 'Quotation for {party}')}
-                            className="w-full text-left px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg flex items-center gap-3 transition-colors group"
+                            className="w-full text-left px-3 py-2.5 hover:#FAF7F3 dark:hover:bg-gray-700/50 rounded-lg flex items-center gap-3 transition-colors group"
                         >
                             <div className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center text-cyan-600 group-hover:scale-110 transition-transform">
                                 <FiFileText className="w-4 h-4" />
                             </div>
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Quotation</span>
+                            <span className="text-sm font-medium text-gray-700 dark:text-[#CCCCCC]">Quotation</span>
                         </button>
 
                         <button
                             onClick={() => handleAction('return', `/transactions?partyId=${party.id}&type=return`, 'sales_return', 'Return from {party}')}
-                            className="w-full text-left px-3 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg flex items-center gap-3 transition-colors group"
+                            className="w-full text-left px-3 py-2.5 hover:#FAF7F3 dark:hover:bg-gray-700/50 rounded-lg flex items-center gap-3 transition-colors group"
                         >
                             <div className="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center text-pink-600 group-hover:scale-110 transition-transform">
                                 <FiPackage className="w-4 h-4" />
                             </div>
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Return / Adjustment</span>
+                            <span className="text-sm font-medium text-gray-700 dark:text-[#CCCCCC]">Return / Adjustment</span>
                         </button>
                     </div>
                 </div>

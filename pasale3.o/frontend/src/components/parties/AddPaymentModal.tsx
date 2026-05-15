@@ -27,7 +27,7 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
   const isPaymentIn = type === 'payment_in';
   const title = isPaymentIn ? 'Add Payment In' : 'Add Payment Out';
   const amountLabel = isPaymentIn ? 'Received Amount' : 'Paid Amount';
-  const saveBtnColor = isPaymentIn ? 'bg-blue-600 hover:bg-blue-700' : 'bg-red-500 hover:bg-red-600';
+  const saveBtnColor = isPaymentIn ? 'bg-[#D4623A] hover:bg-[#B8502E]' : 'bg-red-500 hover:bg-red-600';
 
   const handleSave = (e: React.FormEvent, isSaveAndNew: boolean = false) => {
     e.preventDefault();
@@ -56,13 +56,13 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-[#1A1A1A] rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b #E5D8CC dark:border-[#222222]">
+          <h2 className="text-xl font-bold #3D2B1A dark:text-[#E0E0E0]">{title}</h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-2 text-gray-400 hover:#8A7060 dark:hover:text-gray-300 hover:#EDE5DA dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <FiX className="w-5 h-5" />
           </button>
@@ -74,24 +74,24 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="flex justify-between">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Receipt Number</label>
-                  <span className="text-xs text-blue-500 font-medium">Manual</span>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Receipt Number</label>
+                  <span className="text-xs text-[#D4623A] font-medium">Manual</span>
                 </div>
                 <input
                   type="text"
                   value={receiptNumber}
                   onChange={(e) => setReceiptNumber(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
+                  className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Date</label>
                 <div className="relative">
                   <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
+                    className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
                   />
                 </div>
               </div>
@@ -99,14 +99,14 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
 
             <div>
               <div className="flex justify-between">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Party Name</label>
-                <span className="text-xs text-blue-500 font-medium">Rs. 0.00</span>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Party Name</label>
+                <span className="text-xs text-[#D4623A] font-medium">Rs. 0.00</span>
               </div>
               <select
                 value={partyId}
                 onChange={(e) => setPartyId(e.target.value)}
                 required
-                className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
               >
                 <option value="" disabled>Search for party</option>
                 {parties.map(p => (
@@ -117,7 +117,7 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{amountLabel}</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">{amountLabel}</label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">Rs.</span>
                   <input
@@ -128,16 +128,16 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className="w-full pl-10 pr-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
+                    className="w-full pl-10 pr-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Payment Method</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Payment Method</label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100"
+                  className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0]"
                 >
                   <option value="Cash">Cash</option>
                   <option value="Bank Transfer">Bank Transfer</option>
@@ -148,20 +148,20 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Remarks</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#CCCCCC] mb-1">Remarks</label>
               <textarea
                 value={remarks}
                 onChange={(e) => setRemarks(e.target.value)}
                 placeholder="Enter remarks here..."
                 rows={3}
-                className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-gray-100 resize-none"
+                className="w-full px-3 py-2 #FAF7F3 dark:bg-[#111111] border #E5D8CC dark:border-[#222222] rounded-lg focus:ring-2 focus:ring-[#D4623A] outline-none #3D2B1A dark:text-[#E0E0E0] resize-none"
               />
             </div>
 
             <div>
               <button
                 type="button"
-                className="w-12 h-12 flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-400 hover:text-blue-500 hover:border-blue-500 transition-colors"
+                className="w-12 h-12 flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-[#333333] rounded-lg text-gray-400 hover:text-[#D4623A] hover:border-[#D4623A] transition-colors"
               >
                 <FiCamera className="w-5 h-5" />
               </button>
@@ -170,7 +170,7 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
         </div>
 
         {/* Footer */}
-        <div className="p-4 sm:p-6 border-t border-gray-200 dark:border-gray-700 flex gap-3 justify-end">
+        <div className="p-4 sm:p-6 border-t #E5D8CC dark:border-[#222222] flex gap-3 justify-end">
           <Button type="button" variant="outline" onClick={(e) => handleSave(e, true)} className="flex-1 sm:flex-none">
             {isPaymentIn ? 'Save & New' : 'Cancel'}
           </Button>

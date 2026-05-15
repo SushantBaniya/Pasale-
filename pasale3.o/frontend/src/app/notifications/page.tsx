@@ -23,7 +23,7 @@ export default function NotificationsPage() {
       case 'error':
         return <FiXCircle className={`${iconClass} text-red-500`} />;
       default:
-        return <FiInfo className={`${iconClass} text-blue-500`} />;
+        return <FiInfo className={`${iconClass} text-[#D4623A]`} />;
     }
   };
 
@@ -42,21 +42,21 @@ export default function NotificationsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-4 pb-6 sm:pb-8">
+    <div className="min-h-screen #FAF7F3 dark:bg-[#111111] pt-4 pb-6 sm:pb-8">
       <div className="max-w-1600px mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pb-4 mb-4 sm:mb-6">
-          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 cursor-default flex-1">
+          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#1A1A1A] border #E5D8CC dark:border-[#222222] shadow-sm hover:shadow-md transition-all duration-300 cursor-default flex-1">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center shadow-sm border border-amber-100 dark:border-amber-800/30 group-hover:scale-110 transition-transform duration-300">
               <FiBell className="w-6 h-6 sm:w-7 sm:h-7 text-amber-600 dark:text-amber-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold #3D2B1A dark:text-[#E0E0E0] flex items-center gap-2">
                 {t('notifications.title')}
                 <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
                   {n(notifications.filter(n => !n.read).length)} {t('notifications.unread') || 'Unread'}
                 </span>
               </h1>
-              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+              <p className="text-xs sm:text-sm #8A7060 dark:text-[#555555] mt-0.5">
                 {t('notifications.description')}
               </p>
             </div>
@@ -77,8 +77,8 @@ export default function NotificationsPage() {
               className={`
                 whitespace-nowrap px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 shrink-0
                 ${filter === tab.id
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'}
+                  ? 'bg-[#D4623A] text-white shadow-md'
+                  : 'bg-white dark:bg-[#1A1A1A] #8A7060 dark:text-[#CCCCCC] hover:#FAF7F3 dark:hover:bg-gray-700 border #E5D8CC dark:border-[#222222]'}
               `}
             >
               {tab.label}
@@ -87,12 +87,12 @@ export default function NotificationsPage() {
         </div>
 
         {filteredNotifications.length === 0 ? (
-          <Card className="py-12 sm:py-20 text-center flex flex-col items-center justify-center border border-dashed border-gray-300 dark:border-gray-700">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-50 dark:bg-gray-700/50 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-              <FiFilter className="w-8 h-8 sm:w-10 sm:h-10 text-gray-300 dark:text-gray-500" />
+          <Card className="py-12 sm:py-20 text-center flex flex-col items-center justify-center border border-dashed border-gray-300 dark:border-[#222222]">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 #FAF7F3 dark:bg-[#222222]/50 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+              <FiFilter className="w-8 h-8 sm:w-10 sm:h-10 text-gray-300 dark:#8A7060" />
             </div>
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">No notifications found</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 sm:mb-4 px-4">We couldn't find any notifications matching your current filter.</p>
+            <h3 className="text-base sm:text-lg font-semibold #3D2B1A dark:text-[#E0E0E0] mb-1">No notifications found</h3>
+            <p className="text-sm #8A7060 dark:text-[#555555] mb-3 sm:mb-4 px-4">We couldn't find any notifications matching your current filter.</p>
             {filter !== 'all' && (
               <Button variant="outline" size="sm" onClick={() => setFilter('all')}>
                 Clear filters
@@ -108,19 +108,19 @@ export default function NotificationsPage() {
                 className={`
                   group relative overflow-hidden p-3 sm:p-5 transition-all duration-200 cursor-pointer
                   ${!notification.read
-                    ? 'border-blue-200 dark:border-blue-900 shadow-sm'
-                    : 'bg-gray-50/50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700/50 opacity-90'}
+                    ? 'border-[#D4623A]/30 dark:border-blue-900 shadow-sm'
+                    : '#FAF7F3/50 dark:bg-[#1A1A1A]/30 #E5D8CC dark:border-[#222222]/50 opacity-90'}
                    hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700/50
                 `}
               >
                 {!notification.read && (
-                  <div className="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-bl-lg"></div>
+                  <div className="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#D4623A] rounded-bl-lg"></div>
                 )}
 
                 <div className="flex gap-3 sm:gap-5">
                   <div className={`
                       w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shrink-0
-                      ${!notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-gray-100 dark:bg-gray-700/30'}
+                      ${!notification.read ? 'bg-[#FDF1EC] dark:bg-[#D4623A]/15' : '#EDE5DA dark:bg-[#222222]/30'}
                   `}>
                     {getIcon(notification.type)}
                   </div>
@@ -128,10 +128,10 @@ export default function NotificationsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <h3 className={`text-sm sm:text-base font-semibold mb-0.5 sm:mb-1 truncate ${!notification.read ? 'text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300'}`}>
+                        <h3 className={`text-sm sm:text-base font-semibold mb-0.5 sm:mb-1 truncate ${!notification.read ? '#3D2B1A dark:text-[#E0E0E0]' : 'text-gray-700 dark:text-[#CCCCCC]'}`}>
                           {notification.title}
                         </h3>
-                        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mb-1.5 sm:mb-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs #8A7060 dark:text-[#555555] mb-1.5 sm:mb-2">
                           <FiClock className="w-3 h-3" />
                           <span>{formatDate(notification.date, language)}</span>
                         </div>
@@ -147,7 +147,7 @@ export default function NotificationsPage() {
                       </button>
                     </div>
 
-                    <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-none">
+                    <p className="#8A7060 dark:text-[#555555] text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-none">
                       {notification.message}
                     </p>
                   </div>

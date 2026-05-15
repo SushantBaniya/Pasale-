@@ -17,15 +17,15 @@ export const Button: React.FC<ButtonProps> = ({
   isLoading = false,
   ...props
 }) => {
-  const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center active:scale-[0.98]';
+  const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-[#111111] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center active:scale-[0.98]';
 
   const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md',
-    secondary: 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-gray-500',
-    outline: 'border-2 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 focus:ring-blue-500',
-    ghost: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-500',
+    primary: 'bg-[#D4623A] text-white hover:bg-[#B8502E] focus:ring-[#D4623A] shadow-sm hover:shadow-md',
+    secondary: 'bg-[#3D2B1A] text-[#F5EDE3] hover:bg-[#2A1D12] dark:bg-[#1A1A1A] dark:text-[#999999] dark:border dark:border-[#333333] dark:hover:bg-[#222222] dark:hover:text-[#E0E0E0] focus:ring-[#3D2B1A] dark:focus:ring-[#333333] shadow-sm hover:shadow-md',
+    outline: 'border-2 border-[#D4623A] text-[#D4623A] dark:text-[#D4623A] hover:bg-[#FDF1EC] dark:hover:bg-[#D4623A]/10 focus:ring-[#D4623A]',
+    ghost: 'text-[#3D2B1A] dark:text-[#CCCCCC] hover:bg-[#EDE5DA] dark:hover:bg-[#1A1A1A] focus:ring-[#D4623A]',
     danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-sm hover:shadow-md',
-    white: 'bg-white text-gray-900 hover:bg-gray-50 focus:ring-white shadow-lg hover:shadow-xl border-0',
+    white: 'bg-white text-[#3D2B1A] dark:bg-[#1A1A1A] dark:text-[#E0E0E0] dark:border dark:border-[#333333] hover:bg-[#FAF7F3] dark:hover:bg-[#222222] focus:ring-white dark:focus:ring-[#333333] shadow-lg hover:shadow-xl border-0',
   };
 
   const sizeClasses = {
@@ -53,4 +53,3 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-

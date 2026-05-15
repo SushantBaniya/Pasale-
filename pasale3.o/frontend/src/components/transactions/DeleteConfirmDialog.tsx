@@ -25,7 +25,7 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
+      <div className="w-full max-w-md bg-white dark:bg-[#111111] rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
         <div className="px-6 py-4 bg-gradient-to-r from-red-600 to-red-700">
           <div className="flex items-center justify-between">
@@ -57,9 +57,9 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
 
           {/* Message */}
           <div className="text-center mb-6">
-            <p className="text-gray-700 dark:text-gray-300 mb-2">{message}</p>
+            <p className="text-gray-700 dark:text-[#CCCCCC] mb-2">{message}</p>
             {itemName && (
-              <p className="font-semibold text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg inline-block">
+              <p className="font-semibold #3D2B1A dark:text-[#E0E0E0] #EDE5DA dark:bg-[#1A1A1A] px-4 py-2 rounded-lg inline-block">
                 {itemName}
               </p>
             )}

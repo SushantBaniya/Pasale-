@@ -16,19 +16,19 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={fullWidth ? 'w-full' : ''}>
       {label && (
-        <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-1.5 text-gray-700 dark:text-gray-300">
+        <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-1.5 text-[#3D2B1A] dark:text-[#CCCCCC]">
           {label}
         </label>
       )}
       <input
         className={`
           w-full px-3 sm:px-4 py-2 sm:py-2.5 border rounded-lg
-          bg-white dark:bg-gray-800
+          bg-white dark:bg-[#1A1A1A]
           text-sm sm:text-base
-          text-gray-900 dark:text-gray-100
-          border-gray-300 dark:border-gray-600
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-          placeholder-gray-400 dark:placeholder-gray-500
+          text-[#3D2B1A] dark:text-[#E0E0E0]
+          border-[#E5D8CC] dark:border-[#333333]
+          focus:outline-none focus:ring-2 focus:ring-[#D4623A] focus:border-transparent
+          placeholder-[#8A7060] dark:placeholder-gray-500
           transition-colors duration-200
           ${error ? 'border-red-500 dark:border-red-500 focus:ring-red-500' : ''}
           ${className}
@@ -41,4 +41,3 @@ export const Input: React.FC<InputProps> = ({
     </div>
   );
 };
-

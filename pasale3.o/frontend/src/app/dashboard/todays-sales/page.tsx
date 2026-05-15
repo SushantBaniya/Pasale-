@@ -29,34 +29,34 @@ export default function TodaysSalesPage() {
           Back to Dashboard
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Today's Sales</h1>
-          <p className="text-gray-600 dark:text-gray-400">Detailed view of all sales recorded today.</p>
+          <h1 className="text-3xl font-bold #3D2B1A dark:text-[#E0E0E0]">Today's Sales</h1>
+          <p className="#8A7060 dark:text-[#555555]">Detailed view of all sales recorded today.</p>
         </div>
       </div>
 
       <Card className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Total Amount</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(total, language)}</p>
+            <p className="text-sm #8A7060 dark:text-[#555555]">Total Amount</p>
+            <p className="text-3xl font-bold #3D2B1A dark:text-[#E0E0E0]">{formatCurrency(total, language)}</p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-600 dark:text-gray-400">Orders</p>
-            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{sales.length}</p>
+            <p className="text-sm #8A7060 dark:text-[#555555]">Orders</p>
+            <p className="text-2xl font-bold text-[#D4623A] dark:text-[#D4623A]">{sales.length}</p>
           </div>
         </div>
       </Card>
 
       <Card className="p-6">
         {sales.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400 text-center py-8">No sales recorded yet today.</p>
+          <p className="#8A7060 dark:text-[#555555] text-center py-8">No sales recorded yet today.</p>
         ) : (
           <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {sales.map((sale) => (
               <div key={sale.id} className="py-4 flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-gray-100">{sale.description}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="font-semibold #3D2B1A dark:text-[#E0E0E0]">{sale.description}</p>
+                  <p className="text-sm #8A7060 dark:text-[#555555]">
                     {sale.partyName || 'Walk-in'} • {formatDate(sale.date, language)}
                   </p>
                 </div>

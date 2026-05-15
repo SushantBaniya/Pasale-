@@ -129,10 +129,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-3 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center #FAF7F3 dark:bg-[#111111] p-3 sm:p-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-20 sm:-top-40 -right-20 sm:-right-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-20 sm:-top-40 -right-20 sm:-right-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-[#D4623A]/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-20 sm:-bottom-40 -left-20 sm:-left-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
       </div>
 
@@ -145,17 +145,17 @@ export default function LoginPage() {
       <div className={`w-full max-w-md transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Logo */}
         <div className="text-center mb-5 sm:mb-6 lg:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-blue-600 dark:text-blue-400">Pasale</h1>
-          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-1.5 sm:mt-2">{t('welcome.subtitle')}</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-[#D4623A] dark:text-[#D4623A]">Pasale</h1>
+          <p className="text-sm sm:text-base #8A7060 dark:text-[#555555] mt-1.5 sm:mt-2">{t('welcome.subtitle')}</p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-[#1A1A1A] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border #E5D8CC dark:border-[#222222]">
           <>
               <div className="text-center mb-5 sm:mb-6 lg:mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1.5 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold #3D2B1A dark:text-[#E0E0E0] mb-1.5 sm:mb-2">
                   {t('login.title')}
                 </h2>
-                <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
+                <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
                   {t('login.subtitle')}
                 </p>
               </div>
@@ -170,7 +170,7 @@ export default function LoginPage() {
 
               <form onSubmit={handleCredentialsSubmit} className="space-y-4 sm:space-y-5">
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5 sm:mb-2">
                     {t('profile.email')}
                   </label>
                   <div className="relative">
@@ -183,8 +183,8 @@ export default function LoginPage() {
                       className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.email 
                           ? 'border-red-500 focus:border-red-500' 
-                          : 'border-gray-200 dark:border-gray-600 focus:border-blue-500'
-                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none transition-colors`}
+                          : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
+                      } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.email && (
@@ -193,7 +193,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#CCCCCC] mb-1.5 sm:mb-2">
                     {t('login.password')}
                   </label>
                   <div className="relative">
@@ -206,13 +206,13 @@ export default function LoginPage() {
                       className={`w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.password 
                           ? 'border-red-500 focus:border-red-500' 
-                          : 'border-gray-200 dark:border-gray-600 focus:border-blue-500'
-                      } bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none transition-colors`}
+                          : '#E5D8CC dark:border-[#333333] focus:border-[#D4623A]'
+                      } bg-white dark:bg-[#222222] #3D2B1A dark:text-[#E0E0E0] focus:outline-none transition-colors`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                      className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#8A7060 dark:hover:text-gray-300"
                     >
                       {showPassword ? <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiEye className="w-4 h-4 sm:w-5 sm:h-5" />}
                     </button>
@@ -224,12 +224,12 @@ export default function LoginPage() {
 
                 <div className="flex items-center justify-between gap-2">
                   <label className="flex items-center gap-1.5 sm:gap-2 cursor-pointer">
-                    <input type="checkbox" className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                    <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{t('login.rememberMe')}</span>
+                    <input type="checkbox" className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded border-gray-300 text-[#D4623A] focus:ring-[#D4623A]" />
+                    <span className="text-xs sm:text-sm #8A7060 dark:text-[#555555]">{t('login.rememberMe')}</span>
                   </label>
                   <Link 
                     to="/forgot-password"
-                    className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                    className="text-xs sm:text-sm font-semibold text-[#D4623A] dark:text-[#D4623A] hover:text-[#B8502E] dark:hover:text-[#D4623A]"
                   >
                     {t('login.forgotPassword')}
                   </Link>
@@ -237,7 +237,7 @@ export default function LoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#D4623A] hover:bg-[#B8502E] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -252,11 +252,11 @@ export default function LoginPage() {
               </form>
 
               <div className="mt-6 sm:mt-8 text-center">
-                <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
+                <p className="text-sm sm:text-base #8A7060 dark:text-[#555555]">
                   {t('login.noAccount')}{' '}
                   <Link 
                     to="/welcome"
-                    className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                    className="font-semibold text-[#D4623A] dark:text-[#D4623A] hover:text-[#B8502E] dark:hover:text-[#D4623A]"
                   >
                     {t('login.signUp')}
                   </Link>

@@ -5,7 +5,7 @@
 
 @layer base {
   * {
-    @apply border-gray-200 dark:border-gray-700;
+    @apply border-[#E5D8CC] dark:border-[#222222];
   }
 
   html {
@@ -15,10 +15,15 @@
 
   body {
     @apply w-full h-full m-0 p-0 overflow-x-hidden;
-    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    background-color: #FAF7F3;
+    color: #3D2B1A;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  :where(.dark) body {
+    @apply bg-[#111111] text-[#E0E0E0];
   }
 
   #root {
@@ -48,15 +53,28 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-gray-100 dark:bg-gray-800;
+    background: #F5EDE3;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+    background: #E5D8CC;
+    border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400 dark:bg-gray-500;
+    background: #D4623A44;
+  }
+
+  :where(.dark) ::-webkit-scrollbar-track {
+    @apply bg-[#0A0A0A];
+  }
+
+  :where(.dark) ::-webkit-scrollbar-thumb {
+    @apply bg-[#222222] rounded-full;
+  }
+
+  :where(.dark) ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#333333];
   }
 }
 
