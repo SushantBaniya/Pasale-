@@ -59,20 +59,20 @@ export default function AddNewItemPage() {
       <div className="flex items-center gap-3 mb-6">
         <button
           onClick={() => navigate('/inventory')}
-          className="p-2 hover:#E3DDD2 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          className="p-2 hover:#F8FAFC dark:hover:bg-gray-800 rounded-lg transition-colors"
         >
-          <FiArrowLeft className="w-5 h-5 #6B7280" />
+          <FiArrowLeft className="w-5 h-5 #475569" />
         </button>
-        <h1 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF]">Add New Item</h1>
+        <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">Add New Item</h1>
       </div>
 
       {/* Form */}
-      <div className="bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-[#15161C] border #E2E8F0 dark:border-[#1C1D24] rounded-xl overflow-hidden">
         <div className="p-6 space-y-5">
           
           {/* Item Name */}
           <div>
-            <label className="block text-sm font-semibold #1A1C20 dark:text-[#C8C3BC] mb-1.5">
+            <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
               Item Name<span className="text-red-500">*</span>
             </label>
             <input
@@ -80,19 +80,19 @@ export default function AddNewItemPage() {
               value={itemName}
               onChange={(e) => setItemName(e.target.value)}
               placeholder="e.g. iPhone 15 Pro"
-              className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+              className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
             />
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-semibold #1A1C20 dark:text-[#C8C3BC] mb-1.5">
+            <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
               Category
             </label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+              className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
             >
               <option value="">Select a category</option>
               {categories.map((c) => (
@@ -104,7 +104,7 @@ export default function AddNewItemPage() {
           {/* Item Code / SKU + Unit */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold #1A1C20 dark:text-[#C8C3BC] mb-1.5">
+              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
                 Item Code / SKU
               </label>
               <input
@@ -112,11 +112,11 @@ export default function AddNewItemPage() {
                 value={itemCode}
                 onChange={(e) => setItemCode(e.target.value)}
                 placeholder="e.g. IPH15P"
-                className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+                className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold #1A1C20 dark:text-[#C8C3BC] mb-1.5">
+              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
                 Unit
               </label>
               <input
@@ -124,7 +124,7 @@ export default function AddNewItemPage() {
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
                 placeholder="e.g. pcs, kg, box"
-                className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+                className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -132,7 +132,7 @@ export default function AddNewItemPage() {
           {/* Purchase Price + Selling Price */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold #1A1C20 dark:text-[#C8C3BC] mb-1.5">
+              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
                 Purchase Price
               </label>
               <input
@@ -142,11 +142,11 @@ export default function AddNewItemPage() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
-                className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+                className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold #1A1C20 dark:text-[#C8C3BC] mb-1.5">
+              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
                 Selling Price
               </label>
               <input
@@ -156,14 +156,14 @@ export default function AddNewItemPage() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
-                className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+                className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
               />
             </div>
           </div>
 
           {/* Opening Stock */}
           <div>
-            <label className="block text-sm font-semibold #1A1C20 dark:text-[#C8C3BC] mb-1.5">
+            <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
               Opening Stock
             </label>
             <input
@@ -172,23 +172,23 @@ export default function AddNewItemPage() {
               onChange={(e) => setOpeningStock(e.target.value)}
               placeholder="0"
               min="0"
-              className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+              className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
             />
           </div>
         </div>
 
         {/* Actions */}
-        <div className="px-6 py-4 border-t #DDD7CC dark:border-[#1C1D24] flex items-center justify-end gap-3">
+        <div className="px-6 py-4 border-t #E2E8F0 dark:border-[#1C1D24] flex items-center justify-end gap-3">
           <button
             onClick={() => navigate('/inventory')}
-            className="px-5 py-2.5 text-sm font-semibold #6B7280 dark:text-[#C8C3BC] hover:#E3DDD2 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="px-5 py-2.5 text-sm font-semibold #475569 dark:text-[#64748B] hover:#F8FAFC dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#A3876A] text-white text-sm font-semibold rounded-lg hover:bg-[#8E7356] disabled:opacity-60 transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2DD50] text-white text-sm font-semibold rounded-lg hover:bg-[#8E7356] disabled:opacity-60 transition-colors shadow-sm"
           >
             <FiSave className="w-4 h-4" />
             {saving ? 'Saving...' : 'Save Item'}

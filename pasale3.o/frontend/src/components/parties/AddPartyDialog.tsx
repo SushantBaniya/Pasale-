@@ -232,7 +232,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
       <div className="w-full max-w-3xl bg-white dark:bg-[#0D0E12] rounded-2xl max-h-[95vh] overflow-hidden shadow-2xl">
         {/* Header with gradient */}
         <div
-          className={`${isCustomer ? 'bg-gradient-to-r from-[#A3876A] to-blue-700' : 'bg-gradient-to-r from-purple-600 to-purple-700'} px-6 py-5 text-white`}
+          className={`${isCustomer ? 'bg-gradient-to-r from-[#F2DD50] to-blue-700' : 'bg-gradient-to-r from-purple-600 to-purple-700'} px-6 py-5 text-white`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -277,8 +277,8 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
         <form onSubmit={handleSubmit} className="overflow-y-auto max-h-[calc(95vh-180px)]">
           {/* Party Type Selection */}
           {!isEdit && !defaultType && (
-            <div className="p-6 border-b #DDD7CC dark:border-[#1C1D24] #F4F0EA dark:bg-[#15161C]/50">
-              <label className="block text-sm font-bold mb-3 text-gray-700 dark:text-[#C8C3BC]">
+            <div className="p-6 border-b #E2E8F0 dark:border-[#1C1D24] #FFFFFF dark:bg-[#15161C]/50">
+              <label className="block text-sm font-bold mb-3 text-gray-700 dark:text-[#64748B]">
                 <FiTag className="w-4 h-4 inline mr-2" />
                 Type *
               </label>
@@ -288,24 +288,24 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                   onClick={() => setFormData({ ...formData, type: 'customer' })}
                   className={`p-5 rounded-xl border-2 transition-all flex items-center gap-4 ${
                     formData.type === 'customer'
-                      ? 'bg-[#F5F0E6] dark:bg-[#A3876A]/15 border-[#A3876A] shadow-lg scale-[1.02]'
+                      ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/15 border-[#F2DD50] shadow-lg scale-[1.02]'
                       : 'bg-white dark:bg-[#15161C] border-gray-300 dark:border-[#2A2B36] hover:border-blue-400'
                   }`}
                 >
                   <div
                     className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                       formData.type === 'customer'
-                        ? 'bg-[#A3876A] text-white'
-                        : '#E3DDD2 dark:bg-[#1C1D24] #6B7280'
+                        ? 'bg-[#F2DD50] text-white'
+                        : '#F8FAFC dark:bg-[#1C1D24] #475569'
                     }`}
                   >
                     <FiUser className="w-6 h-6" />
                   </div>
                   <div className="text-left">
-                    <span className="font-bold #1A1C20 dark:text-[#EAE5DF] block">
+                    <span className="font-bold #1E293B dark:text-[#EAE5DF] block">
                       Customer
                     </span>
-                    <span className="text-xs #6B7280 dark:text-[#44454F]">
+                    <span className="text-xs #475569 dark:text-[#44454F]">
                       Buys from you
                     </span>
                   </div>
@@ -323,16 +323,16 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                       formData.type === 'supplier'
                         ? 'bg-purple-500 text-white'
-                        : '#E3DDD2 dark:bg-[#1C1D24] #6B7280'
+                        : '#F8FAFC dark:bg-[#1C1D24] #475569'
                     }`}
                   >
                     <FiTruck className="w-6 h-6" />
                   </div>
                   <div className="text-left">
-                    <span className="font-bold #1A1C20 dark:text-[#EAE5DF] block">
+                    <span className="font-bold #1E293B dark:text-[#EAE5DF] block">
                       Supplier
                     </span>
-                    <span className="text-xs #6B7280 dark:text-[#44454F]">
+                    <span className="text-xs #475569 dark:text-[#44454F]">
                       You buy from
                     </span>
                   </div>
@@ -342,7 +342,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
           )}
 
           {/* Tabs */}
-          <div className="border-b #DDD7CC dark:border-[#1C1D24] px-6">
+          <div className="border-b #E2E8F0 dark:border-[#1C1D24] px-6">
             <div className="flex gap-1">
               {(['basic', 'financial', 'additional'] as const).map((tab) => (
                 <button
@@ -353,10 +353,10 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     activeTab === tab
                       ? `${
                           isCustomer
-                            ? 'border-[#A3876A] text-[#A3876A]'
+                            ? 'border-[#F2DD50] text-[#F2DD50]'
                             : 'border-purple-500 text-purple-600'
                         }`
-                      : 'border-transparent #6B7280 hover:text-gray-700 dark:hover:text-gray-300'
+                      : 'border-transparent #475569 hover:text-gray-700 dark:hover:text-gray-300'
                   }`}
                 >
                   {tab === 'basic' && <><FiFileText className="inline mr-2" />Basic Info</>}
@@ -374,7 +374,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Name and Code */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiUser className="w-4 h-4 inline mr-2" />
                       {isCustomer ? 'Customer Name' : 'Supplier Name'} <span className="text-red-500">*</span>
                     </label>
@@ -387,7 +387,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                           setValidationErrors({ ...validationErrors, name: '' });
                         }
                       }}
-                      className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A] ${
+                      className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50] ${
                         validationErrors.name ? 'border-red-500' : 'border-gray-300 dark:border-[#2A2B36]'
                       }`}
                       placeholder="Enter name (min 3 characters)"
@@ -405,7 +405,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiHash className="w-4 h-4 inline mr-2" />
                       {isCustomer ? 'Customer Code' : 'Supplier Code'}
                     </label>
@@ -418,7 +418,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                           [isCustomer ? 'customerCode' : 'supplierCode']: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                       placeholder={isCustomer ? 'CUST-001' : 'SUP-001'}
                     />
                   </div>
@@ -427,7 +427,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Supplier: Company Name */}
                 {!isCustomer && (
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiBriefcase className="w-4 h-4 inline mr-2" />
                       {t('companyName')}
                     </label>
@@ -435,7 +435,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       type="text"
                       value={formData.companyName}
                       onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                       placeholder={t('companyNamePlaceholder')}
                     />
                   </div>
@@ -444,7 +444,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Phone and Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiPhone className="w-4 h-4 inline mr-2" />
                       Phone <span className="text-red-500">*</span>
                     </label>
@@ -457,7 +457,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                           setValidationErrors({ ...validationErrors, phone: '' });
                         }
                       }}
-                      className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A] ${
+                      className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50] ${
                         validationErrors.phone ? 'border-red-500' : 'border-gray-300 dark:border-[#2A2B36]'
                       }`}
                       placeholder="9812345678"
@@ -470,7 +470,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiMail className="w-4 h-4 inline mr-2" />
                       Email
                     </label>
@@ -483,7 +483,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                           setValidationErrors({ ...validationErrors, email: '' });
                         }
                       }}
-                      className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A] ${
+                      className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50] ${
                         validationErrors.email ? 'border-red-500' : 'border-gray-300 dark:border-[#2A2B36]'
                       }`}
                       placeholder="email@example.com"
@@ -498,7 +498,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
 
                 {/* Address - Required field */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                     <FiMapPin className="w-4 h-4 inline mr-2" />
                     Address <span className="text-red-500">*</span>
                   </label>
@@ -510,7 +510,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                         setValidationErrors({ ...validationErrors, address: '' });
                       }
                     }}
-                    className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A] resize-none ${
+                    className={`w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50] resize-none ${
                       validationErrors.address ? 'border-red-500' : 'border-gray-300 dark:border-[#2A2B36]'
                     }`}
                     rows={2}
@@ -526,7 +526,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {!isCustomer && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiFileText className="w-4 h-4 inline mr-2" />
                         {t('gstNumber')}
                       </label>
@@ -534,12 +534,12 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                         type="text"
                         value={formData.gstNumber}
                         onChange={(e) => setFormData({ ...formData, gstNumber: e.target.value })}
-                        className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                        className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                         placeholder="GST Number"
                       />
                     </div> */}
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiFileText className="w-4 h-4 inline mr-2" />
                         {t('panNumber')}
                       </label>
@@ -547,7 +547,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                         type="text"
                         value={formData.panNumber}
                         onChange={(e) => setFormData({ ...formData, panNumber: e.target.value })}
-                        className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                        className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                         placeholder="PAN Number"
                       />
                     </div>
@@ -558,7 +558,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* City, State, Pincode */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiHome className="w-4 h-4 inline mr-2" />
                       City
                     </label>
@@ -566,31 +566,31 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       type="text"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                       placeholder="Kathmandu"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       State
                     </label>
                     <input
                       type="text"
                       value={formData.state}
                       onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                       placeholder="Bagmati"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       Pincode
                     </label>
                     <input
                       type="text"
                       value={formData.pincode}
                       onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                       placeholder="44600"
                     />
                   </div>
@@ -604,51 +604,51 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Opening Balance and Credit Limit */}
                 <div
                   className={`${
-                    isCustomer ? 'bg-[#F5F0E6] dark:bg-[#A3876A]/15' : 'bg-purple-50 dark:bg-purple-900/20'
+                    isCustomer ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/15' : 'bg-purple-50 dark:bg-purple-900/20'
                   } p-6 rounded-xl border ${
                     isCustomer
-                      ? 'border-[#A3876A]/30 dark:border-[#A3876A]/50'
+                      ? 'border-[#F2DD50]/30 dark:border-[#F2DD50]/50'
                       : 'border-purple-200 dark:border-purple-800'
                   }`}
                 >
-                  <h3 className="font-bold #1A1C20 dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
+                  <h3 className="font-bold #1E293B dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
                     <NepaliRupeeIcon className="w-5 h-5" />
                     Balance Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                         {t('ledger.openingBalance')}
                       </label>
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #6B7280 font-semibold">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">
                           रु.
                         </span>
                         <input
                           type="number"
                           value={formData.openingBalance}
                           onChange={(e) => setFormData({ ...formData, openingBalance: e.target.value })}
-                          className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                          className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                           placeholder="0.00"
                         />
                       </div>
-                      <p className="text-xs #6B7280 mt-1">
+                      <p className="text-xs #475569 mt-1">
                         {isCustomer ? t('amountOwed') : t('amountYouOwe')}
                       </p>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                         {t('creditLimit')}
                       </label>
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #6B7280 font-semibold">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">
                           रु.
                         </span>
                         <input
                           type="number"
                           value={formData.creditLimit}
                           onChange={(e) => setFormData({ ...formData, creditLimit: e.target.value })}
-                          className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                          className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                           placeholder={t('optional')}
                         />
                       </div>
@@ -660,7 +660,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {isCustomer && (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiCreditCard className="w-4 h-4 inline mr-2" />
                         {t('preferredPayment')}
                       </label>
@@ -672,8 +672,8 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                             onClick={() => setFormData({ ...formData, preferredPayment: method })}
                             className={`p-3 rounded-xl border-2 font-medium capitalize transition-all ${
                               formData.preferredPayment === method
-                                ? 'border-[#A3876A] bg-[#F5F0E6] dark:bg-[#A3876A]/15 text-[#A3876A]'
-                                : '#DDD7CC dark:border-[#1C1D24] #6B7280 dark:text-[#44454F]'
+                                ? 'border-[#F2DD50] bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#F2DD50]'
+                                : '#E2E8F0 dark:border-[#1C1D24] #475569 dark:text-[#44454F]'
                             }`}
                           >
                             {method === 'upi' ? 'UPI' : method}
@@ -682,14 +682,14 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiCheckCircle className="inline mr-2" />{t('loyaltyPoints')}
                       </label>
                       <input
                         type="number"
                         value={formData.loyaltyPoints}
                         onChange={(e) => setFormData({ ...formData, loyaltyPoints: e.target.value })}
-                        className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                        className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                         placeholder="0"
                       />
                     </div>
@@ -699,44 +699,44 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Supplier: Bank Details */}
                 {!isCustomer && (
                   <>
-                    <div className="#F4F0EA dark:bg-[#15161C]/50 p-6 rounded-xl border #DDD7CC dark:border-[#1C1D24]">
-                      <h3 className="font-bold #1A1C20 dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
+                    <div className="#FFFFFF dark:bg-[#15161C]/50 p-6 rounded-xl border #E2E8F0 dark:border-[#1C1D24]">
+                      <h3 className="font-bold #1E293B dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
                         <FiHome className="inline mr-2" />{t('bankDetails')}
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                             {t('bankName')}
                           </label>
                           <input
                             type="text"
                             value={formData.bankName}
                             onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
-                            className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                            className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                             placeholder="Bank Name"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                             {t('accountNumber')}
                           </label>
                           <input
                             type="text"
                             value={formData.bankAccount}
                             onChange={(e) => setFormData({ ...formData, bankAccount: e.target.value })}
-                            className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                            className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                             placeholder="Account Number"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                             {t('ifscCode')}
                           </label>
                           <input
                             type="text"
                             value={formData.ifscCode}
                             onChange={(e) => setFormData({ ...formData, ifscCode: e.target.value })}
-                            className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                            className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                             placeholder="IFSC Code"
                           />
                         </div>
@@ -745,13 +745,13 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                           {t('paymentTerms')}
                         </label>
                         <select
                           value={formData.paymentTerms}
                           onChange={(e) => setFormData({ ...formData, paymentTerms: e.target.value })}
-                          className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                          className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                         >
                           <option value="immediate">Immediate</option>
                           <option value="net15">Net 15 Days</option>
@@ -761,30 +761,30 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                           {t('leadTime')}
                         </label>
                         <input
                           type="text"
                           value={formData.leadTime}
                           onChange={(e) => setFormData({ ...formData, leadTime: e.target.value })}
-                          className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                          className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                           placeholder="e.g., 7 days"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                           {t('minOrderValue')}
                         </label>
                         <div className="relative">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 #6B7280 font-semibold">
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">
                             रु.
                           </span>
                           <input
                             type="number"
                             value={formData.minOrderValue}
                             onChange={(e) => setFormData({ ...formData, minOrderValue: e.target.value })}
-                            className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                            className="w-full pl-12 pr-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                             placeholder="0"
                           />
                         </div>
@@ -801,14 +801,14 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Customer: Referred By */}
                 {isCustomer && (
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiUser className="inline mr-2" />{t('referredBy')}
                     </label>
                     <input
                       type="text"
                       value={formData.referredBy}
                       onChange={(e) => setFormData({ ...formData, referredBy: e.target.value })}
-                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                      className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
                       placeholder={t('referredByPlaceholder')}
                     />
                   </div>
@@ -816,13 +816,13 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
 
                 {/* Notes */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#C8C3BC]">
+                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
                     <FiFileText className="inline mr-2" />{t('notesOptional')}
                   </label>
                   <textarea
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#A3876A] resize-none"
+                    className="w-full px-4 py-3 border-2 rounded-xl bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] border-gray-300 dark:border-[#2A2B36] focus:outline-none focus:ring-2 focus:ring-[#F2DD50] resize-none"
                     rows={4}
                     placeholder={t('addNotes')}
                   />
@@ -839,13 +839,13 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 p-6 border-t #DDD7CC dark:border-[#1C1D24] #F4F0EA dark:bg-[#15161C]/50">
+          <div className="flex gap-3 p-6 border-t #E2E8F0 dark:border-[#1C1D24] #FFFFFF dark:bg-[#15161C]/50">
             <button
               type="submit"
               disabled={loading || !isFormValid()}
               className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold text-white transition-all ${
                 isCustomer
-                  ? 'bg-gradient-to-r from-[#A3876A] to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                  ? 'bg-gradient-to-r from-[#F2DD50] to-blue-700 hover:from-blue-700 hover:to-blue-800'
                   : 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
               } disabled:opacity-50 disabled:cursor-not-allowed shadow-lg`}
             >
@@ -870,7 +870,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="px-6 py-3 rounded-xl font-medium text-gray-700 dark:text-[#C8C3BC] bg-white dark:bg-[#15161C] border-2 border-gray-300 dark:border-[#2A2B36] hover:#F4F0EA dark:hover:bg-gray-700 transition-colors"
+              className="px-6 py-3 rounded-xl font-medium text-gray-700 dark:text-[#64748B] bg-white dark:bg-[#15161C] border-2 border-gray-300 dark:border-[#2A2B36] hover:#FFFFFF dark:hover:bg-gray-700 transition-colors"
             >
               {t('common.cancel')}
             </button>

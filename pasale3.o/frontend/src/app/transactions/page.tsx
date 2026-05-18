@@ -294,9 +294,9 @@ export default function TransactionsPage() {
 
   // Tabs configuration - 'selling' is the dataStore type for sales
   const tabs: { id: Tab; label: string; icon: React.ElementType; count: number; color: string }[] = [
-    { id: 'all', label: 'All Transactions', icon: FiFileText, count: apiTransactions.length, color: '#6B7280' },
-    { id: 'sales', label: 'Sales', icon: FiShoppingCart, count: apiTransactions.filter((t) => t.type === 'selling').length, color: 'text-[#A3876A]' },
-    { id: 'purchase', label: 'Purchases', icon: FiPackage, count: apiTransactions.filter((t) => t.type === 'purchase').length, color: 'text-[#A3876A]' },
+    { id: 'all', label: 'All Transactions', icon: FiFileText, count: apiTransactions.length, color: '#475569' },
+    { id: 'sales', label: 'Sales', icon: FiShoppingCart, count: apiTransactions.filter((t) => t.type === 'selling').length, color: 'text-[#F2DD50]' },
+    { id: 'purchase', label: 'Purchases', icon: FiPackage, count: apiTransactions.filter((t) => t.type === 'purchase').length, color: 'text-[#F2DD50]' },
     { id: 'payments', label: 'Payments', icon: FiCreditCard, count: apiTransactions.filter((t) => t.type === 'payment_in' || t.type === 'payment_out').length, color: 'text-purple-600' },
     { id: 'returns', label: 'Returns', icon: FiRotateCcw, count: apiTransactions.filter((t) => t.type === 'sales_return' || t.type === 'purchase_return').length, color: 'text-orange-600' },
     { id: 'expense', label: 'Expense/Income', icon: FiTrendingDown, count: apiTransactions.filter((t) => t.type === 'expense' || t.type === 'income').length, color: 'text-rose-600' },
@@ -309,7 +309,7 @@ export default function TransactionsPage() {
       label: 'Add Sales',
       desc: 'Create sales invoice',
       icon: FiShoppingCart,
-      color: 'bg-[#A3876A]',
+      color: 'bg-[#F2DD50]',
       onClick: () => setSalesDialog({ open: true })
     },
     {
@@ -317,7 +317,7 @@ export default function TransactionsPage() {
       label: 'Add Purchase',
       desc: 'Record a purchase',
       icon: FiPackage,
-      color: 'bg-[#A3876A]',
+      color: 'bg-[#F2DD50]',
       onClick: () => setPurchaseDialog({ open: true })
     },
     {
@@ -373,7 +373,7 @@ export default function TransactionsPage() {
       label: 'Add Income',
       desc: 'Record other income',
       icon: FiTrendingUp,
-      color: 'bg-[#A3876A]',
+      color: 'bg-[#F2DD50]',
       onClick: () => setIncomeDialog({ open: true })
     },
   ];
@@ -382,7 +382,7 @@ export default function TransactionsPage() {
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header */}
-        <div className="relative mb-8 rounded-2xl bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] shadow-sm">
+        <div className="relative mb-8 rounded-2xl bg-white dark:bg-[#15161C] border #E2E8F0 dark:border-[#1C1D24] shadow-sm">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]" />
@@ -396,7 +396,7 @@ export default function TransactionsPage() {
                   <FiCreditCard className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div>
-                  <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight #1A1C20 dark:text-[#EAE5DF] flex items-center gap-3">
+                  <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight #1E293B dark:text-[#EAE5DF] flex items-center gap-3">
                     Transactions
                     {isLoading ? (
                       <FiRefreshCw className="w-5 h-5 text-indigo-500 animate-spin" />
@@ -406,7 +406,7 @@ export default function TransactionsPage() {
                       </span>
                     )}
                   </h1>
-                  <p className="#6B7280 dark:text-[#44454F] text-sm mt-1 max-w-md font-medium">
+                  <p className="#475569 dark:text-[#44454F] text-sm mt-1 max-w-md font-medium">
                     Monitor your sales, expenses, and business cash flow
                   </p>
                 </div>
@@ -426,7 +426,7 @@ export default function TransactionsPage() {
                 {/* Filter Button */}
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-[#C8C3BC] #F4F0EA dark:bg-[#1C1D24]/50 hover:#E3DDD2 dark:hover:bg-gray-700 border #DDD7CC dark:border-[#2A2B36] transition-all shadow-xs"
+                  className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-[#64748B] #FFFFFF dark:bg-[#1C1D24]/50 hover:#F8FAFC dark:hover:bg-gray-700 border #E2E8F0 dark:border-[#2A2B36] transition-all shadow-xs"
                 >
                   <FiFilter className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Filters</span>
@@ -436,7 +436,7 @@ export default function TransactionsPage() {
                 <div className="relative">
                   <button
                     onClick={() => setShowExportMenu(!showExportMenu)}
-                    className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-[#C8C3BC] #F4F0EA dark:bg-[#1C1D24]/50 hover:#E3DDD2 dark:hover:bg-gray-700 border #DDD7CC dark:border-[#2A2B36] transition-all shadow-xs"
+                    className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-[#64748B] #FFFFFF dark:bg-[#1C1D24]/50 hover:#F8FAFC dark:hover:bg-gray-700 border #E2E8F0 dark:border-[#2A2B36] transition-all shadow-xs"
                   >
                     <FiDownload className="w-4 h-4 mr-2" />
                     <span className="hidden sm:inline">Export</span>
@@ -445,14 +445,14 @@ export default function TransactionsPage() {
                   {showExportMenu && (
                     <>
                       <div className="fixed inset-0 z-40" onClick={() => setShowExportMenu(false)} />
-                      <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#15161C] rounded-xl shadow-2xl border #DDD7CC dark:border-[#1C1D24] py-2 z-50">
+                      <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#15161C] rounded-xl shadow-2xl border #E2E8F0 dark:border-[#1C1D24] py-2 z-50">
                         {['pdf', 'excel', 'csv'].map((format) => (
                           <button
                             key={format}
                             onClick={() => handleExport(format as any)}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-[#C8C3BC] hover:#E3DDD2 dark:hover:bg-gray-700 transition-colors"
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-[#64748B] hover:#F8FAFC dark:hover:bg-gray-700 transition-colors"
                           >
-                            <FiFileText className={`w-4 h-4 ${format === 'pdf' ? 'text-red-500' : format === 'excel' ? 'text-green-500' : 'text-[#A3876A]'}`} />
+                            <FiFileText className={`w-4 h-4 ${format === 'pdf' ? 'text-red-500' : format === 'excel' ? 'text-green-500' : 'text-[#F2DD50]'}`} />
                             Export as {format.toUpperCase()}
                           </button>
                         ))}
@@ -475,9 +475,9 @@ export default function TransactionsPage() {
                   {showNewTransactionMenu && (
                     <>
                       <div className="fixed inset-0 z-40" onClick={() => setShowNewTransactionMenu(false)} />
-                      <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-[#15161C] rounded-xl shadow-2xl border #DDD7CC dark:border-[#1C1D24] py-2 z-50 max-h-[70vh] overflow-y-auto">
-                        <div className="px-4 py-2 border-b #DDD7CC dark:border-[#1C1D24] mb-1">
-                          <p className="text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wide">Create Transaction</p>
+                      <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-[#15161C] rounded-xl shadow-2xl border #E2E8F0 dark:border-[#1C1D24] py-2 z-50 max-h-[70vh] overflow-y-auto">
+                        <div className="px-4 py-2 border-b #E2E8F0 dark:border-[#1C1D24] mb-1">
+                          <p className="text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wide">Create Transaction</p>
                         </div>
                         {transactionMenuItems.map((item) => (
                           <button
@@ -486,14 +486,14 @@ export default function TransactionsPage() {
                               item.onClick();
                               setShowNewTransactionMenu(false);
                             }}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:#F4F0EA dark:hover:bg-gray-700 transition-colors"
+                            className="w-full flex items-center gap-3 px-4 py-2.5 hover:#FFFFFF dark:hover:bg-gray-700 transition-colors"
                           >
                             <div className={`w-9 h-9 rounded-lg ${item.color} flex items-center justify-center shrink-0 shadow-sm`}>
                               <item.icon className="w-4 h-4 text-white" />
                             </div>
                             <div className="text-left">
-                              <p className="font-medium text-sm #1A1C20 dark:text-[#EAE5DF]">{item.label}</p>
-                              <p className="text-xs #6B7280 dark:text-[#44454F]">{item.desc}</p>
+                              <p className="font-medium text-sm #1E293B dark:text-[#EAE5DF]">{item.label}</p>
+                              <p className="text-xs #475569 dark:text-[#44454F]">{item.desc}</p>
                             </div>
                           </button>
                         ))}
@@ -541,10 +541,10 @@ export default function TransactionsPage() {
         {/* Filters Panel */}
         <Card className="p-4 sm:p-6 mb-6">
           {/* Quick Date Filters */}
-          <div className="flex flex-wrap items-center gap-2 mb-4 pb-4 border-b #DDD7CC dark:border-[#1C1D24]">
+          <div className="flex flex-wrap items-center gap-2 mb-4 pb-4 border-b #E2E8F0 dark:border-[#1C1D24]">
             <div className="flex items-center gap-2 mr-2">
               <FiCalendar className="w-4 h-4 text-gray-400" />
-              <span className="text-sm font-medium #6B7280 dark:text-[#44454F]">Period:</span>
+              <span className="text-sm font-medium #475569 dark:text-[#44454F]">Period:</span>
             </div>
             {(['today', 'week', 'month', 'year', 'custom'] as QuickFilter[]).map((filter) => (
               <button
@@ -555,7 +555,7 @@ export default function TransactionsPage() {
                 }}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${quickFilter === filter
                   ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
-                  : '#E3DDD2 dark:bg-[#15161C] #6B7280 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
+                  : '#F8FAFC dark:bg-[#15161C] #475569 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
               >
                 {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -572,15 +572,15 @@ export default function TransactionsPage() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === tab.id
-                    ? 'bg-gray-900 dark:bg-white text-white dark:#1A1C20 shadow-lg'
-                    : '#E3DDD2 dark:bg-[#15161C] #6B7280 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ? 'bg-gray-900 dark:bg-white text-white dark:#1E293B shadow-lg'
+                    : '#F8FAFC dark:bg-[#15161C] #475569 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
                 >
                   <Icon className={`w-4 h-4 ${activeTab !== tab.id ? tab.color : ''}`} />
                   <span className="hidden sm:inline">{tab.label}</span>
                   <span className={`px-2 py-0.5 rounded-full text-xs ${activeTab === tab.id
-                    ? 'bg-white/20 text-white dark:bg-[#0D0E12]/20 dark:#1A1C20'
-                    : 'bg-gray-200 dark:bg-[#1C1D24] #6B7280 dark:text-[#44454F]'
+                    ? 'bg-white/20 text-white dark:bg-[#0D0E12]/20 dark:#1E293B'
+                    : 'bg-gray-200 dark:bg-[#1C1D24] #475569 dark:text-[#44454F]'
                     }`}>
                     {n(tab.count)}
                   </span>
@@ -591,19 +591,19 @@ export default function TransactionsPage() {
 
           {/* Advanced Filters */}
           {showFilters && (
-            <div className="#F4F0EA dark:bg-[#15161C]/50 rounded-xl p-4 animate-in fade-in slide-in-from-top-2">
+            <div className="#FFFFFF dark:bg-[#15161C]/50 rounded-xl p-4 animate-in fade-in slide-in-from-top-2">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold #1A1C20 dark:text-[#EAE5DF]">Custom Date Range</h3>
+                <h3 className="font-semibold #1E293B dark:text-[#EAE5DF]">Custom Date Range</h3>
                 <button
                   onClick={() => setShowFilters(false)}
-                  className="p-1.5 rounded-lg text-gray-400 hover:#6B7280 hover:#E3DDD2 dark:hover:bg-gray-700"
+                  className="p-1.5 rounded-lg text-gray-400 hover:#475569 hover:#F8FAFC dark:hover:bg-gray-700"
                 >
                   <FiX className="w-4 h-4" />
                 </button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#C8C3BC]">From</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">From</label>
                   <input
                     type="date"
                     value={startDate}
@@ -611,11 +611,11 @@ export default function TransactionsPage() {
                       setStartDate(e.target.value);
                       setQuickFilter('custom');
                     }}
-                    className="w-full px-4 py-3 rounded-xl border-2 #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-indigo-500"
+                    className="w-full px-4 py-3 rounded-xl border-2 #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#C8C3BC]">To</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">To</label>
                   <input
                     type="date"
                     value={endDate}
@@ -623,7 +623,7 @@ export default function TransactionsPage() {
                       setEndDate(e.target.value);
                       setQuickFilter('custom');
                     }}
-                    className="w-full px-4 py-3 rounded-xl border-2 #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-indigo-500"
+                    className="w-full px-4 py-3 rounded-xl border-2 #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-indigo-500"
                   />
                 </div>
               </div>
@@ -636,7 +636,7 @@ export default function TransactionsPage() {
           {isLoading && apiTransactions.length === 0 ? (
             <Card className="p-20 flex flex-col items-center justify-center">
               <FiRefreshCw className="w-12 h-12 text-indigo-500 animate-spin mb-4" />
-              <p className="#6B7280 font-medium">Loading transactions...</p>
+              <p className="#475569 font-medium">Loading transactions...</p>
             </Card>
           ) : (
             <TransactionTable

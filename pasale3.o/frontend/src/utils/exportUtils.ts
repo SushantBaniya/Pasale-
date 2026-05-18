@@ -267,14 +267,14 @@ export const exportToPDF = (data: ExportData) => {
           
           .company-info {
             font-size: 11px;
-            color: #6b7280;
+            color: #475569;
             margin-bottom: 15px;
           }
           
           .report-title {
             font-size: 20px;
             font-weight: 600;
-            color: #A3876A;
+            color: #F2DD50;
             margin-bottom: 8px;
           }
           
@@ -334,13 +334,13 @@ export const exportToPDF = (data: ExportData) => {
             transition: all 0.2s ease;
           }
           
-          .stat-card:nth-child(2) { border-left-color: #3A7A5A; }
+          .stat-card:nth-child(2) { border-left-color: #10B981; }
           .stat-card:nth-child(3) { border-left-color: #f59e0b; }
-          .stat-card:nth-child(4) { border-left-color: #A3876A; }
+          .stat-card:nth-child(4) { border-left-color: #F2DD50; }
           
           .stat-label {
             font-size: 11px;
-            color: #6b7280;
+            color: #475569;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 5px;
@@ -391,7 +391,7 @@ export const exportToPDF = (data: ExportData) => {
           }
           
           .data-table th {
-            background: linear-gradient(180deg, #A3876A 0%, #6366f1 100%);
+            background: linear-gradient(180deg, #F2DD50 0%, #6366f1 100%);
             color: white;
             padding: 10px 12px;
             text-align: left;
@@ -459,7 +459,7 @@ export const exportToPDF = (data: ExportData) => {
             padding-top: 20px;
             border-top: 2px solid #e5e7eb;
             text-align: center;
-            color: #6b7280;
+            color: #475569;
             font-size: 10px;
           }
           
@@ -514,7 +514,7 @@ export const exportToPDF = (data: ExportData) => {
             margin-top: 40px;
             padding-top: 8px;
             font-size: 11px;
-            color: #6b7280;
+            color: #475569;
           }
           
           /* Print Specific */
@@ -783,14 +783,14 @@ export const exportToHTML = (data: ExportData) => {
     
     .company-info {
       font-size: 12px;
-      color: #6b7280;
+      color: #475569;
       margin-bottom: 20px;
     }
     
     .report-title {
       font-size: 24px;
       font-weight: 600;
-      color: #A3876A;
+      color: #F2DD50;
       margin-bottom: 12px;
     }
     
@@ -882,13 +882,13 @@ export const exportToHTML = (data: ExportData) => {
       box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
     
-    .stat-card:nth-child(2) { border-left-color: #3A7A5A; }
+    .stat-card:nth-child(2) { border-left-color: #10B981; }
     .stat-card:nth-child(3) { border-left-color: #f59e0b; }
-    .stat-card:nth-child(4) { border-left-color: #A3876A; }
+    .stat-card:nth-child(4) { border-left-color: #F2DD50; }
     
     .stat-label {
       font-size: 12px;
-      color: #6b7280;
+      color: #475569;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 6px;
@@ -939,7 +939,7 @@ export const exportToHTML = (data: ExportData) => {
     }
     
     .data-table th {
-      background: linear-gradient(180deg, #A3876A 0%, #6366f1 100%);
+      background: linear-gradient(180deg, #F2DD50 0%, #6366f1 100%);
       color: white;
       padding: 12px 16px;
       text-align: left;
@@ -994,7 +994,7 @@ export const exportToHTML = (data: ExportData) => {
       padding-top: 25px;
       border-top: 2px solid #e5e7eb;
       text-align: center;
-      color: #6b7280;
+      color: #475569;
       font-size: 11px;
     }
     
@@ -1034,7 +1034,7 @@ export const exportToHTML = (data: ExportData) => {
       margin-top: 50px;
       padding-top: 10px;
       font-size: 12px;
-      color: #6b7280;
+      color: #475569;
     }
     
     /* Print Specific */
@@ -1082,7 +1082,7 @@ export const exportToHTML = (data: ExportData) => {
     <!-- Action Buttons -->
     <div class="action-buttons">
       <button onclick="window.print()">Print Report</button>
-      <button onclick="window.close()">✕ Close</button>
+      <button onclick="window.close()"> Close</button>
     </div>
     
     <!-- Report Header -->

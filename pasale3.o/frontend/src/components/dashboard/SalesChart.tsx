@@ -46,7 +46,7 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
   return (
     <Card className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold text-[#1A1C20] dark:text-[#EAE5DF]">Sales Analytics</h3>
+        <h3 className="text-xl font-bold text-[#1E293B] dark:text-[#EAE5DF]">Sales Analytics</h3>
         <div className="flex gap-2">
           <Button size="sm" variant={period === 'weekly' ? 'primary' : 'ghost'} onClick={() => setPeriod('weekly')}>{t('dashboard.weekly')}</Button>
           <Button size="sm" variant={period === 'monthly' ? 'primary' : 'ghost'} onClick={() => setPeriod('monthly')}>{t('dashboard.monthly')}</Button>
@@ -56,13 +56,13 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#DDD7CC'} />
-          <XAxis dataKey="name" stroke={isDark ? '#9ca3af' : '#6B7280'} tick={{ fill: isDark ? '#9ca3af' : '#6B7280' }} />
-          <YAxis stroke={isDark ? '#9ca3af' : '#6B7280'} tick={{ fill: isDark ? '#9ca3af' : '#6B7280' }} />
-          <Tooltip contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #DDD7CC', borderRadius: '8px', color: isDark ? '#f3f4f6' : '#1A1C20' }} />
-          <Legend wrapperStyle={{ color: isDark ? '#f3f4f6' : '#1A1C20' }} />
-          <Line type="monotone" dataKey="sales" stroke="#A3876A" strokeWidth={2} name="Sales" />
-          <Line type="monotone" dataKey="revenue" stroke="#3A7A5A" strokeWidth={2} name="Revenue" />
+          <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#374151' : '#E2E8F0'} />
+          <XAxis dataKey="name" stroke={isDark ? '#9ca3af' : '#475569'} tick={{ fill: isDark ? '#9ca3af' : '#475569' }} />
+          <YAxis stroke={isDark ? '#9ca3af' : '#475569'} tick={{ fill: isDark ? '#9ca3af' : '#475569' }} />
+          <Tooltip contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', border: isDark ? '1px solid #374151' : '1px solid #E2E8F0', borderRadius: '8px', color: isDark ? '#f3f4f6' : '#1E293B' }} />
+          <Legend wrapperStyle={{ color: isDark ? '#f3f4f6' : '#1E293B' }} />
+          <Line type="monotone" dataKey="sales" stroke="#F2DD50" strokeWidth={2} name="Sales" />
+          <Line type="monotone" dataKey="revenue" stroke="#10B981" strokeWidth={2} name="Revenue" />
         </LineChart>
       </ResponsiveContainer>
     </Card>

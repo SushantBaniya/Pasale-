@@ -32,23 +32,23 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({ query, onClose }
 
   if (totalResults === 0) {
     return (
-      <div className="absolute top-full mt-2 w-full bg-white dark:bg-[#15161C] border border-[#DDD7CC] dark:border-[#1C1D24] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
-        <div className="p-4 text-center text-[#6B7280] dark:text-[#44454F]">No results found for "{query}"</div>
+      <div className="absolute top-full mt-2 w-full bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#1C1D24] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+        <div className="p-4 text-center text-[#475569] dark:text-[#44454F]">No results found for "{query}"</div>
       </div>
     );
   }
 
   return (
-    <div className="absolute top-full mt-2 w-full bg-white dark:bg-[#15161C] border border-[#DDD7CC] dark:border-[#1C1D24] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+    <div className="absolute top-full mt-2 w-full bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#1C1D24] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
       {matchingTransactions.length > 0 && (
         <div className="p-2">
-          <div className="px-3 py-2 text-xs font-semibold text-[#6B7280] dark:text-[#44454F] uppercase">Transactions</div>
+          <div className="px-3 py-2 text-xs font-semibold text-[#475569] dark:text-[#44454F] uppercase">Transactions</div>
           {matchingTransactions.map((transaction) => (
-            <button key={transaction.id} onClick={() => handleClick('/transactions')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#E3DDD2] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
-              <NepaliRupeeIcon className="w-4 h-4 text-[#A3876A] shrink-0" />
+            <button key={transaction.id} onClick={() => handleClick('/transactions')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#FFFFFF] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
+              <NepaliRupeeIcon className="w-4 h-4 text-[#F2DD50] shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#1A1C20] dark:text-[#EAE5DF] truncate">{transaction.description}</p>
-                <p className="text-xs text-[#6B7280] dark:text-[#44454F]">Rs. {transaction.amount} • {transaction.partyName}</p>
+                <p className="text-sm font-medium text-[#1E293B] dark:text-[#EAE5DF] truncate">{transaction.description}</p>
+                <p className="text-xs text-[#475569] dark:text-[#44454F]">Rs. {transaction.amount}  {transaction.partyName}</p>
               </div>
             </button>
           ))}
@@ -56,13 +56,13 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({ query, onClose }
       )}
       {matchingParties.length > 0 && (
         <div className="p-2">
-          <div className="px-3 py-2 text-xs font-semibold text-[#6B7280] dark:text-[#44454F] uppercase">Parties</div>
+          <div className="px-3 py-2 text-xs font-semibold text-[#475569] dark:text-[#44454F] uppercase">Parties</div>
           {matchingParties.map((party) => (
-            <button key={party.id} onClick={() => handleClick('/parties')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#E3DDD2] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
-              <FiUsers className="w-4 h-4 text-[#3A7A5A] shrink-0" />
+            <button key={party.id} onClick={() => handleClick('/parties')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#FFFFFF] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
+              <FiUsers className="w-4 h-4 text-[#10B981] shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#1A1C20] dark:text-[#EAE5DF] truncate">{party.name}</p>
-                <p className="text-xs text-[#6B7280] dark:text-[#44454F]">{party.type} • {party.phone}</p>
+                <p className="text-sm font-medium text-[#1E293B] dark:text-[#EAE5DF] truncate">{party.name}</p>
+                <p className="text-xs text-[#475569] dark:text-[#44454F]">{party.type}  {party.phone}</p>
               </div>
             </button>
           ))}
@@ -70,13 +70,13 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({ query, onClose }
       )}
       {matchingExpenses.length > 0 && (
         <div className="p-2">
-          <div className="px-3 py-2 text-xs font-semibold text-[#6B7280] dark:text-[#44454F] uppercase">Expenses</div>
+          <div className="px-3 py-2 text-xs font-semibold text-[#475569] dark:text-[#44454F] uppercase">Expenses</div>
           {matchingExpenses.map((expense) => (
-            <button key={expense.id} onClick={() => handleClick('/expense-monitoring')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#E3DDD2] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
-              <FiTrendingDown className="w-4 h-4 text-[#A3876A] shrink-0" />
+            <button key={expense.id} onClick={() => handleClick('/expense-monitoring')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#FFFFFF] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
+              <FiTrendingDown className="w-4 h-4 text-[#F2DD50] shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#1A1C20] dark:text-[#EAE5DF] truncate">{expense.category}</p>
-                <p className="text-xs text-[#6B7280] dark:text-[#44454F]">Rs. {expense.amount} • {expense.description}</p>
+                <p className="text-sm font-medium text-[#1E293B] dark:text-[#EAE5DF] truncate">{expense.category}</p>
+                <p className="text-xs text-[#475569] dark:text-[#44454F]">Rs. {expense.amount}  {expense.description}</p>
               </div>
             </button>
           ))}

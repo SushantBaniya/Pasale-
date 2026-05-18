@@ -215,10 +215,10 @@ export default function PersonalVerificationPage() {
   // Verification Step
   if (step === 'verify') {
     return (
-      <div className="min-h-screen flex items-center justify-center #F4F0EA dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center #FFFFFF dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-64 sm:w-96 h-64 sm:h-96 bg-[#A3876A]/10 rounded-full blur-3xl"></div>
+          <div className="absolute -top-40 -right-40 w-64 sm:w-96 h-64 sm:h-96 bg-[#F2DD50]/10 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-40 -left-40 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
         </div>
 
@@ -231,19 +231,19 @@ export default function PersonalVerificationPage() {
         <div className={`w-full max-w-md transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Logo */}
           <div className="text-center mb-6 sm:mb-8">
-            <h1 className="text-2xl sm:text-4xl font-black text-[#A3876A] dark:text-[#A3876A]">Pasale</h1>
-            <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F] mt-1 sm:mt-2">{t('verification.verifyOTP')}</p>
+            <h1 className="text-2xl sm:text-4xl font-black text-[#F2DD50] dark:text-[#F2DD50]">Pasale</h1>
+            <p className="text-sm sm:text-base #475569 dark:text-[#44454F] mt-1 sm:mt-2">{t('verification.verifyOTP')}</p>
           </div>
 
           {/* Card */}
-          <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-8 border #DDD7CC dark:border-[#1C1D24]">
+          <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-8 border #E2E8F0 dark:border-[#1C1D24]">
             {/* Header */}
             <div className="text-center mb-6 sm:mb-8">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#F5F0E6] dark:bg-[#A3876A]/20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <FiShield className="w-7 h-7 sm:w-8 sm:h-8 text-[#A3876A] dark:text-[#A3876A]" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#F1F5F9] dark:bg-[#F2DD50]/20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <FiShield className="w-7 h-7 sm:w-8 sm:h-8 text-[#F2DD50] dark:text-[#F2DD50]" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">{t('verification.verifyOTP')}</h2>
-              <p className="#6B7280 dark:text-[#44454F] text-xs sm:text-sm">
+              <h2 className="text-xl sm:text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">{t('verification.verifyOTP')}</h2>
+              <p className="#475569 dark:text-[#44454F] text-xs sm:text-sm">
                 {t('verification.enterOTP')} {verificationMethod === 'email' ? email : phone}
               </p>
             </div>
@@ -251,7 +251,7 @@ export default function PersonalVerificationPage() {
             <form onSubmit={handleVerifyOTPSubmit} className="space-y-4 sm:space-y-6">
               {/* OTP Input */}
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-3 sm:mb-4 text-center">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
                   {t('forgotPassword.enterOTP')}
                 </label>
                 <div className="flex gap-1.5 sm:gap-2 justify-center" onPaste={handleOTPPaste}>
@@ -266,8 +266,8 @@ export default function PersonalVerificationPage() {
                       onChange={(e) => handleOTPChange(index, e.target.value)}
                       onKeyDown={(e) => handleOTPKeyDown(index, e)}
                       className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg sm:rounded-xl border-2 ${
-                        otpError ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
-                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
+                        otpError ? 'border-red-500' : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
+                      } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   ))}
                 </div>
@@ -279,15 +279,15 @@ export default function PersonalVerificationPage() {
               {/* Resend OTP */}
               <div className="text-center">
                 {resendTimer > 0 ? (
-                  <p className="text-xs sm:text-sm #6B7280 dark:text-[#44454F]">
-                    {t('forgotPassword.resendIn')} <span className="font-semibold text-gray-700 dark:text-[#C8C3BC]">{resendTimer}s</span>
+                  <p className="text-xs sm:text-sm #475569 dark:text-[#44454F]">
+                    {t('forgotPassword.resendIn')} <span className="font-semibold text-gray-700 dark:text-[#64748B]">{resendTimer}s</span>
                   </p>
                 ) : (
                   <button
                     type="button"
                     onClick={handleResendOTP}
                     disabled={isSendingOTP}
-                    className="text-sm sm:text-base text-[#A3876A] dark:text-[#A3876A] font-semibold hover:text-[#8E7356] dark:hover:text-[#A3876A] flex items-center gap-1.5 sm:gap-2 mx-auto"
+                    className="text-sm sm:text-base text-[#F2DD50] dark:text-[#F2DD50] font-semibold hover:text-[#8E7356] dark:hover:text-[#F2DD50] flex items-center gap-1.5 sm:gap-2 mx-auto"
                   >
                     <FiRefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     {t('verification.resendOTP')}
@@ -298,7 +298,7 @@ export default function PersonalVerificationPage() {
               {/* Demo Hint */}
               <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg sm:rounded-xl p-2.5 sm:p-3 text-center">
                 <p className="text-yellow-700 dark:text-yellow-400 text-xs sm:text-sm">
-                  💡 Demo OTP: <span className="font-bold">123456</span>
+                   Demo OTP: <span className="font-bold">123456</span>
                 </p>
               </div>
 
@@ -306,7 +306,7 @@ export default function PersonalVerificationPage() {
               <Button
                 type="submit"
                 disabled={isVerifying || otp.join('').length !== 6}
-                className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
               >
                 {isVerifying ? (
                   <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -322,7 +322,7 @@ export default function PersonalVerificationPage() {
               <button
                 type="button"
                 onClick={() => setStep('profile')}
-                className="w-full py-2.5 sm:py-3 text-sm sm:text-base #6B7280 dark:text-[#44454F] font-medium hover:text-gray-700 dark:hover:text-gray-200 flex items-center justify-center gap-1.5 sm:gap-2"
+                className="w-full py-2.5 sm:py-3 text-sm sm:text-base #475569 dark:text-[#44454F] font-medium hover:text-gray-700 dark:hover:text-gray-200 flex items-center justify-center gap-1.5 sm:gap-2"
               >
                 <FiArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 {t('common.back')}
@@ -336,10 +336,10 @@ export default function PersonalVerificationPage() {
 
   // Profile Step
   return (
-    <div className="min-h-screen flex items-center justify-center #F4F0EA dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center #FFFFFF dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-64 sm:w-96 h-64 sm:h-96 bg-[#A3876A]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-64 sm:w-96 h-64 sm:h-96 bg-[#F2DD50]/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
       </div>
 
@@ -352,21 +352,21 @@ export default function PersonalVerificationPage() {
       <div className={`w-full max-w-lg transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Logo */}
         <div className="text-center mb-4 sm:mb-6">
-          <h1 className="text-2xl sm:text-4xl font-black text-[#A3876A] dark:text-[#A3876A]">Pasale</h1>
-          <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F] mt-1 sm:mt-2">{t('verification.personalTitle')}</p>
+          <h1 className="text-2xl sm:text-4xl font-black text-[#F2DD50] dark:text-[#F2DD50]">Pasale</h1>
+          <p className="text-sm sm:text-base #475569 dark:text-[#44454F] mt-1 sm:mt-2">{t('verification.personalTitle')}</p>
         </div>
 
         {/* Back Button */}
         <button
           onClick={() => navigate('/business-type')}
-          className="mb-3 sm:mb-4 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white dark:bg-[#15161C] shadow-md border #DDD7CC dark:border-[#1C1D24] #6B7280 dark:text-[#44454F] hover:text-[#A3876A] dark:hover:text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-gray-700 transition-all"
+          className="mb-3 sm:mb-4 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white dark:bg-[#15161C] shadow-md border #E2E8F0 dark:border-[#1C1D24] #475569 dark:text-[#44454F] hover:text-[#F2DD50] dark:hover:text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-gray-700 transition-all"
           title={t('common.back')}
         >
           <FiArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Card */}
-        <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl border #DDD7CC dark:border-[#1C1D24] overflow-hidden">
+        <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl border #E2E8F0 dark:border-[#1C1D24] overflow-hidden">
 
             {/* Content */}
             <form onSubmit={handleProfileSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-6">
@@ -384,11 +384,11 @@ export default function PersonalVerificationPage() {
                         className="w-20 h-20 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white dark:border-[#1C1D24] shadow-lg group-hover:opacity-90 transition-opacity"
                       />
                     ) : (
-                      <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full #E3DDD2 dark:bg-[#1C1D24] flex items-center justify-center border-4 border-white dark:border-[#1C1D24] shadow-lg group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
-                        <FiUser className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400 dark:#6B7280" />
+                      <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full #F8FAFC dark:bg-[#1C1D24] flex items-center justify-center border-4 border-white dark:border-[#1C1D24] shadow-lg group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
+                        <FiUser className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400 dark:#475569" />
                       </div>
                     )}
-                    <div className="absolute bottom-0 right-0 bg-gray-700 dark:bg-[#22232C] text-white p-2 sm:p-2.5 rounded-full shadow-lg group-hover:bg-gray-800 dark:group-hover:#F4F0EA0 transition-colors">
+                    <div className="absolute bottom-0 right-0 bg-gray-700 dark:bg-[#22232C] text-white p-2 sm:p-2.5 rounded-full shadow-lg group-hover:bg-gray-800 dark:group-hover:#FFFFFF0 transition-colors">
                       <FiCamera className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </div>
                   </div>
@@ -401,7 +401,7 @@ export default function PersonalVerificationPage() {
                   />
                 </div>
               </div>
-              <p className="text-center text-xs sm:text-sm #6B7280 dark:text-[#44454F]">
+              <p className="text-center text-xs sm:text-sm #475569 dark:text-[#44454F]">
                 {t('verification.uploadPhoto')}
               </p>
 
@@ -409,7 +409,7 @@ export default function PersonalVerificationPage() {
               <div className="space-y-3 sm:space-y-4">
                 {/* Full Name */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('verification.name')} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -420,8 +420,8 @@ export default function PersonalVerificationPage() {
                       onChange={(e) => setName(e.target.value)}
                       placeholder="John Doe"
                       className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                        errors.name ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
-                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
+                        errors.name ? 'border-red-500' : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
+                      } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.name && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.name}</p>}
@@ -429,7 +429,7 @@ export default function PersonalVerificationPage() {
 
                 {/* Email */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('verification.email')} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -440,8 +440,8 @@ export default function PersonalVerificationPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@example.com"
                       className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                        errors.email ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
-                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
+                        errors.email ? 'border-red-500' : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
+                      } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.email && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email}</p>}
@@ -449,7 +449,7 @@ export default function PersonalVerificationPage() {
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('verification.phone')} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -460,8 +460,8 @@ export default function PersonalVerificationPage() {
                       onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                       placeholder="98XXXXXXXX"
                       className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                        errors.phone ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
-                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
+                        errors.phone ? 'border-red-500' : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
+                      } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.phone && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.phone}</p>}
@@ -469,7 +469,7 @@ export default function PersonalVerificationPage() {
 
                 {/* PAN Number */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('verification.panNumber')} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -480,8 +480,8 @@ export default function PersonalVerificationPage() {
                       onChange={(e) => setPan(e.target.value)}
                       placeholder="123456789"
                       className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
-                        errors.pan ? 'border-red-500' : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
-                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
+                        errors.pan ? 'border-red-500' : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
+                      } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.pan && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.pan}</p>}
@@ -489,8 +489,8 @@ export default function PersonalVerificationPage() {
               </div>
 
               {/* Verification Method Selection */}
-              <div className="pt-3 sm:pt-4 border-t #DDD7CC dark:border-[#1C1D24]">
-                <p className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-3 sm:mb-4 text-center">
+              <div className="pt-3 sm:pt-4 border-t #E2E8F0 dark:border-[#1C1D24]">
+                <p className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
                   {t('verification.chooseMethod')}
                 </p>
                 <div className="grid grid-cols-2 gap-2 sm:gap-3">
@@ -500,14 +500,14 @@ export default function PersonalVerificationPage() {
                     disabled={isSendingOTP}
                     className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 transition-all ${
                       verificationMethod === 'email'
-                        ? 'border-blue-600 dark:border-blue-400 bg-[#F5F0E6] dark:bg-[#A3876A]/20 text-[#A3876A] dark:text-[#A3876A]'
-                        : '#DDD7CC dark:border-[#2A2B36] hover:border-blue-300 dark:hover:border-blue-700 #6B7280 dark:text-[#44454F]'
+                        ? 'border-blue-600 dark:border-blue-400 bg-[#F1F5F9] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50]'
+                        : '#E2E8F0 dark:border-[#2A2B36] hover:border-blue-300 dark:hover:border-blue-700 #475569 dark:text-[#44454F]'
                     }`}
                   >
                     <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${
                       verificationMethod === 'email' 
-                        ? 'bg-[#F5F0E6] dark:bg-[#A3876A]/30' 
-                        : '#E3DDD2 dark:bg-[#1C1D24]'
+                        ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/30' 
+                        : '#F8FAFC dark:bg-[#1C1D24]'
                     }`}>
                       <FiMail className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
@@ -519,14 +519,14 @@ export default function PersonalVerificationPage() {
                     disabled={isSendingOTP}
                     className={`flex flex-col items-center justify-center gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 transition-all ${
                       verificationMethod === 'phone'
-                        ? 'border-blue-600 dark:border-blue-400 bg-[#F5F0E6] dark:bg-[#A3876A]/20 text-[#A3876A] dark:text-[#A3876A]'
-                        : '#DDD7CC dark:border-[#2A2B36] hover:border-blue-300 dark:hover:border-blue-700 #6B7280 dark:text-[#44454F]'
+                        ? 'border-blue-600 dark:border-blue-400 bg-[#F1F5F9] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50]'
+                        : '#E2E8F0 dark:border-[#2A2B36] hover:border-blue-300 dark:hover:border-blue-700 #475569 dark:text-[#44454F]'
                     }`}
                   >
                     <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${
                       verificationMethod === 'phone' 
-                        ? 'bg-[#F5F0E6] dark:bg-[#A3876A]/30' 
-                        : '#E3DDD2 dark:bg-[#1C1D24]'
+                        ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/30' 
+                        : '#F8FAFC dark:bg-[#1C1D24]'
                     }`}>
                       <FiPhone className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
@@ -539,7 +539,7 @@ export default function PersonalVerificationPage() {
               <Button
                 type="submit"
                 disabled={!verificationMethod || isSendingOTP}
-                className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] disabled:bg-gray-400 text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] disabled:bg-gray-400 text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
               >
                 {isSendingOTP ? (
                   <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -554,7 +554,7 @@ export default function PersonalVerificationPage() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs sm:text-sm #6B7280 dark:text-[#44454F] mt-4 sm:mt-6">
+        <p className="text-center text-xs sm:text-sm #475569 dark:text-[#44454F] mt-4 sm:mt-6">
           © 2024 Pasale. {t('common.allRightsReserved') || 'All rights reserved.'}
         </p>
       </div>

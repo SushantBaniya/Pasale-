@@ -33,7 +33,7 @@ import {
   AreaChart,
 } from 'recharts';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+//  Types 
 
 interface DateRange { startDate: string; endDate: string }
 type QuickRange = 'week' | 'month' | 'quarter' | 'year';
@@ -58,7 +58,7 @@ interface ReportData {
   top_customers: TopCustomer[];
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+//  Helpers 
 
 function toISO(d: Date) { return d.toISOString().split('T')[0]; }
 
@@ -72,15 +72,15 @@ function getStartDate(range: QuickRange): Date {
   }
 }
 
-const PIE_COLORS = ['#8E7356', '#3A7A5A', '#f59e0b', '#6B5340', '#f43f5e', '#06b6d4'];
+const PIE_COLORS = ['#8E7356', '#10B981', '#f59e0b', '#6B5340', '#f43f5e', '#06b6d4'];
 
-// ─── Reusable primitives ──────────────────────────────────────────────────────
+//  Reusable primitives 
 
-/** White card with light border — the base surface for every section */
+/** White card with light border  the base surface for every section */
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <div
-      className={`bg-white dark:bg-[#15161C] rounded-2xl border #DDD7CC dark:border-[#1C1D24] ${className}`}
+      className={`bg-white dark:bg-[#15161C] rounded-2xl border #E2E8F0 dark:border-[#1C1D24] ${className}`}
     >
       {children}
     </div>
@@ -97,7 +97,7 @@ function ChartHeader({
 }) {
   return (
     <div className="flex items-center justify-between mb-4">
-      <h3 className="text-[13px] font-medium #1A1C20 dark:text-[#C8C3BC]">{title}</h3>
+      <h3 className="text-[13px] font-medium #1E293B dark:text-[#64748B]">{title}</h3>
       <div className="flex items-center gap-2">{right}</div>
     </div>
   );
@@ -122,21 +122,21 @@ function StatCard({
       }`}
     >
       <div>
-        <p className="text-[26px] font-medium leading-none #1A1C20 dark:text-[#EAE5DF]">
+        <p className="text-[26px] font-medium leading-none #1E293B dark:text-[#EAE5DF]">
           {value}
         </p>
-        <p className="text-[12px] text-gray-400 dark:#6B7280 mt-1.5">{label}</p>
+        <p className="text-[12px] text-gray-400 dark:#475569 mt-1.5">{label}</p>
       </div>
       <Icon
         className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
-          warning ? 'text-amber-400' : 'text-gray-300 dark:#6B7280'
+          warning ? 'text-amber-400' : 'text-gray-300 dark:#475569'
         }`}
       />
     </Card>
   );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+//  Main component 
 
 export default function ReportsPage() {
   const { t, n, c } = useTranslation();
@@ -224,21 +224,21 @@ export default function ReportsPage() {
     ? ((data.summary.net_profit / data.summary.total_sales) * 100).toFixed(1)
     : null;
 
-  // ─── Render ────────────────────────────────────────────────────────────────
+  //  Render 
 
   return (
     <div className="min-h-screen bg-[#eef0f5] dark:bg-[#0D0E12] p-3 sm:p-4">
       <div className="max-w-[1280px] mx-auto space-y-3">
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            TOP BAR  — search · actions · avatar
-        ═══════════════════════════════════════════════════════════════════ */}
+        {/* 
+            TOP BAR   search · actions · avatar
+         */}
         <Card className="px-5 py-3 flex items-center justify-between print:hidden">
 
           {/* search pill */}
-          <div className="flex items-center gap-2 #F4F0EA dark:bg-[#1C1D24] border #DDD7CC dark:border-[#2A2B36] rounded-full px-4 py-2 w-60">
+          <div className="flex items-center gap-2 #FFFFFF dark:bg-[#1C1D24] border #E2E8F0 dark:border-[#2A2B36] rounded-full px-4 py-2 w-60">
             <FiSearch className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-            <span className="text-[13px] text-gray-400">Quick search…</span>
+            <span className="text-[13px] text-gray-400">Quick search</span>
           </div>
 
           {/* right actions */}
@@ -247,7 +247,7 @@ export default function ReportsPage() {
               onClick={fetchReport}
               disabled={loading}
               aria-label="Refresh"
-              className="text-gray-400 hover:#6B7280 dark:hover:text-gray-200 transition-colors"
+              className="text-gray-400 hover:#475569 dark:hover:text-gray-200 transition-colors"
             >
               <FiRefreshCw className={`w-[18px] h-[18px] ${loading ? 'animate-spin' : ''}`} />
             </button>
@@ -255,7 +255,7 @@ export default function ReportsPage() {
             <button
               onClick={() => window.print()}
               aria-label="Print"
-              className="text-gray-400 hover:#6B7280 dark:hover:text-gray-200 transition-colors"
+              className="text-gray-400 hover:#475569 dark:hover:text-gray-200 transition-colors"
             >
               <FiPrinter className="w-[18px] h-[18px]" />
             </button>
@@ -264,23 +264,23 @@ export default function ReportsPage() {
 
             {/* export dropdown */}
             <div className="relative group">
-              <button className="flex items-center gap-1.5 text-[13px] #6B7280 dark:text-[#C8C3BC] #F4F0EA dark:bg-[#1C1D24] border #DDD7CC dark:border-[#2A2B36] rounded-xl px-3 py-1.5 hover:#E3DDD2 dark:hover:bg-gray-600 transition-colors">
+              <button className="flex items-center gap-1.5 text-[13px] #475569 dark:text-[#64748B] #FFFFFF dark:bg-[#1C1D24] border #E2E8F0 dark:border-[#2A2B36] rounded-xl px-3 py-1.5 hover:#F8FAFC dark:hover:bg-gray-600 transition-colors">
                 <FiDownload className="w-3.5 h-3.5" />
                 Export
               </button>
-              <div className="absolute right-0 mt-1.5 w-48 bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] rounded-2xl shadow-xl invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-150 z-50 overflow-hidden">
+              <div className="absolute right-0 mt-1.5 w-48 bg-white dark:bg-[#15161C] border #E2E8F0 dark:border-[#1C1D24] rounded-2xl shadow-xl invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-150 z-50 overflow-hidden">
                 <button
                   onClick={() => handleExport('pdf')}
-                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-gray-700 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700 transition-colors"
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700 transition-colors"
                 >
                   <FiFileText className="w-4 h-4 text-rose-400" />
                   PDF document
                 </button>
                 <button
                   onClick={() => handleExport('excel')}
-                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-gray-700 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700 transition-colors"
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700 transition-colors"
                 >
-                  <FiBarChart2 className="w-4 h-4 text-[#A3876A]" />
+                  <FiBarChart2 className="w-4 h-4 text-[#F2DD50]" />
                   Excel spreadsheet
                 </button>
               </div>
@@ -288,20 +288,20 @@ export default function ReportsPage() {
 
             {/* avatar */}
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-[#22232C] flex items-center justify-center text-[11px] font-medium #6B7280 dark:text-[#C8C3BC]">
+              <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-[#22232C] flex items-center justify-center text-[11px] font-medium #475569 dark:text-[#64748B]">
                 BI
               </div>
               <div className="hidden sm:block text-right">
-                <p className="text-[12px] font-medium text-gray-700 dark:text-[#C8C3BC] leading-tight">Business</p>
+                <p className="text-[12px] font-medium text-gray-700 dark:text-[#64748B] leading-tight">Business</p>
                 <p className="text-[11px] text-gray-400 leading-tight">Intelligence</p>
               </div>
             </div>
           </div>
         </Card>
 
-        {/* ═══════════════════════════════════════════════════════════════════
+        {/* 
             ERROR BANNER
-        ═══════════════════════════════════════════════════════════════════ */}
+         */}
         {error && (
           <div className="flex items-center justify-between px-4 py-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800 rounded-2xl text-[13px] text-rose-600 dark:text-rose-400 print:hidden">
             <div className="flex items-center gap-2">
@@ -314,12 +314,12 @@ export default function ReportsPage() {
           </div>
         )}
 
-        {/* ═══════════════════════════════════════════════════════════════════
-            BODY — content
-        ═══════════════════════════════════════════════════════════════════ */}
+        {/* 
+            BODY  content
+         */}
         <div className="space-y-3">
 
-            {/* ── ROW 1: 6 stat cards ── */}
+            {/*  ROW 1: 6 stat cards  */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {statCards.length > 0
                 ? statCards.map((card, i) => (
@@ -333,16 +333,16 @@ export default function ReportsPage() {
                   ))
                 : Array.from({ length: 6 }).map((_, i) => (
                     <Card key={i} className="p-4 animate-pulse">
-                      <div className="h-7 w-14 #E3DDD2 dark:bg-[#1C1D24] rounded mb-2" />
-                      <div className="h-3 w-20 #E3DDD2 dark:bg-[#1C1D24] rounded" />
+                      <div className="h-7 w-14 #F8FAFC dark:bg-[#1C1D24] rounded mb-2" />
+                      <div className="h-3 w-20 #F8FAFC dark:bg-[#1C1D24] rounded" />
                     </Card>
                   ))}
             </div>
 
-            {/* ── ROW 2: Revenue area chart + Category pie ── */}
+            {/*  ROW 2: Revenue area chart + Category pie  */}
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-3">
 
-              {/* Area chart — "Attendance comparison chart" equivalent */}
+              {/* Area chart  "Attendance comparison chart" equivalent */}
               <Card className="p-5">
                 <ChartHeader
                   title="Revenue & profit trajectory"
@@ -350,7 +350,7 @@ export default function ReportsPage() {
                     <>
                       <div className="flex items-center gap-3 text-[11px] text-gray-400">
                         <span className="flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-[#A3876A] inline-block" />
+                          <span className="w-2 h-2 rounded-full bg-[#F2DD50] inline-block" />
                           Revenue
                         </span>
                         <span className="flex items-center gap-1">
@@ -358,7 +358,7 @@ export default function ReportsPage() {
                           Profit
                         </span>
                       </div>
-                      <FiSliders className="w-4 h-4 text-gray-300 dark:#6B7280" />
+                      <FiSliders className="w-4 h-4 text-gray-300 dark:#475569" />
                     </>
                   }
                 />
@@ -377,7 +377,7 @@ export default function ReportsPage() {
                         axisLine={false}
                         tickLine={false}
                         tick={{ fontSize: 10, fill: '#9ca3af' }}
-                        tickFormatter={(v) => `₹${v >= 1000 ? `${v / 1000}k` : v}`}
+                        tickFormatter={(v) => `${v >= 1000 ? `${v / 1000}k` : v}`}
                       />
                       <Tooltip
                         contentStyle={{
@@ -394,8 +394,8 @@ export default function ReportsPage() {
                           <stop offset="95%" stopColor="#8E7356" stopOpacity={0}    />
                         </linearGradient>
                         <linearGradient id="gP" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%"  stopColor="#3A7A5A" stopOpacity={0.12} />
-                          <stop offset="95%" stopColor="#3A7A5A" stopOpacity={0}    />
+                          <stop offset="5%"  stopColor="#10B981" stopOpacity={0.12} />
+                          <stop offset="95%" stopColor="#10B981" stopOpacity={0}    />
                         </linearGradient>
                       </defs>
                       <Area
@@ -409,7 +409,7 @@ export default function ReportsPage() {
                       <Area
                         type="monotone"
                         dataKey="profit"
-                        stroke="#3A7A5A"
+                        stroke="#10B981"
                         strokeWidth={2}
                         fill="url(#gP)"
                         dot={false}
@@ -420,11 +420,11 @@ export default function ReportsPage() {
                 </div>
               </Card>
 
-              {/* Pie — "Weekly attendance" equivalent */}
+              {/* Pie  "Weekly attendance" equivalent */}
               <Card className="p-5">
                 <ChartHeader
                   title="Sales by category"
-                  right={<FiSliders className="w-4 h-4 text-gray-300 dark:#6B7280" />}
+                  right={<FiSliders className="w-4 h-4 text-gray-300 dark:#475569" />}
                 />
                 <div className="h-36">
                   <ResponsiveContainer width="100%" height="100%">
@@ -465,9 +465,9 @@ export default function ReportsPage() {
                           className="w-2 h-2 rounded-full flex-shrink-0"
                           style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }}
                         />
-                        <span className="#6B7280 dark:text-[#44454F] truncate">{item.name}</span>
+                        <span className="#475569 dark:text-[#44454F] truncate">{item.name}</span>
                       </div>
-                      <span className="font-medium #1A1C20 dark:text-[#C8C3BC] ml-3 flex-shrink-0">
+                      <span className="font-medium #1E293B dark:text-[#64748B] ml-3 flex-shrink-0">
                         {c(item.value)}
                       </span>
                     </div>
@@ -479,14 +479,14 @@ export default function ReportsPage() {
               </Card>
             </div>
 
-            {/* ── ROW 3: Best sellers progress bars + Top customers table ── */}
+            {/*  ROW 3: Best sellers progress bars + Top customers table  */}
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-3">
 
-              {/* Best sellers — horizontal progress bars */}
+              {/* Best sellers  horizontal progress bars */}
               <Card className="p-5">
                 <ChartHeader
                   title="Best sellers"
-                  right={<FiSliders className="w-4 h-4 text-gray-300 dark:#6B7280" />}
+                  right={<FiSliders className="w-4 h-4 text-gray-300 dark:#475569" />}
                 />
                 <div className="space-y-4">
                   {(data?.top_products ?? []).map((p, i) => {
@@ -495,14 +495,14 @@ export default function ReportsPage() {
                     return (
                       <div key={i}>
                         <div className="flex justify-between items-center mb-1.5">
-                          <span className="text-[12px] text-gray-700 dark:text-[#C8C3BC] truncate pr-3">
+                          <span className="text-[12px] text-gray-700 dark:text-[#64748B] truncate pr-3">
                             {p.name}
                           </span>
-                          <span className="text-[12px] font-medium #1A1C20 dark:text-[#EAE5DF] whitespace-nowrap">
+                          <span className="text-[12px] font-medium #1E293B dark:text-[#EAE5DF] whitespace-nowrap">
                             {n(p.quantity)} units
                           </span>
                         </div>
-                        <div className="h-1.5 w-full #E3DDD2 dark:bg-[#1C1D24] rounded-full overflow-hidden">
+                        <div className="h-1.5 w-full #F8FAFC dark:bg-[#1C1D24] rounded-full overflow-hidden">
                           <div
                             className="h-full rounded-full transition-all duration-700"
                             style={{
@@ -526,7 +526,7 @@ export default function ReportsPage() {
               <Card className="p-5">
                 <ChartHeader
                   title="Top customers"
-                  right={<FiSliders className="w-4 h-4 text-gray-300 dark:#6B7280" />}
+                  right={<FiSliders className="w-4 h-4 text-gray-300 dark:#475569" />}
                 />
                 <div className="overflow-x-auto">
                   <table className="w-full text-[12px]" style={{ tableLayout: 'fixed' }}>
@@ -536,14 +536,14 @@ export default function ReportsPage() {
                       <col style={{ width: '90px' }} />
                     </colgroup>
                     <thead>
-                      <tr className="border-b #DDD7CC dark:border-[#1C1D24]">
-                        <th className="pb-2.5 text-left font-medium text-gray-400 dark:#6B7280">
+                      <tr className="border-b #E2E8F0 dark:border-[#1C1D24]">
+                        <th className="pb-2.5 text-left font-medium text-gray-400 dark:#475569">
                           Customer
                         </th>
-                        <th className="pb-2.5 text-right font-medium text-gray-400 dark:#6B7280">
+                        <th className="pb-2.5 text-right font-medium text-gray-400 dark:#475569">
                           Orders
                         </th>
-                        <th className="pb-2.5 text-right font-medium text-gray-400 dark:#6B7280">
+                        <th className="pb-2.5 text-right font-medium text-gray-400 dark:#475569">
                           Spent
                         </th>
                       </tr>
@@ -552,15 +552,15 @@ export default function ReportsPage() {
                       {(data?.top_customers ?? []).map((cust, i) => (
                         <tr
                           key={i}
-                          className="hover:#F4F0EA/60 dark:hover:bg-gray-700/20 transition-colors"
+                          className="hover:#FFFFFF/60 dark:hover:bg-gray-700/20 transition-colors"
                         >
-                          <td className="py-2.5 text-gray-700 dark:text-[#C8C3BC] truncate">
+                          <td className="py-2.5 text-gray-700 dark:text-[#64748B] truncate">
                             {cust.name}
                           </td>
-                          <td className="py-2.5 text-right text-gray-400 dark:#6B7280">
+                          <td className="py-2.5 text-right text-gray-400 dark:#475569">
                             {n(cust.orders)}
                           </td>
-                          <td className="py-2.5 text-right font-medium #1A1C20 dark:text-[#C8C3BC]">
+                          <td className="py-2.5 text-right font-medium #1E293B dark:text-[#64748B]">
                             {c(cust.spent)}
                           </td>
                         </tr>
@@ -581,7 +581,7 @@ export default function ReportsPage() {
               </Card>
             </div>
 
-            {/* ── ROW 4: Three health metric cards ── */}
+            {/*  ROW 4: Three health metric cards  */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
 
               {/* Total orders */}
@@ -593,7 +593,7 @@ export default function ReportsPage() {
                   <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wide">
                     Total orders
                   </p>
-                  <p className="text-[20px] font-medium #1A1C20 dark:text-[#EAE5DF] leading-none mt-0.5">
+                  <p className="text-[20px] font-medium #1E293B dark:text-[#EAE5DF] leading-none mt-0.5">
                     {n(data?.summary?.order_count ?? 0)}
                   </p>
                 </div>
@@ -611,14 +611,14 @@ export default function ReportsPage() {
                   className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
                     (data?.summary?.low_stock_count ?? 0) > 0
                       ? 'bg-amber-50 dark:bg-amber-900/20'
-                      : 'bg-[#F5F0E6] dark:bg-[#A3876A]/15'
+                      : 'bg-[#F1F5F9] dark:bg-[#F2DD50]/15'
                   }`}
                 >
                   <FiPackage
                     className={`w-4 h-4 ${
                       (data?.summary?.low_stock_count ?? 0) > 0
                         ? 'text-amber-500'
-                        : 'text-[#A3876A]'
+                        : 'text-[#F2DD50]'
                     }`}
                   />
                 </div>
@@ -626,7 +626,7 @@ export default function ReportsPage() {
                   <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wide">
                     Low stock alerts
                   </p>
-                  <p className="text-[20px] font-medium #1A1C20 dark:text-[#EAE5DF] leading-none mt-0.5">
+                  <p className="text-[20px] font-medium #1E293B dark:text-[#EAE5DF] leading-none mt-0.5">
                     {n(data?.summary?.low_stock_count ?? 0)}
                   </p>
                 </div>
@@ -634,15 +634,15 @@ export default function ReportsPage() {
 
               {/* Profit margin */}
               <Card className="p-4 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#F5F0E6] dark:bg-[#A3876A]/15 flex items-center justify-center flex-shrink-0">
-                  <FiPercent className="w-4 h-4 text-[#A3876A]" />
+                <div className="w-9 h-9 rounded-xl bg-[#F1F5F9] dark:bg-[#F2DD50]/15 flex items-center justify-center flex-shrink-0">
+                  <FiPercent className="w-4 h-4 text-[#F2DD50]" />
                 </div>
                 <div>
                   <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wide">
                     Profit margin
                   </p>
-                  <p className="text-[20px] font-medium #1A1C20 dark:text-[#EAE5DF] leading-none mt-0.5">
-                    {margin !== null ? `${margin}%` : '—'}
+                  <p className="text-[20px] font-medium #1E293B dark:text-[#EAE5DF] leading-none mt-0.5">
+                    {margin !== null ? `${margin}%` : ''}
                   </p>
                 </div>
               </Card>

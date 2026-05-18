@@ -57,18 +57,18 @@ export default function ProfilePage() {
   };
 
   const stats = [
-    { label: 'Total Sales', value: '₹2,45,000', icon: FiCreditCard, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/30' },
-    { label: 'Transactions', value: '156', icon: FiActivity, color: 'text-[#A3876A] dark:text-[#A3876A]', bg: 'bg-[#F5F0E6] dark:bg-[#A3876A]/20' },
+    { label: 'Total Sales', value: '2,45,000', icon: FiCreditCard, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/30' },
+    { label: 'Transactions', value: '156', icon: FiActivity, color: 'text-[#F2DD50] dark:text-[#F2DD50]', bg: 'bg-[#F1F5F9] dark:bg-[#F2DD50]/20' },
     { label: 'Active Since', value: 'Dec 2024', icon: FiCalendar, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/30' },
-    { label: 'Verified', value: 'Yes', icon: FiCheckCircle, color: 'text-[#A3876A] dark:text-[#A3876A]', bg: 'bg-[#F5F0E6] dark:bg-[#A3876A]/20' },
+    { label: 'Verified', value: 'Yes', icon: FiCheckCircle, color: 'text-[#F2DD50] dark:text-[#F2DD50]', bg: 'bg-[#F1F5F9] dark:bg-[#F2DD50]/20' },
   ];
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section with White Theme */}
-      <div className="relative h-36 sm:h-48 lg:h-56 bg-white dark:bg-[#15161C] border-b #DDD7CC dark:border-[#1C1D24] shadow-sm">
+      <div className="relative h-36 sm:h-48 lg:h-56 bg-white dark:bg-[#15161C] border-b #E2E8F0 dark:border-[#1C1D24] shadow-sm">
         <div className="absolute inset-0 overflow-hidden opacity-50 dark:opacity-20">
-          <div className="absolute -top-20 -right-20 w-40 sm:w-64 h-40 sm:h-64 bg-[#F5F0E6] dark:bg-blue-900 rounded-full blur-3xl"></div>
+          <div className="absolute -top-20 -right-20 w-40 sm:w-64 h-40 sm:h-64 bg-[#F1F5F9] dark:bg-blue-900 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-20 -left-20 w-40 sm:w-64 h-40 sm:h-64 bg-indigo-100 dark:bg-indigo-900 rounded-full blur-3xl"></div>
         </div>
         
@@ -78,7 +78,7 @@ export default function ProfilePage() {
             variant="outline"
             size="sm"
             onClick={() => navigate(-1)}
-            className="bg-white/50 dark:bg-[#15161C]/50 backdrop-blur-sm #DDD7CC dark:border-[#1C1D24] text-gray-700 dark:text-[#C8C3BC] hover:bg-white dark:hover:bg-gray-700"
+            className="bg-white/50 dark:bg-[#15161C]/50 backdrop-blur-sm #E2E8F0 dark:border-[#1C1D24] text-gray-700 dark:text-[#64748B] hover:bg-white dark:hover:bg-gray-700"
           >
             <FiArrowLeft className="w-4 h-4 sm:mr-2" />
             <span className="hidden sm:inline">Back</span>
@@ -91,7 +91,7 @@ export default function ProfilePage() {
             variant="outline"
             size="sm"
             onClick={() => navigate('/settings')}
-            className="bg-white/50 dark:bg-[#15161C]/50 backdrop-blur-sm #DDD7CC dark:border-[#1C1D24] text-gray-700 dark:text-[#C8C3BC] hover:bg-white dark:hover:bg-gray-700"
+            className="bg-white/50 dark:bg-[#15161C]/50 backdrop-blur-sm #E2E8F0 dark:border-[#1C1D24] text-gray-700 dark:text-[#64748B] hover:bg-white dark:hover:bg-gray-700"
           >
             <FiSettings className="w-4 h-4 sm:mr-2" />
             <span className="hidden sm:inline">Settings</span>
@@ -120,13 +120,13 @@ export default function ProfilePage() {
                   className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full object-cover border-4 border-white dark:border-[#1C1D24] shadow-lg"
                 />
               ) : (
-                <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-linear-to-br from-[#A3876A] to-[#6B5340] flex items-center justify-center border-4 border-white dark:border-[#1C1D24] shadow-lg">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-linear-to-br from-[#F2DD50] to-[#6B5340] flex items-center justify-center border-4 border-white dark:border-[#1C1D24] shadow-lg">
                   <FiUser className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-white" />
                 </div>
               )}
               
               {isEditing && (
-                <label className="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 bg-[#A3876A] hover:bg-[#8E7356] text-white p-2 sm:p-2.5 rounded-full cursor-pointer shadow-lg transition-all duration-200 group-hover:scale-110">
+                <label className="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 bg-[#F2DD50] hover:bg-[#8E7356] text-white p-2 sm:p-2.5 rounded-full cursor-pointer shadow-lg transition-all duration-200 group-hover:scale-110">
                   <FiCamera className="w-4 h-4 sm:w-5 sm:h-5" />
                   <input
                     type="file"
@@ -147,11 +147,11 @@ export default function ProfilePage() {
             <div className="flex-1 text-center sm:text-left min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                 <div className="min-w-0">
-                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1 truncate">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-1 truncate">
                     {userProfile.name}
                   </h1>
-                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 #6B7280 dark:text-[#44454F]">
-                    <span className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-[#F5F0E6] dark:bg-[#A3876A]/20 text-[#A3876A] dark:text-[#A3876A] rounded-full text-xs sm:text-sm font-medium">
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 #475569 dark:text-[#44454F]">
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-[#F1F5F9] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50] rounded-full text-xs sm:text-sm font-medium">
                       <FiBriefcase className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                       {userType === 'business' ? 'Business' : 'Personal'}
                     </span>
@@ -165,7 +165,7 @@ export default function ProfilePage() {
                 {!isEditing ? (
                   <Button
                     onClick={() => setIsEditing(true)}
-                    className="bg-[#A3876A] hover:bg-[#8E7356] text-white shadow-md"
+                    className="bg-[#F2DD50] hover:bg-[#8E7356] text-white shadow-md"
                     size="sm"
                   >
                     <FiEdit2 className="w-4 h-4 sm:mr-2" />
@@ -206,7 +206,7 @@ export default function ProfilePage() {
                     >
                       <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${stat.color} mx-auto mb-0.5 sm:mb-1`} />
                       <p className={`text-sm sm:text-lg font-bold ${stat.color} truncate`}>{stat.value}</p>
-                      <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F] truncate">{stat.label}</p>
+                      <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F] truncate">{stat.label}</p>
                     </div>
                   );
                 })}
@@ -220,10 +220,10 @@ export default function ProfilePage() {
           {/* Personal Information */}
           <Card className="p-4 sm:p-6 shadow-lg border-0">
             <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#F5F0E6] dark:bg-[#A3876A]/20 flex items-center justify-center shrink-0">
-                <FiUser className="w-4 h-4 sm:w-5 sm:h-5 text-[#A3876A] dark:text-[#A3876A]" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#F1F5F9] dark:bg-[#F2DD50]/20 flex items-center justify-center shrink-0">
+                <FiUser className="w-4 h-4 sm:w-5 sm:h-5 text-[#F2DD50] dark:text-[#F2DD50]" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold #1A1C20 dark:text-[#EAE5DF]">
+              <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
                 Personal Information
               </h2>
             </div>
@@ -232,7 +232,7 @@ export default function ProfilePage() {
               {isEditing ? (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1 sm:mb-1.5">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1 sm:mb-1.5">
                       Full Name
                     </label>
                     <Input
@@ -242,7 +242,7 @@ export default function ProfilePage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1 sm:mb-1.5">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1 sm:mb-1.5">
                       Email Address
                     </label>
                     <Input
@@ -253,7 +253,7 @@ export default function ProfilePage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-[#C8C3BC] mb-1 sm:mb-1.5">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1 sm:mb-1.5">
                       Phone Number
                     </label>
                     <Input
@@ -265,41 +265,41 @@ export default function ProfilePage() {
                 </>
               ) : (
                 <>
-                  <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#F5F0E6] dark:bg-[#A3876A]/30 flex items-center justify-center shrink-0">
-                      <FiUser className="w-4 h-4 sm:w-5 sm:h-5 text-[#A3876A] dark:text-[#A3876A]" />
+                  <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#F1F5F9] dark:bg-[#F2DD50]/30 flex items-center justify-center shrink-0">
+                      <FiUser className="w-4 h-4 sm:w-5 sm:h-5 text-[#F2DD50] dark:text-[#F2DD50]" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">Full Name</p>
-                      <p className="text-sm sm:text-base font-semibold #1A1C20 dark:text-[#EAE5DF] truncate">{userProfile.name}</p>
+                      <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Full Name</p>
+                      <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.name}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+                  <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center shrink-0">
                       <FiMail className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">Email Address</p>
-                      <p className="text-sm sm:text-base font-semibold #1A1C20 dark:text-[#EAE5DF] truncate">{userProfile.email || 'Not provided'}</p>
+                      <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Email Address</p>
+                      <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.email || 'Not provided'}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+                  <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center shrink-0">
                       <FiPhone className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">Phone Number</p>
-                      <p className="text-sm sm:text-base font-semibold #1A1C20 dark:text-[#EAE5DF] truncate">{userProfile.phone || 'Not provided'}</p>
+                      <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Phone Number</p>
+                      <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.phone || 'Not provided'}</p>
                     </div>
                   </div>
                   {userProfile.panNumber && (
-                    <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+                    <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center shrink-0">
                         <FiCreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">PAN Number</p>
-                        <p className="text-sm sm:text-base font-semibold #1A1C20 dark:text-[#EAE5DF] truncate">{userProfile.panNumber}</p>
+                        <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">PAN Number</p>
+                        <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.panNumber}</p>
                       </div>
                     </div>
                   )}
@@ -315,41 +315,41 @@ export default function ProfilePage() {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
                   <FiBriefcase className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h2 className="text-base sm:text-lg font-bold #1A1C20 dark:text-[#EAE5DF]">
+                <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
                   Business Information
                 </h2>
               </div>
 
               <div className="space-y-3 sm:space-y-4">
-                <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+                <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center shrink-0">
                     <FiBriefcase className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">Business Name</p>
-                    <p className="text-sm sm:text-base font-semibold #1A1C20 dark:text-[#EAE5DF] truncate">
+                    <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Business Name</p>
+                    <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">
                       {businessDetails?.businessName || 'My Business'}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+                <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-cyan-100 dark:bg-cyan-900/50 flex items-center justify-center shrink-0">
                     <FiCreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-600 dark:text-cyan-400" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">PAN Number</p>
-                    <p className="text-sm sm:text-base font-semibold #1A1C20 dark:text-[#EAE5DF] truncate">
+                    <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">PAN Number</p>
+                    <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">
                       {businessDetails?.panNumber || 'Not provided'}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+                <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center shrink-0">
                     <FiMapPin className="w-4 h-4 sm:w-5 sm:h-5 text-pink-600 dark:text-pink-400" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">Business Address</p>
-                    <p className="text-sm sm:text-base font-semibold #1A1C20 dark:text-[#EAE5DF] truncate">
+                    <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Business Address</p>
+                    <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">
                       Kathmandu, Nepal
                     </p>
                   </div>
@@ -364,45 +364,45 @@ export default function ProfilePage() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
                 <FiShield className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold #1A1C20 dark:text-[#EAE5DF]">
+              <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
                 Account Security
               </h2>
             </div>
 
             <div className="space-y-3 sm:space-y-4">
-              <div className="flex items-center justify-between p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+              <div className="flex items-center justify-between p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                 <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                   <FiCheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 shrink-0" />
                   <div className="min-w-0">
-                    <p className="text-sm sm:text-base font-medium #1A1C20 dark:text-[#EAE5DF]">Email Verified</p>
-                    <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F] hidden sm:block">Your email is verified</p>
+                    <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF]">Email Verified</p>
+                    <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F] hidden sm:block">Your email is verified</p>
                   </div>
                 </div>
                 <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 text-[10px] sm:text-xs font-medium rounded-full shrink-0">
                   Active
                 </span>
               </div>
-              <div className="flex items-center justify-between p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+              <div className="flex items-center justify-between p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                 <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                   <FiCheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 shrink-0" />
                   <div className="min-w-0">
-                    <p className="text-sm sm:text-base font-medium #1A1C20 dark:text-[#EAE5DF]">Phone Verified</p>
-                    <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F] hidden sm:block">Your phone is verified</p>
+                    <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF]">Phone Verified</p>
+                    <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F] hidden sm:block">Your phone is verified</p>
                   </div>
                 </div>
                 <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 text-[10px] sm:text-xs font-medium rounded-full shrink-0">
                   Active
                 </span>
               </div>
-              <div className="flex items-center justify-between p-2.5 sm:p-3 #F4F0EA dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
+              <div className="flex items-center justify-between p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
                 <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                  <FiAward className="w-4 h-4 sm:w-5 sm:h-5 text-[#A3876A] shrink-0" />
+                  <FiAward className="w-4 h-4 sm:w-5 sm:h-5 text-[#F2DD50] shrink-0" />
                   <div className="min-w-0">
-                    <p className="text-sm sm:text-base font-medium #1A1C20 dark:text-[#EAE5DF]">Account Status</p>
-                    <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F] hidden sm:block">Premium member</p>
+                    <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF]">Account Status</p>
+                    <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F] hidden sm:block">Premium member</p>
                   </div>
                 </div>
-                <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-[#F5F0E6] dark:bg-[#A3876A]/30 text-[#A3876A] dark:text-[#A3876A] text-[10px] sm:text-xs font-medium rounded-full shrink-0">
+                <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-[#F1F5F9] dark:bg-[#F2DD50]/30 text-[#F2DD50] dark:text-[#F2DD50] text-[10px] sm:text-xs font-medium rounded-full shrink-0">
                   Premium
                 </span>
               </div>
@@ -427,7 +427,7 @@ export default function ProfilePage() {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-orange-50 dark:bg-orange-900/30 flex items-center justify-center shrink-0">
                   <FiActivity className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400" />
                 </div>
-                <h2 className="text-base sm:text-lg font-bold #1A1C20 dark:text-[#EAE5DF]">
+                <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
                   Recent Activity
                 </h2>
               </div>
@@ -443,16 +443,16 @@ export default function ProfilePage() {
                   return (
                     <div
                       key={index}
-                      className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 hover:#F4F0EA dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+                      className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 hover:#FFFFFF dark:hover:bg-gray-800/50 rounded-lg transition-colors"
                     >
-                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full #E3DDD2 dark:bg-[#15161C] flex items-center justify-center shrink-0">
-                        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 #6B7280 dark:text-[#44454F]" />
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full #F8FAFC dark:bg-[#15161C] flex items-center justify-center shrink-0">
+                        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 #475569 dark:text-[#44454F]" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm font-medium #1A1C20 dark:text-[#EAE5DF] truncate">
+                        <p className="text-xs sm:text-sm font-medium #1E293B dark:text-[#EAE5DF] truncate">
                           {activity.action}
                         </p>
-                        <p className="text-[10px] sm:text-xs #6B7280 dark:text-[#44454F]">{activity.time}</p>
+                        <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">{activity.time}</p>
                       </div>
                     </div>
                   );

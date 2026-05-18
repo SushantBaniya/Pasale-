@@ -1,47 +1,12 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
-import { LanguageSwitcher } from '../layout/LanguageSwitcher';
 import { ThemeSwitcher } from '../layout/ThemeSwitcher';
-import { Button } from '../ui/Button';
 import { NotificationsDropdown } from './NotificationsDropdown';
 import { AddNewDialog } from './AddNewDialog';
-import { SearchDropdown } from './SearchDropdown';
-import { FiSearch, FiBell, FiPlus, FiChevronDown, FiUser, FiMenu } from 'react-icons/fi';
+import { FiBell, FiPlus, FiUser, FiMenu } from 'react-icons/fi';
 import { useAuthStore } from '../../store/authStore';
 import { useDataStore } from '../../store/dataStore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../../utils/i18n';
-
-const formatDateTime = (language: string) => {
-  const now = new Date();
-  const daysEn = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const daysNp = ['आइतबार', 'सोमबार', 'मङ्गलबार', 'बुधबार', 'बिहिबार', 'शुक्रबार', 'शनिबार'];
-  const monthsEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const monthsNp = ['जनवरी', 'फेब्रुअरी', 'मार्च', 'अप्रिल', 'मे', 'जुन', 'जुलाई', 'अगस्ट', 'सेप्टेम्बर', 'अक्टोबर', 'नोभेम्बर', 'डिसेम्बर'];
-
-  const days = language === 'np' ? daysNp : daysEn;
-  const months = language === 'np' ? monthsNp : monthsEn;
-
-  const day = days[now.getDay()];
-  const month = months[now.getMonth()];
-  const date = now.getDate();
-  const year = now.getFullYear();
-
-  let hours = now.getHours();
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  const ampm = hours >= 12 ? (language === 'np' ? 'अपराह्न' : 'PM') : (language === 'np' ? 'पूर्वाह्न' : 'AM');
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-
-  if (language === 'np') {
-    const toNepaliNum = (num: number) => {
-      const nepaliDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
-      return num.toString().split('').map(d => nepaliDigits[parseInt(d)]).join('');
-    };
-    return `${day}, ${month} ${toNepaliNum(date)}, ${toNepaliNum(year)} • ${toNepaliNum(hours)}:${toNepaliNum(parseInt(minutes))} ${ampm}`;
-  }
-
-  return `${day}, ${month} ${date}, ${year} • ${hours}:${minutes} ${ampm}`;
-};
 
 interface HeaderProps {
   onToggleSidebar?: () => void;
@@ -49,35 +14,21 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollapsed }) => {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAddNew, setShowAddNew] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
-  const searchRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { notifications } = useDataStore();
   const { userProfile, logout } = useAuthStore();
 
   const unreadCount = notifications.filter((n) => !n.read).length;
-  const [currentDateTime, setCurrentDateTime] = useState(formatDateTime(language));
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentDateTime(formatDateTime(language));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [language]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setShowUserMenu(false);
-      }
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowSearch(false);
       }
     };
 
@@ -94,80 +45,26 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
 
   return (
     <>
-      <header className={`h-14 sm:h-16 bg-white dark:bg-[#15161C] border-b border-[#DDD7CC] dark:border-[#1C1D24] flex items-center justify-between px-3 sm:px-4 lg:px-6 fixed top-0 right-0 left-0 ${isSidebarCollapsed ? 'lg:left-20' : 'lg:left-64'} z-30 transition-[left] duration-300 ease-in-out shadow-sm`}>
+      <header className={`h-14 sm:h-16 bg-white dark:bg-[#15161C] border-b border-[#E2E8F0] dark:border-[#1C1D24] flex items-center justify-between px-3 sm:px-4 lg:px-6 fixed top-0 right-0 left-0 ${isSidebarCollapsed ? 'lg:left-20' : 'lg:left-64'} z-30 transition-[left] duration-300 ease-in-out shadow-sm`}>
         {/* Left Section */}
         <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
           {/* Mobile menu button */}
           <button
             onClick={onToggleSidebar}
-            className="lg:hidden p-2 -ml-1 text-[#1A1C20] dark:text-[#C8C3BC] hover:bg-[#E3DDD2] dark:hover:bg-gray-700 rounded-lg transition-colors shrink-0"
+            className="lg:hidden p-2 -ml-1 text-[#1E293B] dark:text-[#64748B] hover:bg-[#FFFFFF] dark:hover:bg-gray-700 rounded-lg transition-colors shrink-0"
             aria-label="Toggle sidebar"
           >
             <FiMenu className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
-
-          {/* Search */}
-          <div className="relative flex-1 max-w-xs sm:max-w-sm md:max-w-md" ref={searchRef}>
-            <FiSearch className="absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 text-[#6B7280] dark:#6B7280 w-4 h-4 sm:w-5 sm:h-5" />
-            <input
-              type="text"
-              placeholder={t('common.search') || "Search..."}
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setShowSearch(e.target.value.length > 0);
-              }}
-              onFocus={() => {
-                if (searchQuery.length > 0) {
-                  setShowSearch(true);
-                }
-              }}
-              className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 border border-[#DDD7CC] dark:border-[#2A2B36] rounded-lg bg-[#F4F0EA] dark:bg-[#1C1D24] text-[#1A1C20] dark:text-[#EAE5DF] placeholder-[#6B7280] dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent focus:bg-white dark:focus:bg-gray-600 text-xs sm:text-sm transition-colors"
-            />
-            {showSearch && searchQuery && (
-              <SearchDropdown query={searchQuery} onClose={() => setShowSearch(false)} />
-            )}
-          </div>
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-          {/* Date/Time Display - Hidden on small screens */}
-          <div className="hidden xl:flex items-center px-2 sm:px-3 py-1 sm:py-1.5 bg-[#E3DDD2] dark:bg-[#1C1D24]/50 rounded-lg mr-1 sm:mr-2">
-            <span className="text-[10px] sm:text-xs text-[#6B7280] dark:text-[#44454F] font-medium whitespace-nowrap">
-              {currentDateTime}
-            </span>
-          </div>
-
-          {/* Add New Button with Dropdown */}
-          <div className="relative group">
-            <Button
-              className="hidden sm:flex items-center gap-1.5 sm:gap-2 shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm px-2.5 sm:px-4 py-1.5 sm:py-2"
-              onClick={() => setShowAddNew(true)}
-            >
-              <FiPlus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span className="font-semibold hidden md:inline">{t('addNew.title')}</span>
-            </Button>
-            <Button
-              size="icon"
-              className="flex sm:hidden shadow-sm p-1.5"
-              onClick={() => setShowAddNew(true)}
-            >
-              <FiPlus className="w-4 h-4 sm:w-5 sm:h-5" />
-            </Button>
-          </div>
-
-          {/* Divider */}
-          <div className="hidden md:block w-px h-6 sm:h-8 bg-[#DDD7CC] dark:bg-[#1C1D24] mx-0.5 sm:mx-1"></div>
-
-          {/* Theme & Language Switchers */}
-          <div className="hidden md:flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-3 sm:gap-5 shrink-0">
+          
+          {/* Theme Switcher */}
+          <div className="hidden md:flex">
             <ThemeSwitcher />
-            <LanguageSwitcher />
           </div>
-
-          {/* Divider */}
-          <div className="hidden md:block w-px h-6 sm:h-8 bg-[#DDD7CC] dark:bg-[#1C1D24] mx-0.5 sm:mx-1"></div>
 
           {/* Notification Button */}
           <div className="relative">
@@ -175,11 +72,11 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
               onClick={() => {
                 setShowNotifications(!showNotifications);
               }}
-              className="relative p-1.5 sm:p-2.5 text-[#6B7280] dark:text-[#44454F] hover:text-[#A3876A] dark:hover:text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
+              className="relative p-1.5 sm:p-2 text-[#475569] dark:text-[#44454F] hover:text-[#F2DD50] dark:hover:text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-gray-700 rounded-lg transition-all duration-200"
             >
               <FiBell className="w-4 h-4 sm:w-5 sm:h-5" />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 min-w-4 sm:min-w-5 h-4 sm:h-5 bg-[#A3876A] text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center px-1 sm:px-1.5 shadow-md">
+                <span className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 min-w-4 sm:min-w-5 h-4 sm:h-5 bg-[#F2DD50] text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center px-1 sm:px-1.5 shadow-md">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
@@ -189,50 +86,52 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
               onClose={() => setShowNotifications(false)}
             />
           </div>
+          
+          {/* Add Order Button */}
+          <button
+            className="flex items-center gap-1.5 sm:gap-2 shadow-sm text-xs sm:text-sm px-4 py-2 bg-[#001f54] hover:bg-[#00153a] text-white rounded-md font-medium transition-colors"
+            onClick={() => setShowAddNew(true)}
+          >
+            <FiPlus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span>Add Order</span>
+          </button>
+
+          {/* Divider */}
+          <div className="hidden md:block w-px h-6 bg-[#E5E7EB] dark:bg-[#2A2B36]"></div>
 
           {/* User Profile Button */}
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center gap-1.5 sm:gap-2.5 px-1.5 sm:px-2.5 py-1 sm:py-1.5 hover:bg-[#E3DDD2] dark:hover:bg-gray-700 rounded-lg transition-all duration-200 border border-transparent hover:border-[#DDD7CC] dark:hover:border-gray-600"
+              className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 bg-[#0b132b] text-white rounded-full hover:ring-2 hover:ring-offset-2 hover:ring-[#0b132b] dark:hover:ring-offset-[#15161C] transition-all"
             >
               {userProfile.photo ? (
                 <img
                   src={userProfile.photo}
                   alt="Profile"
-                  className="w-7 h-7 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-[#DDD7CC] dark:border-[#2A2B36] shadow-sm"
+                  className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                <div className="w-7 h-7 sm:w-9 sm:h-9 bg-[#A3876A] dark:bg-[#A3876A] rounded-full flex items-center justify-center text-white shadow-md">
-                  <FiUser className="w-4 h-4 sm:w-5 sm:h-5" />
-                </div>
+                <span className="text-xs sm:text-sm font-semibold tracking-wider">
+                  {userProfile.name ? userProfile.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'FO'}
+                </span>
               )}
-              <div className="text-left hidden xl:block">
-                <p className="text-xs sm:text-sm font-semibold text-[#1A1C20] dark:text-[#EAE5DF] leading-tight truncate max-w-24 sm:max-w-32">
-                  {userProfile.name}
-                </p>
-                <p className="text-[10px] sm:text-xs text-[#6B7280] dark:text-[#44454F] leading-tight truncate max-w-24 sm:max-w-32">
-                  {userProfile.email || userProfile.phone}
-                </p>
-              </div>
-              <FiChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6B7280] dark:#6B7280 hidden lg:block" />
             </button>
 
             {showUserMenu && (
-              <div className="absolute right-0 mt-3 w-56 bg-white dark:bg-[#15161C] border border-[#DDD7CC] dark:border-[#1C1D24] rounded-xl shadow-xl py-2 z-20 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute right-0 mt-3 w-56 bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#1C1D24] rounded-xl shadow-xl py-2 z-20 animate-in fade-in slide-in-from-top-2 duration-200">
                 {/* Mobile Theme & Language */}
-                <div className="sm:hidden px-4 py-3 border-b border-[#DDD7CC] dark:border-[#1C1D24]">
-                  <p className="text-xs font-semibold text-[#6B7280] dark:text-[#44454F] mb-2">{t('sidebar.settings')}</p>
+                <div className="sm:hidden px-4 py-3 border-b border-[#E2E8F0] dark:border-[#1C1D24]">
+                  <p className="text-xs font-semibold text-[#475569] dark:text-[#44454F] mb-2">{t('sidebar.settings')}</p>
                   <div className="flex gap-2 justify-start">
                     <ThemeSwitcher />
-                    <LanguageSwitcher />
                   </div>
                 </div>
 
                 {/* Profile Info */}
-                <div className="px-4 py-3 border-b border-[#DDD7CC] dark:border-[#1C1D24]">
-                  <p className="text-sm font-bold text-[#1A1C20] dark:text-[#EAE5DF]">{userProfile.name}</p>
-                  <p className="text-xs text-[#6B7280] dark:text-[#44454F] mt-0.5">{userProfile.email || userProfile.phone}</p>
+                <div className="px-4 py-3 border-b border-[#E2E8F0] dark:border-[#1C1D24]">
+                  <p className="text-sm font-bold text-[#1E293B] dark:text-[#EAE5DF]">{userProfile.name}</p>
+                  <p className="text-xs text-[#475569] dark:text-[#44454F] mt-0.5">{userProfile.email || userProfile.phone}</p>
                 </div>
 
                 {/* Menu Items */}
@@ -242,7 +141,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
                       setShowUserMenu(false);
                       navigate('/profile');
                     }}
-                    className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-[#1A1C20] dark:text-[#C8C3BC] hover:bg-[#F5F0E6] dark:hover:bg-gray-700 hover:text-[#A3876A] dark:hover:text-[#A3876A] transition-colors"
+                    className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-[#1E293B] dark:text-[#64748B] hover:bg-[#F1F5F9] dark:hover:bg-gray-700 hover:text-[#F2DD50] dark:hover:text-[#F2DD50] transition-colors"
                   >
                     <FiUser className="w-4 h-4" />
                     <span className="font-medium">{t('settings.myProfile')}</span>
@@ -252,7 +151,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
                       setShowUserMenu(false);
                       navigate('/settings');
                     }}
-                    className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-[#1A1C20] dark:text-[#C8C3BC] hover:bg-[#F5F0E6] dark:hover:bg-gray-700 hover:text-[#A3876A] dark:hover:text-[#A3876A] transition-colors"
+                    className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-[#1E293B] dark:text-[#64748B] hover:bg-[#F1F5F9] dark:hover:bg-gray-700 hover:text-[#F2DD50] dark:hover:text-[#F2DD50] transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -263,7 +162,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
                 </div>
 
                 {/* Logout */}
-                <div className="border-t border-[#DDD7CC] dark:border-[#1C1D24] mt-1 pt-1">
+                <div className="border-t border-[#E2E8F0] dark:border-[#1C1D24] mt-1 pt-1">
                   <button
                     onClick={handleLogout}
                     className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors font-medium"

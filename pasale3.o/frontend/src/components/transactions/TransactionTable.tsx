@@ -185,7 +185,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
   const SortHeader: React.FC<{ field: SortField; label: string; className?: string }> = ({ field, label, className }) => (
     <button
       onClick={() => handleSort(field)}
-      className={`flex items-center gap-1 hover:#1A1C20 dark:hover:text-gray-100 transition-colors ${className}`}
+      className={`flex items-center gap-1 hover:#1E293B dark:hover:text-gray-100 transition-colors ${className}`}
     >
       {label}
       {sortField === field && (
@@ -219,9 +219,9 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
   ];
 
   return (
-    <div className="bg-white dark:bg-[#15161C] rounded-2xl shadow-lg border #DDD7CC dark:border-[#1C1D24] overflow-hidden">
+    <div className="bg-white dark:bg-[#15161C] rounded-2xl shadow-lg border #E2E8F0 dark:border-[#1C1D24] overflow-hidden">
       {/* Search & Filter Bar */}
-      <div className="p-4 border-b #DDD7CC dark:border-[#1C1D24]">
+      <div className="p-4 border-b #E2E8F0 dark:border-[#1C1D24]">
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="relative flex-1">
@@ -231,7 +231,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search transactions..."
-              className="w-full pl-11 pr-4 py-2.5 rounded-xl border #DDD7CC dark:border-[#2A2B36] #F4F0EA dark:bg-[#0D0E12] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent transition-all"
+              className="w-full pl-11 pr-4 py-2.5 rounded-xl border #E2E8F0 dark:border-[#2A2B36] #FFFFFF dark:bg-[#0D0E12] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent transition-all"
             />
           </div>
 
@@ -240,25 +240,25 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
             onClick={() => setShowFilters(!showFilters)}
             className={`px-4 py-2.5 rounded-xl border transition-all flex items-center gap-2 font-medium ${
               showFilters || typeFilter !== 'all' || statusFilter !== 'all'
-                ? 'bg-[#F5F0E6] dark:bg-[#A3876A]/20 border-[#A3876A]/30 dark:border-blue-700 text-[#A3876A] dark:text-[#A3876A]'
-                : '#F4F0EA dark:bg-[#0D0E12] #DDD7CC dark:border-[#2A2B36] text-gray-700 dark:text-[#C8C3BC] hover:#E3DDD2 dark:hover:bg-gray-800'
+                ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/20 border-[#F2DD50]/30 dark:border-blue-700 text-[#F2DD50] dark:text-[#F2DD50]'
+                : '#FFFFFF dark:bg-[#0D0E12] #E2E8F0 dark:border-[#2A2B36] text-gray-700 dark:text-[#64748B] hover:#F8FAFC dark:hover:bg-gray-800'
             }`}
           >
             <FiFilter className="w-4 h-4" />
             <span>Filters</span>
             {(typeFilter !== 'all' || statusFilter !== 'all') && (
-              <span className="w-2 h-2 rounded-full bg-[#A3876A]"></span>
+              <span className="w-2 h-2 rounded-full bg-[#F2DD50]"></span>
             )}
           </button>
         </div>
 
         {/* Filter Options */}
         {showFilters && (
-          <div className="mt-3 pt-3 border-t #DDD7CC dark:border-[#1C1D24] flex flex-wrap gap-3">
+          <div className="mt-3 pt-3 border-t #E2E8F0 dark:border-[#1C1D24] flex flex-wrap gap-3">
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value as TransactionType | 'all')}
-              className="px-4 py-2 rounded-xl border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#0D0E12] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+              className="px-4 py-2 rounded-xl border #E2E8F0 dark:border-[#2A2B36] bg-white dark:bg-[#0D0E12] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
             >
               {typeOptions.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -267,7 +267,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as PaymentStatus | 'all')}
-              className="px-4 py-2 rounded-xl border #DDD7CC dark:border-[#2A2B36] bg-white dark:bg-[#0D0E12] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+              className="px-4 py-2 rounded-xl border #E2E8F0 dark:border-[#2A2B36] bg-white dark:bg-[#0D0E12] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
             >
               {statusOptions.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -291,27 +291,27 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="#F4F0EA dark:bg-[#0D0E12]">
+          <thead className="#FFFFFF dark:bg-[#0D0E12]">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="date" label="Date" />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="type" label="Type" />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="partyName" label="Party / Category" />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
                 Reference
               </th>
-              <th className="px-4 py-3 text-right text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-right text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="amount" label="Amount" className="justify-end" />
               </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-center text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold #6B7280 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-center text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -334,11 +334,11 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
               <tr>
                 <td colSpan={7} className="px-4 py-16 text-center">
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full #E3DDD2 dark:bg-[#1C1D24] flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 rounded-full #F8FAFC dark:bg-[#1C1D24] flex items-center justify-center mb-4">
                       <FiFileText className="w-8 h-8 text-gray-400" />
                     </div>
-                    <p className="#6B7280 dark:text-[#44454F] font-medium mb-1">No transactions found</p>
-                    <p className="text-sm text-gray-400 dark:#6B7280">
+                    <p className="#475569 dark:text-[#44454F] font-medium mb-1">No transactions found</p>
+                    <p className="text-sm text-gray-400 dark:#475569">
                       {searchQuery || typeFilter !== 'all' || statusFilter !== 'all'
                         ? 'Try adjusting your search or filters'
                         : 'Add your first transaction to get started'}
@@ -356,11 +356,11 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                 return (
                   <tr
                     key={transaction.id}
-                    className="hover:#F4F0EA dark:hover:bg-gray-800/50 transition-colors group"
+                    className="hover:#FFFFFF dark:hover:bg-gray-800/50 transition-colors group"
                   >
                     {/* Date */}
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF]">
+                      <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">
                         {formatDate(transaction.date)}
                       </span>
                     </td>
@@ -376,11 +376,11 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     {/* Party / Category */}
                     <td className="px-4 py-4">
                       <div>
-                        <p className="text-sm font-medium #1A1C20 dark:text-[#EAE5DF] truncate max-w-48">
+                        <p className="text-sm font-medium #1E293B dark:text-[#EAE5DF] truncate max-w-48">
                           {transaction.partyName || transaction.category || '-'}
                         </p>
                         {transaction.description && (
-                          <p className="text-xs #6B7280 dark:text-[#44454F] truncate max-w-48">
+                          <p className="text-xs #475569 dark:text-[#44454F] truncate max-w-48">
                             {transaction.description}
                           </p>
                         )}
@@ -389,7 +389,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
 
                     {/* Reference */}
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className="text-sm #6B7280 dark:text-[#44454F] font-mono">
+                      <span className="text-sm #475569 dark:text-[#44454F] font-mono">
                         {transaction.transactionNumber || transaction.id?.slice(0, 8) || '-'}
                       </span>
                     </td>
@@ -398,8 +398,8 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     <td className="px-4 py-4 whitespace-nowrap text-right">
                       <span className={`text-sm font-bold ${
                         type === 'selling' || type === 'payment_in' || type === 'income'
-                          ? 'text-[#A3876A] dark:text-[#A3876A]'
-                          : '#1A1C20 dark:text-[#EAE5DF]'
+                          ? 'text-[#F2DD50] dark:text-[#F2DD50]'
+                          : '#1E293B dark:text-[#EAE5DF]'
                       }`}>
                         {type === 'selling' || type === 'payment_in' || type === 'income' ? '+' : '-'}
                         {formatCurrency(transaction.totalAmount || transaction.amount || 0)}
@@ -421,7 +421,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                         <div className="hidden group-hover:flex items-center gap-1">
                           <button
                             onClick={() => onView(transaction)}
-                            className="p-1.5 rounded-lg text-gray-400 hover:text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/15 transition-colors"
+                            className="p-1.5 rounded-lg text-gray-400 hover:text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 transition-colors"
                             title="View"
                           >
                             <FiEye className="w-4 h-4" />
@@ -439,7 +439,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                         <div className="relative">
                           <button
                             onClick={() => setActiveDropdown(activeDropdown === transaction.id ? null : transaction.id)}
-                            className="p-1.5 rounded-lg text-gray-400 hover:#6B7280 hover:#E3DDD2 dark:hover:bg-gray-700 transition-colors"
+                            className="p-1.5 rounded-lg text-gray-400 hover:#475569 hover:#F8FAFC dark:hover:bg-gray-700 transition-colors"
                           >
                             <FiMoreVertical className="w-4 h-4" />
                           </button>
@@ -453,13 +453,13 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                               />
                               
                               {/* Dropdown */}
-                              <div className="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-[#15161C] rounded-xl shadow-xl border #DDD7CC dark:border-[#1C1D24] py-1 z-20 animate-in fade-in slide-in-from-top-2 duration-200">
+                              <div className="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-[#15161C] rounded-xl shadow-xl border #E2E8F0 dark:border-[#1C1D24] py-1 z-20 animate-in fade-in slide-in-from-top-2 duration-200">
                                 <button
                                   onClick={() => {
                                     onView(transaction);
                                     setActiveDropdown(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700 flex items-center gap-2"
+                                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700 flex items-center gap-2"
                                 >
                                   <FiEye className="w-4 h-4" />
                                   View Details
@@ -469,7 +469,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                                     onEdit(transaction);
                                     setActiveDropdown(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700 flex items-center gap-2"
+                                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700 flex items-center gap-2"
                                 >
                                   <FiEdit2 className="w-4 h-4" />
                                   Edit
@@ -479,12 +479,12 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                                     onPrint(transaction);
                                     setActiveDropdown(null);
                                   }}
-                                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700 flex items-center gap-2"
+                                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700 flex items-center gap-2"
                                 >
                                   <FiPrinter className="w-4 h-4" />
                                   Print / Invoice
                                 </button>
-                                <div className="border-t #DDD7CC dark:border-[#1C1D24] my-1" />
+                                <div className="border-t #E2E8F0 dark:border-[#1C1D24] my-1" />
                                 <button
                                   onClick={() => {
                                     onDelete(transaction);
@@ -511,14 +511,14 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
 
       {/* Footer / Summary */}
       {filteredTransactions.length > 0 && (
-        <div className="px-4 py-3 #F4F0EA dark:bg-[#0D0E12] border-t #DDD7CC dark:border-[#1C1D24]">
+        <div className="px-4 py-3 #FFFFFF dark:bg-[#0D0E12] border-t #E2E8F0 dark:border-[#1C1D24]">
           <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
-            <span className="#6B7280 dark:text-[#44454F]">
-              Showing <span className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{filteredTransactions.length}</span> of{' '}
-              <span className="font-semibold #1A1C20 dark:text-[#EAE5DF]">{transactions.length}</span> transactions
+            <span className="#475569 dark:text-[#44454F]">
+              Showing <span className="font-semibold #1E293B dark:text-[#EAE5DF]">{filteredTransactions.length}</span> of{' '}
+              <span className="font-semibold #1E293B dark:text-[#EAE5DF]">{transactions.length}</span> transactions
             </span>
             <div className="flex items-center gap-4">
-              <span className="text-[#A3876A] dark:text-[#A3876A] font-medium flex items-center gap-1">
+              <span className="text-[#F2DD50] dark:text-[#F2DD50] font-medium flex items-center gap-1">
                 <FiTrendingUp className="w-3.5 h-3.5" />
                 {formatCurrency(
                   filteredTransactions

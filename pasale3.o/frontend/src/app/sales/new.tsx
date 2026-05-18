@@ -146,26 +146,26 @@ export default function CreateSalesInvoicePage() {
       <div className="flex items-center gap-3 mb-6">
         <button
           onClick={() => navigate('/sales')}
-          className="p-2 hover:#E3DDD2 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          className="p-2 hover:#F8FAFC dark:hover:bg-gray-800 rounded-lg transition-colors"
         >
-          <FiArrowLeft className="w-5 h-5 #6B7280" />
+          <FiArrowLeft className="w-5 h-5 #475569" />
         </button>
-        <h1 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF]">Create Sales Invoice</h1>
+        <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">Create Sales Invoice</h1>
       </div>
 
       {/* Form Card */}
-      <div className="bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-[#15161C] border #E2E8F0 dark:border-[#1C1D24] rounded-xl overflow-hidden">
         {/* Customer, Date, Status */}
-        <div className="p-5 border-b #DDD7CC dark:border-[#1C1D24]">
+        <div className="p-5 border-b #E2E8F0 dark:border-[#1C1D24]">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-medium text-[#A3876A] dark:text-[#A3876A] mb-1.5">
+              <label className="block text-xs font-medium text-[#F2DD50] dark:text-[#F2DD50] mb-1.5">
                 Customer / Party (Optional)
               </label>
               <select
                 value={partyId}
                 onChange={(e) => setPartyId(e.target.value)}
-                className="w-full px-3 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-3 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               >
                 <option value="">Cash Sale</option>
                 {parties.map((p: any) => (
@@ -174,20 +174,20 @@ export default function CreateSalesInvoicePage() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium #6B7280 dark:text-[#44454F] mb-1.5">Date</label>
+              <label className="block text-xs font-medium #475569 dark:text-[#44454F] mb-1.5">Date</label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-3 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium #6B7280 dark:text-[#44454F] mb-1.5">Status</label>
+              <label className="block text-xs font-medium #475569 dark:text-[#44454F] mb-1.5">Status</label>
               <select
                 value={invoiceStatus}
                 onChange={(e) => setInvoiceStatus(e.target.value)}
-                className="w-full px-3 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-3 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               >
                 <option value="Paid">Paid</option>
                 <option value="Unpaid">Unpaid</option>
@@ -198,15 +198,15 @@ export default function CreateSalesInvoicePage() {
         </div>
 
         {/* Items */}
-        <div className="p-5 border-b #DDD7CC dark:border-[#1C1D24]">
-          <h3 className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF] mb-3">Items</h3>
+        <div className="p-5 border-b #E2E8F0 dark:border-[#1C1D24]">
+          <h3 className="text-sm font-bold #1E293B dark:text-[#EAE5DF] mb-3">Items</h3>
           
           {/* Items Header */}
           <div className="grid grid-cols-[2fr_80px_100px_100px_40px] gap-3 mb-2">
-            <span className="text-[11px] font-bold #6B7280 uppercase">ITEM</span>
-            <span className="text-[11px] font-bold #6B7280 uppercase text-center">QTY</span>
-            <span className="text-[11px] font-bold #6B7280 uppercase text-center">RATE</span>
-            <span className="text-[11px] font-bold #6B7280 uppercase text-right">AMOUNT</span>
+            <span className="text-[11px] font-bold #475569 uppercase">ITEM</span>
+            <span className="text-[11px] font-bold #475569 uppercase text-center">QTY</span>
+            <span className="text-[11px] font-bold #475569 uppercase text-center">RATE</span>
+            <span className="text-[11px] font-bold #475569 uppercase text-right">AMOUNT</span>
             <span></span>
           </div>
 
@@ -216,7 +216,7 @@ export default function CreateSalesInvoicePage() {
               <select
                 value={item.product_id}
                 onChange={(e) => handleItemChange(index, 'product_id', e.target.value)}
-                className="w-full px-3 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-3 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               >
                 <option value="">Select item</option>
                 {products.map((p: any) => (
@@ -230,15 +230,15 @@ export default function CreateSalesInvoicePage() {
                 min={1}
                 value={item.quantity}
                 onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                className="w-full px-2 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg #F4F0EA dark:bg-[#0D0E12] text-sm text-center #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-2 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg #FFFFFF dark:bg-[#0D0E12] text-sm text-center #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               />
               <input
                 type="number"
                 value={item.rate}
                 onChange={(e) => handleItemChange(index, 'rate', e.target.value)}
-                className="w-full px-2 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg #F4F0EA dark:bg-[#0D0E12] text-sm text-center #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-2 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg #FFFFFF dark:bg-[#0D0E12] text-sm text-center #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               />
-              <div className="text-sm font-semibold #1A1C20 dark:text-[#EAE5DF] text-right py-2">
+              <div className="text-sm font-semibold #1E293B dark:text-[#EAE5DF] text-right py-2">
                 {item.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </div>
               <button
@@ -252,7 +252,7 @@ export default function CreateSalesInvoicePage() {
 
           <button
             onClick={addRow}
-            className="inline-flex items-center gap-1.5 text-[#A3876A] dark:text-[#A3876A] text-sm font-semibold hover:text-[#8E7356] dark:hover:text-[#A3876A] mt-2 transition-colors"
+            className="inline-flex items-center gap-1.5 text-[#F2DD50] dark:text-[#F2DD50] text-sm font-semibold hover:text-[#8E7356] dark:hover:text-[#F2DD50] mt-2 transition-colors"
           >
             <FiPlus className="w-4 h-4" /> Add Row
           </button>
@@ -260,14 +260,14 @@ export default function CreateSalesInvoicePage() {
 
         {/* Payment & Summary */}
         <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Left — Payment */}
+          {/* Left  Payment */}
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">Payment Method</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Payment Method</label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full px-3 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-3 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               >
                 <option value="Cash">Cash</option>
                 <option value="Bank Transfer">Bank Transfer</option>
@@ -275,48 +275,48 @@ export default function CreateSalesInvoicePage() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">Remarks / Notes</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Remarks / Notes</label>
               <input
                 type="text"
                 value={remarks}
                 onChange={(e) => setRemarks(e.target.value)}
                 placeholder="Add notes..."
-                className="w-full px-3 py-2 border border-blue-400 dark:border-blue-600 rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]"
+                className="w-full px-3 py-2 border border-blue-400 dark:border-blue-600 rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]"
               />
             </div>
           </div>
 
-          {/* Right — Summary */}
+          {/* Right  Summary */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between text-sm">
-              <span className="#6B7280 dark:text-[#44454F]">Subtotal</span>
-              <span className="font-semibold #1A1C20 dark:text-[#EAE5DF]">
+              <span className="#475569 dark:text-[#44454F]">Subtotal</span>
+              <span className="font-semibold #1E293B dark:text-[#EAE5DF]">
                 {subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="#6B7280 dark:text-[#44454F]">Discount (Rs.)</span>
+              <span className="#475569 dark:text-[#44454F]">Discount (Rs.)</span>
               <input
                 type="number"
                 min={0}
                 value={discount}
                 onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                className="w-20 px-2 py-1 border #DDD7CC dark:border-[#1C1D24] rounded-md #F4F0EA dark:bg-[#0D0E12] text-sm text-right #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-1 focus:ring-[#A3876A]"
+                className="w-20 px-2 py-1 border #E2E8F0 dark:border-[#1C1D24] rounded-md #FFFFFF dark:bg-[#0D0E12] text-sm text-right #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-1 focus:ring-[#F2DD50]"
               />
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="#6B7280 dark:text-[#44454F]">Tax (%)</span>
+              <span className="#475569 dark:text-[#44454F]">Tax (%)</span>
               <input
                 type="number"
                 min={0}
                 value={taxPercent}
                 onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                className="w-20 px-2 py-1 border #DDD7CC dark:border-[#1C1D24] rounded-md #F4F0EA dark:bg-[#0D0E12] text-sm text-right #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-1 focus:ring-[#A3876A]"
+                className="w-20 px-2 py-1 border #E2E8F0 dark:border-[#1C1D24] rounded-md #FFFFFF dark:bg-[#0D0E12] text-sm text-right #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-1 focus:ring-[#F2DD50]"
               />
             </div>
-            <div className="pt-3 border-t #DDD7CC dark:border-[#1C1D24] flex items-center justify-between">
-              <span className="font-bold #1A1C20 dark:text-[#EAE5DF]">Grand Total</span>
-              <span className="text-xl font-bold text-[#A3876A] dark:text-[#A3876A]">
+            <div className="pt-3 border-t #E2E8F0 dark:border-[#1C1D24] flex items-center justify-between">
+              <span className="font-bold #1E293B dark:text-[#EAE5DF]">Grand Total</span>
+              <span className="text-xl font-bold text-[#F2DD50] dark:text-[#F2DD50]">
                 {grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
@@ -324,17 +324,17 @@ export default function CreateSalesInvoicePage() {
         </div>
 
         {/* Actions */}
-        <div className="p-5 border-t #DDD7CC dark:border-[#1C1D24] flex items-center justify-end gap-3">
+        <div className="p-5 border-t #E2E8F0 dark:border-[#1C1D24] flex items-center justify-end gap-3">
           <button
             onClick={() => navigate('/sales')}
-            className="px-5 py-2 text-sm font-semibold #6B7280 dark:text-[#C8C3BC] hover:#E3DDD2 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="px-5 py-2 text-sm font-semibold #475569 dark:text-[#64748B] hover:#F8FAFC dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="inline-flex items-center gap-2 px-5 py-2 bg-[#A3876A] text-white text-sm font-semibold rounded-lg hover:bg-[#8E7356] disabled:opacity-60 transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-5 py-2 bg-[#F2DD50] text-white text-sm font-semibold rounded-lg hover:bg-[#8E7356] disabled:opacity-60 transition-colors shadow-sm"
           >
             <FiSave className="w-4 h-4" />
             {saving ? 'Saving...' : 'Save Invoice'}

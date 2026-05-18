@@ -20,12 +20,12 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-[#0D0E12] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center active:scale-[0.98]';
 
   const variantClasses = {
-    primary: 'bg-[#A3876A] text-white hover:bg-[#8E7356] focus:ring-[#A3876A] shadow-sm hover:shadow-md',
-    secondary: 'bg-[#1A1C20] text-[#EBE5DA] hover:bg-[#2A1D12] dark:bg-[#15161C] dark:text-[#999999] dark:border dark:border-[#2A2B36] dark:hover:bg-[#1C1D24] dark:hover:text-[#EAE5DF] focus:ring-[#1A1C20] dark:focus:ring-[#2A2B36] shadow-sm hover:shadow-md',
-    outline: 'border-2 border-[#A3876A] text-[#A3876A] dark:text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/10 focus:ring-[#A3876A]',
-    ghost: 'text-[#1A1C20] dark:text-[#C8C3BC] hover:bg-[#E3DDD2] dark:hover:bg-[#15161C] focus:ring-[#A3876A]',
+    primary: 'bg-[#F2DD50] text-white hover:bg-[#8E7356] focus:ring-[#F2DD50] shadow-sm hover:shadow-md',
+    secondary: 'bg-[#1E293B] text-[#101B55] hover:bg-[#2A1D12] dark:bg-[#15161C] dark:text-[#999999] dark:border dark:border-[#2A2B36] dark:hover:bg-[#1C1D24] dark:hover:text-[#EAE5DF] focus:ring-[#1E293B] dark:focus:ring-[#2A2B36] shadow-sm hover:shadow-md',
+    outline: 'border-2 border-[#F2DD50] text-[#F2DD50] dark:text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/10 focus:ring-[#F2DD50]',
+    ghost: 'text-[#1E293B] dark:text-[#64748B] hover:bg-[#FFFFFF] dark:hover:bg-[#15161C] focus:ring-[#F2DD50]',
     danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-sm hover:shadow-md',
-    white: 'bg-white text-[#1A1C20] dark:bg-[#15161C] dark:text-[#EAE5DF] dark:border dark:border-[#2A2B36] hover:bg-[#F4F0EA] dark:hover:bg-[#1C1D24] focus:ring-white dark:focus:ring-[#2A2B36] shadow-lg hover:shadow-xl border-0',
+    white: 'bg-white text-[#1E293B] dark:bg-[#15161C] dark:text-[#EAE5DF] dark:border dark:border-[#2A2B36] hover:bg-[#F7FAFC] dark:hover:bg-[#1C1D24] focus:ring-white dark:focus:ring-[#2A2B36] shadow-lg hover:shadow-xl border-0',
   };
 
   const sizeClasses = {

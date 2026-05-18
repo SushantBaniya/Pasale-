@@ -1,4 +1,4 @@
-import { useSettingsStore } from '../store/settingsStore';
+﻿import { useSettingsStore } from '../store/settingsStore';
 
 /**
  * Formats a number as currency based on user settings.
@@ -13,7 +13,7 @@ export const formatCurrency = (amount: number): string => {
 
     const currencySymbols: Record<string, string> = {
         'NPR': 'Rs.',
-        'INR': '₹',
+        'INR': '',
         'USD': '$'
     };
 

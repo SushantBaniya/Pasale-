@@ -32,13 +32,13 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
 
   if (items.length === 0) {
     return (
-      <Card className="h-full flex flex-col bg-linear-to-br from-[#3A7A5A]/5 to-[#3A7A5A]/10 dark:from-green-900/20 dark:to-blue-900/20 border border-[#3A7A5A]/20 dark:border-green-800/30">
+      <Card className="h-full flex flex-col bg-linear-to-br from-[#10B981]/5 to-[#10B981]/10 dark:from-green-900/20 dark:to-blue-900/20 border border-[#10B981]/20 dark:border-green-800/30">
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#3A7A5A]/10 dark:bg-green-800/50 flex items-center justify-center mb-4">
-            <FiPackage className="w-7 h-7 text-[#3A7A5A] dark:text-green-400" />
+          <div className="w-14 h-14 rounded-2xl bg-[#10B981]/10 dark:bg-green-800/50 flex items-center justify-center mb-4">
+            <FiPackage className="w-7 h-7 text-[#10B981] dark:text-green-400" />
           </div>
-          <h3 className="text-lg font-bold text-[#3A7A5A] dark:text-green-300 mb-2">All Stocked Up!</h3>
-          <p className="text-sm text-[#3A7A5A]/80 dark:text-green-400">No low stock items at the moment</p>
+          <h3 className="text-lg font-bold text-[#10B981] dark:text-green-300 mb-2">All Stocked Up!</h3>
+          <p className="text-sm text-[#10B981]/80 dark:text-green-400">No low stock items at the moment</p>
         </div>
       </Card>
     );
@@ -50,7 +50,7 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
   return (
     <Card className="h-full flex flex-col overflow-hidden">
       {/* Header with gradient */}
-      <div className="bg-gradient-to-r from-[#A3876A] to-[#6B5340] p-4 text-white">
+      <div className="bg-gradient-to-r from-[#F2DD50] to-[#6B5340] p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -97,20 +97,20 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
               onClick={() => navigate('/inventory')}
               className={`p-3 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${
                 isCritical 
-                  ? 'bg-[#F5F0E6] dark:bg-red-900/20 border-[#A3876A]/30 dark:border-red-800/50 hover:border-[#A3876A]/50' 
-                  : 'bg-[#F5F0E6] dark:bg-orange-900/20 border-[#A3876A]/20 dark:border-orange-800/50 hover:border-[#A3876A]/40'
+                  ? 'bg-[#F1F5F9] dark:bg-red-900/20 border-[#F2DD50]/30 dark:border-red-800/50 hover:border-[#F2DD50]/50' 
+                  : 'bg-[#F1F5F9] dark:bg-orange-900/20 border-[#F2DD50]/20 dark:border-orange-800/50 hover:border-[#F2DD50]/40'
               }`}
             >
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-sm text-[#1A1C20] dark:text-[#EAE5DF] truncate">
+                  <h4 className="font-semibold text-sm text-[#1E293B] dark:text-[#EAE5DF] truncate">
                     {item.name}
                   </h4>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold ${
                       isCritical 
-                        ? 'bg-[#A3876A]/15 dark:bg-red-800/50 text-[#A3876A] dark:text-red-300' 
-                        : 'bg-[#A3876A]/10 dark:bg-orange-800/50 text-[#A3876A] dark:text-orange-300'
+                        ? 'bg-[#F2DD50]/15 dark:bg-red-800/50 text-[#F2DD50] dark:text-red-300' 
+                        : 'bg-[#F2DD50]/10 dark:bg-orange-800/50 text-[#F2DD50] dark:text-orange-300'
                     }`}>
                       {isCritical ? <FiTrendingDown className="w-2.5 h-2.5" /> : <FiAlertTriangle className="w-2.5 h-2.5" />}
                       {status.label}
@@ -120,19 +120,19 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
                 <div className="text-right shrink-0">
                   <span className={`text-lg font-bold ${
                     isCritical 
-                      ? 'text-[#A3876A] dark:text-red-400' 
-                      : 'text-[#A3876A] dark:text-orange-400'
+                      ? 'text-[#F2DD50] dark:text-red-400' 
+                      : 'text-[#F2DD50] dark:text-orange-400'
                   }`}>
                     {item.current}
                   </span>
-                  <span className="text-xs text-[#6B7280] dark:text-[#44454F]">/{item.minStock}</span>
+                  <span className="text-xs text-[#475569] dark:text-[#44454F]">/{item.minStock}</span>
                 </div>
               </div>
               
-              <div className="h-1.5 bg-[#E3DDD2] dark:bg-[#1C1D24] rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[#FFFFFF] dark:bg-[#1C1D24] rounded-full overflow-hidden">
                 <div 
                   className={`h-full rounded-full transition-all ${
-                    isCritical ? 'bg-[#A3876A]' : 'bg-[#A3876A]/70'
+                    isCritical ? 'bg-[#F2DD50]' : 'bg-[#F2DD50]/70'
                   }`}
                   style={{ width: `${percentage}%` }}
                 />
@@ -143,10 +143,10 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
       </div>
 
       {/* Footer action */}
-      <div className="p-3 border-t border-[#DDD7CC] dark:border-[#1C1D24] bg-[#F4F0EA] dark:bg-[#15161C]/50">
+      <div className="p-3 border-t border-[#E2E8F0] dark:border-[#1C1D24] bg-[#F7FAFC] dark:bg-[#15161C]/50">
         <button
           onClick={() => navigate('/inventory')}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#A3876A] hover:bg-[#8E7356] text-white font-medium text-sm rounded-xl transition-all shadow-sm hover:shadow-md"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#F2DD50] hover:bg-[#8E7356] text-white font-medium text-sm rounded-xl transition-all shadow-sm hover:shadow-md"
         >
           <FiPackage className="w-4 h-4" />
           Manage Inventory

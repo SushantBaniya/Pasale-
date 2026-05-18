@@ -5,7 +5,7 @@
 
 @layer base {
   * {
-    @apply border-[#DDD7CC] dark:border-[#1C1D24];
+    @apply border-[#E2E8F0] dark:border-[#1C1D24];
   }
 
   html {
@@ -15,8 +15,8 @@
 
   body {
     @apply w-full h-full m-0 p-0 overflow-x-hidden;
-    background-color: #F4F0EA;
-    color: #1A1C20;
+    background-color: #F7FAFC;
+    color: #1E293B;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -53,16 +53,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #EBE5DA;
+    background: #101B55;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #DDD7CC;
+    background: #E2E8F0;
     border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #A3876A44;
+    background: #F2DD5044;
   }
 
   :where(.dark) ::-webkit-scrollbar-track {

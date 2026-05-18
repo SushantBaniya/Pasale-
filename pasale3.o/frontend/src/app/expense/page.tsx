@@ -7,7 +7,7 @@ import {
   FiArrowUp, FiArrowDown,
 } from 'react-icons/fi';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+//  Types 
 
 interface ExpenseRecord {
   id: number;
@@ -20,7 +20,7 @@ interface ExpenseRecord {
   is_necessary?: boolean;
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+//  Constants 
 
 const CATEGORIES = [
   'Rent', 'Utilities', 'Salary', 'Inventory', 'Transport',
@@ -37,7 +37,7 @@ const fmtDate = (d: string) => {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' });
 };
 
-// ─── Modal ────────────────────────────────────────────────────────────────────
+//  Modal 
 
 function Modal({ open, onClose, title, children }: {
   open: boolean; onClose: () => void; title: string; children: React.ReactNode;
@@ -49,11 +49,11 @@ function Modal({ open, onClose, title, children }: {
         className="bg-white dark:bg-[#0D0E12] rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b #DDD7CC dark:border-[#1C1D24]">
-          <h2 className="text-base font-bold #1A1C20 dark:text-[#EAE5DF]">{title}</h2>
+        <div className="flex items-center justify-between px-6 py-5 border-b #E2E8F0 dark:border-[#1C1D24]">
+          <h2 className="text-base font-bold #1E293B dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:#6B7280 hover:#E3DDD2 dark:hover:bg-gray-800 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:#475569 hover:#F8FAFC dark:hover:bg-gray-800 transition-colors"
           >
             <FiX className="w-4 h-4" />
           </button>
@@ -64,7 +64,7 @@ function Modal({ open, onClose, title, children }: {
   );
 }
 
-// ─── Expense Form (shared Add / Edit) ─────────────────────────────────────────
+//  Expense Form (shared Add / Edit) 
 
 interface ExpenseFormProps {
   initial?: Partial<ExpenseRecord>;
@@ -130,25 +130,25 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <label className="text-sm font-semibold text-gray-700 dark:text-[#C8C3BC]">Expense No.</label>
-            <button className="text-xs font-bold text-[#A3876A] hover:text-[#A3876A]">Manual</button>
+            <label className="text-sm font-semibold text-gray-700 dark:text-[#64748B]">Expense No.</label>
+            <button className="text-xs font-bold text-[#F2DD50] hover:text-[#F2DD50]">Manual</button>
           </div>
           <input
             type="text"
             value={expenseNo}
             onChange={e => setExpenseNo(e.target.value)}
             placeholder="Auto"
-            className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] focus:ring-1 focus:ring-[#A3876A]/20"
+            className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50] focus:ring-1 focus:ring-[#F2DD50]/20"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">Date</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Date</label>
           <div className="relative">
             <input
               type="date"
               value={date}
               onChange={e => setDate(e.target.value)}
-              className="w-full px-3 py-2.5 pr-9 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A]"
+              className="w-full px-3 py-2.5 pr-9 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50]"
             />
             <FiCalendar className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
@@ -157,9 +157,9 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
 
       {/* Expense Category */}
       <div ref={catRef} className="relative">
-        <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">Expense Category</label>
+        <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Expense Category</label>
         <div
-          className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus-within:border-[#A3876A] cursor-pointer flex items-center justify-between"
+          className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus-within:border-[#F2DD50] cursor-pointer flex items-center justify-between"
           onClick={() => setCatOpen(v => !v)}
         >
           <input
@@ -173,7 +173,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
           <FiChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${catOpen ? 'rotate-180' : ''}`} />
         </div>
         {catOpen && (
-          <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] rounded-xl shadow-xl overflow-hidden">
+          <div className="absolute z-20 top-full left-0 right-0 mt-1 bg-white dark:bg-[#15161C] border #E2E8F0 dark:border-[#1C1D24] rounded-xl shadow-xl overflow-hidden">
             {filteredCats.length === 0 ? (
               <div className="px-4 py-3 text-sm text-gray-400">No categories found</div>
             ) : (
@@ -181,7 +181,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
                 <button
                   key={cat}
                   onClick={() => { setCategory(cat); setCatSearch(cat); setCatOpen(false); }}
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/15 ${category === cat ? 'bg-[#F5F0E6] dark:bg-[#A3876A]/15 text-[#A3876A] font-semibold' : 'text-gray-700 dark:text-[#C8C3BC]'}`}
+                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 ${category === cat ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#F2DD50] font-semibold' : 'text-gray-700 dark:text-[#64748B]'}`}
                 >
                   {cat}
                 </button>
@@ -192,14 +192,14 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
       </div>
 
       {/* Add Expense Item (decorative link like Karobar) */}
-      <button className="flex items-center gap-1.5 text-sm font-semibold text-[#A3876A] hover:text-[#A3876A] transition-colors">
+      <button className="flex items-center gap-1.5 text-sm font-semibold text-[#F2DD50] hover:text-[#F2DD50] transition-colors">
         <FiPlus className="w-4 h-4" /> Add Expense Item
       </button>
 
       {/* Total Amount + Payment Method */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">Total Amount</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Total Amount</label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Rs.</span>
             <input
@@ -207,17 +207,17 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
               value={amount}
               onChange={e => setAmount(e.target.value)}
               placeholder="0"
-              className="w-full pl-10 pr-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm #F4F0EA dark:bg-[#15161C]/50 #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] focus:bg-white dark:focus:bg-gray-800"
+              className="w-full pl-10 pr-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm #FFFFFF dark:bg-[#15161C]/50 #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50] focus:bg-white dark:focus:bg-gray-800"
             />
           </div>
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">Payment Method</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Payment Method</label>
           <div className="relative">
             <select
               value={paymentMethod}
               onChange={e => setPaymentMethod(e.target.value)}
-              className="w-full px-3 py-2.5 pr-8 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] appearance-none"
+              className="w-full px-3 py-2.5 pr-8 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50] appearance-none"
             >
               {PAYMENT_METHODS.map(m => <option key={m}>{m}</option>)}
             </select>
@@ -228,13 +228,13 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
 
       {/* Remarks */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5">Remarks</label>
+        <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Remarks</label>
         <textarea
           value={remarks}
           onChange={e => setRemarks(e.target.value)}
           rows={3}
           placeholder="Enter remarks here..."
-          className="w-full px-3 py-2.5 border #DDD7CC dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:border-[#A3876A] resize-none"
+          className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50] resize-none"
         />
       </div>
 
@@ -245,13 +245,13 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => fileRef.current?.click()}
-            className="w-16 h-16 border-2 border-dashed #DDD7CC dark:border-[#1C1D24] rounded-xl flex flex-col items-center justify-center text-gray-400 hover:border-blue-400 hover:text-[#A3876A] transition-colors"
+            className="w-16 h-16 border-2 border-dashed #E2E8F0 dark:border-[#1C1D24] rounded-xl flex flex-col items-center justify-center text-gray-400 hover:border-blue-400 hover:text-[#F2DD50] transition-colors"
           >
             <FiCamera className="w-5 h-5" />
             <span className="text-[10px] mt-0.5">Photo</span>
           </button>
           {images.map((f, i) => (
-            <div key={i} className="w-16 h-16 rounded-xl bg-[#F5F0E6] dark:bg-[#A3876A]/15 flex items-center justify-center text-[9px] text-[#A3876A] font-medium text-center px-1 break-all">
+            <div key={i} className="w-16 h-16 rounded-xl bg-[#F1F5F9] dark:bg-[#F2DD50]/15 flex items-center justify-center text-[9px] text-[#F2DD50] font-medium text-center px-1 break-all">
               {f.name.slice(0, 10)}
             </div>
           ))}
@@ -270,7 +270,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="px-8 py-2.5 bg-[#A3876A] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2"
+          className="px-8 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2"
         >
           {saving && <FiLoader className="w-4 h-4 animate-spin" />}
           {mode === 'add' ? 'Save Expense' : 'Update Expense'}
@@ -280,7 +280,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
   );
 }
 
-// ─── Delete Confirm ───────────────────────────────────────────────────────────
+//  Delete Confirm 
 
 function DeleteModal({ open, onClose, onConfirm, loading }: {
   open: boolean; onClose: () => void; onConfirm: () => void; loading: boolean;
@@ -288,13 +288,13 @@ function DeleteModal({ open, onClose, onConfirm, loading }: {
   return (
     <Modal open={open} onClose={onClose} title="Delete Expense">
       <div className="space-y-5">
-        <p className="text-sm #6B7280 dark:text-[#44454F]">
+        <p className="text-sm #475569 dark:text-[#44454F]">
           Are you sure you want to delete this expense? This action cannot be undone.
         </p>
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 border #DDD7CC dark:border-[#1C1D24] text-sm font-semibold #6B7280 dark:text-[#C8C3BC] rounded-xl hover:#F4F0EA dark:hover:bg-gray-800 transition-colors"
+            className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-semibold #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors"
           >
             Cancel
           </button>
@@ -312,7 +312,7 @@ function DeleteModal({ open, onClose, onConfirm, loading }: {
   );
 }
 
-// ─── Main Page ─────────────────────────────────────────────────────────────────
+//  Main Page 
 
 export default function ExpenseMonitoringPage() {
   const [expenses, setExpenses] = useState<ExpenseRecord[]>([]);
@@ -332,7 +332,7 @@ export default function ExpenseMonitoringPage() {
   const [deleteTarget, setDeleteTarget] = useState<ExpenseRecord | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  // ── Load ──────────────────────────────────────────────────────────────────
+  //  Load 
 
   const loadExpenses = async () => {
     try {
@@ -357,7 +357,7 @@ export default function ExpenseMonitoringPage() {
 
   useEffect(() => { loadExpenses(); }, []);
 
-  // ── Filter + Sort ─────────────────────────────────────────────────────────
+  //  Filter + Sort 
 
   const filtered = useMemo(() => {
     let list = [...expenses];
@@ -391,7 +391,7 @@ export default function ExpenseMonitoringPage() {
     else { setSortField(field); setSortDir('desc'); }
   };
 
-  // ── CRUD ──────────────────────────────────────────────────────────────────
+  //  CRUD 
 
   const handleAdd = async (data: ApiExpenseData) => {
     const res = await expenseApi.create(data);
@@ -425,58 +425,58 @@ export default function ExpenseMonitoringPage() {
 
   const SortIcon = ({ field }: { field: typeof sortField }) => (
     <span className="ml-1 inline-flex flex-col">
-      <FiArrowUp className={`w-2.5 h-2.5 -mb-0.5 ${sortField === field && sortDir === 'asc' ? 'text-[#A3876A]' : 'text-gray-300'}`} />
-      <FiArrowDown className={`w-2.5 h-2.5 ${sortField === field && sortDir === 'desc' ? 'text-[#A3876A]' : 'text-gray-300'}`} />
+      <FiArrowUp className={`w-2.5 h-2.5 -mb-0.5 ${sortField === field && sortDir === 'asc' ? 'text-[#F2DD50]' : 'text-gray-300'}`} />
+      <FiArrowDown className={`w-2.5 h-2.5 ${sortField === field && sortDir === 'desc' ? 'text-[#F2DD50]' : 'text-gray-300'}`} />
     </span>
   );
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  //  Render 
 
   return (
-    <div className="min-h-screen #F4F0EA dark:bg-gray-950 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen #FFFFFF dark:bg-gray-950 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
 
-        {/* ── Empty State ── */}
+        {/*  Empty State  */}
         {!loading && expenses.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24">
             {/* Illustration */}
             <div className="w-40 h-40 mb-8 relative">
-              <div className="absolute inset-0 #E3DDD2 dark:bg-[#15161C] rounded-full opacity-50" />
+              <div className="absolute inset-0 #F8FAFC dark:bg-[#15161C] rounded-full opacity-50" />
               <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-20 bg-white dark:bg-[#1C1D24] rounded-xl shadow-md flex flex-col justify-center px-4 gap-2">
                 <div className="h-2.5 w-16 bg-gray-200 dark:bg-[#22232C] rounded-full" />
-                <div className="h-2 w-12 #E3DDD2 dark:#F4F0EA0 rounded-full" />
-                <div className="h-2 w-14 #E3DDD2 dark:#F4F0EA0 rounded-full" />
-                <div className="h-2 w-10 #E3DDD2 dark:#F4F0EA0 rounded-full" />
+                <div className="h-2 w-12 #F8FAFC dark:#FFFFFF0 rounded-full" />
+                <div className="h-2 w-14 #F8FAFC dark:#FFFFFF0 rounded-full" />
+                <div className="h-2 w-10 #F8FAFC dark:#FFFFFF0 rounded-full" />
               </div>
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-5 bg-gray-300 dark:bg-[#22232C] rounded-lg" />
             </div>
-            <h2 className="text-2xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-2">Create Your First Expense</h2>
-            <p className="text-sm #6B7280 dark:text-[#44454F] text-center mb-8 max-w-xs">
+            <h2 className="text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-2">Create Your First Expense</h2>
+            <p className="text-sm #475569 dark:text-[#44454F] text-center mb-8 max-w-xs">
               Click on the create expense button and start managing your expense
             </p>
             <button
               onClick={() => setShowAdd(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-[#A3876A] text-white font-bold text-sm rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
+              className="flex items-center gap-2 px-6 py-3 bg-[#F2DD50] text-white font-bold text-sm rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
             >
               <FiPlus className="w-4 h-4" /> Add New Expense
             </button>
           </div>
         ) : (
           <>
-            {/* ── Header ── */}
+            {/*  Header  */}
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-xl font-bold #1A1C20 dark:text-[#EAE5DF]">
+              <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">
                 Expenses {!loading && `(${expenses.length})`}
               </h1>
               <button
                 onClick={() => setShowAdd(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-[#A3876A] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
               >
                 <FiPlus className="w-4 h-4" /> Add New Expense
               </button>
             </div>
 
-            {/* ── Filters Bar ── */}
+            {/*  Filters Bar  */}
             <div className="flex flex-wrap items-center gap-3 mb-5">
               {/* Search */}
               <div className="relative flex-1 min-w-[180px]">
@@ -486,7 +486,7 @@ export default function ExpenseMonitoringPage() {
                   placeholder="Search Expense..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1A1C20 dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#A3876A]/30 focus:border-[#A3876A]"
+                  className="w-full pl-9 pr-4 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm #1E293B dark:text-[#EAE5DF] focus:outline-none focus:ring-2 focus:ring-[#F2DD50]/30 focus:border-[#F2DD50]"
                 />
               </div>
 
@@ -495,7 +495,7 @@ export default function ExpenseMonitoringPage() {
                 <select
                   value={filterCategory}
                   onChange={e => setFilterCategory(e.target.value)}
-                  className="appearance-none pl-3 pr-8 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm text-gray-700 dark:text-[#C8C3BC] focus:outline-none focus:border-[#A3876A] cursor-pointer"
+                  className="appearance-none pl-3 pr-8 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm text-gray-700 dark:text-[#64748B] focus:outline-none focus:border-[#F2DD50] cursor-pointer"
                 >
                   <option value="">All Category</option>
                   {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -508,7 +508,7 @@ export default function ExpenseMonitoringPage() {
                 <select
                   value={filterPayment}
                   onChange={e => setFilterPayment(e.target.value)}
-                  className="appearance-none pl-3 pr-8 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm text-gray-700 dark:text-[#C8C3BC] focus:outline-none focus:border-[#A3876A] cursor-pointer"
+                  className="appearance-none pl-3 pr-8 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm text-gray-700 dark:text-[#64748B] focus:outline-none focus:border-[#F2DD50] cursor-pointer"
                 >
                   <option value="">All Payment Modes</option>
                   {PAYMENT_METHODS.map(m => <option key={m} value={m}>{m}</option>)}
@@ -522,7 +522,7 @@ export default function ExpenseMonitoringPage() {
                   type="date"
                   value={filterDate}
                   onChange={e => setFilterDate(e.target.value)}
-                  className="pl-3 pr-3 py-2 border #DDD7CC dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm text-gray-700 dark:text-[#C8C3BC] focus:outline-none focus:border-[#A3876A]"
+                  className="pl-3 pr-3 py-2 border #E2E8F0 dark:border-[#1C1D24] rounded-lg bg-white dark:bg-[#0D0E12] text-sm text-gray-700 dark:text-[#64748B] focus:outline-none focus:border-[#F2DD50]"
                 />
               </div>
 
@@ -537,17 +537,17 @@ export default function ExpenseMonitoringPage() {
               )}
 
               {/* Sort By */}
-              <div className="ml-auto flex items-center gap-1.5 text-sm #6B7280 dark:text-[#44454F]">
+              <div className="ml-auto flex items-center gap-1.5 text-sm #475569 dark:text-[#44454F]">
                 <span className="font-medium">Sort By</span>
                 <FiArrowUp className="w-3.5 h-3.5" />
               </div>
             </div>
 
-            {/* ── Table ── */}
-            <div className="bg-white dark:bg-[#0D0E12] border #DDD7CC dark:border-[#1C1D24] rounded-2xl overflow-hidden shadow-sm">
+            {/*  Table  */}
+            <div className="bg-white dark:bg-[#0D0E12] border #E2E8F0 dark:border-[#1C1D24] rounded-2xl overflow-hidden shadow-sm">
               {loading ? (
                 <div className="flex items-center justify-center py-20">
-                  <div className="w-8 h-8 border-4 border-[#A3876A]/30 border-t-[#A3876A] rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-4 border-[#F2DD50]/30 border-t-[#F2DD50] rounded-full animate-spin" />
                 </div>
               ) : filtered.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-16 text-gray-400">
@@ -558,7 +558,7 @@ export default function ExpenseMonitoringPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b #DDD7CC dark:border-[#1C1D24]">
+                      <tr className="border-b #E2E8F0 dark:border-[#1C1D24]">
                         {[
                           { label: 'Exp No.', field: 'expense_number' as const, w: 'w-24' },
                           { label: 'Category', field: null, w: 'w-36' },
@@ -571,7 +571,7 @@ export default function ExpenseMonitoringPage() {
                           <th
                             key={label}
                             onClick={() => field && toggleSort(field)}
-                            className={`px-5 py-4 text-left text-xs font-bold #6B7280 dark:text-[#44454F] uppercase tracking-wider ${w} ${field ? 'cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 select-none' : ''}`}
+                            className={`px-5 py-4 text-left text-xs font-bold #475569 dark:text-[#44454F] uppercase tracking-wider ${w} ${field ? 'cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 select-none' : ''}`}
                           >
                             <span className="flex items-center gap-0.5">
                               {label}
@@ -585,33 +585,33 @@ export default function ExpenseMonitoringPage() {
                       {filtered.map((expense) => (
                         <tr
                           key={expense.id}
-                          className="hover:#F4F0EA dark:hover:bg-gray-800/50 transition-colors group"
+                          className="hover:#FFFFFF dark:hover:bg-gray-800/50 transition-colors group"
                         >
-                          <td className="px-5 py-4 text-sm text-gray-700 dark:text-[#C8C3BC] font-medium">
+                          <td className="px-5 py-4 text-sm text-gray-700 dark:text-[#64748B] font-medium">
                             {expense.expense_number}
                           </td>
                           <td className="px-5 py-4">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#F5F0E6] dark:bg-[#A3876A]/15 text-[#8E7356] dark:text-blue-300">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#8E7356] dark:text-blue-300">
                               {expense.category}
                             </span>
                           </td>
-                          <td className="px-5 py-4 text-sm #6B7280 dark:text-[#44454F]">
+                          <td className="px-5 py-4 text-sm #475569 dark:text-[#44454F]">
                             {fmtDate(expense.date)}
                           </td>
-                          <td className="px-5 py-4 text-sm #6B7280 dark:text-[#44454F]">
+                          <td className="px-5 py-4 text-sm #475569 dark:text-[#44454F]">
                             {expense.payment_method}
                           </td>
-                          <td className="px-5 py-4 text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">
+                          <td className="px-5 py-4 text-sm font-bold #1E293B dark:text-[#EAE5DF]">
                             {fmt(expense.amount)}
                           </td>
-                          <td className="px-5 py-4 text-sm #6B7280 dark:text-[#44454F] max-w-[180px] truncate">
-                            {expense.description || '—'}
+                          <td className="px-5 py-4 text-sm #475569 dark:text-[#44454F] max-w-[180px] truncate">
+                            {expense.description || ''}
                           </td>
                           <td className="px-5 py-4">
                             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <button
                                 onClick={() => setEditTarget(expense)}
-                                className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/15 transition-colors"
+                                className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 transition-colors"
                               >
                                 <FiEdit2 className="w-3.5 h-3.5" />
                               </button>
@@ -641,12 +641,12 @@ export default function ExpenseMonitoringPage() {
         )}
       </div>
 
-      {/* ── Add Modal ── */}
+      {/*  Add Modal  */}
       <Modal open={showAdd} onClose={() => setShowAdd(false)} title="Add Expense">
         <ExpenseForm mode="add" onSave={handleAdd} onClose={() => setShowAdd(false)} />
       </Modal>
 
-      {/* ── Edit Modal ── */}
+      {/*  Edit Modal  */}
       <Modal open={!!editTarget} onClose={() => setEditTarget(null)} title="Edit Expense">
         {editTarget && (
           <ExpenseForm
@@ -658,7 +658,7 @@ export default function ExpenseMonitoringPage() {
         )}
       </Modal>
 
-      {/* ── Delete Modal ── */}
+      {/*  Delete Modal  */}
       <DeleteModal
         open={!!deleteTarget}
         onClose={() => setDeleteTarget(null)}

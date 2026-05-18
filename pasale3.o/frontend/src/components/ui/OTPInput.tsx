@@ -69,9 +69,9 @@ export const OTPInput: React.FC<OTPInputProps> = ({
               w-12 h-12 text-center text-xl font-semibold
               border-2 rounded-lg
               bg-white dark:bg-[#15161C]
-              #1A1C20 dark:text-[#EAE5DF]
+              #1E293B dark:text-[#EAE5DF]
               border-gray-300 dark:border-[#2A2B36]
-              focus:outline-none focus:ring-2 focus:ring-[#A3876A] focus:border-transparent
+              focus:outline-none focus:ring-2 focus:ring-[#F2DD50] focus:border-transparent
               transition-all
               ${error ? 'border-red-500 dark:border-red-500' : ''}
             `}

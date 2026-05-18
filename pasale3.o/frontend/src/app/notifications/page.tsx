@@ -23,7 +23,7 @@ export default function NotificationsPage() {
       case 'error':
         return <FiXCircle className={`${iconClass} text-red-500`} />;
       default:
-        return <FiInfo className={`${iconClass} text-[#A3876A]`} />;
+        return <FiInfo className={`${iconClass} text-[#F2DD50]`} />;
     }
   };
 
@@ -42,21 +42,21 @@ export default function NotificationsPage() {
   ];
 
   return (
-    <div className="min-h-screen #F4F0EA dark:bg-[#0D0E12] pt-4 pb-6 sm:pb-8">
+    <div className="min-h-screen #FFFFFF dark:bg-[#0D0E12] pt-4 pb-6 sm:pb-8">
       <div className="max-w-1600px mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pb-4 mb-4 sm:mb-6">
-          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#15161C] border #DDD7CC dark:border-[#1C1D24] shadow-sm hover:shadow-md transition-all duration-300 cursor-default flex-1">
+          <div className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#15161C] border #E2E8F0 dark:border-[#1C1D24] shadow-sm hover:shadow-md transition-all duration-300 cursor-default flex-1">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center shadow-sm border border-amber-100 dark:border-amber-800/30 group-hover:scale-110 transition-transform duration-300">
               <FiBell className="w-6 h-6 sm:w-7 sm:h-7 text-amber-600 dark:text-amber-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold #1A1C20 dark:text-[#EAE5DF] flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold #1E293B dark:text-[#EAE5DF] flex items-center gap-2">
                 {t('notifications.title')}
                 <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
                   {n(notifications.filter(n => !n.read).length)} {t('notifications.unread') || 'Unread'}
                 </span>
               </h1>
-              <p className="text-xs sm:text-sm #6B7280 dark:text-[#44454F] mt-0.5">
+              <p className="text-xs sm:text-sm #475569 dark:text-[#44454F] mt-0.5">
                 {t('notifications.description')}
               </p>
             </div>
@@ -77,8 +77,8 @@ export default function NotificationsPage() {
               className={`
                 whitespace-nowrap px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 shrink-0
                 ${filter === tab.id
-                  ? 'bg-[#A3876A] text-white shadow-md'
-                  : 'bg-white dark:bg-[#15161C] #6B7280 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700 border #DDD7CC dark:border-[#1C1D24]'}
+                  ? 'bg-[#F2DD50] text-white shadow-md'
+                  : 'bg-white dark:bg-[#15161C] #475569 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700 border #E2E8F0 dark:border-[#1C1D24]'}
               `}
             >
               {tab.label}
@@ -88,11 +88,11 @@ export default function NotificationsPage() {
 
         {filteredNotifications.length === 0 ? (
           <Card className="py-12 sm:py-20 text-center flex flex-col items-center justify-center border border-dashed border-gray-300 dark:border-[#1C1D24]">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 #F4F0EA dark:bg-[#1C1D24]/50 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-              <FiFilter className="w-8 h-8 sm:w-10 sm:h-10 text-gray-300 dark:#6B7280" />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 #FFFFFF dark:bg-[#1C1D24]/50 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+              <FiFilter className="w-8 h-8 sm:w-10 sm:h-10 text-gray-300 dark:#475569" />
             </div>
-            <h3 className="text-base sm:text-lg font-semibold #1A1C20 dark:text-[#EAE5DF] mb-1">No notifications found</h3>
-            <p className="text-sm #6B7280 dark:text-[#44454F] mb-3 sm:mb-4 px-4">We couldn't find any notifications matching your current filter.</p>
+            <h3 className="text-base sm:text-lg font-semibold #1E293B dark:text-[#EAE5DF] mb-1">No notifications found</h3>
+            <p className="text-sm #475569 dark:text-[#44454F] mb-3 sm:mb-4 px-4">We couldn't find any notifications matching your current filter.</p>
             {filter !== 'all' && (
               <Button variant="outline" size="sm" onClick={() => setFilter('all')}>
                 Clear filters
@@ -108,19 +108,19 @@ export default function NotificationsPage() {
                 className={`
                   group relative overflow-hidden p-3 sm:p-5 transition-all duration-200 cursor-pointer
                   ${!notification.read
-                    ? 'border-[#A3876A]/30 dark:border-blue-900 shadow-sm'
-                    : '#F4F0EA/50 dark:bg-[#15161C]/30 #DDD7CC dark:border-[#1C1D24]/50 opacity-90'}
+                    ? 'border-[#F2DD50]/30 dark:border-blue-900 shadow-sm'
+                    : '#FFFFFF/50 dark:bg-[#15161C]/30 #E2E8F0 dark:border-[#1C1D24]/50 opacity-90'}
                    hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700/50
                 `}
               >
                 {!notification.read && (
-                  <div className="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#A3876A] rounded-bl-lg"></div>
+                  <div className="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#F2DD50] rounded-bl-lg"></div>
                 )}
 
                 <div className="flex gap-3 sm:gap-5">
                   <div className={`
                       w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shrink-0
-                      ${!notification.read ? 'bg-[#F5F0E6] dark:bg-[#A3876A]/15' : '#E3DDD2 dark:bg-[#1C1D24]/30'}
+                      ${!notification.read ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/15' : '#F8FAFC dark:bg-[#1C1D24]/30'}
                   `}>
                     {getIcon(notification.type)}
                   </div>
@@ -128,10 +128,10 @@ export default function NotificationsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <h3 className={`text-sm sm:text-base font-semibold mb-0.5 sm:mb-1 truncate ${!notification.read ? '#1A1C20 dark:text-[#EAE5DF]' : 'text-gray-700 dark:text-[#C8C3BC]'}`}>
+                        <h3 className={`text-sm sm:text-base font-semibold mb-0.5 sm:mb-1 truncate ${!notification.read ? '#1E293B dark:text-[#EAE5DF]' : 'text-gray-700 dark:text-[#64748B]'}`}>
                           {notification.title}
                         </h3>
-                        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs #6B7280 dark:text-[#44454F] mb-1.5 sm:mb-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs #475569 dark:text-[#44454F] mb-1.5 sm:mb-2">
                           <FiClock className="w-3 h-3" />
                           <span>{formatDate(notification.date, language)}</span>
                         </div>
@@ -147,7 +147,7 @@ export default function NotificationsPage() {
                       </button>
                     </div>
 
-                    <p className="#6B7280 dark:text-[#44454F] text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-none">
+                    <p className="#475569 dark:text-[#44454F] text-xs sm:text-sm leading-relaxed line-clamp-2 sm:line-clamp-none">
                       {notification.message}
                     </p>
                   </div>

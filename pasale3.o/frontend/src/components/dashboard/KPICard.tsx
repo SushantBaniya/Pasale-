@@ -30,31 +30,31 @@ export const KPICard: React.FC<KPICardProps> = ({
   const { c, n, language } = useTranslation();
 
   const iconBgColors: Record<string, string> = {
-    green: 'bg-[#3A7A5A]/10 dark:bg-[#4CAF82]/20',
-    emerald: 'bg-[#3A7A5A]/10 dark:bg-[#4CAF82]/20',
-    blue: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
-    sky: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
-    red: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
-    rose: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
-    purple: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
-    orange: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
-    amber: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
-    teal: 'bg-[#3A7A5A]/10 dark:bg-[#4CAF82]/20',
-    indigo: 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20',
+    green: 'bg-[#10B981]/10 dark:bg-[#4CAF82]/20',
+    emerald: 'bg-[#10B981]/10 dark:bg-[#4CAF82]/20',
+    blue: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
+    sky: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
+    red: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
+    rose: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
+    purple: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
+    orange: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
+    amber: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
+    teal: 'bg-[#10B981]/10 dark:bg-[#4CAF82]/20',
+    indigo: 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20',
   };
 
   const iconColors: Record<string, string> = {
-    green: 'text-[#3A7A5A] dark:text-[#4CAF82]',
-    emerald: 'text-[#3A7A5A] dark:text-[#4CAF82]',
-    blue: 'text-[#A3876A] dark:text-[#A3876A]',
-    sky: 'text-[#A3876A] dark:text-[#A3876A]',
-    red: 'text-[#A3876A] dark:text-[#A3876A]',
-    rose: 'text-[#A3876A] dark:text-[#A3876A]',
-    purple: 'text-[#A3876A] dark:text-[#A3876A]',
-    orange: 'text-[#A3876A] dark:text-[#A3876A]',
-    amber: 'text-[#A3876A] dark:text-[#A3876A]',
-    teal: 'text-[#3A7A5A] dark:text-[#4CAF82]',
-    indigo: 'text-[#A3876A] dark:text-[#A3876A]',
+    green: 'text-[#10B981] dark:text-[#4CAF82]',
+    emerald: 'text-[#10B981] dark:text-[#4CAF82]',
+    blue: 'text-[#F2DD50] dark:text-[#F2DD50]',
+    sky: 'text-[#F2DD50] dark:text-[#F2DD50]',
+    red: 'text-[#F2DD50] dark:text-[#F2DD50]',
+    rose: 'text-[#F2DD50] dark:text-[#F2DD50]',
+    purple: 'text-[#F2DD50] dark:text-[#F2DD50]',
+    orange: 'text-[#F2DD50] dark:text-[#F2DD50]',
+    amber: 'text-[#F2DD50] dark:text-[#F2DD50]',
+    teal: 'text-[#10B981] dark:text-[#4CAF82]',
+    indigo: 'text-[#F2DD50] dark:text-[#F2DD50]',
   };
 
   const formatValue = (val: string | number): string => {
@@ -77,36 +77,36 @@ export const KPICard: React.FC<KPICardProps> = ({
     <Card
       onClick={onClick}
       noPadding
-      className={`group relative p-4 sm:p-5 lg:p-6 border border-[#DDD7CC] dark:border-[#1C1D24]/50 
-        bg-[#E3DDD2] dark:bg-[#15161C] 
+      className={`group relative p-4 sm:p-5 lg:p-6 border border-[#E2E8F0] dark:border-[#1C1D24]/50 
+        bg-[#FFFFFF] dark:bg-[#15161C] 
         rounded-2xl shadow-xs hover:shadow-lg
         transform hover:-translate-y-1 hover:scale-[1.01]
         transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
         overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
     >
       {/* Decorative left accent edge */}
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#A3876A] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#F2DD50] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       {/* Decorative top right glow */}
-      <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 bg-[#A3876A]/30" />
+      <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 bg-[#F2DD50]/30" />
 
       {/* Hover gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#E3DDD2]/50 dark:to-gray-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#F8FAFC]/50 dark:to-gray-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
       <div className="relative flex flex-col h-full justify-between">
         {/* Header with icon and title */}
         <div className="flex items-start justify-between mb-4">
-          <p className="text-sm font-medium text-[#6B7280] dark:text-[#44454F] tracking-wide mt-1">
+          <p className="text-sm font-medium text-[#475569] dark:text-[#44454F] tracking-wide mt-1">
             {title}
           </p>
-          <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full ${iconBgColors[borderColor]} flex items-center justify-center ${iconColors[borderColor]} ring-4 ring-[#E3DDD2] dark:ring-[#1C1D24] shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shrink-0`}>
+          <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full ${iconBgColors[borderColor]} flex items-center justify-center ${iconColors[borderColor]} ring-4 ring-[#F8FAFC] dark:ring-[#1C1D24] shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 shrink-0`}>
             {icon || getDefaultIcon()}
           </div>
         </div>
 
         {/* Value and Arrow */}
         <div className="flex items-end justify-between mb-1">
-          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1A1C20] dark:text-[#EAE5DF] tracking-tight transition-transform duration-300 group-hover:translate-x-1">
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1E293B] dark:text-[#EAE5DF] tracking-tight transition-transform duration-300 group-hover:translate-x-1">
             {formatValue(value)}
           </h3>
           {onClick && (
@@ -119,8 +119,8 @@ export const KPICard: React.FC<KPICardProps> = ({
         {/* Change indicator & Subtitle */}
         <div className="mt-3 flex items-center justify-between">
           {change !== undefined ? (
-            <div className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium ${changeType === 'positive' ? 'text-[#3A7A5A] dark:text-[#4CAF82]' : 'text-[#A3876A] dark:text-[#A3876A]'}`}>
-              <span className={`inline-flex items-center justify-center p-1 rounded-full ${changeType === 'positive' ? 'bg-[#3A7A5A]/10 dark:bg-[#4CAF82]/20 text-[#3A7A5A]' : 'bg-[#A3876A]/10 dark:bg-[#A3876A]/20 text-[#A3876A]'}`}>
+            <div className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium ${changeType === 'positive' ? 'text-[#10B981] dark:text-[#4CAF82]' : 'text-[#F2DD50] dark:text-[#F2DD50]'}`}>
+              <span className={`inline-flex items-center justify-center p-1 rounded-full ${changeType === 'positive' ? 'bg-[#10B981]/10 dark:bg-[#4CAF82]/20 text-[#10B981]' : 'bg-[#F2DD50]/10 dark:bg-[#F2DD50]/20 text-[#F2DD50]'}`}>
                 {changeType === 'positive' ? <FiTrendingUp className="w-3 h-3" /> : <FiTrendingDown className="w-3 h-3" />}
               </span>
               <span>{n(Math.abs(change))}% {changeType === 'positive' ? 'increase' : 'decrease'}</span>
@@ -130,7 +130,7 @@ export const KPICard: React.FC<KPICardProps> = ({
           )}
 
           {subtitle && (
-            <p className="text-[11px] sm:text-xs text-[#6B7280] dark:#6B7280 font-medium truncate ml-2">
+            <p className="text-[11px] sm:text-xs text-[#475569] dark:#475569 font-medium truncate ml-2">
               {subtitle}
             </p>
           )}

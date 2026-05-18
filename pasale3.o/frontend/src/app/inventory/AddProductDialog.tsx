@@ -140,7 +140,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
         display: 'flex', flexDirection: 'column',
       }}>
 
-        {/* ── Header ── */}
+        {/*  Header  */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px 16px' }}>
           <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#111827' }}>
             {isEdit ? 'Edit Item' : 'Add New Item'}
@@ -157,14 +157,14 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
           </button>
         </div>
 
-        {/* ── Body ── */}
+        {/*  Body  */}
         <form onSubmit={handleSubmit} style={{ overflowY: 'auto', flex: 1 }}>
           <div style={{ padding: '0 28px 24px', display: 'flex', flexDirection: 'column', gap: 20 }}>
 
             {/* Item Name */}
             <div>
               <label style={labelStyle}>
-                Item Name <span style={{ color: '#A3876A' }}>*</span>
+                Item Name <span style={{ color: '#F2DD50' }}>*</span>
               </label>
               <input
                 type="text"
@@ -239,7 +239,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
               </div>
               <div>
                 <label style={labelStyle}>
-                  Selling Price <span style={{ color: '#A3876A' }}>*</span>
+                  Selling Price <span style={{ color: '#F2DD50' }}>*</span>
                 </label>
                 <input
                   type="number"
@@ -292,7 +292,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
             )}
           </div>
 
-          {/* ── Footer ── */}
+          {/*  Footer  */}
           <div style={{
             padding: '16px 28px 24px',
             display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12,
@@ -336,7 +336,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({
   );
 };
 
-/* ── Shared styles ── */
+/*  Shared styles  */
 const labelStyle: React.CSSProperties = {
   display: 'block',
   fontSize: 13,

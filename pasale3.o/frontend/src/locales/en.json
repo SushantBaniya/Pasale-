@@ -1,4 +1,4 @@
-{
+﻿{
   "welcome": {
     "title": "Welcome to Pasale",
     "subtitle": "Your complete business management solution",
@@ -357,7 +357,7 @@
     "scanOrSelectProducts": "Scan or select products to add",
     "checkout": "Checkout",
     "completeSale": "Complete Sale",
-    "scanProducts": "Scan products or select from grid • Press F2 to scan",
+    "scanProducts": "Scan products or select from grid  Press F2 to scan",
     "help": "Help",
     "eBillingHelp": "E-Billing Help",
     "quickTips": "Quick Tips",
@@ -918,7 +918,7 @@
     "aboutTitle": "About Pasale",
     "aboutContent": "Pasale is a comprehensive business management solution designed specifically for businesses in Nepal. Our mission is to simplify business operations and help you grow.",
     "version": "Version",
-    "madeWith": "Made with ❤️ in Nepal",
+    "madeWith": "Made with ️ in Nepal",
     "deleteAccount": "Delete Account",
     "logout": "Logout",
     "logoutConfirm": "Are you sure you want to logout?",

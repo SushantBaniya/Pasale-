@@ -129,10 +129,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center #F4F0EA dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center #FFFFFF dark:bg-[#0D0E12] p-3 sm:p-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-20 sm:-top-40 -right-20 sm:-right-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-[#A3876A]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-20 sm:-top-40 -right-20 sm:-right-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-[#F2DD50]/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-20 sm:-bottom-40 -left-20 sm:-left-40 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
       </div>
 
@@ -145,17 +145,17 @@ export default function LoginPage() {
       <div className={`w-full max-w-md transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         {/* Logo */}
         <div className="text-center mb-5 sm:mb-6 lg:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-black text-[#A3876A] dark:text-[#A3876A]">Pasale</h1>
-          <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F] mt-1.5 sm:mt-2">{t('welcome.subtitle')}</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-[#F2DD50] dark:text-[#F2DD50]">Pasale</h1>
+          <p className="text-sm sm:text-base #475569 dark:text-[#44454F] mt-1.5 sm:mt-2">{t('welcome.subtitle')}</p>
         </div>
 
-        <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border #DDD7CC dark:border-[#1C1D24]">
+        <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border #E2E8F0 dark:border-[#1C1D24]">
           <>
               <div className="text-center mb-5 sm:mb-6 lg:mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold #1A1C20 dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                   {t('login.title')}
                 </h2>
-                <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
+                <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
                   {t('login.subtitle')}
                 </p>
               </div>
@@ -170,7 +170,7 @@ export default function LoginPage() {
 
               <form onSubmit={handleCredentialsSubmit} className="space-y-4 sm:space-y-5">
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('profile.email')}
                   </label>
                   <div className="relative">
@@ -183,8 +183,8 @@ export default function LoginPage() {
                       className={`w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.email 
                           ? 'border-red-500 focus:border-red-500' 
-                          : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
-                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
+                          : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
+                      } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                   </div>
                   {errors.email && (
@@ -193,7 +193,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] mb-1.5 sm:mb-2">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('login.password')}
                   </label>
                   <div className="relative">
@@ -202,17 +202,17 @@ export default function LoginPage() {
                       type={showPassword ? 'text' : 'password'}
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      placeholder="••••••••"
+                      placeholder=""
                       className={`w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-3.5 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 ${
                         errors.password 
                           ? 'border-red-500 focus:border-red-500' 
-                          : '#DDD7CC dark:border-[#2A2B36] focus:border-[#A3876A]'
-                      } bg-white dark:bg-[#1C1D24] #1A1C20 dark:text-[#EAE5DF] focus:outline-none transition-colors`}
+                          : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
+                      } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#6B7280 dark:hover:text-gray-300"
+                      className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:#475569 dark:hover:text-gray-300"
                     >
                       {showPassword ? <FiEyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <FiEye className="w-4 h-4 sm:w-5 sm:h-5" />}
                     </button>
@@ -224,12 +224,12 @@ export default function LoginPage() {
 
                 <div className="flex items-center justify-between gap-2">
                   <label className="flex items-center gap-1.5 sm:gap-2 cursor-pointer">
-                    <input type="checkbox" className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded border-gray-300 text-[#A3876A] focus:ring-[#A3876A]" />
-                    <span className="text-xs sm:text-sm #6B7280 dark:text-[#44454F]">{t('login.rememberMe')}</span>
+                    <input type="checkbox" className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded border-gray-300 text-[#F2DD50] focus:ring-[#F2DD50]" />
+                    <span className="text-xs sm:text-sm #475569 dark:text-[#44454F]">{t('login.rememberMe')}</span>
                   </label>
                   <Link 
                     to="/forgot-password"
-                    className="text-xs sm:text-sm font-semibold text-[#A3876A] dark:text-[#A3876A] hover:text-[#8E7356] dark:hover:text-[#A3876A]"
+                    className="text-xs sm:text-sm font-semibold text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
                   >
                     {t('login.forgotPassword')}
                   </Link>
@@ -237,7 +237,7 @@ export default function LoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#A3876A] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -252,11 +252,11 @@ export default function LoginPage() {
               </form>
 
               <div className="mt-6 sm:mt-8 text-center">
-                <p className="text-sm sm:text-base #6B7280 dark:text-[#44454F]">
+                <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
                   {t('login.noAccount')}{' '}
                   <Link 
                     to="/welcome"
-                    className="font-semibold text-[#A3876A] dark:text-[#A3876A] hover:text-[#8E7356] dark:hover:text-[#A3876A]"
+                    className="font-semibold text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
                   >
                     {t('login.signUp')}
                   </Link>

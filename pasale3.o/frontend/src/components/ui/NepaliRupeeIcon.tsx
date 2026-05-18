@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useSettingsStore } from '../../store/settingsStore';
 
 interface NepaliRupeeIconProps {
@@ -13,7 +13,7 @@ export const NepaliRupeeIcon: React.FC<NepaliRupeeIconProps> = ({ className = ''
   const { general } = useSettingsStore();
   const currencySymbols: Record<string, string> = {
     'NPR': 'रु',
-    'INR': '₹',
+    'INR': '',
     'USD': '$'
   };
 

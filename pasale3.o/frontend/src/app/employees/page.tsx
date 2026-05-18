@@ -274,7 +274,7 @@ const MOCK_EMPLOYEES = [
   },
 ];
 const DEPT_COLORS = {
-  Operations: { bg: "#eff6ff", text: "#6B5340", dot: "#A3876A" },
+  Operations: { bg: "#eff6ff", text: "#6B5340", dot: "#F2DD50" },
   Sales: { bg: "#f0fdf4", text: "#15803d", dot: "#22c55e" },
   Inventory: { bg: "#fefce8", text: "#a16207", dot: "#eab308" },
   Finance: { bg: "#fdf2f8", text: "#9d174d", dot: "#ec4899" },
@@ -291,10 +291,10 @@ const STATUS_COLORS = {
 const getInitials = (name) =>
   name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) || "??";
 
-const AVATAR_COLORS = ["#A3876A", "#6B5340", "#ec4899", "#22c55e", "#f59e0b", "#6366f1", "#06b6d4", "#3A7A5A"];
+const AVATAR_COLORS = ["#F2DD50", "#6B5340", "#ec4899", "#22c55e", "#f59e0b", "#6366f1", "#06b6d4", "#10B981"];
 const avatarGrad = (id) => AVATAR_COLORS[(id - 1) % AVATAR_COLORS.length];
 
-// ─── ICONS ────────────────────────────────────────────────────────────────────
+//  ICONS 
 const Icon = ({ d, size = 16, stroke = "currentColor", fill = "none" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={stroke} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <path d={d} />
@@ -321,7 +321,7 @@ const ICONS = {
   warning: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z M12 9v4 M12 17h.01",
 };
 
-// ─── TOAST ────────────────────────────────────────────────────────────────────
+//  TOAST 
 function Toast({ toasts, remove }) {
   return (
     <div style={{ position: "fixed", top: 20, right: 20, zIndex: 9999, display: "flex", flexDirection: "column", gap: 8 }}>
@@ -354,18 +354,18 @@ function useToast() {
   return { toasts, add, remove };
 }
 
-// ─── STAT CARD ────────────────────────────────────────────────────────────────
+//  STAT CARD 
 function StatCard({ label, value, sub }) {
   return (
-    <div className="#F4F0EA dark:bg-[#15161C] rounded-xl p-4 border #DDD7CC dark:border-[#1C1D24] transition-colors">
-      <div className="text-[11px] text-gray-400 dark:#6B7280 font-semibold uppercase tracking-wider mb-1.5">{label}</div>
-      <div className="text-2xl font-bold #1A1C20 dark:text-[#EAE5DF] leading-tight">{value}</div>
-      {sub && <div className="text-xs text-gray-400 dark:#6B7280 mt-1">{sub}</div>}
+    <div className="#FFFFFF dark:bg-[#15161C] rounded-xl p-4 border #E2E8F0 dark:border-[#1C1D24] transition-colors">
+      <div className="text-[11px] text-gray-400 dark:#475569 font-semibold uppercase tracking-wider mb-1.5">{label}</div>
+      <div className="text-2xl font-bold #1E293B dark:text-[#EAE5DF] leading-tight">{value}</div>
+      {sub && <div className="text-xs text-gray-400 dark:#475569 mt-1">{sub}</div>}
     </div>
   );
 }
 
-// ─── EMPLOYEE CARD ────────────────────────────────────────────────────────────
+//  EMPLOYEE CARD 
 function EmployeeCard({ emp, onEdit, onDelete, onView }) {
   const statusName = typeof emp.status === "string" ? emp.status : emp.status?.name || "Active";
   const deptName = typeof emp.department === "string" ? emp.department : emp.department?.name || emp.department;
@@ -373,7 +373,7 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
   const deptColor = DEPT_COLORS[deptName] || DEPT_COLORS.default;
 
   return (
-    <div className="bg-white dark:bg-[#15161C] rounded-[14px] border #DDD7CC dark:border-[#1C1D24] overflow-hidden transition-all hover:shadow-md hover:#DDD7CC dark:hover:border-gray-600 group flex flex-col h-full">
+    <div className="bg-white dark:bg-[#15161C] rounded-[14px] border #E2E8F0 dark:border-[#1C1D24] overflow-hidden transition-all hover:shadow-md hover:#E2E8F0 dark:hover:border-gray-600 group flex flex-col h-full">
       <div className="p-4 flex-1">
         {/* Header row */}
         <div className="flex items-start justify-between gap-2 mb-3.5">
@@ -383,8 +383,8 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
               {getInitials(emp.name)}
             </div>
             <div>
-              <div className="font-semibold text-sm #1A1C20 dark:text-[#EAE5DF]">{emp.name}</div>
-              <div className="text-xs #6B7280 dark:text-[#44454F] mt-0.5">{emp.position}</div>
+              <div className="font-semibold text-sm #1E293B dark:text-[#EAE5DF]">{emp.name}</div>
+              <div className="text-xs #475569 dark:text-[#44454F] mt-0.5">{emp.position}</div>
             </div>
           </div>
           <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
@@ -395,11 +395,11 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
 
         {/* Info rows */}
         <div className="flex flex-col gap-1.5">
-          <div className="text-xs #6B7280 dark:text-[#44454F] flex items-center gap-2">
+          <div className="text-xs #475569 dark:text-[#44454F] flex items-center gap-2">
             <Icon d={ICONS.mail} size={12} />
             <span className="truncate">{emp.email}</span>
           </div>
-          <div className="text-xs #6B7280 dark:text-[#44454F] flex items-center gap-2">
+          <div className="text-xs #475569 dark:text-[#44454F] flex items-center gap-2">
             <Icon d={ICONS.phone} size={12} />
             {emp.phone_no}
           </div>
@@ -417,33 +417,33 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
 
       {/* Action bar */}
       <div className="border-t border-gray-50 dark:border-[#1C1D24]/50 flex shrink-0">
-        <button onClick={() => onView(emp)} className="flex-1 py-2.5 text-xs font-semibold text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/15 transition-colors">View</button>
-        <button onClick={() => onEdit(emp)} className="flex-1 py-2.5 text-xs font-semibold #6B7280 dark:text-[#44454F] border-l border-gray-50 dark:border-[#1C1D24]/50 hover:#F4F0EA dark:hover:bg-gray-700/50 transition-colors">Edit</button>
+        <button onClick={() => onView(emp)} className="flex-1 py-2.5 text-xs font-semibold text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 transition-colors">View</button>
+        <button onClick={() => onEdit(emp)} className="flex-1 py-2.5 text-xs font-semibold #475569 dark:text-[#44454F] border-l border-gray-50 dark:border-[#1C1D24]/50 hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Edit</button>
         <button onClick={() => onDelete(emp)} className="flex-1 py-2.5 text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border-l border-gray-50 dark:border-[#1C1D24]/50 transition-colors">Remove</button>
       </div>
     </div>
   );
 }
 
-// ─── EMPLOYEE ROW (list view) ─────────────────────────────────────────────────
+//  EMPLOYEE ROW (list view) 
 function EmployeeRow({ emp, onEdit, onDelete, onView }) {
   const statusName = typeof emp.status === "string" ? emp.status : emp.status?.name || "Active";
   const deptName = typeof emp.department === "string" ? emp.department : emp.department?.name || emp.department;
   const statusColor = STATUS_COLORS[statusName] || STATUS_COLORS.Active;
   const deptColor = DEPT_COLORS[deptName] || DEPT_COLORS.default;
   return (
-    <tr className="border-b #DDD7CC dark:border-[#1C1D24]/50 transition-colors hover:#F4F0EA dark:hover:bg-gray-800/50 group">
+    <tr className="border-b #E2E8F0 dark:border-[#1C1D24]/50 transition-colors hover:#FFFFFF dark:hover:bg-gray-800/50 group">
       <td className="px-4 py-3.5">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-[9px] flex items-center justify-center text-white font-semibold text-xs shrink-0"
                style={{ background: avatarGrad(emp.id) }}>{getInitials(emp.name)}</div>
           <div>
-            <div className="font-semibold text-[13px] #1A1C20 dark:text-[#EAE5DF]">{emp.name}</div>
-            <div className="text-xs text-gray-400 dark:#6B7280">{emp.email}</div>
+            <div className="font-semibold text-[13px] #1E293B dark:text-[#EAE5DF]">{emp.name}</div>
+            <div className="text-xs text-gray-400 dark:#475569">{emp.email}</div>
           </div>
         </div>
       </td>
-      <td className="px-4 py-3.5 text-[13px] #6B7280 dark:text-[#44454F]">{emp.position}</td>
+      <td className="px-4 py-3.5 text-[13px] #475569 dark:text-[#44454F]">{emp.position}</td>
       <td className="px-4 py-3.5">
         {deptName && (
           <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
@@ -452,9 +452,9 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
           </span>
         )}
       </td>
-      <td className="px-4 py-3.5 text-[13px] #6B7280 dark:text-[#44454F]">{emp.phone_no}</td>
-      <td className="px-4 py-3.5 text-[13px] #1A1C20 dark:text-[#EAE5DF] font-semibold">
-        NPR {emp.salary ? Number(emp.salary).toLocaleString() : "—"}
+      <td className="px-4 py-3.5 text-[13px] #475569 dark:text-[#44454F]">{emp.phone_no}</td>
+      <td className="px-4 py-3.5 text-[13px] #1E293B dark:text-[#EAE5DF] font-semibold">
+        NPR {emp.salary ? Number(emp.salary).toLocaleString() : ""}
       </td>
       <td className="px-4 py-3.5">
         <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
@@ -464,8 +464,8 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
       </td>
       <td className="px-4 py-3.5">
         <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button onClick={() => onView(emp)} className="p-1.5 rounded text-[#A3876A] hover:bg-[#F5F0E6] dark:hover:bg-[#A3876A]/20 transition-colors" title="View"><Icon d={ICONS.users} size={14} /></button>
-          <button onClick={() => onEdit(emp)} className="p-1.5 rounded #6B7280 dark:text-[#44454F] hover:#E3DDD2 dark:hover:bg-gray-700 transition-colors" title="Edit"><Icon d={ICONS.edit} size={14} /></button>
+          <button onClick={() => onView(emp)} className="p-1.5 rounded text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/20 transition-colors" title="View"><Icon d={ICONS.users} size={14} /></button>
+          <button onClick={() => onEdit(emp)} className="p-1.5 rounded #475569 dark:text-[#44454F] hover:#F8FAFC dark:hover:bg-gray-700 transition-colors" title="Edit"><Icon d={ICONS.edit} size={14} /></button>
           <button onClick={() => onDelete(emp)} className="p-1.5 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="Delete"><Icon d={ICONS.trash} size={14} /></button>
         </div>
       </td>
@@ -478,7 +478,7 @@ const rowBtn = (color) => ({
   cursor: "pointer", color, display: "flex", alignItems: "center", transition: "background .15s",
 });
 
-// ─── FORM FIELD ───────────────────────────────────────────────────────────────
+//  FORM FIELD 
 interface FieldProps {
   label: string;
   name: string;
@@ -491,15 +491,15 @@ interface FieldProps {
 }
 
 function Field({ label, name, value, onChange, type = "text", options, required, placeholder }: FieldProps) {
-  const baseClassName = "w-full px-3 py-2.5 rounded-lg text-[13px] border #DDD7CC dark:border-[#1C1D24] #F4F0EA dark:bg-[#0D0E12]/50 outline-none #1A1C20 dark:text-[#EAE5DF] transition-colors focus:border-[#A3876A] dark:focus:border-[#A3876A] focus:bg-white dark:focus:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500";
+  const baseClassName = "w-full px-3 py-2.5 rounded-lg text-[13px] border #E2E8F0 dark:border-[#1C1D24] #FFFFFF dark:bg-[#0D0E12]/50 outline-none #1E293B dark:text-[#EAE5DF] transition-colors focus:border-[#F2DD50] dark:focus:border-[#F2DD50] focus:bg-white dark:focus:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500";
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-semibold text-gray-700 dark:text-[#C8C3BC]">
+      <label className="text-xs font-semibold text-gray-700 dark:text-[#64748B]">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {options ? (
         <select name={name} value={value} onChange={onChange} className={baseClassName}>
-          <option value="">— Select —</option>
+          <option value=""> Select </option>
           {options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
       ) : (
@@ -511,7 +511,7 @@ function Field({ label, name, value, onChange, type = "text", options, required,
   );
 }
 
-// ─── DRAWER: ADD / EDIT EMPLOYEE ──────────────────────────────────────────────
+//  DRAWER: ADD / EDIT EMPLOYEE 
 const EMPTY_FORM = { name: "", email: "", phone_no: "", position: "", salary: "", department: "", status: "Active" };
 
 function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
@@ -575,12 +575,12 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
         className={`fixed inset-0 bg-black/40 dark:bg-black/60 z-[200] backdrop-blur-sm transition-opacity duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} 
       />
       <div className={`fixed top-0 right-0 h-screen w-[420px] max-w-[100vw] bg-white dark:bg-[#15161C] z-[201] shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="px-6 py-5 border-b #DDD7CC dark:border-[#1C1D24]/50 flex items-center justify-between">
+        <div className="px-6 py-5 border-b #E2E8F0 dark:border-[#1C1D24]/50 flex items-center justify-between">
           <div>
-            <div className="text-base font-bold #1A1C20 dark:text-[#EAE5DF]">{employee ? "Edit Employee" : "Add Employee"}</div>
-            <div className="text-xs #6B7280 dark:text-[#44454F] mt-0.5">{employee ? `Updating ${employee.name}` : "Fill in the details below"}</div>
+            <div className="text-base font-bold #1E293B dark:text-[#EAE5DF]">{employee ? "Edit Employee" : "Add Employee"}</div>
+            <div className="text-xs #475569 dark:text-[#44454F] mt-0.5">{employee ? `Updating ${employee.name}` : "Fill in the details below"}</div>
           </div>
-          <button onClick={onClose} className="p-2 rounded-lg #F4F0EA dark:bg-[#1C1D24]/50 #6B7280 hover:text-gray-700 dark:text-[#44454F] dark:hover:text-gray-300 transition-colors">
+          <button onClick={onClose} className="p-2 rounded-lg #FFFFFF dark:bg-[#1C1D24]/50 #475569 hover:text-gray-700 dark:text-[#44454F] dark:hover:text-gray-300 transition-colors">
             <Icon d={ICONS.close} size={15} />
           </button>
         </div>
@@ -598,39 +598,39 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
           <Field label="Status" name="status" value={form.status} onChange={handleChange} options={["Active", "On Leave", "Inactive"]} />
           
           {employee && employee.id && (
-            <div className="mt-2.5 pt-4 border-t #DDD7CC dark:border-[#1C1D24]/50">
-              <div className="text-[13px] font-bold #1A1C20 dark:text-[#EAE5DF] mb-3">Skills & Proficiency</div>
+            <div className="mt-2.5 pt-4 border-t #E2E8F0 dark:border-[#1C1D24]/50">
+              <div className="text-[13px] font-bold #1E293B dark:text-[#EAE5DF] mb-3">Skills & Proficiency</div>
               {skillsLoading ? (
-                <div className="text-xs #6B7280 dark:text-[#44454F]">Loading skills...</div>
+                <div className="text-xs #475569 dark:text-[#44454F]">Loading skills...</div>
               ) : (
                 <>
                   <div className="flex flex-col gap-2 mb-3">
                     {employeeSkills.map(es => (
-                      <div key={es.id} className="flex items-center justify-between #F4F0EA dark:bg-[#0D0E12]/50 px-3 py-2 rounded-lg border #DDD7CC dark:border-[#1C1D24]">
+                      <div key={es.id} className="flex items-center justify-between #FFFFFF dark:bg-[#0D0E12]/50 px-3 py-2 rounded-lg border #E2E8F0 dark:border-[#1C1D24]">
                         <div>
-                          <div className="text-xs font-semibold text-gray-700 dark:text-[#C8C3BC]">{es.skill_name}</div>
-                          <div className="text-[11px] #6B7280 dark:text-[#44454F]">{es.proficiency_level}</div>
+                          <div className="text-xs font-semibold text-gray-700 dark:text-[#64748B]">{es.skill_name}</div>
+                          <div className="text-[11px] #475569 dark:text-[#44454F]">{es.proficiency_level}</div>
                         </div>
                         <button onClick={() => handleRemoveSkill(es.skill.id || es.skill)} className="text-red-500 hover:text-red-600 dark:hover:text-red-400 p-1">
                           <Icon d={ICONS.close} size={12} />
                         </button>
                       </div>
                     ))}
-                    {employeeSkills.length === 0 && <div className="text-xs #6B7280 dark:text-[#44454F]">No skills assigned yet.</div>}
+                    {employeeSkills.length === 0 && <div className="text-xs #475569 dark:text-[#44454F]">No skills assigned yet.</div>}
                   </div>
                   <div className="flex gap-2">
-                    <select value={newSkillForm.skill} onChange={e => setNewSkillForm({...newSkillForm, skill: e.target.value})} className="flex-1 px-2.5 py-1.5 rounded-lg border #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-xs #1A1C20 dark:text-[#EAE5DF]">
+                    <select value={newSkillForm.skill} onChange={e => setNewSkillForm({...newSkillForm, skill: e.target.value})} className="flex-1 px-2.5 py-1.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-xs #1E293B dark:text-[#EAE5DF]">
                       <option value="">Select skill...</option>
                       {allSkills.filter(s => !employeeSkills.find(es => (es.skill.id || es.skill) === s.id)).map(s => (
                         <option key={s.id} value={s.id}>{s.name}</option>
                       ))}
                     </select>
-                    <select value={newSkillForm.proficiency_level} onChange={e => setNewSkillForm({...newSkillForm, proficiency_level: e.target.value})} className="w-28 px-2.5 py-1.5 rounded-lg border #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-xs #1A1C20 dark:text-[#EAE5DF]">
+                    <select value={newSkillForm.proficiency_level} onChange={e => setNewSkillForm({...newSkillForm, proficiency_level: e.target.value})} className="w-28 px-2.5 py-1.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-xs #1E293B dark:text-[#EAE5DF]">
                       <option value="Beginner">Beginner</option>
                       <option value="Intermediate">Intermediate</option>
                       <option value="Advanced">Advanced</option>
                     </select>
-                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors ${newSkillForm.skill ? 'bg-[#A3876A] hover:bg-[#8E7356]' : 'bg-gray-300 dark:bg-[#1C1D24] cursor-not-allowed'}`}>Add</button>
+                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors ${newSkillForm.skill ? 'bg-[#F2DD50] hover:bg-[#8E7356]' : 'bg-gray-300 dark:bg-[#1C1D24] cursor-not-allowed'}`}>Add</button>
                   </div>
                 </>
               )}
@@ -638,10 +638,10 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
           )}
         </div>
 
-        <div className="px-6 py-3.5 border-t #DDD7CC dark:border-[#1C1D24]/50 flex gap-2">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-lg border #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#C8C3BC] font-semibold text-[13px] hover:#F4F0EA dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
-          <button onClick={handleSubmit} disabled={loading} className={`flex-[2] py-2.5 rounded-lg border-none font-bold text-[13px] text-white transition-colors ${loading ? 'bg-blue-300 dark:bg-blue-800 cursor-not-allowed' : 'bg-[#A3876A] hover:bg-[#8E7356]'}`}>
-            {loading ? "Saving…" : employee ? "Update Employee" : "Add Employee"}
+        <div className="px-6 py-3.5 border-t #E2E8F0 dark:border-[#1C1D24]/50 flex gap-2">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#64748B] font-semibold text-[13px] hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={handleSubmit} disabled={loading} className={`flex-[2] py-2.5 rounded-lg border-none font-bold text-[13px] text-white transition-colors ${loading ? 'bg-blue-300 dark:bg-blue-800 cursor-not-allowed' : 'bg-[#F2DD50] hover:bg-[#8E7356]'}`}>
+            {loading ? "Saving" : employee ? "Update Employee" : "Add Employee"}
           </button>
         </div>
       </div>
@@ -649,19 +649,19 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
   );
 }
 
-// ─── CONFIRM DELETE MODAL ─────────────────────────────────────────────────────
+//  CONFIRM DELETE MODAL 
 function DeleteModal({ emp, onConfirm, onCancel, loading }) {
   return (
     <div className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[300] flex items-center justify-center p-5 backdrop-blur-sm">
-      <div className="bg-white dark:bg-[#15161C] rounded-2xl w-[360px] max-w-full p-6 shadow-2xl border #DDD7CC dark:border-[#1C1D24]/50 text-center sm:text-left">
-        <div className="text-base font-bold #1A1C20 dark:text-[#EAE5DF] mb-2">Remove employee?</div>
-        <div className="text-[13px] #6B7280 dark:text-[#44454F] mb-6">
-          This will permanently remove <strong className="#1A1C20 dark:text-[#EAE5DF]">{emp?.name}</strong>. This action cannot be undone.
+      <div className="bg-white dark:bg-[#15161C] rounded-2xl w-[360px] max-w-full p-6 shadow-2xl border #E2E8F0 dark:border-[#1C1D24]/50 text-center sm:text-left">
+        <div className="text-base font-bold #1E293B dark:text-[#EAE5DF] mb-2">Remove employee?</div>
+        <div className="text-[13px] #475569 dark:text-[#44454F] mb-6">
+          This will permanently remove <strong className="#1E293B dark:text-[#EAE5DF]">{emp?.name}</strong>. This action cannot be undone.
         </div>
         <div className="flex flex-col-reverse sm:flex-row gap-2.5">
-          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg border #DDD7CC dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-sm font-semibold text-gray-700 dark:text-[#C8C3BC] hover:#F4F0EA dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-sm font-semibold text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
           <button onClick={onConfirm} disabled={loading} className={`flex-1 py-2.5 rounded-lg border-none text-sm font-bold text-white transition-colors ${loading ? 'bg-red-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'}`}>
-            {loading ? "Removing…" : "Yes, Remove"}
+            {loading ? "Removing" : "Yes, Remove"}
           </button>
         </div>
       </div>
@@ -669,7 +669,7 @@ function DeleteModal({ emp, onConfirm, onCancel, loading }) {
   );
 }
 
-// ─── EMPLOYEE DETAIL PANEL (clean, white, simple) ─────────────────────────────
+//  EMPLOYEE DETAIL PANEL (clean, white, simple) 
 function EmployeeDetail({ emp, onClose, onEdit }) {
   const statusName = typeof emp?.status === "string" ? emp.status : emp?.status?.name || "Active";
   const deptName = typeof emp?.department === "string" ? emp.department : emp?.department?.name || emp?.department;
@@ -679,9 +679,9 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
   const details = [
     { icon: ICONS.mail, label: "Email", value: emp.email },
     { icon: ICONS.phone, label: "Phone", value: emp.phone_no },
-    { icon: ICONS.briefcase, label: "Department", value: deptName || "—" },
-    { icon: ICONS.dollar, label: "Salary", value: emp.salary ? `NPR ${Number(emp.salary).toLocaleString()}` : "—" },
-    { icon: ICONS.calendar, label: "Joined", value: emp.join_date || "—" },
+    { icon: ICONS.briefcase, label: "Department", value: deptName || "" },
+    { icon: ICONS.dollar, label: "Salary", value: emp.salary ? `NPR ${Number(emp.salary).toLocaleString()}` : "" },
+    { icon: ICONS.calendar, label: "Joined", value: emp.join_date || "" },
   ];
 
   return (
@@ -689,12 +689,12 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[200] flex items-center justify-center backdrop-blur-sm p-5"
     >
-      <div className="bg-white dark:bg-[#15161C] rounded-[16px] w-[420px] max-w-full max-h-[90vh] overflow-y-auto border #DDD7CC dark:border-[#1C1D24]/50 shadow-2xl">
+      <div className="bg-white dark:bg-[#15161C] rounded-[16px] w-[420px] max-w-full max-h-[90vh] overflow-y-auto border #E2E8F0 dark:border-[#1C1D24]/50 shadow-2xl">
 
         {/* Header */}
-        <div className="px-5 py-4 border-b #DDD7CC dark:border-[#1C1D24]/50 flex items-center justify-between">
-          <span className="text-sm font-bold #1A1C20 dark:text-[#EAE5DF]">Employee details</span>
-          <button onClick={onClose} className="p-1 text-gray-400 hover:#6B7280 dark:hover:text-gray-300 rounded hover:#F4F0EA dark:hover:bg-gray-700/50 transition-colors">
+        <div className="px-5 py-4 border-b #E2E8F0 dark:border-[#1C1D24]/50 flex items-center justify-between">
+          <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">Employee details</span>
+          <button onClick={onClose} className="p-1 text-gray-400 hover:#475569 dark:hover:text-gray-300 rounded hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">
             <Icon d={ICONS.close} size={15} />
           </button>
         </div>
@@ -706,8 +706,8 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
               {getInitials(emp.name)}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-base font-bold #1A1C20 dark:text-[#EAE5DF] truncate">{emp.name}</div>
-              <div className="text-[13px] #6B7280 dark:text-[#44454F] mt-0.5 truncate">{emp.position}</div>
+              <div className="text-base font-bold #1E293B dark:text-[#EAE5DF] truncate">{emp.name}</div>
+              <div className="text-[13px] #475569 dark:text-[#44454F] mt-0.5 truncate">{emp.position}</div>
             </div>
             <span className="text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap" style={{ background: statusColor.bg, color: statusColor.text }}>
               {statusName}
@@ -715,14 +715,14 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
           </div>
 
           {/* Details table */}
-          <div className="border #DDD7CC dark:border-[#1C1D24]/50 rounded-xl overflow-hidden">
+          <div className="border #E2E8F0 dark:border-[#1C1D24]/50 rounded-xl overflow-hidden">
             {details.map(({ icon, label, value }, i) => (
-              <div key={label} className={`flex items-center justify-between px-3.5 py-3 ${i > 0 ? "border-t #DDD7CC dark:border-[#1C1D24]/50" : ""}`}>
+              <div key={label} className={`flex items-center justify-between px-3.5 py-3 ${i > 0 ? "border-t #E2E8F0 dark:border-[#1C1D24]/50" : ""}`}>
                 <div className="flex items-center gap-2 text-gray-400 shrink-0">
                   <Icon d={icon} size={13} />
                   <span className="text-xs">{label}</span>
                 </div>
-                <span className="text-[13px] font-semibold #1A1C20 dark:text-[#EAE5DF] text-right break-all ml-4">{value}</span>
+                <span className="text-[13px] font-semibold #1E293B dark:text-[#EAE5DF] text-right break-all ml-4">{value}</span>
               </div>
             ))}
           </div>
@@ -730,7 +730,7 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
           {/* Edit button */}
           <button
             onClick={() => { onClose(); onEdit(emp); }}
-            className="mt-4 w-full py-3 rounded-[10px] bg-[#A3876A] hover:bg-[#8E7356] text-white font-bold text-sm transition-colors"
+            className="mt-4 w-full py-3 rounded-[10px] bg-[#F2DD50] hover:bg-[#8E7356] text-white font-bold text-sm transition-colors"
           >
             Edit profile
           </button>
@@ -740,7 +740,7 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
   );
 }
 
-// ─── SCHEDULE MODAL (WSM VERSION) ─────────────────────────────────────────────
+//  SCHEDULE MODAL (WSM VERSION) 
 const DEFAULT_WEIGHTS = {
   availability: 30,
   skill_match: 25,
@@ -758,7 +758,7 @@ const FACTOR_COLORS = {
 };
 
 function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
-  const [step, setStep] = useState("weights");   // weights → preview → result
+  const [step, setStep] = useState("weights");   // weights  preview  result
   const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
   const [unscheduledShifts, setUnscheduledShifts] = useState([]);
   const [scheduleResult, setScheduleResult] = useState(null);
@@ -869,12 +869,12 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
           position: "sticky", top: 0, background: "#fff", zIndex: 1,
         }}>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "#101B55" }}>
               WSM Auto-Scheduler
             </div>
             <div style={{ fontSize: 12, color: "#64748b" }}>
-              {step === "weights" && "Set factor weights → preview → apply"}
-              {step === "preview" && "Review suggestions — override if needed"}
+              {step === "weights" && "Set factor weights  preview  apply"}
+              {step === "preview" && "Review suggestions  override if needed"}
               {step === "result"  && "Schedule applied to database"}
             </div>
           </div>
@@ -888,7 +888,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
 
         <div style={{ padding: "18px 20px" }}>
 
-          {/* ── STEP 1: WEIGHTS ── */}
+          {/*  STEP 1: WEIGHTS  */}
           {step === "weights" && (
             <>
               {/* Info box */}
@@ -926,7 +926,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                     style={{ width: "100%", accentColor: FACTOR_COLORS[key] }}
                   />
                   <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
-                    {key === "availability" && "Hard gate — employee must be free. Higher = stricter priority."}
+                    {key === "availability" && "Hard gate  employee must be free. Higher = stricter priority."}
                     {key === "skill_match"  && "Employee must have the required POS skill for the shift."}
                     {key === "fairness"     && "Spread shifts evenly. Employees with fewer shifts score higher."}
                     {key === "skill_level"  && "Advanced proficiency scores higher than Beginner."}
@@ -947,7 +947,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 </span>
                 <span style={{ fontSize: 16, fontWeight: 700, color: isWeightValid ? "#166534" : "#991b1b" }}>
                   {totalWeight}%
-                  {isWeightValid ? " ✓" : " — must equal 100%"}
+                  {isWeightValid ? " " : "  must equal 100%"}
                 </span>
               </div>
 
@@ -958,7 +958,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 display: "flex", justifyContent: "space-between", alignItems: "center",
               }}>
                 <span style={{ fontSize: 13, color: "#64748b" }}>
-                  {fetching ? "Loading shifts…" : `${unscheduledShifts.length} unscheduled shift(s) found`}
+                  {fetching ? "Loading shifts" : `${unscheduledShifts.length} unscheduled shift(s) found`}
                 </span>
                 <button onClick={fetchShifts} style={{
                   fontSize: 12, padding: "4px 10px", borderRadius: 6,
@@ -974,18 +974,18 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 disabled={!isWeightValid || loading || fetching || !unscheduledShifts.length}
                 style={{
                   width: "100%", padding: "11px 0", borderRadius: 9, border: "none",
-                  background: isWeightValid ? "#A3876A" : "#e2e8f0",
+                  background: isWeightValid ? "#F2DD50" : "#e2e8f0",
                   color: isWeightValid ? "#fff" : "#94a3b8",
                   fontWeight: 700, fontSize: 14,
                   cursor: isWeightValid ? "pointer" : "not-allowed",
                 }}
               >
-                {loading ? "Running…" : "Preview Schedule →"}
+                {loading ? "Running" : "Preview Schedule "}
               </button>
             </>
           )}
 
-          {/* ── STEP 2: PREVIEW ── */}
+          {/*  STEP 2: PREVIEW  */}
           {step === "preview" && scheduleResult && (
             <>
               {/* Summary cards */}
@@ -997,18 +997,18 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 ].map(([label, val, color, bg]) => (
                   <div key={label} style={{ background: bg, borderRadius: 9, padding: "10px 12px" }}>
                     <div style={{ fontSize: 11, color, fontWeight: 600, textTransform: "uppercase" }}>{label}</div>
-                    <div style={{ fontSize: 18, fontWeight: 700, color }}>{val ?? "—"}</div>
+                    <div style={{ fontSize: 18, fontWeight: 700, color }}>{val ?? ""}</div>
                   </div>
                 ))}
               </div>
 
               {/* Shift ranking cards */}
               <div style={{ fontSize: 12, fontWeight: 600, color: "#94a3b8", marginBottom: 8, textTransform: "uppercase" }}>
-                Shift assignments — click to see full rankings
+                Shift assignments  click to see full rankings
               </div>
 
               {scheduleResult.schedule_summary?.employee_summary?.length === 0 && (
-                <div style={{ textAlign: "center", padding: "20px", color: "#A3876A", fontSize: 13 }}>
+                <div style={{ textAlign: "center", padding: "20px", color: "#F2DD50", fontSize: 13 }}>
                   No employees could be assigned. Check skills and availability in the backend.
                 </div>
               )}
@@ -1023,7 +1023,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 return (
                   <div key={shift.id} style={{
                     border: "1px solid #e2e8f0", borderRadius: 10, marginBottom: 8, overflow: "hidden",
-                    borderLeft: assigned ? "3px solid #22c55e" : "3px solid #A3876A",
+                    borderLeft: assigned ? "3px solid #22c55e" : "3px solid #F2DD50",
                   }}>
                     {/* Shift header */}
                     <div
@@ -1035,8 +1035,8 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                       }}
                     >
                       <div>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>
-                          {shift.shift_date} · {shift.start_time?.slice(0,5)}–{shift.end_time?.slice(0,5)}
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "#101B55" }}>
+                          {shift.shift_date} · {shift.start_time?.slice(0,5)}{shift.end_time?.slice(0,5)}
                         </div>
                         <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
                           Required: {shift.required_skill_name || "Any"}
@@ -1052,7 +1052,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                             Unassigned
                           </span>
                         )}
-                        <span style={{ fontSize: 11, color: "#94a3b8" }}>{isOpen ? "▲" : "▼"}</span>
+                        <span style={{ fontSize: 11, color: "#94a3b8" }}>{isOpen ? "" : ""}</span>
                       </div>
                     </div>
 
@@ -1061,7 +1061,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                       <div style={{ borderTop: "1px solid #f1f5f9", padding: "10px 14px" }}>
                         {rankings.length === 0 ? (
                           <div style={{ fontSize: 12, color: "#94a3b8", textAlign: "center", padding: "8px 0" }}>
-                            No eligible employees — check skill assignments
+                            No eligible employees  check skill assignments
                           </div>
                         ) : (
                           rankings.map((r, i) => (
@@ -1078,13 +1078,13 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                               }}>
                                 {getInitials(r.employee)}
                               </div>
-                              <span style={{ fontSize: 13, fontWeight: 500, flex: 1, color: "#0f172a" }}>
+                              <span style={{ fontSize: 13, fontWeight: 500, flex: 1, color: "#101B55" }}>
                                 {r.employee}
                               </span>
                               {/* Score bar */}
                               <div style={{ flex: 1, height: 4, background: "#f1f5f9", borderRadius: 2 }}>
                                 <div style={{
-                                  height: 4, borderRadius: 2, background: "#A3876A",
+                                  height: 4, borderRadius: 2, background: "#F2DD50",
                                   width: `${Math.round(r.score * 100)}%`,
                                 }} />
                               </div>
@@ -1097,7 +1097,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                                   fontSize: 11, padding: "4px 10px", borderRadius: 6,
                                   border: "1px solid #e2e8f0",
                                   background: manualOverrides[shift.id] === r.employee || (i === 0 && assigned === r.employee)
-                                    ? "#A3876A" : "#fff",
+                                    ? "#F2DD50" : "#fff",
                                   color: manualOverrides[shift.id] === r.employee || (i === 0 && assigned === r.employee)
                                     ? "#fff" : "#475569",
                                   cursor: "pointer",
@@ -1125,32 +1125,32 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                     cursor: "pointer", fontWeight: 600, fontSize: 13, color: "#475569",
                   }}
                 >
-                  ← Adjust weights
+                   Adjust weights
                 </button>
                 <button
                   onClick={handleApply}
                   disabled={applying}
                   style={{
                     flex: 2, padding: "10px 0", borderRadius: 9, border: "none",
-                    background: applying ? "#93c5fd" : "#A3876A",
+                    background: applying ? "#93c5fd" : "#F2DD50",
                     cursor: applying ? "not-allowed" : "pointer",
                     fontWeight: 700, fontSize: 13, color: "#fff",
                   }}
                 >
-                  {applying ? "Applying…" : "Confirm & Apply Schedule"}
+                  {applying ? "Applying" : "Confirm & Apply Schedule"}
                 </button>
               </div>
             </>
           )}
 
-          {/* ── STEP 3: RESULT ── */}
+          {/*  STEP 3: RESULT  */}
           {step === "result" && scheduleResult && (
             <>
               <div style={{ textAlign: "center", marginBottom: 20 }}>
-                <div style={{ fontSize: 32, marginBottom: 8 }}>✓</div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>Schedule Applied</div>
+                <div style={{ fontSize: 32, marginBottom: 8 }}></div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#101B55" }}>Schedule Applied</div>
                 <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>
-                  Saved to database — employees can view their shifts
+                  Saved to database  employees can view their shifts
                 </div>
               </div>
 
@@ -1163,7 +1163,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                 ].map(([k, v]) => (
                   <div key={k} style={{ background: "#f8fafc", borderRadius: 9, padding: "11px 13px" }}>
                     <div style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase" }}>{k}</div>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>{v ?? "—"}</div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: "#101B55" }}>{v ?? ""}</div>
                   </div>
                 ))}
               </div>
@@ -1176,12 +1176,12 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{
                       width: 28, height: 28, borderRadius: 7,
-                      background: "#A3876A", display: "flex", alignItems: "center",
+                      background: "#F2DD50", display: "flex", alignItems: "center",
                       justifyContent: "center", color: "#fff", fontSize: 10, fontWeight: 700,
                     }}>
                       {getInitials(e.employee)}
                     </div>
-                    <span style={{ fontWeight: 600, fontSize: 13, color: "#0f172a" }}>{e.employee}</span>
+                    <span style={{ fontWeight: 600, fontSize: 13, color: "#101B55" }}>{e.employee}</span>
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div style={{ fontSize: 12, color: "#64748b" }}>{e.shifts_assigned} shift(s)</div>
@@ -1192,7 +1192,7 @@ function WSMScheduleModal({ employees, onClose, loading, setLoading, toast }) {
 
               <button onClick={onClose} style={{
                 marginTop: 14, width: "100%", padding: "11px 0", borderRadius: 9,
-                border: "none", background: "#A3876A", color: "#fff",
+                border: "none", background: "#F2DD50", color: "#fff",
                 fontWeight: 700, fontSize: 14, cursor: "pointer",
               }}>
                 Done
@@ -1257,7 +1257,7 @@ function SkillsTab({ toast }) {
     <div style={{ padding: "20px 24px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>Skills Directory</h2>
-        <button onClick={() => { setEditingSkill(null); setForm({name:"", description:""}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#A3876A", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Skill</button>
+        <button onClick={() => { setEditingSkill(null); setForm({name:"", description:""}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#F2DD50", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Skill</button>
       </div>
 
       {loading ? (
@@ -1275,12 +1275,12 @@ function SkillsTab({ toast }) {
             <tbody>
               {skills.map(s => (
                 <tr key={s.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                  <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "#0f172a" }}>{s.name}</td>
+                  <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "#101B55" }}>{s.name}</td>
                   <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>{s.description || "-"}</td>
                   <td style={{ padding: "12px 16px" }}>
                     <div style={{ display: "flex", gap: 8 }}>
-                      <button onClick={() => { setEditingSkill(s); setForm({name: s.name, description: s.description||""}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#A3876A" }}><Icon d={ICONS.edit} size={14}/></button>
-                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#A3876A" }}><Icon d={ICONS.trash} size={14}/></button>
+                      <button onClick={() => { setEditingSkill(s); setForm({name: s.name, description: s.description||""}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#F2DD50" }}><Icon d={ICONS.edit} size={14}/></button>
+                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#F2DD50" }}><Icon d={ICONS.trash} size={14}/></button>
                     </div>
                   </td>
                 </tr>
@@ -1305,7 +1305,7 @@ function SkillsTab({ toast }) {
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
               <button onClick={() => setShowModal(false)} style={{ padding: "8px 16px", background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#A3876A", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
+              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#F2DD50", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
             </div>
           </div>
         </div>
@@ -1369,7 +1369,7 @@ function ShiftsTab({ toast }) {
     <div style={{ padding: "20px 24px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>Shift Management</h2>
-        <button onClick={() => { setEditingShift(null); setForm({shift_date:"", start_time:"", end_time:"", required_skill:"", required_employees:1}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#A3876A", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Shift</button>
+        <button onClick={() => { setEditingShift(null); setForm({shift_date:"", start_time:"", end_time:"", required_skill:"", required_employees:1}); setShowModal(true); }} style={{ padding: "8px 16px", background: "#F2DD50", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Add Shift</button>
       </div>
 
       {loading ? (
@@ -1391,7 +1391,7 @@ function ShiftsTab({ toast }) {
             <tbody>
               {shifts.map(s => (
                 <tr key={s.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                  <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "#0f172a" }}>{s.shift_date}</td>
+                  <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "#101B55" }}>{s.shift_date}</td>
                   <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>{s.start_time.slice(0,5)} - {s.end_time.slice(0,5)}</td>
                   <td style={{ padding: "12px 16px", fontSize: 13, color: "#475569" }}>
                     {s.required_skill_name ? <span style={{ background: "#e0f2fe", color: "#0369a1", padding: "2px 8px", borderRadius: 12, fontSize: 11, fontWeight: 600 }}>{s.required_skill_name}</span> : "-"}
@@ -1403,8 +1403,8 @@ function ShiftsTab({ toast }) {
                   </td>
                   <td style={{ padding: "12px 16px" }}>
                     <div style={{ display: "flex", gap: 8 }}>
-                      <button onClick={() => { setEditingShift(s); setForm({shift_date: s.shift_date, start_time: s.start_time, end_time: s.end_time, required_skill: s.required_skill||"", required_employees: s.required_employees}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#A3876A" }}><Icon d={ICONS.edit} size={14}/></button>
-                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#A3876A" }}><Icon d={ICONS.trash} size={14}/></button>
+                      <button onClick={() => { setEditingShift(s); setForm({shift_date: s.shift_date, start_time: s.start_time, end_time: s.end_time, required_skill: s.required_skill||"", required_employees: s.required_employees}); setShowModal(true); }} style={{ border: "none", background: "none", cursor: "pointer", color: "#F2DD50" }}><Icon d={ICONS.edit} size={14}/></button>
+                      <button onClick={() => handleDelete(s.id)} style={{ border: "none", background: "none", cursor: "pointer", color: "#F2DD50" }}><Icon d={ICONS.trash} size={14}/></button>
                     </div>
                   </td>
                 </tr>
@@ -1446,7 +1446,7 @@ function ShiftsTab({ toast }) {
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
               <button onClick={() => setShowModal(false)} style={{ padding: "8px 16px", background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#A3876A", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
+              <button onClick={handleSave} style={{ padding: "8px 16px", background: "#F2DD50", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Save</button>
             </div>
           </div>
         </div>
@@ -1455,7 +1455,7 @@ function ShiftsTab({ toast }) {
   );
 }
 
-// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
+//  MAIN COMPONENT 
 export default function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -1579,16 +1579,16 @@ export default function EmployeeManagement() {
       {/* PAGE HEADER */}
       <div style={{ background: "#fff", borderBottom: "1px solid #f1f5f9", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#0f172a" }}>Employee Management</h1>
+          <h1 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#101B55" }}>Employee Management</h1>
           <p style={{ margin: 0, fontSize: 12, color: "#94a3b8", marginTop: 2 }}>
-            {useMock ? "Demo mode — connect backend to see live data" : `${stats.total} team members · ${stats.active} active`}
+            {useMock ? "Demo mode  connect backend to see live data" : `${stats.total} team members · ${stats.active} active`}
           </p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <button onClick={() => setShowScheduler(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#475569" }}>
             <Icon d={ICONS.schedule} size={13} /> Auto-Schedule
           </button>
-          <button onClick={() => { setEditTarget(null); setDrawerOpen(true); }} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "none", background: "#A3876A", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#fff" }}>
+          <button onClick={() => { setEditTarget(null); setDrawerOpen(true); }} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "none", background: "#F2DD50", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#fff" }}>
             <Icon d={ICONS.plus} size={13} /> Add Employee
           </button>
         </div>
@@ -1603,8 +1603,8 @@ export default function EmployeeManagement() {
         ].map(t => (
           <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
             background: "none", border: "none", padding: "12px 0", cursor: "pointer", fontSize: 13, fontWeight: 600,
-            color: activeTab === t.id ? "#A3876A" : "#64748b",
-            borderBottom: activeTab === t.id ? "2px solid #A3876A" : "2px solid transparent",
+            color: activeTab === t.id ? "#F2DD50" : "#64748b",
+            borderBottom: activeTab === t.id ? "2px solid #F2DD50" : "2px solid transparent",
             transition: "all .2s"
           }}>
             {t.label}
@@ -1619,7 +1619,7 @@ export default function EmployeeManagement() {
           <StatCard label="Total" value={stats.total} sub={`${departments.length} departments`} />
           <StatCard label="Active" value={stats.active} sub={`${Math.round((stats.active / (stats.total || 1)) * 100)}% of team`} />
           <StatCard label="On Leave" value={stats.onLeave} sub="Currently away" />
-          <StatCard label="Avg. Salary" value={`₨${stats.avgSalary.toLocaleString()}`} sub="Per month" />
+          <StatCard label="Avg. Salary" value={`${stats.avgSalary.toLocaleString()}`} sub="Per month" />
         </div>
 
         {/* TOOLBAR */}
@@ -1628,16 +1628,16 @@ export default function EmployeeManagement() {
             <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }}>
               <Icon d={ICONS.search} size={13} />
             </span>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name, email, role…"
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name, email, role"
               style={{ width: "100%", padding: "8px 12px 8px 32px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", background: "#fff", boxSizing: "border-box" }} />
           </div>
           <select value={deptFilter} onChange={e => setDeptFilter(e.target.value)}
-            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", background: "#fff", cursor: "pointer", color: deptFilter ? "#0f172a" : "#94a3b8" }}>
+            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", background: "#fff", cursor: "pointer", color: deptFilter ? "#101B55" : "#94a3b8" }}>
             <option value="">All Departments</option>
             {departments.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
           <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
-            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", background: "#fff", cursor: "pointer", color: statusFilter ? "#0f172a" : "#94a3b8" }}>
+            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", background: "#fff", cursor: "pointer", color: statusFilter ? "#101B55" : "#94a3b8" }}>
             <option value="">All Status</option>
             {["Active", "On Leave", "Inactive"].map(s => <option key={s} value={s}>{s}</option>)}
           </select>
@@ -1646,7 +1646,7 @@ export default function EmployeeManagement() {
               <button key={mode} onClick={() => setViewMode(mode)} style={{
                 padding: "6px 10px", borderRadius: 5, border: "none", cursor: "pointer",
                 background: viewMode === mode ? "#fff" : "transparent",
-                color: viewMode === mode ? "#A3876A" : "#94a3b8",
+                color: viewMode === mode ? "#F2DD50" : "#94a3b8",
                 boxShadow: viewMode === mode ? "0 1px 3px rgba(0,0,0,.08)" : "none",
               }}>
                 <Icon d={ic} size={14} />
