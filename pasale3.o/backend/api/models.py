@@ -24,7 +24,8 @@ class EmployeeStatus(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
 class ExpenseCategory(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -196,7 +197,7 @@ class Party(models.Model):
         max_digits=12, decimal_places=2, default=Decimal('0.00'))
     credit_limit = models.DecimalField(
         max_digits=12, decimal_places=2, default=Decimal('0.00'))
-    
+
     Category_type = models.CharField(max_length=20)
     is_active = models.BooleanField(default=True)
     is_updated_at = models.DateTimeField(auto_now=True)
@@ -204,6 +205,9 @@ class Party(models.Model):
    # meta class for ordering and plural name(settings)
     class Meta:
         verbose_name_plural = 'Parties'
+        indexes = [
+            models.Index(fields=['business_id', 'Category_type']),
+        ]
 
     def __str__(self):
         return self.name if self.name else f"Party {self.id}"
@@ -215,11 +219,11 @@ class PaymentTransaction(models.Model):
         Business, on_delete=models.CASCADE, related_name='payment_transactions', null=True, blank=True)
     party = models.ForeignKey(
         Party, on_delete=models.CASCADE, related_name='payment_transactions')
-    
+
     receipt_number = models.CharField(max_length=50, blank=True, null=True)
     is_manual_receipt = models.BooleanField(default=False)
     date = models.DateField()
-    
+
     PAYMENT_TYPES = [
         ('payment_in', 'Payment In'),
         ('payment_out', 'Payment Out'),
@@ -230,7 +234,7 @@ class PaymentTransaction(models.Model):
         PaymentMethod, on_delete=models.SET_NULL, null=True, blank=True)
     remarks = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='payments/', null=True, blank=True)
-    
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -371,7 +375,8 @@ class Expense(models.Model):
     description = models.TextField(blank=True, null=True, db_column='remarks')
     date = models.DateField()
     is_necessary = models.BooleanField(default=True)
-    expense_number = models.CharField(unique=True, max_length=50, blank=True, null=True, db_column='expense_no')
+    expense_number = models.CharField(
+        unique=True, max_length=50, blank=True, null=True, db_column='expense_no')
     payment_method = models.CharField(max_length=50, default='Cash')
 
     def __str__(self):
@@ -391,7 +396,8 @@ class Billing(models.Model):
     invoice_number = models.CharField(max_length=50, unique=True)
     invoice_date = models.DateField(null=True, blank=True, db_index=True)
     due_date = models.DateField(null=True, blank=True)
-    transaction_type = models.CharField(max_length=20, default='Sales', db_index=True)
+    transaction_type = models.CharField(
+        max_length=20, default='Sales', db_index=True)
 
     payment_method = models.ForeignKey(
         PaymentMethod, on_delete=models.SET_NULL, null=True)
@@ -433,6 +439,12 @@ class Billing(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        indexes = [
+            models.Index(
+                fields=['business_id', 'invoice_date', 'transaction_type']),
+        ]
 
 
 class BillingItem(models.Model):
@@ -567,9 +579,11 @@ class AprioriRule(models.Model):
             f"(conf: {self.confidence:.0%}, lift: {self.lift:.2f})"
         )
 
+
 class Reminder(models.Model):
     id = models.AutoField(primary_key=True)
-    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='reminders')
+    business = models.ForeignKey(
+        Business, on_delete=models.CASCADE, related_name='reminders')
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     due_date = models.DateTimeField()
@@ -580,3 +594,7 @@ class Reminder(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['business', 'due_date']),
+        ]

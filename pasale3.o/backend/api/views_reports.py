@@ -1,13 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.db.models import Sum, Count, F, Q
-from django.db.models.functions import TruncDate, TruncMonth
+from django.core.cache import cache
+from django.db.models import Sum, Count, F, Q, DecimalField, ExpressionWrapper
+from django.db.models.functions import TruncDate, TruncMonth, TruncWeek
 from django.utils import timezone
 from datetime import timedelta
 from decimal import Decimal
 from api.models import Order, Expense, Product, OrderItem, Business, Party, Billing, BillingItem
 from api.serializers import OrderSerializer
+
 
 class BusinessSummaryView(APIView):
     def get(self, request, business_id=None):
@@ -17,7 +19,17 @@ class BusinessSummaryView(APIView):
         # Get date range from query params
         start_date_str = request.query_params.get('start_date')
         end_date_str = request.query_params.get('end_date')
-        
+        scope = request.query_params.get('scope', 'full')
+        cache_key = f"dashboard_summary:{business_id}:{scope}"
+
+        if scope == 'dashboard':
+            try:
+                cached = cache.get(cache_key)
+                if cached:
+                    return Response(cached, status=status.HTTP_200_OK)
+            except Exception:
+                cached = None
+
         try:
             business = Business.objects.get(id=business_id)
             now = timezone.now()
@@ -25,99 +37,124 @@ class BusinessSummaryView(APIView):
             current_year = now.year
 
             # ── Party Balances (To Receive / To Give) ──
-            parties = Party.objects.filter(business_id=business_id)
-            
-            # To Receive = sum of open_balance for customers with positive balance
-            to_receive = parties.filter(
-                Category_type='Customer', open_balance__gt=0
-            ).aggregate(total=Sum('open_balance'))['total'] or Decimal('0.00')
-            
-            # To Give = sum of open_balance for suppliers with positive balance
-            to_give = parties.filter(
-                Category_type='Supplier', open_balance__gt=0
-            ).aggregate(total=Sum('open_balance'))['total'] or Decimal('0.00')
+            party_totals = Party.objects.filter(business_id=business_id).aggregate(
+                to_receive=Sum(
+                    'open_balance',
+                    filter=Q(Category_type='Customer', open_balance__gt=0),
+                ),
+                to_give=Sum(
+                    'open_balance',
+                    filter=Q(Category_type='Supplier', open_balance__gt=0),
+                ),
+            )
+
+            to_receive = party_totals.get('to_receive') or Decimal('0.00')
+            to_give = party_totals.get('to_give') or Decimal('0.00')
 
             # ── Billing-based Sales & Purchase (current month) ──
             billings = Billing.objects.filter(business_id=business_id)
-            
-            monthly_sales = billings.filter(
-                transaction_type='Sales',
+
+            monthly_totals = billings.filter(
                 invoice_date__month=current_month,
-                invoice_date__year=current_year
-            ).aggregate(total=Sum('total_amount'))['total'] or Decimal('0.00')
-            
-            monthly_purchase = billings.filter(
-                transaction_type='Purchase',
-                invoice_date__month=current_month,
-                invoice_date__year=current_year
-            ).aggregate(total=Sum('total_amount'))['total'] or Decimal('0.00')
+                invoice_date__year=current_year,
+            ).aggregate(
+                monthly_sales=Sum(
+                    'total_amount',
+                    filter=Q(transaction_type='Sales'),
+                ),
+                monthly_purchase=Sum(
+                    'total_amount',
+                    filter=Q(transaction_type='Purchase'),
+                ),
+            )
+
+            monthly_sales = monthly_totals.get(
+                'monthly_sales') or Decimal('0.00')
+            monthly_purchase = monthly_totals.get(
+                'monthly_purchase') or Decimal('0.00')
 
             # ── Inventory Value ──
             products = Product.objects.filter(business_id=business_id)
-            inventory_value = sum(
-                (p.unit_price * p.quantity) for p in products
-            )
+            inventory_value = products.aggregate(
+                total=Sum(
+                    ExpressionWrapper(
+                        F('unit_price') * F('quantity'),
+                        output_field=DecimalField(
+                            max_digits=20, decimal_places=2),
+                    )
+                )
+            )['total'] or Decimal('0.00')
 
             # ── Cashflow Trends (last 7 days) ──
             seven_days_ago = now.date() - timedelta(days=6)
-            
-            daily_sales_billing = billings.filter(
-                transaction_type='Sales',
+
+            daily_cashflow = billings.filter(
                 invoice_date__gte=seven_days_ago
             ).annotate(
                 day=TruncDate('invoice_date')
             ).values('day').annotate(
-                total=Sum('total_amount')
-            ).order_by('day')
-            
-            daily_purchase_billing = billings.filter(
-                transaction_type='Purchase',
-                invoice_date__gte=seven_days_ago
-            ).annotate(
-                day=TruncDate('invoice_date')
-            ).values('day').annotate(
-                total=Sum('total_amount')
+                inflow=Sum('total_amount', filter=Q(transaction_type='Sales')),
+                outflow=Sum('total_amount', filter=Q(
+                    transaction_type='Purchase')),
             ).order_by('day')
 
             # Build 7-day cashflow data
-            sales_by_day = {str(item['day']): float(item['total'] or 0) for item in daily_sales_billing}
-            purchase_by_day = {str(item['day']): float(item['total'] or 0) for item in daily_purchase_billing}
-            
+            cashflow_by_day = {
+                str(item['day']): {
+                    'inflow': float(item['inflow'] or 0),
+                    'outflow': float(item['outflow'] or 0),
+                }
+                for item in daily_cashflow
+            }
+
             cashflow_daily = []
             for i in range(7):
                 day = seven_days_ago + timedelta(days=i)
                 day_str = str(day)
+                totals = cashflow_by_day.get(
+                    day_str, {'inflow': 0, 'outflow': 0})
                 cashflow_daily.append({
                     'date': day_str,
                     'label': day.strftime('%b %d'),
-                    'inflow': sales_by_day.get(day_str, 0),
-                    'outflow': purchase_by_day.get(day_str, 0),
+                    'inflow': totals['inflow'],
+                    'outflow': totals['outflow'],
                 })
 
             # ── Weekly cashflow (last 4 weeks) ──
             four_weeks_ago = now.date() - timedelta(weeks=4)
+            weekly_cashflow = billings.filter(
+                invoice_date__gte=four_weeks_ago
+            ).annotate(
+                week=TruncWeek('invoice_date')
+            ).values('week').annotate(
+                inflow=Sum('total_amount', filter=Q(transaction_type='Sales')),
+                outflow=Sum('total_amount', filter=Q(
+                    transaction_type='Purchase')),
+            ).order_by('week')
+
+            weekly_by_start = {}
+            for item in weekly_cashflow:
+                week_key = item['week'].date() if hasattr(
+                    item['week'], 'date') else item['week']
+                weekly_by_start[str(week_key)] = {
+                    'inflow': float(item['inflow'] or 0),
+                    'outflow': float(item['outflow'] or 0),
+                }
+
             cashflow_weekly = []
             for i in range(4):
                 week_start = four_weeks_ago + timedelta(weeks=i)
-                week_end = week_start + timedelta(days=6)
-                week_sales = billings.filter(
-                    transaction_type='Sales',
-                    invoice_date__gte=week_start,
-                    invoice_date__lte=week_end
-                ).aggregate(total=Sum('total_amount'))['total'] or 0
-                week_purchases = billings.filter(
-                    transaction_type='Purchase',
-                    invoice_date__gte=week_start,
-                    invoice_date__lte=week_end
-                ).aggregate(total=Sum('total_amount'))['total'] or 0
+                week_key = str(week_start)
+                totals = weekly_by_start.get(
+                    week_key, {'inflow': 0, 'outflow': 0})
                 cashflow_weekly.append({
                     'label': f'Week {i+1}',
-                    'inflow': float(week_sales),
-                    'outflow': float(week_purchases),
+                    'inflow': totals['inflow'],
+                    'outflow': totals['outflow'],
                 })
 
             # ── Monthly cashflow (last 6 months) ──
-            cashflow_monthly = []
+            month_starts = []
             for i in range(6):
                 month_offset = 5 - i
                 m = now.month - month_offset
@@ -125,23 +162,62 @@ class BusinessSummaryView(APIView):
                 while m <= 0:
                     m += 12
                     y -= 1
-                month_sales = billings.filter(
-                    transaction_type='Sales',
-                    invoice_date__month=m,
-                    invoice_date__year=y
-                ).aggregate(total=Sum('total_amount'))['total'] or 0
-                month_purchases = billings.filter(
-                    transaction_type='Purchase',
-                    invoice_date__month=m,
-                    invoice_date__year=y
-                ).aggregate(total=Sum('total_amount'))['total'] or 0
+                month_starts.append(timezone.datetime(y, m, 1).date())
+
+            monthly_cashflow = billings.filter(
+                invoice_date__gte=month_starts[0]
+            ).annotate(
+                month=TruncMonth('invoice_date')
+            ).values('month').annotate(
+                inflow=Sum('total_amount', filter=Q(transaction_type='Sales')),
+                outflow=Sum('total_amount', filter=Q(
+                    transaction_type='Purchase')),
+            ).order_by('month')
+
+            monthly_by_start = {}
+            for item in monthly_cashflow:
+                month_key = item['month'].date() if hasattr(
+                    item['month'], 'date') else item['month']
+                monthly_by_start[str(month_key)] = {
+                    'inflow': float(item['inflow'] or 0),
+                    'outflow': float(item['outflow'] or 0),
+                }
+
+            cashflow_monthly = []
+            for month_start in month_starts:
                 import calendar
-                month_name = calendar.month_abbr[m]
+                month_name = calendar.month_abbr[month_start.month]
+                totals = monthly_by_start.get(
+                    str(month_start), {'inflow': 0, 'outflow': 0})
                 cashflow_monthly.append({
                     'label': month_name,
-                    'inflow': float(month_sales),
-                    'outflow': float(month_purchases),
+                    'inflow': totals['inflow'],
+                    'outflow': totals['outflow'],
                 })
+
+            dashboard_payload = {
+                "dashboard": {
+                    "to_receive": float(to_receive),
+                    "to_give": float(to_give),
+                    "monthly_sales": float(monthly_sales),
+                    "monthly_purchase": float(monthly_purchase),
+                    "inventory_value": float(inventory_value),
+                    "current_month": now.strftime('%B'),
+                    "current_month_short": now.strftime('%b').upper(),
+                },
+                "cashflow": {
+                    "daily": cashflow_daily,
+                    "weekly": cashflow_weekly,
+                    "monthly": cashflow_monthly,
+                },
+            }
+
+            if scope == 'dashboard':
+                try:
+                    cache.set(cache_key, dashboard_payload, 30)
+                except Exception:
+                    pass
+                return Response(dashboard_payload, status=status.HTTP_200_OK)
 
             # ── Sales Summary from Orders (legacy) ──
             orders = Order.objects.filter(business_id=business_id)
@@ -150,8 +226,12 @@ class BusinessSummaryView(APIView):
             if end_date_str:
                 orders = orders.filter(created_at__date__lte=end_date_str)
 
-            total_sales = orders.aggregate(total=Sum('total_amount'))['total'] or 0
-            order_count = orders.count()
+            order_totals = orders.aggregate(
+                total_sales=Sum('total_amount'),
+                order_count=Count('id'),
+            )
+            total_sales = order_totals.get('total_sales') or 0
+            order_count = order_totals.get('order_count') or 0
 
             # Expenses Summary
             expenses = Expense.objects.filter(user=business.user)
@@ -160,7 +240,8 @@ class BusinessSummaryView(APIView):
             if end_date_str:
                 expenses = expenses.filter(date__lte=end_date_str)
 
-            total_expenses = expenses.aggregate(total=Sum('amount'))['total'] or 0
+            total_expenses = expenses.aggregate(
+                total=Sum('amount'))['total'] or 0
 
             # Low stock count
             low_stock_count = products.filter(is_low_stock=True).count()
@@ -184,30 +265,26 @@ class BusinessSummaryView(APIView):
                 .order_by('-total_spent')[:5]
 
             # All-time billing totals
-            total_billing_sales = billings.filter(
-                transaction_type='Sales'
-            ).aggregate(total=Sum('total_amount'))['total'] or 0
-            
-            total_billing_purchases = billings.filter(
-                transaction_type='Purchase'
-            ).aggregate(total=Sum('total_amount'))['total'] or 0
+            billing_totals = billings.aggregate(
+                total_billing_sales=Sum(
+                    'total_amount', filter=Q(transaction_type='Sales')
+                ),
+                total_billing_purchases=Sum(
+                    'total_amount', filter=Q(transaction_type='Purchase')
+                ),
+            )
+
+            total_billing_sales = billing_totals.get(
+                'total_billing_sales') or 0
+            total_billing_purchases = billing_totals.get(
+                'total_billing_purchases') or 0
 
             return Response({
+                **dashboard_payload,
                 "dashboard": {
-                    "to_receive": float(to_receive),
-                    "to_give": float(to_give),
-                    "monthly_sales": float(monthly_sales),
-                    "monthly_purchase": float(monthly_purchase),
-                    "inventory_value": float(inventory_value),
+                    **dashboard_payload["dashboard"],
                     "total_billing_sales": float(total_billing_sales),
                     "total_billing_purchases": float(total_billing_purchases),
-                    "current_month": now.strftime('%B'),
-                    "current_month_short": now.strftime('%b').upper(),
-                },
-                "cashflow": {
-                    "daily": cashflow_daily,
-                    "weekly": cashflow_weekly,
-                    "monthly": cashflow_monthly,
                 },
                 "summary": {
                     "total_sales": float(total_sales or 0),
@@ -219,14 +296,14 @@ class BusinessSummaryView(APIView):
                 },
                 "top_products": [
                     {
-                        "name": item['product_id__product_name'], 
-                        "quantity": item['total_qty'], 
+                        "name": item['product_id__product_name'],
+                        "quantity": item['total_qty'],
                         "revenue": float(item['total_revenue'] or 0)
                     } for item in top_products
                 ],
                 "category_distribution": [
                     {
-                        "name": item['product_id__category__name'] or "Uncategorized", 
+                        "name": item['product_id__category__name'] or "Uncategorized",
                         "value": float(item['value'] or 0)
                     } for item in sales_by_category
                 ],

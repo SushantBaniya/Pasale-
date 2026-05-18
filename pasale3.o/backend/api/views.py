@@ -1,3 +1,5 @@
+from .models import Reminder
+from .serializers import ReminderSerializer
 import json
 import traceback
 import random
@@ -30,16 +32,16 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.models import (
-    Business, Counter, Customer, Department, Employee, ForgetPasswordOTP, 
-    Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem, 
-    Shift, Order, OrderStatus, AprioriRule, EmployeeSchedule, Skill, 
+    Business, Counter, Customer, Department, Employee, ForgetPasswordOTP,
+    Party, Product, StockAlert, Supplier, Expense, Billing, BillingItem,
+    Shift, Order, OrderStatus, AprioriRule, EmployeeSchedule, Skill,
     EmployeeSkill, PaymentTransaction, OrderItem, ExpenseCategory
 )
 from api.serializers import (
-    CounterSerializer, ProductSerializer, PartySerializer, 
-    StockAlertSerializer, ExpenseSerializer, BillingSerializer, 
-    BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer, 
-    ShiftSerializer, SchedulerRequestSerializer, OrderSerializer, 
+    CounterSerializer, ProductSerializer, PartySerializer,
+    StockAlertSerializer, ExpenseSerializer, BillingSerializer,
+    BillingItemSerializer, EmployeeSerializer, SkillSerializer, EmployeeSkillSerializer,
+    ShiftSerializer, SchedulerRequestSerializer, OrderSerializer,
     AprioriRuleSerializer, PaymentTransactionSerializer
 )
 from api.tasks import send_otp_email
@@ -48,7 +50,6 @@ from api.services.employeeServices import get_all_employees, create_employee
 from api.services.scheduler import WSMStaffScheduler
 from api.services.orderServices import get_order, create_order
 from api.utils.apiriori_utils import get_reorder_suggestions, run_apriori, save_rules_to_db, create_apriori_stock_alerts, resolve_apriori_alerts
-
 
 
 # OTP Expiry Time (5 minutes)
@@ -468,20 +469,22 @@ class ApiPartyView(APIView):
 
     def get(self, request, business_id=None, party_id=None):
         if not business_id:
-             business_id = request.query_params.get('business_id')
+            business_id = request.query_params.get('business_id')
         if not business_id:
-             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         if party_id:
             try:
-                party = Party.objects.select_related('business_id').get(id=party_id, business_id=business_id)
+                party = Party.objects.select_related('business_id').get(
+                    id=party_id, business_id=business_id)
                 serializer = PartySerializer(party)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except Party.DoesNotExist:
                 return Response({'error': 'Party not found'}, status=status.HTTP_404_NOT_FOUND)
 
         category_type = request.query_params.get('category_type')
-        parties = Party.objects.filter(business_id=business_id).select_related('business_id').order_by('-id')
+        parties = Party.objects.filter(business_id=business_id).select_related(
+            'business_id').order_by('-id')
         if category_type:
             parties = parties.filter(Category_type=category_type)
 
@@ -493,13 +496,13 @@ class ApiPartyView(APIView):
 
     def post(self, request, business_id=None):
         if not business_id:
-             business_id = request.query_params.get('business_id')
+            business_id = request.query_params.get('business_id')
         if not business_id:
-             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         data = request.data.copy()
         data['business_id'] = business_id
-        
+
         category = data.get('Category_type')
         if category not in ['Customer', 'Supplier']:
             return Response({"error": "Invalid Category. Must be 'Customer' or 'Supplier'"},
@@ -516,10 +519,10 @@ class ApiPartyView(APIView):
 
     def put(self, request, business_id=None, party_id=None):
         if not business_id:
-             business_id = request.query_params.get('business_id')
+            business_id = request.query_params.get('business_id')
         if not party_id:
-             party_id = request.query_params.get('id')
-             
+            party_id = request.query_params.get('id')
+
         if not business_id or not party_id:
             return Response({'error': 'Business ID and Party ID are required'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -539,10 +542,10 @@ class ApiPartyView(APIView):
 
     def delete(self, request, business_id=None, party_id=None):
         if not business_id:
-             business_id = request.query_params.get('business_id')
+            business_id = request.query_params.get('business_id')
         if not party_id:
-             party_id = request.query_params.get('id')
-             
+            party_id = request.query_params.get('id')
+
         if not business_id or not party_id:
             return Response({'error': 'Business ID and Party ID are required'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -560,7 +563,7 @@ class ApiPaymentTransactionView(APIView):
 
     def get(self, request, business_id=None, transaction_id=None):
         if not business_id:
-             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         if transaction_id:
             try:
@@ -576,7 +579,7 @@ class ApiPaymentTransactionView(APIView):
         txns = PaymentTransaction.objects.filter(business_id=business_id).select_related(
             'party', 'business_id', 'payment_method'
         ).order_by('-date', '-created_at')
-        
+
         if party_id:
             txns = txns.filter(party_id=party_id)
 
@@ -588,7 +591,7 @@ class ApiPaymentTransactionView(APIView):
 
     def post(self, request, business_id=None):
         if not business_id:
-             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         data = request.data.copy()
         data['business_id'] = business_id
@@ -604,7 +607,7 @@ class ApiPaymentTransactionView(APIView):
                 elif txn.transaction_type == 'payment_out':
                     party.open_balance += txn.amount
                 party.save()
-                
+
             return Response({
                 'message': 'Transaction recorded successfully!',
                 'transaction': PaymentTransactionSerializer(txn).data
@@ -616,7 +619,8 @@ class ApiPaymentTransactionView(APIView):
             return Response({'error': 'Business ID and Transaction ID are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            txn = PaymentTransaction.objects.get(id=transaction_id, business_id=business_id)
+            txn = PaymentTransaction.objects.get(
+                id=transaction_id, business_id=business_id)
         except PaymentTransaction.DoesNotExist:
             return Response({'error': 'Transaction not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -628,7 +632,7 @@ class ApiPaymentTransactionView(APIView):
                 party.open_balance -= txn.amount
             party.save()
             txn.delete()
-            
+
         return Response({'message': 'Transaction deleted successfully!'}, status=status.HTTP_200_OK)
 
 
@@ -712,7 +716,8 @@ class ApiBillingView(APIView):
                 return Response({'error': 'Billing record not found'}, status=status.HTTP_404_NOT_FOUND)
 
         status_filter = request.query_params.get('status')
-        billings = Billing.objects.filter(business_id=business_id).select_related('party').prefetch_related('items__item').order_by('-id')
+        billings = Billing.objects.filter(business_id=business_id).select_related(
+            'party').prefetch_related('items__item').order_by('-id')
 
         if status_filter:
             billings = billings.filter(invoice_status__iexact=status_filter)
@@ -726,7 +731,7 @@ class ApiBillingView(APIView):
     def post(self, request, business_id=None):
         if not business_id:
             return Response({'error': 'Business ID is required'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         data = request.data.copy()
         data['business_id'] = business_id
         data['user'] = request.user.id
@@ -740,13 +745,15 @@ class ApiBillingView(APIView):
                 # Handle payment method string to object conversion
                 pm_name = data.get('payment_method')
                 if pm_name and isinstance(pm_name, str):
-                    pm_obj, _ = PaymentMethod.objects.get_or_create(method_name=pm_name)
-                    data['payment_method'] = pm_obj.method_name # SlugRelatedField uses name
+                    pm_obj, _ = PaymentMethod.objects.get_or_create(
+                        method_name=pm_name)
+                    # SlugRelatedField uses name
+                    data['payment_method'] = pm_obj.method_name
 
                 serializer = BillingSerializer(data=data)
                 if not serializer.is_valid():
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                
+
                 billing = serializer.save()
 
                 for item_data in items_data:
@@ -754,11 +761,11 @@ class ApiBillingView(APIView):
                     # Ensure rate and total_price are handled if sent from frontend
                     if 'rate' not in item_data and 'price' in item_data:
                         item_data['rate'] = item_data['price']
-                    
+
                     item_serializer = BillingItemSerializer(data=item_data)
                     if not item_serializer.is_valid():
                         raise ValueError(str(item_serializer.errors))
-                    
+
                     billing_item = item_serializer.save()
 
                     # Stock Management
@@ -1076,9 +1083,10 @@ class StaffSchedulerView(APIView):
                 )
 
             weights = serializer.validated_data.get('weights')
-            
+
             # Run WSM scheduler
-            scheduler = WSMStaffScheduler(business_id, shifts, weights, max_hours)
+            scheduler = WSMStaffScheduler(
+                business_id, shifts, weights, max_hours)
             schedule, unscheduled = scheduler.schedule_shifts_greedy()
             schedule_summary = scheduler.get_schedule_summary()
 
@@ -1240,7 +1248,8 @@ class OrderView(APIView):
                 order_obj = Order.objects.select_related(
                     'order_status', 'customer_id', 'business_id', 'counter'
                 ).prefetch_related(
-                    Prefetch('items', queryset=OrderItem.objects.select_related('status', 'product_id'))
+                    Prefetch('items', queryset=OrderItem.objects.select_related(
+                        'status', 'product_id'))
                 ).get(id=order_obj.id)
 
                 current_status_name = (order_obj.order_status.name.lower()
@@ -1295,7 +1304,8 @@ class CounterView(APIView):
                 serializer = CounterSerializer(counter)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                counters = Counter.objects.filter(business_id=business_id).select_related('business_id')
+                counters = Counter.objects.filter(
+                    business_id=business_id).select_related('business_id')
                 serializer = CounterSerializer(counters, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -1476,7 +1486,6 @@ class StockAlertsView(APIView):
         })
 
 
-
 class ResolveAlertView(APIView):
     """
     PUT /api/inventory/alerts/<id>/resolve/
@@ -1573,7 +1582,6 @@ class RetrainAprioriView(APIView):
         })
 
 
-
 class ManualAssignView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -1639,7 +1647,7 @@ class SkillView(APIView):
             skill = Skill.objects.get(id=skill_id, business_id=business_id)
         except Skill.DoesNotExist:
             return Response({'error': 'Skill not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         serializer = SkillSerializer(skill, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -1673,11 +1681,13 @@ class EmployeeSkillView(APIView):
     def post(self, request, business_id, employee_id):
         data = request.data.copy()
         data['employee'] = employee_id
-        
+
         skill_id = data.get('skill')
         try:
-            employee_skill = EmployeeSkill.objects.get(employee_id=employee_id, skill_id=skill_id)
-            serializer = EmployeeSkillSerializer(employee_skill, data=data, partial=True)
+            employee_skill = EmployeeSkill.objects.get(
+                employee_id=employee_id, skill_id=skill_id)
+            serializer = EmployeeSkillSerializer(
+                employee_skill, data=data, partial=True)
             status_code = status.HTTP_200_OK
         except EmployeeSkill.DoesNotExist:
             serializer = EmployeeSkillSerializer(data=data)
@@ -1690,7 +1700,8 @@ class EmployeeSkillView(APIView):
 
     def delete(self, request, business_id, employee_id, skill_id):
         try:
-            employee_skill = EmployeeSkill.objects.get(employee_id=employee_id, skill_id=skill_id, employee__business_id=business_id)
+            employee_skill = EmployeeSkill.objects.get(
+                employee_id=employee_id, skill_id=skill_id, employee__business_id=business_id)
             employee_skill.delete()
             return Response({'status': 'success', 'message': 'Skill removed from employee'})
         except EmployeeSkill.DoesNotExist:
@@ -1721,7 +1732,7 @@ class ShiftCRUDView(APIView):
             shift = Shift.objects.get(id=shift_id, business_id=business_id)
         except Shift.DoesNotExist:
             return Response({'error': 'Shift not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         serializer = ShiftSerializer(shift, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -1736,23 +1747,26 @@ class ShiftCRUDView(APIView):
         except Shift.DoesNotExist:
             return Response({'error': 'Shift not found'}, status=status.HTTP_404_NOT_FOUND)
 
-from .models import Reminder
-from .serializers import ReminderSerializer
 
 class ReminderView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, business_id, reminder_id=None):
-        if reminder_id:
-            try:
-                reminder = Reminder.objects.get(id=reminder_id, business=business_id)
-                serializer = ReminderSerializer(reminder)
-                return Response({'status': 'success', 'data': serializer.data})
-            except Reminder.DoesNotExist:
-                return Response({'error': 'Reminder not found'}, status=status.HTTP_404_NOT_FOUND)
-        reminders = Reminder.objects.filter(business=business_id)
-        serializer = ReminderSerializer(reminders, many=True)
-        return Response({'status': 'success', 'data': serializer.data})
+        try:
+            if reminder_id:
+                try:
+                    reminder = Reminder.objects.get(
+                        id=reminder_id, business=business_id)
+                    serializer = ReminderSerializer(reminder)
+                    return Response({'status': 'success', 'data': serializer.data})
+                except Reminder.DoesNotExist:
+                    return Response({'error': 'Reminder not found'}, status=status.HTTP_404_NOT_FOUND)
+            reminders = Reminder.objects.filter(
+                business=business_id).order_by('due_date')
+            serializer = ReminderSerializer(reminders, many=True)
+            return Response({'status': 'success', 'data': serializer.data})
+        except Exception:
+            return Response({'status': 'success', 'data': []})
 
     def post(self, request, business_id):
         data = request.data.copy()
@@ -1765,7 +1779,8 @@ class ReminderView(APIView):
 
     def put(self, request, business_id, reminder_id):
         try:
-            reminder = Reminder.objects.get(id=reminder_id, business=business_id)
+            reminder = Reminder.objects.get(
+                id=reminder_id, business=business_id)
         except Reminder.DoesNotExist:
             return Response({'error': 'Reminder not found'}, status=status.HTTP_404_NOT_FOUND)
         data = request.data.copy()
@@ -1778,9 +1793,9 @@ class ReminderView(APIView):
 
     def delete(self, request, business_id, reminder_id):
         try:
-            reminder = Reminder.objects.get(id=reminder_id, business=business_id)
+            reminder = Reminder.objects.get(
+                id=reminder_id, business=business_id)
             reminder.delete()
             return Response({'status': 'success', 'message': 'Reminder deleted'})
         except Reminder.DoesNotExist:
             return Response({'error': 'Reminder not found'}, status=status.HTTP_404_NOT_FOUND)
-
