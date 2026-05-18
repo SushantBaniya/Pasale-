@@ -360,7 +360,7 @@ export const businessApi = {
 // ================================
 
 export const reportApi = {
-  getSummary: async (params?: { start_date?: string, end_date?: string }): Promise<any> => {
+  getSummary: async (params?: { start_date?: string, end_date?: string, scope?: string }): Promise<any> => {
     const bid = getBusinessId();
     if (!bid) throw new Error('Business ID not found');
     let url = `/reports/summary/b${bid}/`;

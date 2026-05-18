@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useBusinessStore } from '../../store/businessStore';
-import { reportApi, productApi, partyApi, billingApi, inventoryApi, reminderApi } from '../../utils/api';
+import { reportApi, inventoryApi, reminderApi } from '../../utils/api';
 import { ReminderModal } from '../../components/dashboard/ReminderModal';
 import {
   FiArrowDownLeft, FiArrowUpRight, FiCalendar, FiPackage, FiShoppingCart,
@@ -72,7 +72,7 @@ export default function DashboardPage() {
   
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [stockAlerts, setStockAlerts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [summaryLoading, setSummaryLoading] = useState(true);
   const [chartPeriod, setChartPeriod] = useState<'daily' | 'weekly' | 'monthly'>('daily');
   const [showAddMore, setShowAddMore] = useState(false);
   const [reminders, setReminders] = useState<any[]>([]);
@@ -97,46 +97,18 @@ export default function DashboardPage() {
     return 'User';
   };
 
-  // Fetch dashboard data from backend
+  // Fetch core summary data (critical for first paint)
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      setLoading(true);
+    let isMounted = true;
+    const fetchSummary = async () => {
+      setSummaryLoading(true);
       try {
-        const [data, alertsResponse, allProducts, remindersResponse] = await Promise.all([
-          reportApi.getSummary(),
-          inventoryApi.getAlerts().catch(() => ({})),
-          productApi.getAll().catch(() => []), // Fetch products to calculate real-time alerts if needed
-          reminderApi.getReminders().catch(() => ({ data: [] }))
-        ]);
-        
+        const data = await reportApi.getSummary({ scope: 'dashboard' });
+        if (!isMounted) return;
         setDashboardData(data);
-        if (remindersResponse?.data) {
-          setReminders(remindersResponse.data);
-        }
-        let alertsArray: any[] = [];
-        if (Array.isArray(alertsResponse)) alertsArray = alertsResponse;
-        else if (alertsResponse && Array.isArray(alertsResponse.alerts)) alertsArray = alertsResponse.alerts;
-        else if (alertsResponse && alertsResponse.data && Array.isArray(alertsResponse.data.alerts)) alertsArray = alertsResponse.data.alerts;
-
-        const items = allProducts?.results || allProducts || [];
-        if (alertsArray.length === 0 && Array.isArray(items) && items.length > 0) {
-          alertsArray = items
-            .filter((p: any) => {
-              const qty = p.quantity || 0;
-              const threshold = p.reorder_level || p.low_stock_threshold || 5;
-              return qty <= threshold;
-            })
-            .map((p: any) => ({
-              id: p.id,
-              product_name: p.product_name,
-              product_quantity: p.quantity || 0,
-              message: (p.quantity || 0) === 0 ? `Out of Stock: ${p.product_name}` : `Low Stock: ${p.product_name} (${p.quantity} left)`
-            }));
-        }
-
-        setStockAlerts(alertsArray);
       } catch (err) {
-        console.error('Failed to fetch dashboard data:', err);
+        console.error('Failed to fetch dashboard summary:', err);
+        if (!isMounted) return;
         setDashboardData({
           dashboard: {
             to_receive: 0, to_give: 0, monthly_sales: 0, monthly_purchase: 0,
@@ -145,10 +117,47 @@ export default function DashboardPage() {
           cashflow: { daily: [], weekly: [], monthly: [] },
         });
       } finally {
-        setLoading(false);
+        if (isMounted) setSummaryLoading(false);
       }
     };
-    fetchDashboardData();
+
+    fetchSummary();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Fetch reminders/alerts in the background so they don't block initial load
+  useEffect(() => {
+    let isMounted = true;
+    const fetchSideData = async () => {
+      try {
+        const [alertsResponse, remindersResponse] = await Promise.all([
+          inventoryApi.getAlerts().catch(() => ({})),
+          reminderApi.getReminders().catch(() => ({ data: [] })),
+        ]);
+
+        if (!isMounted) return;
+
+        if (remindersResponse?.data) {
+          setReminders(remindersResponse.data);
+        }
+
+        let alertsArray: any[] = [];
+        if (Array.isArray(alertsResponse)) alertsArray = alertsResponse;
+        else if (alertsResponse && Array.isArray(alertsResponse.alerts)) alertsArray = alertsResponse.alerts;
+        else if (alertsResponse && alertsResponse.data && Array.isArray(alertsResponse.data.alerts)) alertsArray = alertsResponse.data.alerts;
+
+        setStockAlerts(alertsArray);
+      } catch (err) {
+        console.error('Failed to fetch dashboard side data:', err);
+      }
+    };
+
+    fetchSideData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const db = dashboardData?.dashboard || {};
@@ -170,7 +179,7 @@ export default function DashboardPage() {
     return String(value);
   };
 
-  if (loading) {
+  if (summaryLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">

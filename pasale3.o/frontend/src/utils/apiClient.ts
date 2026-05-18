@@ -5,6 +5,10 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
+const REQUEST_CACHE_TTL_MS = 30000;
+const responseCache = new Map<string, { expires: number; data: any; status: number }>();
+const inflightRequests = new Map<string, Promise<{ data: any; error: string | null; status: number }>>();
+
 // Track if we're currently refreshing the token
 let isRefreshing = false;
 let refreshSubscribers: Array<(token: string) => void> = [];
@@ -202,102 +206,142 @@ class ApiClient {
     }
 
     const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+    const method = (options.method || 'GET').toUpperCase();
+    const cacheKey = `${method}:${fullUrl}`;
 
-    try {
-      let response = await fetch(fullUrl, {
-        ...options,
-        headers,
-      });
+    if (method === 'GET') {
+      const cached = responseCache.get(cacheKey);
+      if (cached && cached.expires > Date.now()) {
+        return { data: cached.data as T, error: null, status: cached.status };
+      }
 
-      // If 401, try to refresh the token
-      if (response.status === 401) {
-        if (!isRefreshing) {
-          isRefreshing = true;
+      const inFlight = inflightRequests.get(cacheKey);
+      if (inFlight) {
+        return inFlight as Promise<{ data: T | null; error: string | null; status: number }>;
+      }
+    }
 
-          const newToken = await refreshAccessToken();
+    const runRequest = async (): Promise<{ data: T | null; error: string | null; status: number }> => {
+      try {
+        let response = await fetch(fullUrl, {
+          ...options,
+          headers,
+        });
 
-          isRefreshing = false;
+        // If 401, try to refresh the token
+        if (response.status === 401) {
+          if (!isRefreshing) {
+            isRefreshing = true;
 
-          if (newToken) {
-            onRefreshed(newToken);
+            const newToken = await refreshAccessToken();
 
-            // Retry the original request with new token
-            headers['Authorization'] = `Bearer ${newToken}`;
-            response = await fetch(fullUrl, {
-              ...options,
-              headers,
-            });
-          } else {
-            // Token refresh failed, redirect to login
-            window.location.href = '/login';
-            return { data: null, error: 'Session expired. Please login again.', status: 401 };
-          }
-        } else {
-          // Wait for the token to be refreshed
-          return new Promise((resolve) => {
-            subscribeTokenRefresh(async (newToken) => {
+            isRefreshing = false;
+
+            if (newToken) {
+              onRefreshed(newToken);
+
+              // Retry the original request with new token
               headers['Authorization'] = `Bearer ${newToken}`;
-              const retryResponse = await fetch(fullUrl, {
+              response = await fetch(fullUrl, {
                 ...options,
                 headers,
               });
+            } else {
+              // Token refresh failed, redirect to login
+              window.location.href = '/login';
+              return { data: null, error: 'Session expired. Please login again.', status: 401 };
+            }
+          } else {
+            // Wait for the token to be refreshed
+            return new Promise((resolve) => {
+              subscribeTokenRefresh(async (newToken) => {
+                headers['Authorization'] = `Bearer ${newToken}`;
+                const retryResponse = await fetch(fullUrl, {
+                  ...options,
+                  headers,
+                });
 
-              if (retryResponse.ok) {
-                const data = await retryResponse.json();
-                resolve({ data, error: null, status: retryResponse.status });
-              } else {
-                resolve({ data: null, error: 'Request failed after token refresh', status: retryResponse.status });
-              }
+                if (retryResponse.ok) {
+                  const data = await retryResponse.json();
+                  resolve({ data, error: null, status: retryResponse.status });
+                } else {
+                  resolve({ data: null, error: 'Request failed after token refresh', status: retryResponse.status });
+                }
+              });
             });
-          });
-        }
-      }
-
-      if (!response.ok) {
-        let errorMessage = 'An error occurred';
-        try {
-          const errorData = await response.json();
-          
-          if (typeof errorData === 'string') {
-            errorMessage = errorData;
-          } else if (errorData.error && typeof errorData.error === 'string') {
-            errorMessage = errorData.error;
-          } else if (errorData.message && typeof errorData.message === 'string') {
-            errorMessage = errorData.message;
-          } else if (errorData.detail && typeof errorData.detail === 'string') {
-            errorMessage = errorData.detail;
-          } else if (Array.isArray(errorData)) {
-            errorMessage = errorData.join(', ');
-          } else if (typeof errorData === 'object' && errorData !== null) {
-            // Handle field-specific validation errors (e.g. { "counter_number": ["This field must be unique."] })
-            const messages = Object.entries(errorData).map(([key, value]) => {
-              const displayKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
-              if (Array.isArray(value)) {
-                return `${displayKey}: ${value.join(', ')}`;
-              }
-              if (typeof value === 'string') {
-                return `${displayKey}: ${value}`;
-              }
-              return `${displayKey}: ${JSON.stringify(value)}`;
-            });
-            errorMessage = messages.join(' | ') || errorMessage;
           }
-        } catch {
-          errorMessage = response.statusText || errorMessage;
         }
-        return { data: null, error: errorMessage, status: response.status };
-      }
 
-      const data = await response.json();
-      return { data, error: null, status: response.status };
-    } catch (error) {
-      console.error('API request error:', error);
-      return {
-        data: null,
-        error: error instanceof Error ? error.message : 'Network error',
-        status: 0
-      };
+        if (!response.ok) {
+          let errorMessage = 'An error occurred';
+          try {
+            const errorData = await response.json();
+            
+            if (typeof errorData === 'string') {
+              errorMessage = errorData;
+            } else if (errorData.error && typeof errorData.error === 'string') {
+              errorMessage = errorData.error;
+            } else if (errorData.message && typeof errorData.message === 'string') {
+              errorMessage = errorData.message;
+            } else if (errorData.detail && typeof errorData.detail === 'string') {
+              errorMessage = errorData.detail;
+            } else if (Array.isArray(errorData)) {
+              errorMessage = errorData.join(', ');
+            } else if (typeof errorData === 'object' && errorData !== null) {
+              // Handle field-specific validation errors (e.g. { "counter_number": ["This field must be unique."] })
+              const messages = Object.entries(errorData).map(([key, value]) => {
+                const displayKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ');
+                if (Array.isArray(value)) {
+                  return `${displayKey}: ${value.join(', ')}`;
+                }
+                if (typeof value === 'string') {
+                  return `${displayKey}: ${value}`;
+                }
+                return `${displayKey}: ${JSON.stringify(value)}`;
+              });
+              errorMessage = messages.join(' | ') || errorMessage;
+            }
+          } catch {
+            errorMessage = response.statusText || errorMessage;
+          }
+          return { data: null, error: errorMessage, status: response.status };
+        }
+
+        const data = await response.json();
+        return { data, error: null, status: response.status };
+      } catch (error) {
+        console.error('API request error:', error);
+        return {
+          data: null,
+          error: error instanceof Error ? error.message : 'Network error',
+          status: 0
+        };
+      }
+    };
+
+    const requestPromise = runRequest();
+    if (method === 'GET') {
+      inflightRequests.set(cacheKey, requestPromise);
     }
+
+    let result: { data: T | null; error: string | null; status: number };
+    try {
+      result = await requestPromise;
+    } finally {
+      if (method === 'GET') {
+        inflightRequests.delete(cacheKey);
+      }
+    }
+
+    if (method === 'GET' && !result.error && result.status >= 200 && result.status < 300) {
+      responseCache.set(cacheKey, {
+        expires: Date.now() + REQUEST_CACHE_TTL_MS,
+        data: result.data,
+        status: result.status,
+      });
+    }
+
+    return result as { data: T | null; error: string | null; status: number };
   }
 
   // Helper methods that throw on error and return data directly
