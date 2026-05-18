@@ -176,7 +176,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                 {type === 'income' ? <FiTrendingUp className="w-5 h-5" /> : <FiTrendingDown className="w-5 h-5" />}
               </div>
               <div>
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   {mode === 'payment_in' ? 'Payment In' :
                     mode === 'payment_out' ? 'Payment Out' :
                       mode === 'quotation' ? 'New Quotation' :
@@ -222,7 +222,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                   setTransactionType('selling');
                   setCategory('');
                 }}
-                className={`flex-1 px-4 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${type === 'income'
+                className={`flex-1 px-4 py-2.5 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${type === 'income'
                   ? 'bg-[#F2DD50] text-white shadow-md shadow-blue-500/30'
                   : '#475569 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
@@ -237,7 +237,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                   setTransactionType('expense');
                   setCategory('');
                 }}
-                className={`flex-1 px-4 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${type === 'expense'
+                className={`flex-1 px-4 py-2.5 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${type === 'expense'
                   ? 'bg-red-600 text-white shadow-md shadow-red-500/30'
                   : '#475569 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
@@ -251,7 +251,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
           {/* Transaction Sub-Type (for income) - Only show for general mode */}
           {type === 'income' && mode === 'general' && (
             <div className="bg-[#F1F5F9] dark:bg-[#F2DD50]/15 p-3 rounded-lg border border-[#F2DD50]/30 dark:border-[#F2DD50]/50">
-              <label className="text-xs font-semibold mb-2 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+              <label className="text-xs font-medium mb-2 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                 <FiTag className="w-3.5 h-3.5" />
                 {t('dialog.transactionType')}
               </label>
@@ -259,7 +259,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                 <button
                   type="button"
                   onClick={() => setTransactionType('selling')}
-                  className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold border-2 transition-all flex items-center justify-center gap-1.5 ${transactionType === 'selling'
+                  className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium border-2 transition-all flex items-center justify-center gap-1.5 ${transactionType === 'selling'
                     ? 'bg-[#F2DD50] text-white border-blue-600 shadow-md'
                     : 'bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#64748B] #E2E8F0 dark:border-[#2A2B36] hover:border-blue-400'
                     }`}
@@ -270,7 +270,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                 <button
                   type="button"
                   onClick={() => setTransactionType('purchase')}
-                  className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold border-2 transition-all flex items-center justify-center gap-1.5 ${transactionType === 'purchase'
+                  className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium border-2 transition-all flex items-center justify-center gap-1.5 ${transactionType === 'purchase'
                     ? 'bg-purple-600 text-white border-purple-600 shadow-md'
                     : 'bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#64748B] #E2E8F0 dark:border-[#2A2B36] hover:border-purple-400'
                     }`}
@@ -288,18 +288,18 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
             <div className="space-y-4">
               {/* Amount */}
               <div className="#FFFFFF dark:bg-[#15161C]/50 p-3 rounded-xl">
-                <label className="text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
-                  <span className="font-bold">रु</span>
+                <label className="text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                  <span className="font-medium">रु</span>
                   {t('common.amount')} *
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 #475569 font-bold text-sm">Rs.</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 #475569 font-medium text-sm">Rs.</span>
                   <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className={`w-full pl-12 pr-3 py-3 rounded-lg border-2 text-xl font-bold ${errors.amount
+                    className={`w-full pl-12 pr-3 py-3 rounded-lg border-2 text-xl font-medium ${errors.amount
                       ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
                       : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
                       } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
@@ -310,7 +310,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
 
               {/* Date */}
               <div>
-                <label className="text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                <label className="text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                   <FiCalendar className="w-3.5 h-3.5" />
                   {t('common.date')} *
                 </label>
@@ -329,11 +329,11 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
               {/* Party */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-semibold text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                  <label className="text-xs font-medium text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                     <FiUser className="w-3.5 h-3.5" />
                     {t('dialog.partyOptional')}
                   </label>
-                  <a href="/parties" className="text-[10px] font-bold text-[#F2DD50] dark:text-[#F2DD50] hover:underline flex items-center gap-1">
+                  <a href="/parties" className="text-[10px] font-medium text-[#F2DD50] dark:text-[#F2DD50] hover:underline flex items-center gap-1">
                     <FiPlus className="w-3 h-3" />
                     {t('common.add')}
                   </a>
@@ -354,7 +354,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
 
               {/* Reference Number */}
               <div>
-                <label className="text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                <label className="text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                   <FiHash className="w-3.5 h-3.5" />
                   Reference / Invoice No.
                 </label>
@@ -372,7 +372,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
             <div className="space-y-4">
               {/* Category */}
               <div>
-                <label className="text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                <label className="text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                   <FiTag className="w-3.5 h-3.5" />
                   {t('category')} *
                 </label>
@@ -399,7 +399,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
 
               {/* Payment Method */}
               <div>
-                <label className="text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                <label className="text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                   <FiCreditCard className="w-3.5 h-3.5" />
                   {t('dialog.paymentMethod')}
                 </label>
@@ -427,7 +427,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
               {/* Discount & Tax */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                  <label className="text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                     <FiPercent className="w-3.5 h-3.5" />
                     Discount (Rs.)
                   </label>
@@ -440,7 +440,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B]">
+                  <label className="block text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B]">
                     Tax / VAT (%)
                   </label>
                   <select
@@ -458,7 +458,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
 
               {/* Notes */}
               <div>
-                <label className="text-xs font-semibold mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                <label className="text-xs font-medium mb-1.5 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                   <FiFileText className="w-3.5 h-3.5" />
                   {t('dialog.notes')}
                 </label>
@@ -473,7 +473,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
 
               {/* Attachments - moved here */}
               <div className="#FFFFFF dark:bg-[#15161C]/50 p-3 rounded-xl">
-                <label className="text-xs font-semibold mb-2 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
+                <label className="text-xs font-medium mb-2 text-gray-700 dark:text-[#64748B] flex items-center gap-1.5">
                   <FiPaperclip className="w-3.5 h-3.5" />
                   {t('dialog.attachments')}
                 </label>
@@ -528,7 +528,7 @@ export const AddTransactionDialog: React.FC<AddTransactionDialogProps> = ({
                   )}
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">Total:</span>
+                  <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">Total:</span>
                   <span className={`text-xl font-black ${type === 'income' ? 'text-[#F2DD50]' : 'text-red-600'}`}>
                     Rs. {calculateTotal().toLocaleString()}
                   </span>

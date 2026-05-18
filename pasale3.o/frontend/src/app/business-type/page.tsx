@@ -48,7 +48,7 @@ export default function BusinessTypePage() {
       </div>
 
       <div className="w-full max-w-4xl pt-12 sm:pt-0">
-        <h1 className="text-xl sm:text-2xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 lg:mb-12 #1E293B dark:text-[#EAE5DF] px-2">
+        <h1 className="text-xl sm:text-2xl lg:text-4xl font-medium text-center mb-6 sm:mb-8 lg:mb-12 #1E293B dark:text-[#EAE5DF] px-2">
           {t('userType.title')}
         </h1>
 
@@ -64,7 +64,7 @@ export default function BusinessTypePage() {
               <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-[#F1F5F9] dark:bg-blue-900/40 mb-3 sm:mb-4 lg:mb-6">
                 <FiUser className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-[#F2DD50] dark:text-[#F2DD50]" />
               </div>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 lg:mb-4 #1E293B dark:text-[#EAE5DF]">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-medium mb-2 sm:mb-3 lg:mb-4 #1E293B dark:text-[#EAE5DF]">
                 {t('userType.personal')}
               </h2>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
@@ -84,7 +84,7 @@ export default function BusinessTypePage() {
               <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-purple-100 dark:bg-purple-900/40 mb-3 sm:mb-4 lg:mb-6">
                 <FiBriefcase className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-purple-600 dark:text-purple-400" />
               </div>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 lg:mb-4 #1E293B dark:text-[#EAE5DF]">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-medium mb-2 sm:mb-3 lg:mb-4 #1E293B dark:text-[#EAE5DF]">
                 {t('userType.business')}
               </h2>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">

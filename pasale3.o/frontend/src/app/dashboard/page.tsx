@@ -24,25 +24,21 @@ const formatFull = (n: number) => {
 //  KPI Card Component 
 interface KpiCardProps {
   label: string;
-  value: string;
+  value: string | number;
   icon: React.ReactNode;
-  bgColor: string;
-  valueColor?: string;
+  iconBg: string;
+  iconColor: string;
 }
 
-const KpiCard: React.FC<KpiCardProps> = ({ label, value, icon, bgColor, valueColor }) => (
-  <div className={`${bgColor} border border-[#CBD5E1] dark:border-[#2A2B36] shadow-sm rounded-xl p-4 sm:p-5 transition-all duration-200 hover:shadow-md cursor-pointer min-w-0`}>
-    <div className="mb-3">
-      <div className="w-10 h-10 rounded-lg bg-white/60 dark:bg-white/10 flex items-center justify-center">
-        {icon}
-      </div>
+const KpiCard: React.FC<KpiCardProps> = ({ label, value, icon, iconBg, iconColor }) => (
+  <div className="bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#2A2B36] rounded-xl p-4 flex justify-between items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer min-w-0">
+    <div style={{ width: 44, height: 44, borderRadius: 12, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: iconColor }}>
+      {icon}
     </div>
-    <p className="text-[11px] font-semibold text-black dark:text-[#64748B] uppercase tracking-wider mb-1">
-      {label}
-    </p>
-    <p className={`text-lg sm:text-xl font-bold ${valueColor || 'text-black dark:text-[#EAE5DF]'} leading-snug break-words`}>
-      {value}
-    </p>
+    <div className="text-right overflow-hidden ml-3">
+      <p className="text-[10px] xl:text-[11px] font-medium text-[#94A3B8] dark:text-[#64748B] tracking-wider uppercase mb-1 truncate">{label}</p>
+      <p className="text-xl sm:text-2xl font-medium text-[#111827] dark:text-[#EAE5DF] leading-none truncate">{value}</p>
+    </div>
   </div>
 );
 
@@ -211,7 +207,7 @@ export default function DashboardPage() {
         <div className="absolute top-0 right-0 bottom-0 left-0 bg-cover bg-center opacity-40 mix-blend-overlay"></div>
         <div className="relative z-10 flex justify-between items-center w-full">
            <div>
-              <p className="text-xs sm:text-sm font-semibold tracking-widest text-white/90 uppercase mb-2">Admin Panel</p>
+              <p className="text-xs sm:text-sm font-medium tracking-widest text-white/90 uppercase mb-2">Admin Panel</p>
               <h1 className="text-2xl sm:text-4xl font-normal tracking-wide">Welcome back, {getUserName()}</h1>
            </div>
            <div className="text-right hidden sm:block">
@@ -222,41 +218,41 @@ export default function DashboardPage() {
       </div>
 
       {/*  KPI Cards  */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4 mb-6">
         <KpiCard
           label="TO RECEIVE"
           value={formatFull(db.to_receive || 0)}
-          icon={<FiArrowDownLeft className="w-5 h-5 text-[#10B981]" />}
-          bgColor="bg-[#FFFFFF] dark:bg-[#15161C]"
-          valueColor="text-black dark:text-[#EAE5DF]"
+          icon={<FiArrowDownLeft size={22} />}
+          iconBg="#F0FDF4"
+          iconColor="#10B981"
         />
         <KpiCard
           label="TO GIVE"
           value={formatFull(db.to_give || 0)}
-          icon={<FiArrowUpRight className="w-5 h-5 text-[#EF4444]" />}
-          bgColor="bg-[#FFFFFF] dark:bg-[#15161C]"
-          valueColor="text-black dark:text-[#EAE5DF]"
+          icon={<FiArrowUpRight size={22} />}
+          iconBg="#FEF2F2"
+          iconColor="#EF4444"
         />
         <KpiCard
           label={`SALES (${db.current_month_short || 'MTH'})`}
           value={formatFull(db.monthly_sales || 0)}
-          icon={<FiCalendar className="w-5 h-5 text-[#3B82F6]" />}
-          bgColor="bg-[#FFFFFF] dark:bg-[#15161C]"
-          valueColor="text-black dark:text-[#EAE5DF]"
+          icon={<FiCalendar size={22} />}
+          iconBg="#EFF6FF"
+          iconColor="#3B82F6"
         />
         <KpiCard
           label={`PURCHASE (${db.current_month_short || 'MTH'})`}
           value={formatFull(db.monthly_purchase || 0)}
-          icon={<FiShoppingCart className="w-5 h-5 text-[#F97316]" />}
-          bgColor="bg-[#FFFFFF] dark:bg-[#15161C]"
-          valueColor="text-black dark:text-[#EAE5DF]"
+          icon={<FiShoppingCart size={22} />}
+          iconBg="#FFF7ED"
+          iconColor="#F97316"
         />
         <KpiCard
-          label="INVENTORY VALUE"
+          label="INVENTORY"
           value={formatFull(db.inventory_value || 0)}
-          icon={<FiPackage className="w-5 h-5 text-[#8B5CF6]" />}
-          bgColor="bg-[#FFFFFF] dark:bg-[#15161C]"
-          valueColor="text-black dark:text-[#EAE5DF]"
+          icon={<FiPackage size={22} />}
+          iconBg="#FAF5FF"
+          iconColor="#8B5CF6"
         />
       </div>
 
@@ -266,7 +262,7 @@ export default function DashboardPage() {
         {/* Orders Table */}
         <div className="bg-white dark:bg-[#15161C] border border-[#CBD5E1] dark:border-[#2A2B36] rounded-xl overflow-hidden flex flex-col shadow-sm">
            <div className="px-5 py-4 border-b border-[#E2E8F0] dark:border-[#1C1D24]/50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-              <h2 className="text-[16px] font-bold text-black dark:text-[#EAE5DF]">Orders</h2>
+              <h2 className="text-[16px] font-medium text-black dark:text-[#EAE5DF]">Orders</h2>
               <div className="relative w-full sm:w-72">
                  <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black w-4 h-4" />
                  <input 
@@ -283,11 +279,11 @@ export default function DashboardPage() {
               <table className="w-full text-left border-collapse min-w-[600px]">
                  <thead>
                     <tr className="border-b border-[#E2E8F0] dark:border-[#1C1D24]/50 bg-[#F7FAFC]/50 dark:bg-[#1C1D24]/30">
-                       <th className="px-5 py-3 text-xs font-semibold text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Order</th>
-                       <th className="px-5 py-3 text-xs font-semibold text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Location</th>
-                       <th className="px-5 py-3 text-xs font-semibold text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Status</th>
-                       <th className="px-5 py-3 text-xs font-semibold text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Created At</th>
-                       <th className="px-5 py-3 text-xs font-semibold text-black dark:text-[#44454F] uppercase tracking-wider text-right w-[20%]">Amount</th>
+                       <th className="px-5 py-3 text-xs font-medium text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Order</th>
+                       <th className="px-5 py-3 text-xs font-medium text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Location</th>
+                       <th className="px-5 py-3 text-xs font-medium text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Status</th>
+                       <th className="px-5 py-3 text-xs font-medium text-black dark:text-[#44454F] uppercase tracking-wider w-[20%]">Created At</th>
+                       <th className="px-5 py-3 text-xs font-medium text-black dark:text-[#44454F] uppercase tracking-wider text-right w-[20%]">Amount</th>
                     </tr>
                  </thead>
                  <tbody>
@@ -310,15 +306,15 @@ export default function DashboardPage() {
                           className="border-b border-gray-50 dark:border-[#1C1D24] hover:bg-slate-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors" 
                           onClick={() => navigate(`/billing?billingId=${billing.id}`)}
                         >
-                           <td className="px-5 py-4 font-bold text-black dark:text-[#EAE5DF] text-sm">
+                           <td className="px-5 py-4 font-medium text-black dark:text-[#EAE5DF] text-sm">
                              #{String(billing.id).padStart(6, '0')}
                              <div className="text-[11px] font-medium text-slate-400 mt-0.5">{billing.invoice_number || '-'}</div>
                            </td>
-                           <td className="px-5 py-4 font-bold text-black dark:text-[#EAE5DF] text-sm">
+                           <td className="px-5 py-4 font-medium text-black dark:text-[#EAE5DF] text-sm">
                              {billing.party?.name || 'Walk-in Customer'}
                            </td>
                            <td className="px-5 py-4">
-                             <span className={`px-2.5 py-1 text-[10px] font-bold rounded-full uppercase tracking-wide ${
+                             <span className={`px-2.5 py-1 text-[10px] font-medium rounded-full uppercase tracking-wide ${
                                billing.invoice_status?.toLowerCase() === 'paid' 
                                  ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
                                  : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
@@ -326,7 +322,7 @@ export default function DashboardPage() {
                                {billing.invoice_status || 'PENDING'}
                              </span>
                            </td>
-                           <td className="px-5 py-4 font-bold text-black dark:text-[#EAE5DF] text-xs">
+                           <td className="px-5 py-4 font-medium text-black dark:text-[#EAE5DF] text-xs">
                              {new Date(billing.invoice_date || billing.created_at || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }).toUpperCase()}
                            </td>
                            <td className="px-5 py-4 font-black text-[#10B981] text-sm text-right">
@@ -345,7 +341,7 @@ export default function DashboardPage() {
           {/* Stock Alerts */}
           <div className="bg-white dark:bg-[#15161C] border border-[#CBD5E1] dark:border-[#2A2B36] rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-black dark:text-[#EAE5DF]">
+              <h3 className="text-sm font-medium text-black dark:text-[#EAE5DF]">
                 Stock Alerts
               </h3>
             </div>
@@ -353,7 +349,7 @@ export default function DashboardPage() {
             {stockAlerts.length === 0 ? (
               <div className="flex flex-col items-center py-4 text-center">
                 <FiPackage className="w-8 h-8 text-[#E2E8F0] dark:text-gray-700 mb-2" />
-                <p className="text-sm font-semibold text-black dark:text-[#44454F] mb-1">All Good!</p>
+                <p className="text-sm font-medium text-black dark:text-[#44454F] mb-1">All Good!</p>
                 <p className="text-xs text-black dark:#475569">No items are running out of stock.</p>
               </div>
             ) : (
@@ -361,7 +357,7 @@ export default function DashboardPage() {
                 {stockAlerts.map((alert: any, idx: number) => (
                   <div key={alert.id || idx} className="flex justify-between items-center bg-white dark:bg-[#1C1D24] border border-[#E2E8F0] dark:border-[#2A2B36] p-3 rounded-lg">
                     <div>
-                      <p className="text-xs font-semibold text-black dark:text-[#64748B] line-clamp-1">
+                      <p className="text-xs font-medium text-black dark:text-[#64748B] line-clamp-1">
                         {alert.product_name || alert.message || 'Unknown Product'}
                       </p>
                       <p className="text-[11px] text-red-500 dark:text-red-400 mt-0.5 font-medium line-clamp-1">
@@ -369,7 +365,7 @@ export default function DashboardPage() {
                       </p>
                     </div>
                     <div className="text-right whitespace-nowrap pl-2">
-                      <p className="text-sm font-bold text-black dark:text-[#EAE5DF]">{alert.product_quantity ?? 0}</p>
+                      <p className="text-sm font-medium text-black dark:text-[#EAE5DF]">{alert.product_quantity ?? 0}</p>
                       <p className="text-[10px] text-black dark:text-[#44454F]">Qty left</p>
                     </div>
                   </div>
@@ -380,11 +376,11 @@ export default function DashboardPage() {
 
           {/* Upcoming Reminders */}
           <div className="bg-white dark:bg-[#15161C] border border-[#CBD5E1] dark:border-[#2A2B36] rounded-xl p-5 shadow-sm">
-            <h3 className="text-sm font-bold text-black dark:text-[#EAE5DF] mb-4">Upcoming Reminders ({reminders.length})</h3>
+            <h3 className="text-sm font-medium text-black dark:text-[#EAE5DF] mb-4">Upcoming Reminders ({reminders.length})</h3>
             {reminders.length === 0 ? (
               <div className="flex flex-col items-center py-6 text-center">
                 <FiBell className="w-10 h-10 text-[#E2E8F0] dark:text-gray-700 mb-3" />
-                <p className="text-sm font-semibold text-black dark:text-[#44454F] mb-1">
+                <p className="text-sm font-medium text-black dark:text-[#44454F] mb-1">
                   Reminder Not Created Yet!
                 </p>
                 <p className="text-xs text-black dark:text-[#44454F] mb-4">
@@ -392,7 +388,7 @@ export default function DashboardPage() {
                 </p>
                 <button
                   onClick={() => setIsReminderModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 text-[#F2DD50] dark:text-[#F2DD50] text-sm font-semibold hover:text-[#8E7356] dark:hover:text-[#8E7356] transition-colors"
+                  className="inline-flex items-center gap-1.5 text-[#F2DD50] dark:text-[#F2DD50] text-sm font-medium hover:text-[#8E7356] dark:hover:text-[#8E7356] transition-colors"
                 >
                   <FiPlus className="w-4 h-4" /> Add New Reminder
                 </button>
@@ -402,11 +398,11 @@ export default function DashboardPage() {
                 {reminders.map((reminder) => (
                   <div key={reminder.id} className="p-3 bg-[#F7FAFC] dark:bg-[#1C1D24] rounded-lg flex items-center justify-between border border-[#E2E8F0] dark:border-[#2A2B36]">
                     <div>
-                      <h4 className="text-sm font-semibold text-black dark:text-[#EAE5DF]">{reminder.title}</h4>
+                      <h4 className="text-sm font-medium text-black dark:text-[#EAE5DF]">{reminder.title}</h4>
                       {reminder.description && <p className="text-xs text-black dark:text-[#64748B]">{reminder.description}</p>}
                     </div>
                     <div className="text-right">
-                      <span className="text-xs font-semibold text-[#F2DD50] dark:text-[#F2DD50]">
+                      <span className="text-xs font-medium text-[#F2DD50] dark:text-[#F2DD50]">
                         {new Date(reminder.due_date).toLocaleDateString()}
                       </span>
                     </div>
@@ -415,7 +411,7 @@ export default function DashboardPage() {
                 <div className="flex justify-center mt-2">
                   <button
                     onClick={() => setIsReminderModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 text-[#F2DD50] dark:text-[#F2DD50] text-sm font-semibold hover:text-[#8E7356] dark:hover:text-[#8E7356] transition-colors"
+                    className="inline-flex items-center gap-1.5 text-[#F2DD50] dark:text-[#F2DD50] text-sm font-medium hover:text-[#8E7356] dark:hover:text-[#8E7356] transition-colors"
                   >
                     <FiPlus className="w-4 h-4" /> Add New Reminder
                   </button>

@@ -21,7 +21,7 @@ export const NepaliRupeeIcon: React.FC<NepaliRupeeIconProps> = ({ className = ''
 
   return (
     <span
-      className={`inline-flex items-center justify-center font-bold ${className}`}
+      className={`inline-flex items-center justify-center font-medium ${className}`}
       style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
     >
       {symbol}

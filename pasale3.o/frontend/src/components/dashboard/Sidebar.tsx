@@ -101,9 +101,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
           {!isCollapsed && (
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-[#F2DD50] flex items-center justify-center shadow-sm">
-                <span className="text-white font-bold text-sm">P</span>
+                <span className="text-white font-medium text-sm">P</span>
               </div>
-              <h1 className="text-lg font-bold text-white dark:text-[#EAE5DF] tracking-tight">
+              <h1 className="text-lg font-medium text-white dark:text-[#EAE5DF] tracking-tight">
                 Pasale
               </h1>
             </div>
@@ -129,17 +129,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto scrollbar-none py-2">
+        <nav className="flex-1 overflow-y-auto scrollbar-none py-3">
           {/* BUSINESS Section */}
           {!isCollapsed && (
-            <div className="px-4 pt-3 pb-1">
-              <span className="text-[11px] font-semibold text-[#94A3B8] dark:#475569 uppercase tracking-wider">
+            <div className="px-4 pt-2 pb-2">
+              <span className="text-[11px] font-medium text-[#94A3B8] dark:#475569 uppercase tracking-wider">
                 Business
               </span>
             </div>
           )}
           
-          <div className="px-2 space-y-0.5">
+          <div className="px-2 space-y-1">
             {businessMenuItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path ||
@@ -152,10 +152,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                   to={item.path}
                   onClick={() => onClose?.()}
                   className={`
-                    group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative
+                    group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 relative
                     ${isCollapsed ? 'justify-center px-2' : ''}
                     ${isActive
-                      ? 'bg-[#F2DD5022] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50] font-semibold'
+                      ? 'bg-[#F2DD5022] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50]'
                       : 'text-[#94A3B8] dark:text-[#44454F] hover:bg-[#1E293B] dark:hover:bg-gray-800/50 hover:text-white dark:hover:text-gray-200'
                     }
                   `}
@@ -166,7 +166,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                   )}
                   <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-[#F2DD50] dark:text-[#F2DD50]' : ''}`} />
                   {!isCollapsed && (
-                    <span className="text-[13px] truncate flex-1">
+                    <span className="text-[14px] truncate flex-1">
                       {item.label}
                     </span>
                   )}
@@ -177,53 +177,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
 
           {/* OTHERS Section */}
           {!isCollapsed && (
-            <div className="px-4 pt-5 pb-1">
-              <span className="text-[11px] font-semibold text-[#94A3B8] dark:#475569 uppercase tracking-wider">
+            <div className="px-4 pt-6 pb-2">
+              <span className="text-[11px] font-medium text-[#94A3B8] dark:#475569 uppercase tracking-wider">
                 Others
               </span>
             </div>
           )}
 
-          <div className="px-2 space-y-0.5">
-            {/* Help & Support */}
-            <button
-              className={`
-                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
-                ${isCollapsed ? 'justify-center px-2' : ''}
-                text-[#94A3B8] dark:text-[#44454F] hover:bg-[#1E293B] dark:hover:bg-gray-800/50 hover:text-white dark:hover:text-gray-200
-              `}
-              title={isCollapsed ? 'Help & Support' : undefined}
-            >
-              <FiHelpCircle className="w-[18px] h-[18px] shrink-0" />
-              {!isCollapsed && <span className="text-[13px] truncate flex-1 text-left">Help & Support</span>}
-            </button>
-
-            {/* Tutorials */}
-            <button
-              className={`
-                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
-                ${isCollapsed ? 'justify-center px-2' : ''}
-                text-[#94A3B8] dark:text-[#44454F] hover:bg-[#1E293B] dark:hover:bg-gray-800/50 hover:text-white dark:hover:text-gray-200
-              `}
-              title={isCollapsed ? 'Tutorials' : undefined}
-            >
-              <FiBookOpen className="w-[18px] h-[18px] shrink-0" />
-              {!isCollapsed && <span className="text-[13px] truncate flex-1 text-left">Tutorials</span>}
-            </button>
-
-            {/* What's New */}
-            <button
-              className={`
-                w-full group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
-                ${isCollapsed ? 'justify-center px-2' : ''}
-                text-[#94A3B8] dark:text-[#44454F] hover:bg-[#1E293B] dark:hover:bg-gray-800/50 hover:text-white dark:hover:text-gray-200
-              `}
-              title={isCollapsed ? "What's New" : undefined}
-            >
-              <FiStar className="w-[18px] h-[18px] shrink-0" />
-              {!isCollapsed && <span className="text-[13px] truncate flex-1 text-left">What's New</span>}
-            </button>
-
+          <div className="px-2 space-y-1">
             {/* Settings */}
             {othersMenuItems.map((item) => {
               const Icon = item.icon;
@@ -235,10 +196,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                   to={item.path}
                   onClick={() => onClose?.()}
                   className={`
-                    group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative
+                    group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 relative
                     ${isCollapsed ? 'justify-center px-2' : ''}
                     ${isActive
-                      ? 'bg-[#F2DD5022] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50] font-semibold'
+                      ? 'bg-[#F2DD5022] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50]'
                       : 'text-[#94A3B8] dark:text-[#44454F] hover:bg-[#1E293B] dark:hover:bg-gray-800/50 hover:text-white dark:hover:text-gray-200'
                     }
                   `}
@@ -249,7 +210,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, 
                   )}
                   <Icon className={`w-[18px] h-[18px] shrink-0 ${isActive ? 'text-[#F2DD50] dark:text-[#F2DD50]' : ''}`} />
                   {!isCollapsed && (
-                    <span className="text-[13px] truncate flex-1">
+                    <span className="text-[14px] truncate flex-1">
                       {item.label}
                     </span>
                   )}

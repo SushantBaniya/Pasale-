@@ -34,7 +34,7 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
                 <FiAlertTriangle className="w-5 h-5 text-white" />
               </div>
               <div className="text-white">
-                <h2 className="text-xl font-bold">{title}</h2>
+                <h2 className="text-xl font-medium">{title}</h2>
               </div>
             </div>
             <button
@@ -59,7 +59,7 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
           <div className="text-center mb-6">
             <p className="text-gray-700 dark:text-[#64748B] mb-2">{message}</p>
             {itemName && (
-              <p className="font-semibold #1E293B dark:text-[#EAE5DF] #F8FAFC dark:bg-[#15161C] px-4 py-2 rounded-lg inline-block">
+              <p className="font-medium #1E293B dark:text-[#EAE5DF] #F8FAFC dark:bg-[#15161C] px-4 py-2 rounded-lg inline-block">
                 {itemName}
               </p>
             )}

@@ -57,11 +57,11 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({
             <FiBell className="w-5 h-5 text-[#F2DD50] dark:text-[#F2DD50]" />
           </div>
           <div>
-            <h3 className="font-bold text-[#1E293B] dark:text-[#EAE5DF] text-base">Notifications</h3>
+            <h3 className="font-medium text-[#1E293B] dark:text-[#EAE5DF] text-base">Notifications</h3>
             <p className="text-xs text-[#475569] dark:text-[#44454F] mt-0.5">Stay updated</p>
           </div>
           {unreadCount > 0 && (
-            <span className="bg-[#F2DD50] text-white text-xs px-2.5 py-1 rounded-full font-bold ml-auto">
+            <span className="bg-[#F2DD50] text-white text-xs px-2.5 py-1 rounded-full font-medium ml-auto">
               {unreadCount} New
             </span>
           )}
@@ -78,7 +78,7 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({
             <div className="w-20 h-20 bg-[#FFFFFF] dark:bg-[#1C1D24] rounded-full flex items-center justify-center mb-4 shadow-sm">
               <FiBell className="w-10 h-10 text-[#E2E8F0] dark:#475569" />
             </div>
-            <p className="text-sm font-semibold text-[#1E293B] dark:text-[#64748B]">All caught up!</p>
+            <p className="text-sm font-medium text-[#1E293B] dark:text-[#64748B]">All caught up!</p>
             <p className="text-xs text-[#475569] dark:text-[#44454F] mt-1.5">No new notifications to display.</p>
           </div>
         ) : (
@@ -95,7 +95,7 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <p className={`text-sm font-semibold leading-tight ${!notification.read ? 'text-[#1E293B] dark:text-[#EAE5DF]' : 'text-[#1E293B]/70 dark:text-[#64748B]'}`}>
+                      <p className={`text-sm font-medium leading-tight ${!notification.read ? 'text-[#1E293B] dark:text-[#EAE5DF]' : 'text-[#1E293B]/70 dark:text-[#64748B]'}`}>
                         {notification.title}
                       </p>
                       <span className="text-xs text-[#475569] dark:#475569 whitespace-nowrap ml-2">
@@ -120,7 +120,7 @@ export const NotificationsDropdown: React.FC<NotificationsDropdownProps> = ({
       <div className="p-4 border-t border-[#E2E8F0] dark:border-[#1C1D24] bg-[#F7FAFC]/50 dark:bg-[#15161C]">
         <button
           onClick={() => { navigate('/notifications'); onClose(); }}
-          className="w-full py-2.5 px-4 text-sm text-center font-semibold text-white bg-[#F2DD50] hover:bg-[#8E7356] rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+          className="w-full py-2.5 px-4 text-sm text-center font-medium text-white bg-[#F2DD50] hover:bg-[#8E7356] rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
         >
           View All Notifications
         </button>

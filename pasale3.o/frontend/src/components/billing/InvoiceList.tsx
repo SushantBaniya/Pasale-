@@ -99,7 +99,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ onNewInvoice, onViewIn
       {!hideHeader && (
         <div className="flex justify-between items-start">
           <div>
-            {/* font-medium instead of font-bold; text-2xl instead of text-4xl */}
+            {/* font-medium instead of font-medium; text-2xl instead of text-4xl */}
             <h1 className="text-2xl font-medium #1E293B dark:text-[#EAE5DF]">Invoices</h1>
             <p className="text-sm #475569 dark:text-[#44454F] mt-1">Manage all your invoices</p>
           </div>

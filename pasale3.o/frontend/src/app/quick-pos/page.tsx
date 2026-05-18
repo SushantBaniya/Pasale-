@@ -59,7 +59,7 @@ function Modal({ open, onClose, title, children, wide = false }: {
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b #E2E8F0 dark:border-[#1C1D24]">
-          <h2 className="text-base font-bold #1E293B dark:text-[#EAE5DF]">{title}</h2>
+          <h2 className="text-base font-medium #1E293B dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:#475569 hover:#F8FAFC dark:hover:bg-gray-800 transition-colors"
@@ -108,10 +108,10 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
       <div className="space-y-4">
         <div className="#FFFFFF dark:bg-[#15161C] rounded-xl px-4 py-3 flex justify-between items-center">
           <span className="text-sm font-medium #475569 dark:text-[#44454F]">Total Amount</span>
-          <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">{fmt(subtotal)}</span>
+          <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">{fmt(subtotal)}</span>
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">Discount</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">Discount</label>
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
               <input
@@ -121,7 +121,7 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
                 onChange={e => handlePctChange(e.target.value)}
                 className="w-full px-3 py-2.5 pr-8 border-2 border-[#F2DD50] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none"
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">%</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">%</span>
             </div>
             <button
               onClick={() => setLinked(!linked)}
@@ -130,7 +130,7 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
               <FiLink className="w-4 h-4" />
             </button>
             <div className="relative flex-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Rs.</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">Rs.</span>
               <input
                 type="number"
                 placeholder="0.00"
@@ -144,13 +144,13 @@ function DiscountModal({ open, onClose, subtotal, onApply }: {
         <div className="flex gap-3 pt-2">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-semibold #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors"
+            className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-medium #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleApply}
-            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors"
+            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-xl hover:bg-[#8E7356] transition-colors"
           >
             Apply Discount
           </button>
@@ -173,10 +173,10 @@ function VATModal({ open, onClose, taxableAmount, onApply }: {
       <div className="space-y-4">
         <div className="#FFFFFF dark:bg-[#15161C] rounded-xl px-4 py-3 flex justify-between items-center">
           <span className="text-sm font-medium #475569">Taxable Amount</span>
-          <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">{fmt(taxableAmount)}</span>
+          <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">{fmt(taxableAmount)}</span>
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">Tax Rate</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">Tax Rate</label>
           <div className="relative">
             <input
               type="number"
@@ -184,14 +184,14 @@ function VATModal({ open, onClose, taxableAmount, onApply }: {
               onChange={e => setPct(e.target.value)}
               className="w-full px-3 py-2.5 pr-8 border-2 border-[#F2DD50] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none"
             />
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">%</span>
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">%</span>
           </div>
           <div className="flex gap-2 mt-2">
             {['0', '5', '13', '15'].map(v => (
               <button
                 key={v}
                 onClick={() => setPct(v)}
-                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${pct === v ? 'bg-[#F2DD50] text-white' : '#F8FAFC dark:bg-[#15161C] #475569 dark:text-[#44454F]'}`}
+                className={`flex-1 py-1.5 text-xs font-medium rounded-lg transition-colors ${pct === v ? 'bg-[#F2DD50] text-white' : '#F8FAFC dark:bg-[#15161C] #475569 dark:text-[#44454F]'}`}
               >
                 {v}%
               </button>
@@ -199,12 +199,12 @@ function VATModal({ open, onClose, taxableAmount, onApply }: {
           </div>
         </div>
         <div className="flex gap-3 pt-2">
-          <button onClick={onClose} className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-semibold #475569 rounded-xl hover:#FFFFFF transition-colors">
+          <button onClick={onClose} className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-medium #475569 rounded-xl hover:#FFFFFF transition-colors">
             Cancel
           </button>
           <button
             onClick={() => { onApply(parseFloat(pct) || 0); onClose(); }}
-            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors"
+            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-xl hover:bg-[#8E7356] transition-colors"
           >
             Apply VAT
           </button>
@@ -256,7 +256,7 @@ function AddNewItemModal({ open, onClose, onSave }: {
     <Modal open={open} onClose={onClose} title="Add New Item" wide>
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Item Name</label>
+          <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Item Name</label>
           <input
             type="text"
             value={form.product_name}
@@ -267,7 +267,7 @@ function AddNewItemModal({ open, onClose, onSave }: {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Item Category</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Item Category</label>
             <select
               value={form.category}
               onChange={e => set('category', e.target.value)}
@@ -281,13 +281,13 @@ function AddNewItemModal({ open, onClose, onSave }: {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Item Type</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Item Type</label>
             <div className="flex gap-2">
               {['Product', 'Service'].map(t => (
                 <button
                   key={t}
                   onClick={() => set('item_type', t)}
-                  className={`flex-1 py-2.5 text-sm font-semibold rounded-xl border-2 transition-colors ${form.item_type === t ? 'border-[#F2DD50] bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#F2DD50]' : '#E2E8F0 dark:border-[#1C1D24] #475569'}`}
+                  className={`flex-1 py-2.5 text-sm font-medium rounded-xl border-2 transition-colors ${form.item_type === t ? 'border-[#F2DD50] bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#F2DD50]' : '#E2E8F0 dark:border-[#1C1D24] #475569'}`}
                 >
                   {t}
                 </button>
@@ -297,9 +297,9 @@ function AddNewItemModal({ open, onClose, onSave }: {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Sales Price</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Sales Price</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">Rs.</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400">Rs.</span>
               <input
                 type="number"
                 value={form.unit_price}
@@ -307,13 +307,13 @@ function AddNewItemModal({ open, onClose, onSave }: {
                 placeholder="0"
                 className="w-full pl-9 pr-12 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50]"
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">/PCS</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400">/PCS</span>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Purchase Price</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Purchase Price</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">Rs.</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400">Rs.</span>
               <input
                 type="number"
                 value={form.purchase_price}
@@ -321,13 +321,13 @@ function AddNewItemModal({ open, onClose, onSave }: {
                 placeholder="0"
                 className="w-full pl-9 pr-12 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50]"
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">/PCS</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400">/PCS</span>
             </div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Opening Stock</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Opening Stock</label>
             <div className="relative">
               <input
                 type="number"
@@ -336,11 +336,11 @@ function AddNewItemModal({ open, onClose, onSave }: {
                 placeholder="0"
                 className="w-full px-3 pr-12 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50]"
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">PCS</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400">PCS</span>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Primary Unit</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Primary Unit</label>
             <select
               value={form.unit}
               onChange={e => set('unit', e.target.value)}
@@ -356,7 +356,7 @@ function AddNewItemModal({ open, onClose, onSave }: {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Item Code</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Item Code</label>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -367,14 +367,14 @@ function AddNewItemModal({ open, onClose, onSave }: {
               />
               <button
                 onClick={generateCode}
-                className="px-3 py-2.5 #F8FAFC dark:bg-[#15161C] #475569 dark:text-[#64748B] text-xs font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors whitespace-nowrap"
+                className="px-3 py-2.5 #F8FAFC dark:bg-[#15161C] #475569 dark:text-[#64748B] text-xs font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors whitespace-nowrap"
               >
                 Generate
               </button>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">HS Code</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">HS Code</label>
             <input
               type="text"
               value={form.hs_code}
@@ -385,7 +385,7 @@ function AddNewItemModal({ open, onClose, onSave }: {
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Description</label>
+          <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Description</label>
           <textarea
             value={form.description}
             onChange={e => set('description', e.target.value)}
@@ -395,13 +395,13 @@ function AddNewItemModal({ open, onClose, onSave }: {
           />
         </div>
         <div className="flex gap-3 pt-1">
-          <button onClick={onClose} className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-semibold #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors">
+          <button onClick={onClose} className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-medium #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors">
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors"
+            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors"
           >
             {saving ? 'Saving...' : 'Save'}
           </button>
@@ -430,9 +430,9 @@ function EditItemModal({ open, onClose, item, onSave }: {
     <Modal open={open} onClose={onClose} title={`Edit  ${item.name}`}>
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Rate / Price</label>
+          <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Rate / Price</label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Rs.</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">Rs.</span>
             <input
               type="number"
               value={price}
@@ -442,7 +442,7 @@ function EditItemModal({ open, onClose, item, onSave }: {
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Quantity</label>
+          <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Quantity</label>
           <input
             type="number"
             value={qty}
@@ -451,10 +451,10 @@ function EditItemModal({ open, onClose, item, onSave }: {
           />
         </div>
         <div className="flex gap-3 pt-1">
-          <button onClick={onClose} className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-semibold #475569 rounded-xl hover:#FFFFFF transition-colors">Cancel</button>
+          <button onClick={onClose} className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-medium #475569 rounded-xl hover:#FFFFFF transition-colors">Cancel</button>
           <button
             onClick={() => { onSave(item.id, parseFloat(price) || 0, parseInt(qty) || 1); onClose(); }}
-            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors"
+            className="flex-1 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-xl hover:bg-[#8E7356] transition-colors"
           >
             Update
           </button>
@@ -504,9 +504,9 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">
               Invoice No
-              <button className="ml-2 text-[#F2DD50] font-bold normal-case">Manual</button>
+              <button className="ml-2 text-[#F2DD50] font-medium normal-case">Manual</button>
             </label>
             <input
               type="text"
@@ -517,7 +517,7 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Invoice Date</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Invoice Date</label>
             <div className="relative">
               <input
                 type="date"
@@ -531,8 +531,8 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
         </div>
         <div>
           <div className="flex justify-between items-center mb-1.5">
-            <label className="text-xs font-semibold #475569 uppercase tracking-wider">Bill To</label>
-            <span className="text-xs font-bold text-gray-400">Rs. {balance.toFixed(2)}</span>
+            <label className="text-xs font-medium #475569 uppercase tracking-wider">Bill To</label>
+            <span className="text-xs font-medium text-gray-400">Rs. {balance.toFixed(2)}</span>
           </div>
           <div className="relative">
             <select
@@ -548,15 +548,15 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
         </div>
         <div className="#FFFFFF dark:bg-[#15161C] rounded-xl px-4 py-3">
           <span className="text-sm #475569">Total Amount: </span>
-          <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">{fmt(total)}</span>
+          <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">{fmt(total)}</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">
               <input type="checkbox" className="mr-1.5 accent-blue-600" defaultChecked /> Received Amount
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">Rs.</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400">Rs.</span>
               <input
                 type="number"
                 value={receivedAmount}
@@ -566,7 +566,7 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Payment Method</label>
+            <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Payment Method</label>
             <div className="relative">
               <select
                 value={paymentMethod}
@@ -584,7 +584,7 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-1.5">Notes or Remarks</label>
+          <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-1.5">Notes or Remarks</label>
           <textarea
             value={notes}
             onChange={e => setNotes(e.target.value)}
@@ -593,7 +593,7 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
           />
         </div>
         <div>
-          <label className="block text-xs font-semibold #475569 uppercase tracking-wider mb-2">Attach Images</label>
+          <label className="block text-xs font-medium #475569 uppercase tracking-wider mb-2">Attach Images</label>
           <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={e => setImages(Array.from(e.target.files || []))} />
           <div className="flex gap-2 flex-wrap">
             <button
@@ -610,20 +610,20 @@ function ConfirmSaleModal({ open, onClose, total, parties, onConfirm }: {
           </div>
         </div>
         <div className="flex gap-3 pt-2">
-          <button onClick={onClose} className="px-5 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-semibold #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors">
+          <button onClick={onClose} className="px-5 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-medium #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors">
             Cancel
           </button>
           <button
             onClick={() => handleConfirm(false)}
             disabled={saving}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-gray-300 dark:border-[#1C1D24] text-sm font-bold text-gray-700 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-gray-300 dark:border-[#1C1D24] text-sm font-medium text-gray-700 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 disabled:opacity-50 transition-colors"
           >
             <FiSave className="w-4 h-4" /> Save Only
           </button>
           <button
             onClick={() => handleConfirm(true)}
             disabled={saving}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20"
           >
             <FiPrinter className="w-4 h-4" /> Save & Print
           </button>
@@ -782,7 +782,7 @@ export default function QuickPOSPage() {
       <div className="flex-1 flex flex-col min-w-0 px-6 py-5 overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">Quick POS</h1>
+          <h1 className="text-xl font-medium #1E293B dark:text-[#EAE5DF]">Quick POS</h1>
           <div className="flex items-center gap-3">
             <div className="relative">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -796,7 +796,7 @@ export default function QuickPOSPage() {
             </div>
             <button
               onClick={() => setShowAddItem(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#0D0E12] border #E2E8F0 dark:border-[#1C1D24] text-gray-700 dark:text-[#64748B] text-sm font-semibold rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#0D0E12] border #E2E8F0 dark:border-[#1C1D24] text-gray-700 dark:text-[#64748B] text-sm font-medium rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors shadow-sm"
             >
               <FiPlus className="w-4 h-4" /> Add New Item
             </button>
@@ -809,7 +809,7 @@ export default function QuickPOSPage() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`shrink-0 px-4 py-1.5 rounded-lg text-sm font-semibold transition-colors ${activeCategory === cat
+              className={`shrink-0 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeCategory === cat
                 ? 'bg-[#F2DD50] text-white shadow-sm shadow-blue-500/20'
                 : 'bg-white dark:bg-[#0D0E12] #475569 dark:text-[#44454F] border #E2E8F0 dark:border-[#1C1D24] hover:#FFFFFF dark:hover:bg-gray-800'
               }`}
@@ -848,14 +848,14 @@ export default function QuickPOSPage() {
                       /* Selected state with qty controls */
                       <div className="bg-white dark:bg-[#0D0E12] border-2 border-[#F2DD50] rounded-2xl p-4 flex flex-col items-center shadow-sm">
                         <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 text-white text-sm font-bold"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 text-white text-sm font-medium"
                           style={{ backgroundColor: color }}
                         >
                           {initials(p.product_name)}
                         </div>
-                        <p className="text-xs font-bold #1E293B dark:text-[#EAE5DF] text-center mb-0.5 truncate w-full">{p.product_name}</p>
+                        <p className="text-xs font-medium #1E293B dark:text-[#EAE5DF] text-center mb-0.5 truncate w-full">{p.product_name}</p>
                         <p className="text-xs text-gray-400 mb-2">Qty: {p.quantity} PCS</p>
-                        <p className="text-xs font-bold text-gray-700 dark:text-[#64748B] mb-3">{fmt(p.unit_price)}/PCS</p>
+                        <p className="text-xs font-medium text-gray-700 dark:text-[#64748B] mb-3">{fmt(p.unit_price)}/PCS</p>
                         <div className="flex items-center gap-3 w-full justify-center">
                           <button
                             onClick={() => { if (inCart.quantity <= 1) removeItem(p.id); else updateQty(p.id, -1); }}
@@ -863,7 +863,7 @@ export default function QuickPOSPage() {
                           >
                             <FiMinus className="w-3 h-3" />
                           </button>
-                          <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF] w-4 text-center">{inCart.quantity}</span>
+                          <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF] w-4 text-center">{inCart.quantity}</span>
                           <button
                             onClick={() => updateQty(p.id, 1)}
                             className="w-7 h-7 flex items-center justify-center border #E2E8F0 dark:border-[#1C1D24] rounded-lg #475569 hover:#FFFFFF dark:hover:bg-gray-800 transition-colors"
@@ -892,15 +892,15 @@ export default function QuickPOSPage() {
                         className={`w-full bg-white dark:bg-[#0D0E12] border #E2E8F0 dark:border-[#1C1D24] rounded-2xl p-4 flex flex-col items-center hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-md transition-all duration-150 ${outOfStock ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
                       >
                         <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 text-white text-sm font-bold opacity-70"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 text-white text-sm font-medium opacity-70"
                           style={{ backgroundColor: color }}
                         >
                           {initials(p.product_name)}
                         </div>
-                        <p className="text-xs font-bold #1E293B dark:text-[#EAE5DF] text-center mb-0.5 truncate w-full">{p.product_name}</p>
+                        <p className="text-xs font-medium #1E293B dark:text-[#EAE5DF] text-center mb-0.5 truncate w-full">{p.product_name}</p>
                         <p className="text-xs text-gray-400 mb-2">Qty: {p.quantity} PCS</p>
-                        <p className="text-xs font-bold text-gray-700 dark:text-[#64748B] mb-3">{fmt(p.unit_price)}/PCS</p>
-                        <span className="w-full py-1.5 #FFFFFF dark:bg-[#15161C] #475569 dark:text-[#44454F] text-xs font-semibold rounded-lg text-center">
+                        <p className="text-xs font-medium text-gray-700 dark:text-[#64748B] mb-3">{fmt(p.unit_price)}/PCS</p>
+                        <span className="w-full py-1.5 #FFFFFF dark:bg-[#15161C] #475569 dark:text-[#44454F] text-xs font-medium rounded-lg text-center">
                           {outOfStock ? 'Out of Stock' : 'Click to Select'}
                         </span>
                       </button>
@@ -918,14 +918,14 @@ export default function QuickPOSPage() {
         {/* Billing Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b #E2E8F0 dark:border-[#1C1D24]">
           <div>
-            <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">
+            <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">
               Billing Items {items.length > 0 && `(${items.length})`}
             </span>
           </div>
           {items.length > 0 && (
             <button
               onClick={clearAll}
-              className="text-xs font-semibold text-red-500 hover:text-red-600 transition-colors"
+              className="text-xs font-medium text-red-500 hover:text-red-600 transition-colors"
             >
               Clear Items
             </button>
@@ -945,7 +945,7 @@ export default function QuickPOSPage() {
                   <rect x="20" y="50" width="25" height="4" rx="2" fill="white" />
                 </svg>
               </div>
-              <p className="text-sm font-bold text-gray-400 dark:#475569">No Billing Items</p>
+              <p className="text-sm font-medium text-gray-400 dark:#475569">No Billing Items</p>
               <p className="text-xs text-gray-300 dark:text-gray-700 mt-0.5">Select items to record a sale</p>
             </div>
           ) : (
@@ -953,7 +953,7 @@ export default function QuickPOSPage() {
               <div key={item.id} className="border #E2E8F0 dark:border-[#1C1D24] rounded-xl p-3">
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold #1E293B dark:text-[#EAE5DF] truncate">{item.name}</p>
+                    <p className="text-sm font-medium #1E293B dark:text-[#EAE5DF] truncate">{item.name}</p>
                     <p className="text-xs text-gray-400 mt-0.5">{item.quantity} PCS X {fmt(item.price)}</p>
                   </div>
                   <div className="flex items-center gap-1 ml-2">
@@ -979,7 +979,7 @@ export default function QuickPOSPage() {
                     >
                       <FiMinus className="w-2.5 h-2.5" />
                     </button>
-                    <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF] w-4 text-center">{item.quantity}</span>
+                    <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF] w-4 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQty(item.id, 1)}
                       className="w-6 h-6 flex items-center justify-center border #E2E8F0 dark:border-[#1C1D24] rounded-md #475569 hover:#FFFFFF dark:hover:bg-gray-800 transition-colors"
@@ -987,7 +987,7 @@ export default function QuickPOSPage() {
                       <FiPlus className="w-2.5 h-2.5" />
                     </button>
                   </div>
-                  <span className="text-sm font-bold text-[#F2DD50]">{fmt(item.price * item.quantity)}</span>
+                  <span className="text-sm font-medium text-[#F2DD50]">{fmt(item.price * item.quantity)}</span>
                 </div>
               </div>
             ))
@@ -997,8 +997,8 @@ export default function QuickPOSPage() {
         {/* Totals Section */}
         <div className="border-t #E2E8F0 dark:border-[#1C1D24] px-5 py-4 space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-semibold text-gray-700 dark:text-[#64748B]">Sub Total</span>
-            <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">{fmt(subtotal)}</span>
+            <span className="text-sm font-medium text-gray-700 dark:text-[#64748B]">Sub Total</span>
+            <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">{fmt(subtotal)}</span>
           </div>
 
           {/* Discount row */}
@@ -1015,9 +1015,9 @@ export default function QuickPOSPage() {
               )}
             </div>
             {finalDiscount > 0 ? (
-              <span className="text-sm font-semibold text-red-500">-{fmt(finalDiscount)}</span>
+              <span className="text-sm font-medium text-red-500">-{fmt(finalDiscount)}</span>
             ) : (
-              <button onClick={() => setShowDiscount(true)} className="text-xs font-semibold text-[#F2DD50] hover:text-[#F2DD50]">
+              <button onClick={() => setShowDiscount(true)} className="text-xs font-medium text-[#F2DD50] hover:text-[#F2DD50]">
                 + Discount
               </button>
             )}
@@ -1037,9 +1037,9 @@ export default function QuickPOSPage() {
               )}
             </div>
             {taxAmount > 0 ? (
-              <span className="text-sm font-semibold text-gray-700 dark:text-[#64748B]">{fmt(taxAmount)}</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-[#64748B]">{fmt(taxAmount)}</span>
             ) : (
-              <button onClick={() => setShowVAT(true)} className="text-xs font-semibold text-[#F2DD50] hover:text-[#F2DD50]">
+              <button onClick={() => setShowVAT(true)} className="text-xs font-medium text-[#F2DD50] hover:text-[#F2DD50]">
                 + Tax
               </button>
             )}
@@ -1047,19 +1047,19 @@ export default function QuickPOSPage() {
 
           {/* Additional charges placeholder */}
           <div className="flex justify-between items-center">
-            <span className="text-xs font-semibold text-[#F2DD50] cursor-pointer hover:text-[#F2DD50]">+ Additional Charges</span>
+            <span className="text-xs font-medium text-[#F2DD50] cursor-pointer hover:text-[#F2DD50]">+ Additional Charges</span>
           </div>
 
           {/* Grand Total */}
           <div className="flex justify-between items-center pt-2 border-t #E2E8F0 dark:border-[#1C1D24]">
-            <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">Total Amount</span>
-            <span className="text-base font-bold text-[#F2DD50]">{fmt(grandTotal)}</span>
+            <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">Total Amount</span>
+            <span className="text-base font-medium text-[#F2DD50]">{fmt(grandTotal)}</span>
           </div>
 
           {/* Continue Billing */}
           <button
             onClick={() => { if (items.length === 0) { toast.error('Add items first'); return; } setShowConfirm(true); }}
-            className={`w-full py-3 rounded-xl text-sm font-bold transition-all mt-1 ${items.length > 0
+            className={`w-full py-3 rounded-xl text-sm font-medium transition-all mt-1 ${items.length > 0
               ? 'bg-[#F2DD50] text-white hover:bg-[#8E7356] shadow-lg shadow-blue-500/20'
               : '#F8FAFC dark:bg-[#15161C] text-gray-400 cursor-not-allowed'
             }`}

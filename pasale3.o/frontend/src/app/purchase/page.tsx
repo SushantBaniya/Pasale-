@@ -59,14 +59,14 @@ export default function PurchasePage() {
     <div className="max-w-[1300px] mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">Purchase Bills</h1>
+        <h1 className="text-xl font-medium #1E293B dark:text-[#EAE5DF]">Purchase Bills</h1>
         <div className="flex items-center gap-2">
-          <button className="inline-flex items-center gap-1.5 px-3 py-2 border #E2E8F0 dark:border-[#1C1D24] #475569 dark:text-[#64748B] text-xs font-semibold rounded-lg hover:#FFFFFF dark:hover:bg-gray-800 transition-colors">
+          <button className="inline-flex items-center gap-1.5 px-3 py-2 border #E2E8F0 dark:border-[#1C1D24] #475569 dark:text-[#64748B] text-xs font-medium rounded-lg hover:#FFFFFF dark:hover:bg-gray-800 transition-colors">
             <FiDownload className="w-3.5 h-3.5" /> Export
           </button>
           <button
             onClick={() => navigate('/purchase/new')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#F2DD50] text-white text-xs font-semibold rounded-lg hover:bg-[#8E7356] transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#F2DD50] text-white text-xs font-medium rounded-lg hover:bg-[#8E7356] transition-colors shadow-sm"
           >
             <FiPlus className="w-3.5 h-3.5" /> Record Purchase Bill
           </button>
@@ -96,12 +96,12 @@ export default function PurchasePage() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b #E2E8F0 dark:border-[#1C1D24] #FFFFFF/50 dark:bg-[#0D0E12]/30">
-                <th className="py-3 px-5 text-[11px] font-bold #475569 dark:text-[#44454F] uppercase tracking-wider">DATE</th>
-                <th className="py-3 px-5 text-[11px] font-bold text-[#F2DD50] dark:text-[#F2DD50] uppercase tracking-wider">BILL NO</th>
-                <th className="py-3 px-5 text-[11px] font-bold #475569 dark:text-[#44454F] uppercase tracking-wider">PARTY NAME</th>
-                <th className="py-3 px-5 text-[11px] font-bold #475569 dark:text-[#44454F] uppercase tracking-wider">STATUS</th>
-                <th className="py-3 px-5 text-[11px] font-bold #475569 dark:text-[#44454F] uppercase tracking-wider text-right">AMOUNT</th>
-                <th className="py-3 px-5 text-[11px] font-bold #475569 dark:text-[#44454F] uppercase tracking-wider text-center">ACTIONS</th>
+                <th className="py-3 px-5 text-[11px] font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">DATE</th>
+                <th className="py-3 px-5 text-[11px] font-medium text-[#F2DD50] dark:text-[#F2DD50] uppercase tracking-wider">BILL NO</th>
+                <th className="py-3 px-5 text-[11px] font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">PARTY NAME</th>
+                <th className="py-3 px-5 text-[11px] font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">STATUS</th>
+                <th className="py-3 px-5 text-[11px] font-medium #475569 dark:text-[#44454F] uppercase tracking-wider text-right">AMOUNT</th>
+                <th className="py-3 px-5 text-[11px] font-medium #475569 dark:text-[#44454F] uppercase tracking-wider text-center">ACTIONS</th>
               </tr>
             </thead>
             <tbody>
@@ -118,7 +118,7 @@ export default function PurchasePage() {
                     <p className="text-sm text-gray-400 dark:#475569 mb-2">No purchase bills found</p>
                     <button
                       onClick={() => navigate('/purchase/new')}
-                      className="text-[#F2DD50] dark:text-[#F2DD50] text-sm font-semibold hover:underline"
+                      className="text-[#F2DD50] dark:text-[#F2DD50] text-sm font-medium hover:underline"
                     >
                       Record your first purchase
                     </button>
@@ -133,7 +133,7 @@ export default function PurchasePage() {
                     <td className="py-3.5 px-5 text-sm text-gray-700 dark:text-[#64748B]">
                       {formatDate(billing.invoice_date)}
                     </td>
-                    <td className="py-3.5 px-5 text-sm font-semibold text-[#F2DD50] dark:text-[#F2DD50]">
+                    <td className="py-3.5 px-5 text-sm font-medium text-[#F2DD50] dark:text-[#F2DD50]">
                       #{billing.id}
                     </td>
                     <td className="py-3.5 px-5 text-sm font-medium #1E293B dark:text-[#EAE5DF]">
@@ -141,16 +141,16 @@ export default function PurchasePage() {
                     </td>
                     <td className="py-3.5 px-5">
                       {billing.invoice_status?.toLowerCase() === 'paid' ? (
-                        <span className="inline-flex px-2.5 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[11px] font-bold rounded-full uppercase">
+                        <span className="inline-flex px-2.5 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[11px] font-medium rounded-full uppercase">
                           PAID
                         </span>
                       ) : (
-                        <span className="inline-flex px-2.5 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[11px] font-bold rounded-full uppercase">
+                        <span className="inline-flex px-2.5 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-[11px] font-medium rounded-full uppercase">
                           UNPAID
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-5 text-sm font-semibold text-[#F2DD50] dark:text-[#F2DD50] text-right">
+                    <td className="py-3.5 px-5 text-sm font-medium text-[#F2DD50] dark:text-[#F2DD50] text-right">
                       {formatMoney(billing.total_amount)}
                     </td>
                     <td className="py-3.5 px-5 text-center">

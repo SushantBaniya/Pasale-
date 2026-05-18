@@ -135,7 +135,7 @@ export default function KPIDetailPage() {
           <FiArrowLeft className="w-4 h-4" />
         </button>
         <div>
-          <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">{pageData.title}</h1>
+          <h1 className="text-xl font-medium #1E293B dark:text-[#EAE5DF]">{pageData.title}</h1>
           <p className="text-xs text-gray-400 mt-0.5">{pageData.description}</p>
         </div>
       </div>
@@ -145,7 +145,7 @@ export default function KPIDetailPage() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-white/70 mb-1">Total Amount</p>
-            <p className="text-4xl font-bold">{c(pageData.value)}</p>
+            <p className="text-4xl font-medium">{c(pageData.value)}</p>
             <p className="text-xs text-white/50 mt-2">
               {pageData.transactions
                 ? `${filteredTransactions.length} records`
@@ -197,7 +197,7 @@ export default function KPIDetailPage() {
       {pageData.transactions && (
         <div className="bg-white dark:bg-[#0D0E12] border #E2E8F0 dark:border-[#1C1D24] rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b #E2E8F0 dark:border-[#1C1D24] flex items-center justify-between">
-            <h2 className="text-sm font-semibold #1E293B dark:text-[#EAE5DF]">
+            <h2 className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">
               {t('relatedTransactions')}
             </h2>
             <span className="text-xs text-gray-400">
@@ -214,7 +214,7 @@ export default function KPIDetailPage() {
                   className="w-full flex items-center justify-between px-5 py-3.5 hover:#FFFFFF dark:hover:bg-gray-800/60 transition-colors text-left group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold ${tx.type === 'selling'
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-medium ${tx.type === 'selling'
                       ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400'
                       : tx.type === 'purchase'
                         ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
@@ -236,7 +236,7 @@ export default function KPIDetailPage() {
                       </p>
                     </div>
                   </div>
-                  <span className={`text-sm font-semibold ${tx.type === 'selling'
+                  <span className={`text-sm font-medium ${tx.type === 'selling'
                     ? 'text-green-600 dark:text-green-400'
                     : 'text-gray-700 dark:text-[#64748B]'
                     }`}>
@@ -258,7 +258,7 @@ export default function KPIDetailPage() {
       {pageData.parties && (
         <div className="bg-white dark:bg-[#0D0E12] border #E2E8F0 dark:border-[#1C1D24] rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b #E2E8F0 dark:border-[#1C1D24] flex items-center justify-between">
-            <h2 className="text-sm font-semibold #1E293B dark:text-[#EAE5DF]">
+            <h2 className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">
               {t('relatedParties')}
             </h2>
             <span className="text-xs text-gray-400">
@@ -275,7 +275,7 @@ export default function KPIDetailPage() {
                   className="w-full flex items-center justify-between px-5 py-3.5 hover:#FFFFFF dark:hover:bg-gray-800/60 transition-colors text-left group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold ${party.type === 'customer'
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-medium ${party.type === 'customer'
                       ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                       : 'bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400'
                       }`}>
@@ -290,7 +290,7 @@ export default function KPIDetailPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`text-sm font-semibold ${party.balance > 0
+                    <p className={`text-sm font-medium ${party.balance > 0
                       ? 'text-green-600 dark:text-green-400'
                       : party.balance < 0
                         ? 'text-red-600 dark:text-red-400'

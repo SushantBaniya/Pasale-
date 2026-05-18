@@ -107,7 +107,7 @@ export default function LedgerPage() {
               <FiBook className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1E293B] dark:text-[#EAE5DF]">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-medium text-[#1E293B] dark:text-[#EAE5DF]">
                 {t('ledger.title')}: {party.name}
               </h1>
               <p className="text-xs sm:text-sm text-[#475569] dark:text-[#44454F] mt-0.5">
@@ -131,19 +131,19 @@ export default function LedgerPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="p-4 border-l-4 border-l-blue-500">
           <p className="text-sm text-[#475569] dark:text-[#44454F] mb-1">{t('ledger.openingBalance')}</p>
-          <p className="text-2xl font-bold text-[#1E293B] dark:text-[#EAE5DF]">
+          <p className="text-2xl font-medium text-[#1E293B] dark:text-[#EAE5DF]">
             {c(openingBalance)}
           </p>
         </Card>
         <Card className="p-4 border-l-4 border-l-green-500">
           <p className="text-sm text-[#475569] dark:text-[#44454F] mb-1">{t('ledger.totalDebit')}</p>
-          <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+          <p className="text-2xl font-medium text-green-600 dark:text-green-400">
             {c(ledgerEntries.reduce((sum, e) => sum + e.debit, 0))}
           </p>
         </Card>
         <Card className="p-4 border-l-4 border-l-red-500">
           <p className="text-sm text-[#475569] dark:text-[#44454F] mb-1">{t('ledger.totalCredit')}</p>
-          <p className="text-2xl font-bold text-red-600 dark:text-red-400">
+          <p className="text-2xl font-medium text-red-600 dark:text-red-400">
             {c(ledgerEntries.reduce((sum, e) => sum + e.credit, 0))}
           </p>
         </Card>
@@ -210,7 +210,7 @@ export default function LedgerPage() {
       {/* Chart */}
       {chartData.length > 0 && (
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-[#1E293B] dark:text-[#EAE5DF] mb-4">
+          <h3 className="text-lg font-medium text-[#1E293B] dark:text-[#EAE5DF] mb-4">
             {t('ledger.balanceOverTime')}
           </h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -232,22 +232,22 @@ export default function LedgerPage() {
           <table className="w-full text-sm">
             <thead className="bg-[#F7FAFC] dark:bg-[#15161C]">
               <tr className="border-b border-[#E2E8F0] dark:border-[#1C1D24]">
-                <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-[#64748B]">
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-[#64748B]">
                   {t('ledger.date')}
                 </th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-[#64748B]">
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-[#64748B]">
                   {t('transactions.type')}
                 </th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-[#64748B]">
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-[#64748B]">
                   {t('common.description')}
                 </th>
-                <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-[#64748B]">
+                <th className="text-right py-3 px-4 font-medium text-gray-700 dark:text-[#64748B]">
                   {t('ledger.debit')}
                 </th>
-                <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-[#64748B]">
+                <th className="text-right py-3 px-4 font-medium text-gray-700 dark:text-[#64748B]">
                   {t('ledger.credit')}
                 </th>
-                <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-[#64748B]">
+                <th className="text-right py-3 px-4 font-medium text-gray-700 dark:text-[#64748B]">
                   {t('ledger.balance')}
                 </th>
               </tr>
@@ -255,14 +255,14 @@ export default function LedgerPage() {
             <tbody>
               {/* Opening Balance Row */}
               <tr className="bg-blue-50 dark:bg-blue-900/10 border-b border-[#E2E8F0] dark:border-[#1C1D24]">
-                <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF] font-semibold">
+                <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF] font-medium">
                   {t('ledger.opening')}
                 </td>
                 <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF]">—</td>
                 <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF]">{t('ledger.openingBalance')}</td>
                 <td className="py-3 px-4 text-right text-[#1E293B] dark:text-[#EAE5DF]">—</td>
                 <td className="py-3 px-4 text-right text-[#1E293B] dark:text-[#EAE5DF]">—</td>
-                <td className="py-3 px-4 text-right font-semibold text-[#1E293B] dark:text-[#EAE5DF]">
+                <td className="py-3 px-4 text-right font-medium text-[#1E293B] dark:text-[#EAE5DF]">
                   {c(openingBalance)}
                 </td>
               </tr>
@@ -287,7 +287,7 @@ export default function LedgerPage() {
                   <td className="py-3 px-4 text-right text-red-600 dark:text-red-400">
                     {entry.credit > 0 ? c(entry.credit) : '—'}
                   </td>
-                  <td className="py-3 px-4 text-right font-semibold text-[#1E293B] dark:text-[#EAE5DF]">
+                  <td className="py-3 px-4 text-right font-medium text-[#1E293B] dark:text-[#EAE5DF]">
                     {c(entry.balance)}
                   </td>
                 </tr>
@@ -295,16 +295,16 @@ export default function LedgerPage() {
 
               {/* Closing Balance Row */}
               <tr className="bg-[#FFFFFF] dark:bg-[#15161C] border-t-2 border-gray-300 dark:border-[#2A2B36]">
-                <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF] font-semibold">
+                <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF] font-medium">
                   {t('ledger.closing')}
                 </td>
                 <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF]">—</td>
-                <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF] font-semibold">
+                <td className="py-3 px-4 text-[#1E293B] dark:text-[#EAE5DF] font-medium">
                   {t('ledger.closingBalance')}
                 </td>
                 <td className="py-3 px-4 text-right text-[#1E293B] dark:text-[#EAE5DF]">—</td>
                 <td className="py-3 px-4 text-right text-[#1E293B] dark:text-[#EAE5DF]">—</td>
-                <td className="py-3 px-4 text-right font-bold text-lg text-[#1E293B] dark:text-[#EAE5DF]">
+                <td className="py-3 px-4 text-right font-medium text-lg text-[#1E293B] dark:text-[#EAE5DF]">
                   {c(closingBalance)}
                 </td>
               </tr>

@@ -170,7 +170,7 @@ export default function CountersPage() {
             <h1 className="text-3xl font-black #1E293B">Counter {selectedCounter.counter_number}</h1>
             <p className="#475569">{selectedCounter.description || 'Manage active orders for this counter'}</p>
           </div>
-          <div className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-2xl text-sm font-bold border border-indigo-100">
+          <div className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-2xl text-sm font-medium border border-indigo-100">
             {pendingOrders.length} Pending Orders
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function CountersPage() {
         ) : pendingOrders.length === 0 ? (
           <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 #FFFFFF shadow-none">
             <FiShoppingBag className="w-16 h-16 text-gray-200 mb-4" />
-            <h3 className="text-lg font-bold #1E293B mb-2">No pending orders</h3>
+            <h3 className="text-lg font-medium #1E293B mb-2">No pending orders</h3>
             <p className="#475569 max-w-sm mb-6">There are no active orders on this counter. New orders from the cart will appear here.</p>
           </Card>
         ) : (
@@ -195,28 +195,28 @@ export default function CountersPage() {
                       <FiClock />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Order Reference</p>
-                      <p className="font-bold #1E293B">#{order.id}</p>
+                      <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Order Reference</p>
+                      <p className="font-medium #1E293B">#{order.id}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Amount Due</p>
+                    <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Amount Due</p>
                     <p className="text-2xl font-black text-indigo-600">Rs. {order.total_amount.toLocaleString()}</p>
                   </div>
                 </div>
 
                 <div className="p-6">
-                  <h4 className="text-sm font-bold #1E293B mb-4 flex items-center gap-2">
+                  <h4 className="text-sm font-medium #1E293B mb-4 flex items-center gap-2">
                     <FiBox className="text-indigo-600" /> Order Items
                   </h4>
                   <div className="space-y-3">
                     {order.items?.map(item => (
                       <div key={item.id} className="flex items-center justify-between p-3 #FFFFFF rounded-xl">
                         <div className="flex items-center gap-3">
-                          <span className="w-8 h-8 bg-white border rounded-lg flex items-center justify-center text-xs font-bold #475569 shadow-sm">
+                          <span className="w-8 h-8 bg-white border rounded-lg flex items-center justify-center text-xs font-medium #475569 shadow-sm">
                             {item.quantity}x
                           </span>
-                          <span className="font-bold text-gray-700">{item.product_name}</span>
+                          <span className="font-medium text-gray-700">{item.product_name}</span>
                         </div>
                         <span className="font-medium #475569">Rs. {item.total_price.toLocaleString()}</span>
                       </div>
@@ -250,7 +250,7 @@ export default function CountersPage() {
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold #1E293B">Counters</h1>
+          <h1 className="text-2xl font-medium #1E293B">Counters</h1>
           <p className="text-sm #475569">Manage your business counters and points of sale</p>
         </div>
         <Button
@@ -275,7 +275,7 @@ export default function CountersPage() {
       ) : counters.length === 0 ? (
         <Card className="p-20 text-center flex flex-col items-center border-dashed border-2 #FFFFFF">
           <FiMonitor className="w-16 h-16 text-gray-200 mb-4" />
-          <h3 className="text-lg font-bold #1E293B mb-2">No counters found</h3>
+          <h3 className="text-lg font-medium #1E293B mb-2">No counters found</h3>
           <p className="#475569 max-w-sm mb-6">You haven't added any counters yet. Add one to start managing your orders by counter.</p>
           <Button onClick={() => setShowAdd(true)} variant="outline">
             Create First Counter
@@ -294,13 +294,13 @@ export default function CountersPage() {
                   <FiMonitor className="w-6 h-6" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className={`px-2.5 py-1 rounded-full text-xs font-bold ${counter.is_active ? 'bg-green-100 text-green-700' : '#F8FAFC #475569'}`}>
+                  <div className={`px-2.5 py-1 rounded-full text-xs font-medium ${counter.is_active ? 'bg-green-100 text-green-700' : '#F8FAFC #475569'}`}>
                     {counter.is_active ? 'ACTIVE' : 'INACTIVE'}
                   </div>
                   <FiChevronRight className="text-gray-300 group-hover:text-indigo-600 transition-colors" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold #1E293B mb-1">Counter {counter.counter_number}</h3>
+              <h3 className="text-xl font-medium #1E293B mb-1">Counter {counter.counter_number}</h3>
               <p className="text-sm #475569 mb-6">{counter.description || 'No description provided'}</p>
               <div className="pt-4 border-t #E2E8F0 flex items-center justify-between">
                 <span className="text-xs text-gray-400 font-medium">VIEW PENDING ORDERS</span>
@@ -316,14 +316,14 @@ export default function CountersPage() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
           <Card className="w-full max-w-md p-0 overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
             <div className="p-6 border-b bg-indigo-600 text-white flex items-center justify-between">
-              <h2 className="text-lg font-bold">Add New Counter</h2>
+              <h2 className="text-lg font-medium">Add New Counter</h2>
               <button onClick={() => setShowAdd(false)} className="hover:bg-white/20 p-1.5 rounded-lg transition-colors">
                 <FiPlus className="rotate-45 w-5 h-5" />
               </button>
             </div>
             <form onSubmit={handleAddCounter} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Counter Number</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Counter Number</label>
                 <Input
                   type="number"
                   value={formData.counter_number}
@@ -333,7 +333,7 @@ export default function CountersPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}

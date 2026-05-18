@@ -260,7 +260,7 @@ export default function SettingsPage() {
     <div className="bg-white rounded-xl border #E2E8F0 shadow-sm overflow-hidden mb-4 dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
         {title && (
           <div className="px-6 py-4 border-b #E2E8F0 dark:border-slate-700">
-            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide dark:text-[#64748B]">{title}</h3>
+            <h3 className="text-sm font-medium text-gray-700 uppercase tracking-wide dark:text-[#64748B]">{title}</h3>
           </div>
         )}
         <div className="px-6">{children}</div>
@@ -268,14 +268,14 @@ export default function SettingsPage() {
   );
 
   const PageTitle = ({ title }: { title: string }) => (
-    <h2 className="text-xl font-semibold #1E293B mb-6 dark:text-[#EAE5DF]">{title}</h2>
+    <h2 className="text-xl font-medium #1E293B mb-6 dark:text-[#EAE5DF]">{title}</h2>
   );
 
   const SaveBtn = ({ onClick, label = 'Save Settings' }: { onClick: () => void; label?: string }) => (
     <div className="flex justify-end mt-2 mb-4">
       <button
         onClick={onClick}
-        className="px-6 py-2.5 bg-[#F2DD50] hover:bg-[#8E7356] text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
+        className="px-6 py-2.5 bg-[#F2DD50] hover:bg-[#8E7356] text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
       >
         {label}
       </button>
@@ -439,7 +439,7 @@ export default function SettingsPage() {
             </button>
           </div>
           <div>
-            <p className="font-semibold #1E293B dark:text-[#EAE5DF]">{accountForm.name || 'Your Name'}</p>
+            <p className="font-medium #1E293B dark:text-[#EAE5DF]">{accountForm.name || 'Your Name'}</p>
             <p className="text-sm #475569 dark:#475569">{accountForm.email}</p>
             <p className="text-xs text-[#F2DD50] mt-0.5">Signed in via Google</p>
           </div>
@@ -498,7 +498,7 @@ export default function SettingsPage() {
         </button>
         <button
           onClick={() => { updateUserProfile({ name: accountForm.name, phone: accountForm.phone, email: accountForm.email, photo: accountForm.photo }); showSuccessMessage('Account updated!'); }}
-          className="px-6 py-2.5 bg-[#F2DD50] hover:bg-[#8E7356] text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
+          className="px-6 py-2.5 bg-[#F2DD50] hover:bg-[#8E7356] text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
         >
           Save Changes
         </button>
@@ -530,7 +530,7 @@ export default function SettingsPage() {
             </button>
           </div>
           <div>
-            <p className="font-semibold #1E293B dark:text-[#EAE5DF]">{businessForm.businessName || 'Business Name'}</p>
+            <p className="font-medium #1E293B dark:text-[#EAE5DF]">{businessForm.businessName || 'Business Name'}</p>
             <p className="text-xs text-gray-400 mt-0.5 dark:#475569">Click camera to update logo</p>
           </div>
           <input ref={businessLogoRef} type="file" accept="image/*" onChange={handleBusinessLogoUpload} className="hidden" />
@@ -646,10 +646,10 @@ export default function SettingsPage() {
           <button onClick={onBack} className="p-1.5 hover:#F8FAFC rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700">
             <FiArrowLeft className="w-4 h-4 #475569 dark:#475569" />
           </button>
-          <h2 className="text-xl font-semibold #1E293B flex-1 dark:text-[#EAE5DF]">{title}</h2>
+          <h2 className="text-xl font-medium #1E293B flex-1 dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={() => { setShowAddCategory(true); setNewCategory(''); }}
-            className="flex items-center gap-2 px-4 py-2 bg-[#F2DD50] text-white text-sm font-semibold rounded-lg hover:bg-[#8E7356] transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 bg-[#F2DD50] text-white text-sm font-medium rounded-lg hover:bg-[#8E7356] transition-colors shadow-sm"
           >
             <FiPlus className="w-4 h-4" />
             Add New Category
@@ -670,9 +670,9 @@ export default function SettingsPage() {
         {/* Table */}
         <div className="bg-white rounded-xl border #E2E8F0 shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700 dark:shadow-none">
           <div className="grid grid-cols-3 px-6 py-3 border-b #E2E8F0 #FFFFFF dark:border-slate-700 dark:bg-slate-800/20">
-            <span className="text-xs font-semibold #475569 uppercase tracking-wide dark:text-[#64748B]">Category Name</span>
-            <span className="text-xs font-semibold #475569 uppercase tracking-wide text-right dark:text-[#64748B]">Total Amount</span>
-            <span className="text-xs font-semibold #475569 uppercase tracking-wide text-right dark:text-[#64748B]">Action</span>
+            <span className="text-xs font-medium #475569 uppercase tracking-wide dark:text-[#64748B]">Category Name</span>
+            <span className="text-xs font-medium #475569 uppercase tracking-wide text-right dark:text-[#64748B]">Total Amount</span>
+            <span className="text-xs font-medium #475569 uppercase tracking-wide text-right dark:text-[#64748B]">Action</span>
           </div>
 
           {filtered.map((cat, i) => (
@@ -737,7 +737,7 @@ export default function SettingsPage() {
         {showAddCategory && (
           <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
             <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl dark:bg-slate-800 dark:shadow-none">
-              <h3 className="font-semibold #1E293B mb-4 dark:text-[#EAE5DF]">Add New Category</h3>
+              <h3 className="font-medium #1E293B mb-4 dark:text-[#EAE5DF]">Add New Category</h3>
               <input
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
@@ -764,7 +764,7 @@ export default function SettingsPage() {
                       showSuccessMessage('Category added!');
                     }
                   }}
-                  className="flex-1 py-2 bg-[#F2DD50] text-white rounded-lg text-sm font-semibold hover:bg-[#8E7356]"
+                  className="flex-1 py-2 bg-[#F2DD50] text-white rounded-lg text-sm font-medium hover:bg-[#8E7356]"
                 >
                   Add
                 </button>
@@ -866,7 +866,7 @@ export default function SettingsPage() {
           >
             <FiArrowLeft className="w-4 h-4 #475569 dark:#475569" />
           </button>
-          <span className="font-semibold #1E293B dark:text-[#EAE5DF]">Settings</span>
+          <span className="font-medium #1E293B dark:text-[#EAE5DF]">Settings</span>
         </div>
 
         <nav className="flex-1 px-3 space-y-0.5">
@@ -877,7 +877,7 @@ export default function SettingsPage() {
               <button
                 key={item.id}
                 onClick={() => { setActiveSection(item.id); setFeatureExpanded(false); setTransactionSubView('main'); }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#F2DD50]/10 text-[#F2DD50] font-semibold' : '#475569 hover:#FFFFFF hover:#1E293B' } dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#F2DD50]/10 text-[#F2DD50] font-medium' : '#475569 hover:#FFFFFF hover:#1E293B' } dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
               >
                 <Icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-[#F2DD50]' : 'text-gray-400 dark:#475569'}`} />
                 {item.label}
@@ -889,7 +889,7 @@ export default function SettingsPage() {
           <div className="pt-1">
             <button
               onClick={() => setFeatureExpanded(!featureExpanded)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ featureExpanded || isFeatureActive ? '#FFFFFF #1E293B font-semibold' : '#475569 hover:#FFFFFF hover:#1E293B' } dark:bg-slate-800 dark:text-[#EAE5DF] dark:hover:bg-slate-700/40`}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-sm transition-colors ${ featureExpanded || isFeatureActive ? '#FFFFFF #1E293B font-medium' : '#475569 hover:#FFFFFF hover:#1E293B' } dark:bg-slate-800 dark:text-[#EAE5DF] dark:hover:bg-slate-700/40`}
             >
               <div className="flex items-center gap-3">
                 <FiSettings className="w-4 h-4 text-gray-400 flex-shrink-0 dark:#475569" />
@@ -907,7 +907,7 @@ export default function SettingsPage() {
                     <button
                       key={item.id}
                       onClick={() => { setActiveSection(item.id); setTransactionSubView('main'); }}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#F2DD50]/10 text-[#F2DD50] font-semibold' : '#475569 hover:#FFFFFF hover:#1E293B' } dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors ${ active ? 'bg-[#F2DD50]/10 text-[#F2DD50] font-medium' : '#475569 hover:#FFFFFF hover:#1E293B' } dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800`}
                     >
                       <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${active ? 'text-[#F2DD50]' : 'text-gray-400 dark:#475569'}`} />
                       {item.label}
@@ -932,7 +932,7 @@ export default function SettingsPage() {
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden #1E293B dark:bg-slate-800 dark:text-[#EAE5DF]">
             <div className="flex items-center justify-between px-6 py-5 border-b #E2E8F0 dark:border-slate-700">
-              <h3 className="font-semibold #1E293B dark:text-[#EAE5DF]">{editingBank ? 'Edit Bank Account' : 'Bank Accounts'}</h3>
+              <h3 className="font-medium #1E293B dark:text-[#EAE5DF]">{editingBank ? 'Edit Bank Account' : 'Bank Accounts'}</h3>
               <button
                 onClick={() => { setShowBankModal(false); setEditingBank(null); setBankForm({ bankName: '', accountNumber: '', accountHolderName: '', branch: '', isPrimary: false }); }}
                 className="p-1.5 hover:#F8FAFC rounded-lg transition-colors dark:hover:bg-slate-700 dark:bg-slate-700/40"
@@ -948,9 +948,9 @@ export default function SettingsPage() {
                   {businessProfile.bankAccounts.map((bank) => (
                     <div key={bank.id} className="flex items-center justify-between p-3 #FFFFFF rounded-xl dark:bg-slate-800/20">
                       <div>
-                        <p className="text-sm font-semibold #1E293B dark:text-[#EAE5DF]">{bank.bankName}</p>
+                        <p className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">{bank.bankName}</p>
                         <p className="text-xs #475569 dark:text-[#64748B]">{bank.accountNumber}</p>
-                        {bank.isPrimary && <span className="text-xs text-[#F2DD50] font-semibold">Primary</span>}
+                        {bank.isPrimary && <span className="text-xs text-[#F2DD50] font-medium">Primary</span>}
                       </div>
                       <div className="flex gap-1">
                         <button onClick={() => handleEditBank(bank)} className="p-1.5 hover:bg-white rounded-lg transition-colors dark:bg-slate-800 dark:hover:bg-slate-700">
@@ -996,14 +996,14 @@ export default function SettingsPage() {
             <div className="px-6 py-4 border-t #E2E8F0 flex gap-3 dark:border-slate-700">
               <button
                 onClick={() => { setShowBankModal(false); setEditingBank(null); setBankForm({ bankName: '', accountNumber: '', accountHolderName: '', branch: '', isPrimary: false }); }}
-                className="flex-1 py-2.5 border #E2E8F0 rounded-xl text-sm font-semibold #475569 hover:#FFFFFF transition-colors dark:border-slate-700 dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800"
+                className="flex-1 py-2.5 border #E2E8F0 rounded-xl text-sm font-medium #475569 hover:#FFFFFF transition-colors dark:border-slate-700 dark:text-[#EAE5DF] dark:hover:bg-slate-700/40 dark:bg-slate-800"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveBankAccount}
                 disabled={!bankForm.bankName || !bankForm.accountNumber || !bankForm.accountHolderName}
-                className="flex-1 py-2.5 bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-xl text-sm font-semibold transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-2.5 bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-xl text-sm font-medium transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {editingBank ? 'Save Changes' : 'Add Bank'}
               </button>

@@ -93,7 +93,7 @@ export const PartyActionDropdown: React.FC<PartyActionDropdownProps> = ({
             {isOpen && (
                 <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#15161C] rounded-xl shadow-2xl border #E2E8F0 dark:border-[#1C1D24] z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                     <div className="p-2 border-b #E2E8F0 dark:border-[#1C1D24] #FFFFFF/50 dark:bg-[#0D0E12]/50">
-                        <p className="text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider px-2">
+                        <p className="text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider px-2">
                             Create New
                         </p>
                     </div>

@@ -50,7 +50,7 @@ function Modal({ open, onClose, title, children }: {
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-5 border-b #E2E8F0 dark:border-[#1C1D24]">
-          <h2 className="text-base font-bold #1E293B dark:text-[#EAE5DF]">{title}</h2>
+          <h2 className="text-base font-medium #1E293B dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:#475569 hover:#F8FAFC dark:hover:bg-gray-800 transition-colors"
@@ -130,8 +130,8 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <label className="text-sm font-semibold text-gray-700 dark:text-[#64748B]">Expense No.</label>
-            <button className="text-xs font-bold text-[#F2DD50] hover:text-[#F2DD50]">Manual</button>
+            <label className="text-sm font-medium text-gray-700 dark:text-[#64748B]">Expense No.</label>
+            <button className="text-xs font-medium text-[#F2DD50] hover:text-[#F2DD50]">Manual</button>
           </div>
           <input
             type="text"
@@ -142,7 +142,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Date</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">Date</label>
           <div className="relative">
             <input
               type="date"
@@ -157,7 +157,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
 
       {/* Expense Category */}
       <div ref={catRef} className="relative">
-        <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Expense Category</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">Expense Category</label>
         <div
           className="w-full px-3 py-2.5 border #E2E8F0 dark:border-[#1C1D24] rounded-xl text-sm bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus-within:border-[#F2DD50] cursor-pointer flex items-center justify-between"
           onClick={() => setCatOpen(v => !v)}
@@ -181,7 +181,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
                 <button
                   key={cat}
                   onClick={() => { setCategory(cat); setCatSearch(cat); setCatOpen(false); }}
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 ${category === cat ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#F2DD50] font-semibold' : 'text-gray-700 dark:text-[#64748B]'}`}
+                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 ${category === cat ? 'bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#F2DD50] font-medium' : 'text-gray-700 dark:text-[#64748B]'}`}
                 >
                   {cat}
                 </button>
@@ -192,16 +192,16 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
       </div>
 
       {/* Add Expense Item (decorative link like Karobar) */}
-      <button className="flex items-center gap-1.5 text-sm font-semibold text-[#F2DD50] hover:text-[#F2DD50] transition-colors">
+      <button className="flex items-center gap-1.5 text-sm font-medium text-[#F2DD50] hover:text-[#F2DD50] transition-colors">
         <FiPlus className="w-4 h-4" /> Add Expense Item
       </button>
 
       {/* Total Amount + Payment Method */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Total Amount</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">Total Amount</label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Rs.</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">Rs.</span>
             <input
               type="number"
               value={amount}
@@ -212,7 +212,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
           </div>
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Payment Method</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">Payment Method</label>
           <div className="relative">
             <select
               value={paymentMethod}
@@ -228,7 +228,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
 
       {/* Remarks */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">Remarks</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">Remarks</label>
         <textarea
           value={remarks}
           onChange={e => setRemarks(e.target.value)}
@@ -270,7 +270,7 @@ function ExpenseForm({ initial, onSave, onClose, mode }: ExpenseFormProps) {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="px-8 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2"
+          className="px-8 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-xl hover:bg-[#8E7356] disabled:opacity-50 transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2"
         >
           {saving && <FiLoader className="w-4 h-4 animate-spin" />}
           {mode === 'add' ? 'Save Expense' : 'Update Expense'}
@@ -294,14 +294,14 @@ function DeleteModal({ open, onClose, onConfirm, loading }: {
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-semibold #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors"
+            className="flex-1 py-2.5 border #E2E8F0 dark:border-[#1C1D24] text-sm font-medium #475569 dark:text-[#64748B] rounded-xl hover:#FFFFFF dark:hover:bg-gray-800 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             disabled={loading}
-            className="flex-1 py-2.5 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+            className="flex-1 py-2.5 bg-red-600 text-white text-sm font-medium rounded-xl hover:bg-red-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
           >
             {loading && <FiLoader className="w-4 h-4 animate-spin" />}
             Delete
@@ -450,13 +450,13 @@ export default function ExpenseMonitoringPage() {
               </div>
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-5 bg-gray-300 dark:bg-[#22232C] rounded-lg" />
             </div>
-            <h2 className="text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-2">Create Your First Expense</h2>
+            <h2 className="text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-2">Create Your First Expense</h2>
             <p className="text-sm #475569 dark:text-[#44454F] text-center mb-8 max-w-xs">
               Click on the create expense button and start managing your expense
             </p>
             <button
               onClick={() => setShowAdd(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-[#F2DD50] text-white font-bold text-sm rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
+              className="flex items-center gap-2 px-6 py-3 bg-[#F2DD50] text-white font-medium text-sm rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
             >
               <FiPlus className="w-4 h-4" /> Add New Expense
             </button>
@@ -465,12 +465,12 @@ export default function ExpenseMonitoringPage() {
           <>
             {/*  Header  */}
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">
+              <h1 className="text-xl font-medium #1E293B dark:text-[#EAE5DF]">
                 Expenses {!loading && `(${expenses.length})`}
               </h1>
               <button
                 onClick={() => setShowAdd(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-[#F2DD50] text-white text-sm font-bold rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-xl hover:bg-[#8E7356] transition-colors shadow-lg shadow-blue-500/20"
               >
                 <FiPlus className="w-4 h-4" /> Add New Expense
               </button>
@@ -530,7 +530,7 @@ export default function ExpenseMonitoringPage() {
               {(search || filterCategory || filterPayment || filterDate) && (
                 <button
                   onClick={() => { setSearch(''); setFilterCategory(''); setFilterPayment(''); setFilterDate(''); }}
-                  className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                 >
                   <FiX className="w-3.5 h-3.5" /> Clear
                 </button>
@@ -571,7 +571,7 @@ export default function ExpenseMonitoringPage() {
                           <th
                             key={label}
                             onClick={() => field && toggleSort(field)}
-                            className={`px-5 py-4 text-left text-xs font-bold #475569 dark:text-[#44454F] uppercase tracking-wider ${w} ${field ? 'cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 select-none' : ''}`}
+                            className={`px-5 py-4 text-left text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider ${w} ${field ? 'cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 select-none' : ''}`}
                           >
                             <span className="flex items-center gap-0.5">
                               {label}
@@ -591,7 +591,7 @@ export default function ExpenseMonitoringPage() {
                             {expense.expense_number}
                           </td>
                           <td className="px-5 py-4">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#8E7356] dark:text-blue-300">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#F1F5F9] dark:bg-[#F2DD50]/15 text-[#8E7356] dark:text-blue-300">
                               {expense.category}
                             </span>
                           </td>
@@ -601,7 +601,7 @@ export default function ExpenseMonitoringPage() {
                           <td className="px-5 py-4 text-sm #475569 dark:text-[#44454F]">
                             {expense.payment_method}
                           </td>
-                          <td className="px-5 py-4 text-sm font-bold #1E293B dark:text-[#EAE5DF]">
+                          <td className="px-5 py-4 text-sm font-medium #1E293B dark:text-[#EAE5DF]">
                             {fmt(expense.amount)}
                           </td>
                           <td className="px-5 py-4 text-sm #475569 dark:text-[#44454F] max-w-[180px] truncate">

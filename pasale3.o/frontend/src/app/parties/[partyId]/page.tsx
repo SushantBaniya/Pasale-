@@ -45,7 +45,7 @@ export default function PartyDetailPage() {
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-6 flex items-center justify-center">
         <Card className="text-center p-12">
-          <h1 className="text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-2">Party Not Found</h1>
+          <h1 className="text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-2">Party Not Found</h1>
           <p className="#475569 dark:text-[#44454F] mb-6">The party you're looking for doesn't exist.</p>
           <Button onClick={() => navigate('/parties')}>
             <FiArrowLeft className="w-4 h-4 mr-2" />
@@ -129,7 +129,7 @@ export default function PartyDetailPage() {
 
             <div className="flex items-center gap-6 mb-8">
               <div
-                className={`w-20 h-20 rounded-2xl flex items-center justify-center text-4xl font-bold ${party.type === 'customer'
+                className={`w-20 h-20 rounded-2xl flex items-center justify-center text-4xl font-medium ${party.type === 'customer'
                   ? 'bg-white/20'
                   : 'bg-white/20'
                   }`}
@@ -138,7 +138,7 @@ export default function PartyDetailPage() {
               </div>
 
               <div className="flex-1">
-                <h1 className="text-3xl sm:text-4xl font-bold mb-2">{party.name}</h1>
+                <h1 className="text-3xl sm:text-4xl font-medium mb-2">{party.name}</h1>
                 <p className="text-white/80 text-sm sm:text-base">
                   {party.type === 'customer' ? 'Customer' : 'Supplier'} • {n(partyTransactions.length)} transactions
                 </p>
@@ -147,7 +147,7 @@ export default function PartyDetailPage() {
               <div className="text-right hidden sm:block">
                 <p className="text-white/80 text-sm">Current Balance</p>
                 <p
-                  className={`text-3xl font-bold ${balance >= 0 ? 'text-green-300' : 'text-red-300'
+                  className={`text-3xl font-medium ${balance >= 0 ? 'text-green-300' : 'text-red-300'
                     }`}
                 >
                   {c(Math.abs(balance))}
@@ -165,7 +165,7 @@ export default function PartyDetailPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <Card className="p-6">
               <p className="text-sm #475569 dark:text-[#44454F] mb-2">Balance</p>
-              <p className={`text-2xl font-bold ${balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <p className={`text-2xl font-medium ${balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {c(Math.abs(balance))}
               </p>
               <p className="text-xs text-gray-400 mt-2">{balance >= 0 ? 'To Receive' : 'To Pay'}</p>
@@ -173,26 +173,26 @@ export default function PartyDetailPage() {
 
             <Card className="p-6">
               <p className="text-sm #475569 dark:text-[#44454F] mb-2">Total Sales</p>
-              <p className="text-2xl font-bold text-blue-600">{c(totalSales)}</p>
+              <p className="text-2xl font-medium text-blue-600">{c(totalSales)}</p>
               <p className="text-xs text-gray-400 mt-2">{n(partyTransactions.filter((t) => t.type === 'selling').length)} invoices</p>
             </Card>
 
             <Card className="p-6">
               <p className="text-sm #475569 dark:text-[#44454F] mb-2">Total Purchases</p>
-              <p className="text-2xl font-bold text-blue-600">{c(totalPurchases)}</p>
+              <p className="text-2xl font-medium text-blue-600">{c(totalPurchases)}</p>
               <p className="text-xs text-gray-400 mt-2">{n(partyTransactions.filter((t) => t.type === 'purchase').length)} invoices</p>
             </Card>
 
             <Card className="p-6">
               <p className="text-sm #475569 dark:text-[#44454F] mb-2">Total Transactions</p>
-              <p className="text-2xl font-bold text-purple-600">{n(partyTransactions.length)}</p>
+              <p className="text-2xl font-medium text-purple-600">{n(partyTransactions.length)}</p>
               <p className="text-xs text-gray-400 mt-2">All transactions</p>
             </Card>
           </div>
 
           {/* Contact Info Card */}
           <Card className="p-6 mb-8">
-            <h2 className="text-xl font-bold #1E293B dark:text-[#EAE5DF] mb-4">Contact Information</h2>
+            <h2 className="text-xl font-medium #1E293B dark:text-[#EAE5DF] mb-4">Contact Information</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {party.phone && (
                 <div>
@@ -227,7 +227,7 @@ export default function PartyDetailPage() {
           {/* Transactions Section */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold #1E293B dark:text-[#EAE5DF]">Transactions</h2>
+              <h2 className="text-2xl font-medium #1E293B dark:text-[#EAE5DF]">Transactions</h2>
               <PartyActionDropdown party={party} />
             </div>
 
@@ -246,7 +246,7 @@ export default function PartyDetailPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${activeTab === tab.id
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${activeTab === tab.id
                     ? 'bg-gray-900 dark:bg-white text-white dark:#1E293B'
                     : '#F8FAFC dark:bg-[#15161C] #475569 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
@@ -261,7 +261,7 @@ export default function PartyDetailPage() {
             {filteredTransactions.length === 0 ? (
               <Card className="p-12 text-center">
                 <FiFilter className="w-16 h-16 text-gray-300 dark:#475569 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold #1E293B dark:text-[#EAE5DF] mb-2">No Transactions</h3>
+                <h3 className="text-xl font-medium #1E293B dark:text-[#EAE5DF] mb-2">No Transactions</h3>
                 <p className="#475569 dark:text-[#44454F] mb-6">
                   No {activeTab !== 'all' ? activeTab : 'transactions'} found for this party.
                 </p>
@@ -297,7 +297,7 @@ export default function PartyDetailPage() {
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold #1E293B dark:text-[#EAE5DF] capitalize">
+                          <p className="font-medium #1E293B dark:text-[#EAE5DF] capitalize">
                             {tx.type.replace('_', ' ')}
                           </p>
                           <p className="text-sm #475569 dark:text-[#44454F]">
@@ -311,7 +311,7 @@ export default function PartyDetailPage() {
 
                       <div className="text-right">
                         <p
-                          className={`font-bold text-lg ${tx.type === 'selling'
+                          className={`font-medium text-lg ${tx.type === 'selling'
                             ? 'text-blue-600'
                             : '#1E293B dark:text-[#EAE5DF]'
                             }`}

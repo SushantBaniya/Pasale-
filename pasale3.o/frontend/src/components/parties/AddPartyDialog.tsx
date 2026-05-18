@@ -244,7 +244,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 )}
               </div>
               <div>
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   {isEdit
                     ? 'Edit Party'
                     : isCustomer
@@ -278,7 +278,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
           {/* Party Type Selection */}
           {!isEdit && !defaultType && (
             <div className="p-6 border-b #E2E8F0 dark:border-[#1C1D24] #FFFFFF dark:bg-[#15161C]/50">
-              <label className="block text-sm font-bold mb-3 text-gray-700 dark:text-[#64748B]">
+              <label className="block text-sm font-medium mb-3 text-gray-700 dark:text-[#64748B]">
                 <FiTag className="w-4 h-4 inline mr-2" />
                 Type *
               </label>
@@ -302,7 +302,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     <FiUser className="w-6 h-6" />
                   </div>
                   <div className="text-left">
-                    <span className="font-bold #1E293B dark:text-[#EAE5DF] block">
+                    <span className="font-medium #1E293B dark:text-[#EAE5DF] block">
                       Customer
                     </span>
                     <span className="text-xs #475569 dark:text-[#44454F]">
@@ -329,7 +329,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     <FiTruck className="w-6 h-6" />
                   </div>
                   <div className="text-left">
-                    <span className="font-bold #1E293B dark:text-[#EAE5DF] block">
+                    <span className="font-medium #1E293B dark:text-[#EAE5DF] block">
                       Supplier
                     </span>
                     <span className="text-xs #475569 dark:text-[#44454F]">
@@ -374,7 +374,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Name and Code */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiUser className="w-4 h-4 inline mr-2" />
                       {isCustomer ? 'Customer Name' : 'Supplier Name'} <span className="text-red-500">*</span>
                     </label>
@@ -405,7 +405,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiHash className="w-4 h-4 inline mr-2" />
                       {isCustomer ? 'Customer Code' : 'Supplier Code'}
                     </label>
@@ -427,7 +427,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Supplier: Company Name */}
                 {!isCustomer && (
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiBriefcase className="w-4 h-4 inline mr-2" />
                       {t('companyName')}
                     </label>
@@ -444,7 +444,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Phone and Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiPhone className="w-4 h-4 inline mr-2" />
                       Phone <span className="text-red-500">*</span>
                     </label>
@@ -470,7 +470,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiMail className="w-4 h-4 inline mr-2" />
                       Email
                     </label>
@@ -498,7 +498,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
 
                 {/* Address - Required field */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                     <FiMapPin className="w-4 h-4 inline mr-2" />
                     Address <span className="text-red-500">*</span>
                   </label>
@@ -526,7 +526,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {!isCustomer && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                      <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiFileText className="w-4 h-4 inline mr-2" />
                         {t('gstNumber')}
                       </label>
@@ -539,7 +539,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       />
                     </div> */}
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                      <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiFileText className="w-4 h-4 inline mr-2" />
                         {t('panNumber')}
                       </label>
@@ -558,7 +558,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* City, State, Pincode */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiHome className="w-4 h-4 inline mr-2" />
                       City
                     </label>
@@ -571,7 +571,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       State
                     </label>
                     <input
@@ -583,7 +583,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       Pincode
                     </label>
                     <input
@@ -611,17 +611,17 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       : 'border-purple-200 dark:border-purple-800'
                   }`}
                 >
-                  <h3 className="font-bold #1E293B dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
+                  <h3 className="font-medium #1E293B dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
                     <NepaliRupeeIcon className="w-5 h-5" />
                     Balance Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                      <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                         {t('ledger.openingBalance')}
                       </label>
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-medium">
                           रु.
                         </span>
                         <input
@@ -637,11 +637,11 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       </p>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                      <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                         {t('creditLimit')}
                       </label>
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-medium">
                           रु.
                         </span>
                         <input
@@ -660,7 +660,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {isCustomer && (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                      <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiCreditCard className="w-4 h-4 inline mr-2" />
                         {t('preferredPayment')}
                       </label>
@@ -682,7 +682,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                      <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                         <FiCheckCircle className="inline mr-2" />{t('loyaltyPoints')}
                       </label>
                       <input
@@ -700,12 +700,12 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {!isCustomer && (
                   <>
                     <div className="#FFFFFF dark:bg-[#15161C]/50 p-6 rounded-xl border #E2E8F0 dark:border-[#1C1D24]">
-                      <h3 className="font-bold #1E293B dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
+                      <h3 className="font-medium #1E293B dark:text-[#EAE5DF] mb-4 flex items-center gap-2">
                         <FiHome className="inline mr-2" />{t('bankDetails')}
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                             {t('bankName')}
                           </label>
                           <input
@@ -717,7 +717,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                             {t('accountNumber')}
                           </label>
                           <input
@@ -729,7 +729,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                             {t('ifscCode')}
                           </label>
                           <input
@@ -745,7 +745,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                        <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                           {t('paymentTerms')}
                         </label>
                         <select
@@ -761,7 +761,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                        <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                           {t('leadTime')}
                         </label>
                         <input
@@ -773,11 +773,11 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                        <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                           {t('minOrderValue')}
                         </label>
                         <div className="relative">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-medium">
                             रु.
                           </span>
                           <input
@@ -801,7 +801,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
                 {/* Customer: Referred By */}
                 {isCustomer && (
                   <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                    <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                       <FiUser className="inline mr-2" />{t('referredBy')}
                     </label>
                     <input
@@ -816,7 +816,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
 
                 {/* Notes */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-[#64748B]">
+                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-[#64748B]">
                     <FiFileText className="inline mr-2" />{t('notesOptional')}
                   </label>
                   <textarea
@@ -843,7 +843,7 @@ export const AddPartyDialog: React.FC<AddPartyDialogProps> = ({
             <button
               type="submit"
               disabled={loading || !isFormValid()}
-              className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold text-white transition-all ${
+              className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-white transition-all ${
                 isCustomer
                   ? 'bg-gradient-to-r from-[#F2DD50] to-blue-700 hover:from-blue-700 hover:to-blue-800'
                   : 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'

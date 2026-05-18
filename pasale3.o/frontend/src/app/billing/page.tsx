@@ -218,10 +218,10 @@ export default function BillingPage() {
   const getStatusBadge = (statusName: string) => {
     const status = statusName?.toLowerCase() || '';
     if (status === 'paid') {
-      return <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full uppercase tracking-wide">PAID</span>;
+      return <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full uppercase tracking-wide">PAID</span>;
     }
 
-    return <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-full uppercase tracking-wide">PENDING</span>;
+    return <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full uppercase tracking-wide">PENDING</span>;
   };
 
   const formatDate = (dateString?: string) => {
@@ -293,7 +293,7 @@ export default function BillingPage() {
                 <tr>
                   <td colSpan={7} className="py-12 text-center">
                     <p className="text-red-500 font-medium mb-3">{error}</p>
-                    <button onClick={fetchData} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold hover:bg-indigo-700">
+                    <button onClick={fetchData} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700">
                       Retry
                     </button>
                   </td>
@@ -318,15 +318,15 @@ export default function BillingPage() {
                         setIsModalOpen(true);
                       }}
                     >
-                      <td className="py-4 px-6 font-bold text-slate-800 dark:text-[#EAE5DF] text-sm">
+                      <td className="py-4 px-6 font-medium text-slate-800 dark:text-[#EAE5DF] text-sm">
                         #{String(billing.id).padStart(6, '0')}
                         <div className="text-xs font-medium text-slate-400 mt-1">{billing.invoice_number || 'N/A'}</div>
                       </td>
-                      <td className="py-4 px-6 font-bold text-slate-800 dark:text-[#EAE5DF] text-sm">
+                      <td className="py-4 px-6 font-medium text-slate-800 dark:text-[#EAE5DF] text-sm">
                         {billing.party?.name || 'Walk-in Customer'}
                       </td>
                       <td className="py-4 px-6">
-                        <div className="font-bold text-slate-800 dark:text-[#EAE5DF] text-sm">{itemsCount} items</div>
+                        <div className="font-medium text-slate-800 dark:text-[#EAE5DF] text-sm">{itemsCount} items</div>
                         <div className="text-xs text-slate-400 truncate max-w-37.5">
                           {firstItemName}
                           {billing.items?.length > 1 ? ' ...' : ''}
@@ -336,7 +336,7 @@ export default function BillingPage() {
                         Rs. {formatMoney(billing.total_amount)}
                       </td>
                       <td className="py-4 px-6">{getStatusBadge(billing.invoice_status)}</td>
-                      <td className="py-4 px-6 font-bold text-slate-800 dark:text-[#EAE5DF] text-xs">
+                      <td className="py-4 px-6 font-medium text-slate-800 dark:text-[#EAE5DF] text-xs">
                         {formatDate(billing.invoice_date)}
                       </td>
                       <td className="py-4 px-6 text-right">
@@ -351,7 +351,7 @@ export default function BillingPage() {
             </tbody>
           </table>
         </div>
-        <div className="p-4 border-t #E2E8F0 dark:border-[#1C1D24] #FFFFFF dark:bg-[#15161C] text-xs font-bold text-slate-400 uppercase tracking-widest">
+        <div className="p-4 border-t #E2E8F0 dark:border-[#1C1D24] #FFFFFF dark:bg-[#15161C] text-xs font-medium text-slate-400 uppercase tracking-widest">
           TOTAL BILLINGS: {filteredBillings.length}
         </div>
       </div>
@@ -386,19 +386,19 @@ export default function BillingPage() {
                 <div className="flex items-center gap-2 text-sm">
                   <FiMapPin className="text-slate-400 w-4 h-4" />
                   <span className="text-slate-500 w-20">Customer:</span>
-                  <span className="font-bold text-slate-900 dark:text-[#EAE5DF]">{selectedBilling.party?.name || 'Walk-in Customer'}</span>
+                  <span className="font-medium text-slate-900 dark:text-[#EAE5DF]">{selectedBilling.party?.name || 'Walk-in Customer'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <FiCalendar className="text-slate-400 w-4 h-4" />
                   <span className="text-slate-500 w-20">Invoice:</span>
-                  <span className="font-bold text-slate-900 dark:text-[#EAE5DF]">
+                  <span className="font-medium text-slate-900 dark:text-[#EAE5DF]">
                     {selectedBilling.invoice_date ? new Date(selectedBilling.invoice_date).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'N/A'}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <FiTag className="text-slate-400 w-4 h-4" />
                   <span className="text-slate-500 w-20">Due:</span>
-                  <span className="font-bold text-slate-900 dark:text-[#EAE5DF]">
+                  <span className="font-medium text-slate-900 dark:text-[#EAE5DF]">
                     {selectedBilling.due_date ? new Date(selectedBilling.due_date).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'N/A'}
                   </span>
                 </div>
@@ -410,13 +410,13 @@ export default function BillingPage() {
                   selectedBilling.items.map((item: any, idx: number) => (
                     <div key={idx} className="flex justify-between items-center p-4 border-b border-gray-50 dark:border-[#1C1D24] last:border-0">
                       <div>
-                        <p className="font-bold text-slate-900 dark:text-[#EAE5DF] mb-1">{item.product_name || 'Item'}</p>
+                        <p className="font-medium text-slate-900 dark:text-[#EAE5DF] mb-1">{item.product_name || 'Item'}</p>
                         <p className="text-xs font-medium text-slate-500">
                           Qty: {item.quantity} @ Rs. {formatMoney(item.rate)}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-slate-900 dark:text-[#EAE5DF]">
+                        <p className="font-medium text-slate-900 dark:text-[#EAE5DF]">
                           Rs. {formatMoney(item.total_price || item.quantity * item.rate)}
                         </p>
                       </div>
@@ -431,19 +431,19 @@ export default function BillingPage() {
               <div className="bg-white dark:bg-[#15161C] border #E2E8F0 dark:border-[#1C1D24] rounded-xl p-4 space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-slate-500">Subtotal:</span>
-                  <span className="font-bold text-slate-900 dark:text-[#EAE5DF]">Rs. {formatMoney(selectedBilling.sub_total)}</span>
+                  <span className="font-medium text-slate-900 dark:text-[#EAE5DF]">Rs. {formatMoney(selectedBilling.sub_total)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-slate-500">Discount:</span>
-                  <span className="font-bold text-[#F2DD50]">- Rs. {formatMoney(selectedBilling.discount)}</span>
+                  <span className="font-medium text-[#F2DD50]">- Rs. {formatMoney(selectedBilling.discount)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-slate-500">Paid:</span>
-                  <span className="font-bold text-slate-900 dark:text-[#EAE5DF]">Rs. {formatMoney(selectedBilling.paid_amount)}</span>
+                  <span className="font-medium text-slate-900 dark:text-[#EAE5DF]">Rs. {formatMoney(selectedBilling.paid_amount)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="font-medium text-slate-500">Due:</span>
-                  <span className="font-bold text-slate-900 dark:text-[#EAE5DF]">Rs. {formatMoney(selectedBilling.due_amount)}</span>
+                  <span className="font-medium text-slate-900 dark:text-[#EAE5DF]">Rs. {formatMoney(selectedBilling.due_amount)}</span>
                 </div>
                 <div className="pt-3 border-t #E2E8F0 dark:border-[#1C1D24] flex justify-between items-center">
                   <span className="font-black text-slate-900 dark:text-[#EAE5DF]">Total Amount:</span>
@@ -455,13 +455,13 @@ export default function BillingPage() {
             <div className="p-4 border-t #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] flex justify-end gap-3">
               <button
                 onClick={closeModal}
-                className="px-6 py-2.5 rounded-lg font-bold text-slate-600 border #E2E8F0 hover:bg-slate-50 dark:text-slate-300 dark:border-[#2A2B36] dark:hover:bg-gray-700 transition-colors"
+                className="px-6 py-2.5 rounded-lg font-medium text-slate-600 border #E2E8F0 hover:bg-slate-50 dark:text-slate-300 dark:border-[#2A2B36] dark:hover:bg-gray-700 transition-colors"
               >
                 Close
               </button>
               <button 
                 onClick={handlePrint}
-                className="px-6 py-2.5 rounded-lg font-bold text-slate-600 border #E2E8F0 hover:bg-slate-50 dark:text-slate-300 dark:border-[#2A2B36] dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg font-medium text-slate-600 border #E2E8F0 hover:bg-slate-50 dark:text-slate-300 dark:border-[#2A2B36] dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
               >
                 <FiPrinter className="w-4 h-4" /> Print Bill
               </button>
@@ -470,7 +470,7 @@ export default function BillingPage() {
                 <button
                   onClick={handlePayNow}
                   disabled={processing}
-                  className="px-8 py-2.5 rounded-lg font-bold text-white bg-[#101B55] hover:bg-[#1e293b] disabled:opacity-70 transition-colors shadow-lg"
+                  className="px-8 py-2.5 rounded-lg font-medium text-white bg-[#101B55] hover:bg-[#1e293b] disabled:opacity-70 transition-colors shadow-lg"
                 >
                   {processing ? 'Processing...' : 'Pay Now'}
                 </button>

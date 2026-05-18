@@ -46,7 +46,7 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
   return (
     <Card className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-bold text-[#1E293B] dark:text-[#EAE5DF]">Sales Analytics</h3>
+        <h3 className="text-xl font-medium text-[#1E293B] dark:text-[#EAE5DF]">Sales Analytics</h3>
         <div className="flex gap-2">
           <Button size="sm" variant={period === 'weekly' ? 'primary' : 'ghost'} onClick={() => setPeriod('weekly')}>{t('dashboard.weekly')}</Button>
           <Button size="sm" variant={period === 'monthly' ? 'primary' : 'ghost'} onClick={() => setPeriod('monthly')}>{t('dashboard.monthly')}</Button>

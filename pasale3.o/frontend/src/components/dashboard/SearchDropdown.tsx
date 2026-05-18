@@ -42,7 +42,7 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({ query, onClose }
     <div className="absolute top-full mt-2 w-full bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#1C1D24] rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
       {matchingTransactions.length > 0 && (
         <div className="p-2">
-          <div className="px-3 py-2 text-xs font-semibold text-[#475569] dark:text-[#44454F] uppercase">Transactions</div>
+          <div className="px-3 py-2 text-xs font-medium text-[#475569] dark:text-[#44454F] uppercase">Transactions</div>
           {matchingTransactions.map((transaction) => (
             <button key={transaction.id} onClick={() => handleClick('/transactions')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#FFFFFF] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
               <NepaliRupeeIcon className="w-4 h-4 text-[#F2DD50] shrink-0" />
@@ -56,7 +56,7 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({ query, onClose }
       )}
       {matchingParties.length > 0 && (
         <div className="p-2">
-          <div className="px-3 py-2 text-xs font-semibold text-[#475569] dark:text-[#44454F] uppercase">Parties</div>
+          <div className="px-3 py-2 text-xs font-medium text-[#475569] dark:text-[#44454F] uppercase">Parties</div>
           {matchingParties.map((party) => (
             <button key={party.id} onClick={() => handleClick('/parties')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#FFFFFF] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
               <FiUsers className="w-4 h-4 text-[#10B981] shrink-0" />
@@ -70,7 +70,7 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({ query, onClose }
       )}
       {matchingExpenses.length > 0 && (
         <div className="p-2">
-          <div className="px-3 py-2 text-xs font-semibold text-[#475569] dark:text-[#44454F] uppercase">Expenses</div>
+          <div className="px-3 py-2 text-xs font-medium text-[#475569] dark:text-[#44454F] uppercase">Expenses</div>
           {matchingExpenses.map((expense) => (
             <button key={expense.id} onClick={() => handleClick('/expense-monitoring')} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[#FFFFFF] dark:hover:bg-gray-700 rounded-lg transition-colors text-left">
               <FiTrendingDown className="w-4 h-4 text-[#F2DD50] shrink-0" />

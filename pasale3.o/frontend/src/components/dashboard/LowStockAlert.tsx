@@ -37,7 +37,7 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
           <div className="w-14 h-14 rounded-2xl bg-[#10B981]/10 dark:bg-green-800/50 flex items-center justify-center mb-4">
             <FiPackage className="w-7 h-7 text-[#10B981] dark:text-green-400" />
           </div>
-          <h3 className="text-lg font-bold text-[#10B981] dark:text-green-300 mb-2">All Stocked Up!</h3>
+          <h3 className="text-lg font-medium text-[#10B981] dark:text-green-300 mb-2">All Stocked Up!</h3>
           <p className="text-sm text-[#10B981]/80 dark:text-green-400">No low stock items at the moment</p>
         </div>
       </Card>
@@ -57,12 +57,12 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
               <FiAlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-base">Low Stock Alert</h3>
+              <h3 className="font-medium text-base">Low Stock Alert</h3>
               <p className="text-white/80 text-xs">Requires attention</p>
             </div>
           </div>
           <div className="flex flex-col items-end gap-1">
-            <span className="px-2.5 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold">
+            <span className="px-2.5 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium">
               {items.length} Items
             </span>
           </div>
@@ -103,11 +103,11 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
             >
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-sm text-[#1E293B] dark:text-[#EAE5DF] truncate">
+                  <h4 className="font-medium text-sm text-[#1E293B] dark:text-[#EAE5DF] truncate">
                     {item.name}
                   </h4>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                    <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${
                       isCritical 
                         ? 'bg-[#F2DD50]/15 dark:bg-red-800/50 text-[#F2DD50] dark:text-red-300' 
                         : 'bg-[#F2DD50]/10 dark:bg-orange-800/50 text-[#F2DD50] dark:text-orange-300'
@@ -118,7 +118,7 @@ export const LowStockAlert: React.FC<LowStockAlertProps> = ({ items }) => {
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className={`text-lg font-bold ${
+                  <span className={`text-lg font-medium ${
                     isCritical 
                       ? 'text-[#F2DD50] dark:text-red-400' 
                       : 'text-[#F2DD50] dark:text-orange-400'

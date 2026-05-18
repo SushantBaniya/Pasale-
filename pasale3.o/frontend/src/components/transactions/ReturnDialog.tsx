@@ -225,7 +225,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                 {isSalesReturn ? <FiRotateCcw className="w-5 h-5 text-white" /> : <FiRotateCw className="w-5 h-5 text-white" />}
               </div>
               <div className="text-white">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   {isEdit ? 'Edit' : 'New'} {isSalesReturn ? 'Sales Return' : 'Purchase Return'}
                 </h2>
                 <p className="text-white/80 text-sm">{returnNumber}</p>
@@ -255,7 +255,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {/* Party Selection */}
             <div className="relative">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiUser className="inline w-4 h-4 mr-1.5" />
                 {isSalesReturn ? 'Customer' : 'Supplier'} *
               </label>
@@ -300,7 +300,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
             {/* Original Invoice */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 Original Invoice No.
               </label>
               <input
@@ -314,7 +314,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
             {/* Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Return Date *
               </label>
@@ -331,7 +331,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
           {/* Reason for Return */}
           <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               Reason for Return *
             </label>
             <div className="flex flex-wrap gap-2">
@@ -358,7 +358,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
           {/* Items Table */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#64748B]">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-[#64748B]">
                 <FiPackage className="inline w-4 h-4 mr-1.5" />
                 Items Being Returned
               </h3>
@@ -369,7 +369,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
             </div>
 
             <div className="#FFFFFF dark:bg-[#15161C]/50 rounded-xl overflow-hidden border #E2E8F0 dark:border-[#1C1D24]">
-              <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-semibold #475569 dark:text-[#44454F] uppercase">
+              <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-medium #475569 dark:text-[#44454F] uppercase">
                 <div className="col-span-5">Item Name</div>
                 <div className="col-span-2 text-center">Qty</div>
                 <div className="col-span-2 text-center">Rate</div>
@@ -408,7 +408,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                         className="w-full px-2 py-2 rounded-lg border #E2E8F0 dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-sm text-center"
                       />
                     </div>
-                    <div className="col-span-2 text-right font-semibold #1E293B dark:text-[#EAE5DF] text-sm">
+                    <div className="col-span-2 text-right font-medium #1E293B dark:text-[#EAE5DF] text-sm">
                       Rs. {item.total.toLocaleString()}
                     </div>
                     <div className="col-span-1 flex justify-center">
@@ -432,7 +432,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             {/* Notes */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiFileText className="inline w-4 h-4 mr-1.5" />
                 Additional Notes
               </label>
@@ -446,7 +446,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
               {/* Refund Mode */}
               <div className="mt-4">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                   Refund Mode
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -473,7 +473,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
 
             {/* Totals */}
             <div className={`p-5 rounded-xl border ${isSalesReturn ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800' : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'}`}>
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-4">Return Summary</h3>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-[#64748B] mb-4">Return Summary</h3>
               
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
@@ -487,7 +487,7 @@ export const ReturnDialog: React.FC<ReturnDialogProps> = ({
                 </div>
 
                 <div className="border-t #E2E8F0 dark:border-[#2A2B36] pt-3">
-                  <div className="flex justify-between text-lg font-bold">
+                  <div className="flex justify-between text-lg font-medium">
                     <span className="#1E293B dark:text-[#EAE5DF]">Refund Amount</span>
                     <span className={isSalesReturn ? 'text-orange-600' : 'text-amber-600'}>Rs. {totals.totalAmount.toLocaleString()}</span>
                   </div>

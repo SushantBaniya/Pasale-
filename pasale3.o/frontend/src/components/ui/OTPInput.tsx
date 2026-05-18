@@ -66,7 +66,7 @@ export const OTPInput: React.FC<OTPInputProps> = ({
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={handlePaste}
             className={`
-              w-12 h-12 text-center text-xl font-semibold
+              w-12 h-12 text-center text-xl font-medium
               border-2 rounded-lg
               bg-white dark:bg-[#15161C]
               #1E293B dark:text-[#EAE5DF]

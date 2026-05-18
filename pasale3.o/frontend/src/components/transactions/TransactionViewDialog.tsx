@@ -82,7 +82,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                 <FiFileText className="w-5 h-5 text-white" />
               </div>
               <div className="text-white">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   Transaction Details
                 </h2>
                 <p className="text-white/80 text-sm">{transaction.transactionNumber || transaction.id}</p>
@@ -100,10 +100,10 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
         <div className="p-6">
           {/* Type & Status Badges */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${typeConfig.lightBg} ${typeConfig.textColor}`}>
+            <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${typeConfig.lightBg} ${typeConfig.textColor}`}>
               {typeConfig.label}
             </span>
-            <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${statusConfig.bgColor} ${statusConfig.textColor}`}>
+            <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${statusConfig.bgColor} ${statusConfig.textColor}`}>
               {getStatusIcon(status)}
               {statusConfig.label}
             </span>
@@ -120,7 +120,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                 </div>
                 <div>
                   <p className="text-sm #475569 dark:text-[#44454F]">Transaction Number</p>
-                  <p className="font-semibold #1E293B dark:text-[#EAE5DF]">
+                  <p className="font-medium #1E293B dark:text-[#EAE5DF]">
                     {transaction.transactionNumber || transaction.id || '-'}
                   </p>
                 </div>
@@ -133,7 +133,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                 </div>
                 <div>
                   <p className="text-sm #475569 dark:text-[#44454F]">Date</p>
-                  <p className="font-semibold #1E293B dark:text-[#EAE5DF]">
+                  <p className="font-medium #1E293B dark:text-[#EAE5DF]">
                     {formatDate(transaction.date)}
                   </p>
                   {transaction.dueDate && (
@@ -152,7 +152,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                     <p className="text-sm #475569 dark:text-[#44454F]">
                       {transaction.partyType === 'customer' ? 'Customer' : 'Supplier'}
                     </p>
-                    <p className="font-semibold #1E293B dark:text-[#EAE5DF]">
+                    <p className="font-medium #1E293B dark:text-[#EAE5DF]">
                       {transaction.partyName}
                     </p>
                   </div>
@@ -167,7 +167,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                   </div>
                   <div>
                     <p className="text-sm #475569 dark:text-[#44454F]">Category</p>
-                    <p className="font-semibold #1E293B dark:text-[#EAE5DF] capitalize">
+                    <p className="font-medium #1E293B dark:text-[#EAE5DF] capitalize">
                       {transaction.category}
                     </p>
                   </div>
@@ -182,7 +182,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                   </div>
                   <div>
                     <p className="text-sm #475569 dark:text-[#44454F]">Payment Mode</p>
-                    <p className="font-semibold #1E293B dark:text-[#EAE5DF] capitalize">
+                    <p className="font-medium #1E293B dark:text-[#EAE5DF] capitalize">
                       {transaction.paymentMode}
                     </p>
                   </div>
@@ -192,7 +192,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
 
             {/* Right Column - Amount Summary */}
             <div className="#FFFFFF dark:bg-[#15161C]/50 rounded-xl p-5 border #E2E8F0 dark:border-[#1C1D24]">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-4">Amount Summary</h3>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-[#64748B] mb-4">Amount Summary</h3>
               
               <div className="space-y-3">
                 {transaction.subtotal !== undefined && (
@@ -223,7 +223,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                 )}
 
                 <div className="border-t #E2E8F0 dark:border-[#2A2B36] pt-3">
-                  <div className="flex justify-between text-lg font-bold">
+                  <div className="flex justify-between text-lg font-medium">
                     <span className="#1E293B dark:text-[#EAE5DF]">Total Amount</span>
                     <span className={typeConfig.textColor}>
                       Rs. {(transaction.totalAmount || transaction.amount || 0).toLocaleString()}
@@ -241,7 +241,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="#475569 dark:text-[#44454F]">Balance Due</span>
-                      <span className="font-bold text-red-600">
+                      <span className="font-medium text-red-600">
                         Rs. {(transaction.balanceAmount || 0).toLocaleString()}
                       </span>
                     </div>
@@ -254,9 +254,9 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
           {/* Items Table */}
           {transaction.items && transaction.items.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-3">Items</h3>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-[#64748B] mb-3">Items</h3>
               <div className="#FFFFFF dark:bg-[#15161C]/50 rounded-xl overflow-hidden border #E2E8F0 dark:border-[#1C1D24]">
-                <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-semibold #475569 dark:text-[#44454F] uppercase">
+                <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-medium #475569 dark:text-[#44454F] uppercase">
                   <div className="col-span-5">Item</div>
                   <div className="col-span-2 text-center">Qty</div>
                   <div className="col-span-2 text-center">Rate</div>
@@ -274,7 +274,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
                       <div className="col-span-2 text-center #475569 dark:text-[#44454F]">
                         Rs. {(item.rate || item.price || 0).toLocaleString()}
                       </div>
-                      <div className="col-span-3 text-right font-semibold #1E293B dark:text-[#EAE5DF]">
+                      <div className="col-span-3 text-right font-medium #1E293B dark:text-[#EAE5DF]">
                         Rs. {(item.total || (item.quantity * (item.rate || item.price || 0))).toLocaleString()}
                       </div>
                     </div>
@@ -287,7 +287,7 @@ export const TransactionViewDialog: React.FC<TransactionViewDialogProps> = ({
           {/* Notes/Description */}
           {(transaction.notes || transaction.description) && (
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 {transaction.notes ? 'Notes' : 'Description'}
               </h3>
               <div className="p-4 #FFFFFF dark:bg-[#15161C]/50 rounded-xl border #E2E8F0 dark:border-[#1C1D24]">

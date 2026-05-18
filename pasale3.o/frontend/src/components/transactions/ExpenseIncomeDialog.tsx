@@ -162,7 +162,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
                 {isExpense ? <FiTrendingDown className="w-5 h-5 text-white" /> : <FiTrendingUp className="w-5 h-5 text-white" />}
               </div>
               <div className="text-white">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   {isEdit ? 'Edit' : 'Record'} {isExpense ? 'Expense' : 'Income'}
                 </h2>
                 <p className="text-white/80 text-sm">{transactionNumber}</p>
@@ -190,7 +190,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Category Selection */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               <FiTag className="inline w-4 h-4 mr-1.5" />
               Category *
             </label>
@@ -200,7 +200,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
                   key={cat.value}
                   type="button"
                   onClick={() => setCategory(cat.value)}
-                  className={`px-3 py-2.5 rounded-xl text-xs font-semibold border-2 transition-all flex flex-col items-center gap-1 ${
+                  className={`px-3 py-2.5 rounded-xl text-xs font-medium border-2 transition-all flex flex-col items-center gap-1 ${
                     category === cat.value
                       ? isExpense
                         ? 'bg-rose-600 text-white border-rose-600'
@@ -218,18 +218,18 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
 
           {/* Amount */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               <FiDollarSign className="inline w-4 h-4 mr-1.5" />
               Amount *
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">Rs.</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-medium">Rs.</span>
               <input
                 type="number"
                 value={amount || ''}
                 onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
                 placeholder="0.00"
-                className={`w-full pl-14 pr-4 py-4 rounded-xl border-2 text-2xl font-bold ${
+                className={`w-full pl-14 pr-4 py-4 rounded-xl border-2 text-2xl font-medium ${
                   errors.amount ? 'border-red-500' : '#E2E8F0 dark:border-[#1C1D24]'
                 } bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50] transition-colors`}
               />
@@ -240,7 +240,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
           {/* Date & Reference */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Date *
               </label>
@@ -254,7 +254,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 Reference No.
               </label>
               <input
@@ -269,7 +269,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
 
           {/* Payment Mode */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               Payment Mode
             </label>
             <div className="flex flex-wrap gap-2">
@@ -278,7 +278,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
                   key={mode.value}
                   type="button"
                   onClick={() => setPaymentMode(mode.value as PaymentMode)}
-                  className={`flex-1 min-w-24 px-4 py-2.5 rounded-xl text-sm font-semibold border-2 transition-all flex items-center justify-center gap-2 ${
+                  className={`flex-1 min-w-24 px-4 py-2.5 rounded-xl text-sm font-medium border-2 transition-all flex items-center justify-center gap-2 ${
                     paymentMode === mode.value
                       ? isExpense
                         ? 'bg-rose-600 text-white border-rose-600'
@@ -295,7 +295,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               <FiFileText className="inline w-4 h-4 mr-1.5" />
               Description
             </label>
@@ -312,7 +312,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
           {isExpense && (
             <div className="flex items-center justify-between p-4 #FFFFFF dark:bg-[#15161C]/50 rounded-xl">
               <div>
-                <p className="font-semibold #1E293B dark:text-[#EAE5DF]">Necessary Expense?</p>
+                <p className="font-medium #1E293B dark:text-[#EAE5DF]">Necessary Expense?</p>
                 <p className="text-sm #475569">Mark if this is essential for business</p>
               </div>
               <button
@@ -332,7 +332,7 @@ export const ExpenseIncomeDialog: React.FC<ExpenseIncomeDialogProps> = ({
                 <p className="text-sm #475569 dark:text-[#44454F]">
                   {isExpense ? 'Total Expense' : 'Total Income'}
                 </p>
-                <p className={`text-2xl font-bold ${isExpense ? 'text-rose-600' : 'text-[#F2DD50]'}`}>
+                <p className={`text-2xl font-medium ${isExpense ? 'text-rose-600' : 'text-[#F2DD50]'}`}>
                   Rs. {amount.toLocaleString()}
                 </p>
                 {category && (

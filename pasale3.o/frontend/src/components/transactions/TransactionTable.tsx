@@ -293,25 +293,25 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
         <table className="w-full">
           <thead className="#FFFFFF dark:bg-[#0D0E12]">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="date" label="Date" />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="type" label="Type" />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="partyName" label="Party / Category" />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 Reference
               </th>
-              <th className="px-4 py-3 text-right text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-right text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <SortHeader field="amount" label="Amount" className="justify-end" />
               </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-center text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <th className="px-4 py-3 text-center text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -367,7 +367,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
 
                     {/* Type */}
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold ${typeConfig.lightBg} ${typeConfig.textColor}`}>
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium ${typeConfig.lightBg} ${typeConfig.textColor}`}>
                         {getTypeIcon(type)}
                         {typeConfig.label}
                       </span>
@@ -396,7 +396,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
 
                     {/* Amount */}
                     <td className="px-4 py-4 whitespace-nowrap text-right">
-                      <span className={`text-sm font-bold ${
+                      <span className={`text-sm font-medium ${
                         type === 'selling' || type === 'payment_in' || type === 'income'
                           ? 'text-[#F2DD50] dark:text-[#F2DD50]'
                           : '#1E293B dark:text-[#EAE5DF]'
@@ -408,7 +408,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
 
                     {/* Status */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${statusConfig.bgColor} ${statusConfig.textColor}`}>
+                      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${statusConfig.bgColor} ${statusConfig.textColor}`}>
                         {getStatusIcon(status)}
                         {statusConfig.label}
                       </span>
@@ -514,8 +514,8 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
         <div className="px-4 py-3 #FFFFFF dark:bg-[#0D0E12] border-t #E2E8F0 dark:border-[#1C1D24]">
           <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
             <span className="#475569 dark:text-[#44454F]">
-              Showing <span className="font-semibold #1E293B dark:text-[#EAE5DF]">{filteredTransactions.length}</span> of{' '}
-              <span className="font-semibold #1E293B dark:text-[#EAE5DF]">{transactions.length}</span> transactions
+              Showing <span className="font-medium #1E293B dark:text-[#EAE5DF]">{filteredTransactions.length}</span> of{' '}
+              <span className="font-medium #1E293B dark:text-[#EAE5DF]">{transactions.length}</span> transactions
             </span>
             <div className="flex items-center gap-4">
               <span className="text-[#F2DD50] dark:text-[#F2DD50] font-medium flex items-center gap-1">

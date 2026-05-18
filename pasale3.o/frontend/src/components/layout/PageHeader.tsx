@@ -58,7 +58,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
             {icon && <div className="w-5 h-5 sm:w-6 sm:h-6 text-[#F2DD50] dark:text-[#F2DD50] shrink-0">{icon}</div>}
             <div className="min-w-0">
-              <h1 className="text-sm sm:text-base lg:text-lg font-semibold text-[#1E293B] dark:text-[#EAE5DF] truncate leading-tight">
+              <h1 className="text-sm sm:text-base lg:text-lg font-medium text-[#1E293B] dark:text-[#EAE5DF] truncate leading-tight">
                 {displayTitle}
               </h1>
               {subtitle && (

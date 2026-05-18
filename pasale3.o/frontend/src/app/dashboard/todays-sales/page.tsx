@@ -29,7 +29,7 @@ export default function TodaysSalesPage() {
           Back to Dashboard
         </Button>
         <div>
-          <h1 className="text-3xl font-bold #1E293B dark:text-[#EAE5DF]">Today's Sales</h1>
+          <h1 className="text-3xl font-medium #1E293B dark:text-[#EAE5DF]">Today's Sales</h1>
           <p className="#475569 dark:text-[#44454F]">Detailed view of all sales recorded today.</p>
         </div>
       </div>
@@ -38,11 +38,11 @@ export default function TodaysSalesPage() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm #475569 dark:text-[#44454F]">Total Amount</p>
-            <p className="text-3xl font-bold #1E293B dark:text-[#EAE5DF]">{formatCurrency(total, language)}</p>
+            <p className="text-3xl font-medium #1E293B dark:text-[#EAE5DF]">{formatCurrency(total, language)}</p>
           </div>
           <div className="text-right">
             <p className="text-sm #475569 dark:text-[#44454F]">Orders</p>
-            <p className="text-2xl font-bold text-[#F2DD50] dark:text-[#F2DD50]">{sales.length}</p>
+            <p className="text-2xl font-medium text-[#F2DD50] dark:text-[#F2DD50]">{sales.length}</p>
           </div>
         </div>
       </Card>
@@ -55,12 +55,12 @@ export default function TodaysSalesPage() {
             {sales.map((sale) => (
               <div key={sale.id} className="py-4 flex items-center justify-between">
                 <div>
-                  <p className="font-semibold #1E293B dark:text-[#EAE5DF]">{sale.description}</p>
+                  <p className="font-medium #1E293B dark:text-[#EAE5DF]">{sale.description}</p>
                   <p className="text-sm #475569 dark:text-[#44454F]">
                     {sale.partyName || 'Walk-in'}  {formatDate(sale.date, language)}
                   </p>
                 </div>
-                <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                <p className="text-lg font-medium text-green-600 dark:text-green-400">
                   {formatCurrency(sale.amount, language)}
                 </p>
               </div>

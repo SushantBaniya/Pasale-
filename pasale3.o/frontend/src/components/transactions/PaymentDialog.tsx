@@ -171,7 +171,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                 {isPaymentIn ? <FiArrowDownLeft className="w-5 h-5 text-white" /> : <FiArrowUpRight className="w-5 h-5 text-white" />}
               </div>
               <div className="text-white">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   {isEdit ? 'Edit' : 'Record'} {isPaymentIn ? 'Payment In' : 'Payment Out'}
                 </h2>
                 <p className="text-white/80 text-sm">{receiptNumber}</p>
@@ -199,7 +199,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Party Selection */}
           <div className="relative">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               <FiUser className="inline w-4 h-4 mr-1.5" />
               {isPaymentIn ? 'Received From (Customer)' : 'Paid To (Supplier)'} *
             </label>
@@ -249,7 +249,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
               <div className={`mt-2 p-3 rounded-lg ${selectedParty.balance >= 0 ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'}`}>
                 <p className="text-sm">
                   <span className="#475569 dark:text-[#44454F]">Current Balance: </span>
-                  <span className={`font-semibold ${selectedParty.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <span className={`font-medium ${selectedParty.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     Rs. {Math.abs(selectedParty.balance).toLocaleString()} {selectedParty.balance >= 0 ? '(Receivable)' : '(Payable)'}
                   </span>
                 </p>
@@ -259,18 +259,18 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
           {/* Amount */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               <FiDollarSign className="inline w-4 h-4 mr-1.5" />
               Amount *
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-semibold">Rs.</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 #475569 font-medium">Rs.</span>
               <input
                 type="number"
                 value={amount || ''}
                 onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
                 placeholder="0.00"
-                className={`w-full pl-14 pr-4 py-4 rounded-xl border-2 text-2xl font-bold ${
+                className={`w-full pl-14 pr-4 py-4 rounded-xl border-2 text-2xl font-medium ${
                   errors.amount ? 'border-red-500' : '#E2E8F0 dark:border-[#1C1D24]'
                 } bg-white dark:bg-[#15161C] #1E293B dark:text-[#EAE5DF] focus:outline-none focus:border-[#F2DD50] transition-colors`}
               />
@@ -281,7 +281,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
           {/* Date & Reference */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Date *
               </label>
@@ -295,7 +295,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiHash className="inline w-4 h-4 mr-1.5" />
                 Reference No.
               </label>
@@ -311,7 +311,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
           {/* Payment Mode */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               Payment Mode
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -320,7 +320,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                   key={mode.value}
                   type="button"
                   onClick={() => setPaymentMode(mode.value as PaymentMode)}
-                  className={`px-4 py-3 rounded-xl text-sm font-semibold border-2 transition-all flex flex-col items-center gap-1 ${
+                  className={`px-4 py-3 rounded-xl text-sm font-medium border-2 transition-all flex flex-col items-center gap-1 ${
                     paymentMode === mode.value
                       ? isPaymentIn
                         ? 'bg-green-600 text-white border-green-600'
@@ -337,7 +337,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
               <FiFileText className="inline w-4 h-4 mr-1.5" />
               Notes
             </label>
@@ -357,7 +357,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
                 <p className="text-sm #475569 dark:text-[#44454F]">
                   {isPaymentIn ? 'Amount to Receive' : 'Amount to Pay'}
                 </p>
-                <p className={`text-2xl font-bold ${isPaymentIn ? 'text-green-600' : 'text-red-600'}`}>
+                <p className={`text-2xl font-medium ${isPaymentIn ? 'text-green-600' : 'text-red-600'}`}>
                   Rs. {amount.toLocaleString()}
                 </p>
               </div>

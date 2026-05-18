@@ -59,7 +59,7 @@ export function AddPaymentModal({ isOpen, onClose, type, defaultPartyId }: AddPa
       <div className="bg-white dark:bg-[#15161C] rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-6 border-b #E2E8F0 dark:border-[#1C1D24]">
-          <h2 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">{title}</h2>
+          <h2 className="text-xl font-medium #1E293B dark:text-[#EAE5DF]">{title}</h2>
           <button
             onClick={onClose}
             className="p-2 text-gray-400 hover:#475569 dark:hover:text-gray-300 hover:#F8FAFC dark:hover:bg-gray-700 rounded-lg transition-colors"

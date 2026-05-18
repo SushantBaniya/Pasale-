@@ -69,7 +69,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
       <div ref={reportRef} className="bg-white dark:bg-[#15161C] p-8 rounded-lg shadow-lg print:shadow-none">
         {/* Header */}
         <div className="text-center mb-8 border-b-2 border-gray-300 dark:border-[#1C1D24] pb-4">
-          <h1 className="text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-2">
+          <h1 className="text-3xl font-medium #1E293B dark:text-[#EAE5DF] mb-2">
             BUSINESS FINANCIAL REPORT
           </h1>
           <p className="#475569 dark:text-[#44454F]">
@@ -79,17 +79,17 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
 
         {/* Profit & Loss Statement */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-4">
+          <h2 className="text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-4">
             {t('businessReports.profitLoss')}
           </h2>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="#F8FAFC dark:bg-[#1C1D24]">
-                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-left font-semibold #1E293B dark:text-[#EAE5DF]">
+                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-left font-medium #1E293B dark:text-[#EAE5DF]">
                     Description
                   </th>
-                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold #1E293B dark:text-[#EAE5DF]">
+                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium #1E293B dark:text-[#EAE5DF]">
                     Amount
                   </th>
                 </tr>
@@ -99,7 +99,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.totalSales')}
                   </td>
-                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold text-green-600 dark:text-green-400">
+                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium text-green-600 dark:text-green-400">
                     {formatCurrency(totalSales, language)}
                   </td>
                 </tr>
@@ -107,7 +107,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.totalPurchases')}
                   </td>
-                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
+                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium text-red-600 dark:text-red-400">
                     -{formatCurrency(totalPurchases, language)}
                   </td>
                 </tr>
@@ -115,11 +115,11 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.totalExpenses')}
                   </td>
-                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
+                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium text-red-600 dark:text-red-400">
                     -{formatCurrency(totalExpenses, language)}
                   </td>
                 </tr>
-                <tr className="#FFFFFF dark:bg-[#15161C]/50 font-bold">
+                <tr className="#FFFFFF dark:bg-[#15161C]/50 font-medium">
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.netProfit')}
                   </td>
@@ -136,17 +136,17 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
 
         {/* Cash Flow Statement */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-4">
+          <h2 className="text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-4">
             {t('businessReports.cashFlow')}
           </h2>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="#F8FAFC dark:bg-[#1C1D24]">
-                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-left font-semibold #1E293B dark:text-[#EAE5DF]">
+                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-left font-medium #1E293B dark:text-[#EAE5DF]">
                     Description
                   </th>
-                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold #1E293B dark:text-[#EAE5DF]">
+                  <th className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium #1E293B dark:text-[#EAE5DF]">
                     Amount
                   </th>
                 </tr>
@@ -156,7 +156,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.cashInHand')}
                   </td>
-                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold #1E293B dark:text-[#EAE5DF]">
+                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium #1E293B dark:text-[#EAE5DF]">
                     {formatCurrency(cashInHand, language)}
                   </td>
                 </tr>
@@ -164,7 +164,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.totalReceivable')}
                   </td>
-                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold text-green-600 dark:text-green-400">
+                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium text-green-600 dark:text-green-400">
                     {formatCurrency(totalReceivable, language)}
                   </td>
                 </tr>
@@ -172,11 +172,11 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.totalPayable')}
                   </td>
-                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-semibold text-red-600 dark:text-red-400">
+                  <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 text-right font-medium text-red-600 dark:text-red-400">
                     -{formatCurrency(totalPayable, language)}
                   </td>
                 </tr>
-                <tr className="#FFFFFF dark:bg-[#15161C]/50 font-bold">
+                <tr className="#FFFFFF dark:bg-[#15161C]/50 font-medium">
                   <td className="border border-gray-300 dark:border-[#2A2B36] px-4 py-3 #1E293B dark:text-[#EAE5DF]">
                     {t('businessReports.netBalance')}
                   </td>
@@ -197,7 +197,7 @@ export const ReportView: React.FC<ReportViewProps> = ({ onPrint, onDownload }) =
             <div>
               <p className="text-sm #475569 dark:text-[#44454F] mb-8">Prepared by:</p>
               <div className="border-t border-gray-300 dark:border-[#2A2B36] pt-2">
-                <p className="font-semibold #1E293B dark:text-[#EAE5DF]">Business Owner</p>
+                <p className="font-medium #1E293B dark:text-[#EAE5DF]">Business Owner</p>
               </div>
             </div>
             <div>

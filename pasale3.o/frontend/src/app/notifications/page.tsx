@@ -50,7 +50,7 @@ export default function NotificationsPage() {
               <FiBell className="w-6 h-6 sm:w-7 sm:h-7 text-amber-600 dark:text-amber-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold #1E293B dark:text-[#EAE5DF] flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-medium #1E293B dark:text-[#EAE5DF] flex items-center gap-2">
                 {t('notifications.title')}
                 <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
                   {n(notifications.filter(n => !n.read).length)} {t('notifications.unread') || 'Unread'}
@@ -91,7 +91,7 @@ export default function NotificationsPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 #FFFFFF dark:bg-[#1C1D24]/50 rounded-full flex items-center justify-center mb-3 sm:mb-4">
               <FiFilter className="w-8 h-8 sm:w-10 sm:h-10 text-gray-300 dark:#475569" />
             </div>
-            <h3 className="text-base sm:text-lg font-semibold #1E293B dark:text-[#EAE5DF] mb-1">No notifications found</h3>
+            <h3 className="text-base sm:text-lg font-medium #1E293B dark:text-[#EAE5DF] mb-1">No notifications found</h3>
             <p className="text-sm #475569 dark:text-[#44454F] mb-3 sm:mb-4 px-4">We couldn't find any notifications matching your current filter.</p>
             {filter !== 'all' && (
               <Button variant="outline" size="sm" onClick={() => setFilter('all')}>
@@ -128,7 +128,7 @@ export default function NotificationsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <h3 className={`text-sm sm:text-base font-semibold mb-0.5 sm:mb-1 truncate ${!notification.read ? '#1E293B dark:text-[#EAE5DF]' : 'text-gray-700 dark:text-[#64748B]'}`}>
+                        <h3 className={`text-sm sm:text-base font-medium mb-0.5 sm:mb-1 truncate ${!notification.read ? '#1E293B dark:text-[#EAE5DF]' : 'text-gray-700 dark:text-[#64748B]'}`}>
                           {notification.title}
                         </h3>
                         <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs #475569 dark:text-[#44454F] mb-1.5 sm:mb-2">

@@ -281,7 +281,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 {isSales ? <FiFileText className="w-5 h-5 text-white" /> : <FiPackage className="w-5 h-5 text-white" />}
               </div>
               <div className="text-white">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   {isEdit ? 'Edit' : 'New'} {isSales ? 'Sales Invoice' : 'Purchase Bill'}
                 </h2>
                 <p className="text-white/80 text-sm">{invoiceNumber}</p>
@@ -311,7 +311,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {/* Party Selection */}
             <div className="lg:col-span-2 relative">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiUser className="inline w-4 h-4 mr-1.5" />
                 {isSales ? 'Customer' : 'Supplier'} *
               </label>
@@ -357,7 +357,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
             {/* Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Date *
               </label>
@@ -373,7 +373,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
             {/* Due Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Due Date
               </label>
@@ -389,7 +389,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
           {/* Items Table */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#64748B]">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-[#64748B]">
                 <FiPackage className="inline w-4 h-4 mr-1.5" />
                 Items
               </h3>
@@ -401,7 +401,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
             <div className="#FFFFFF dark:bg-[#15161C]/50 rounded-xl overflow-hidden border #E2E8F0 dark:border-[#1C1D24]">
               {/* Table Header */}
-              <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <div className="col-span-4">Item Name</div>
                 <div className="col-span-1 text-center">Qty</div>
                 <div className="col-span-2 text-center">Rate</div>
@@ -466,7 +466,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                         className="w-full px-2 py-2 rounded-lg border #E2E8F0 dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] text-sm text-center focus:outline-none focus:border-[#F2DD50]"
                       />
                     </div>
-                    <div className="col-span-1 text-right font-semibold #1E293B dark:text-[#EAE5DF] text-sm">
+                    <div className="col-span-1 text-right font-medium #1E293B dark:text-[#EAE5DF] text-sm">
                       Rs. {item.total.toLocaleString()}
                     </div>
                     <div className="col-span-1 flex justify-center">
@@ -490,7 +490,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             {/* Notes */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiFileText className="inline w-4 h-4 mr-1.5" />
                 Notes
               </label>
@@ -504,7 +504,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
 
               {/* Payment Mode */}
               <div className="mt-4">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                   Payment Mode
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -566,7 +566,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 </div>
 
                 <div className="border-t #E2E8F0 dark:border-[#2A2B36] pt-3">
-                  <div className="flex justify-between text-lg font-bold">
+                  <div className="flex justify-between text-lg font-medium">
                     <span className="#1E293B dark:text-[#EAE5DF]">Total Amount</span>
                     <span className={isSales ? 'text-[#F2DD50]' : 'text-[#F2DD50]'}>Rs. {totals.totalAmount.toLocaleString()}</span>
                   </div>
@@ -582,7 +582,7 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                       value={paidAmount || ''}
                       onChange={(e) => setPaidAmount(parseFloat(e.target.value) || 0)}
                       max={totals.totalAmount}
-                      className="w-28 px-3 py-2 rounded-lg border-2 #E2E8F0 dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-right font-semibold"
+                      className="w-28 px-3 py-2 rounded-lg border-2 #E2E8F0 dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-right font-medium"
                     />
                   </div>
                 </div>
@@ -590,14 +590,14 @@ export const SalesPurchaseDialog: React.FC<SalesPurchaseDialogProps> = ({
                 {/* Balance */}
                 <div className="flex justify-between text-sm">
                   <span className="#475569 dark:text-[#44454F]">Balance Due</span>
-                  <span className={`font-bold ${balanceAmount > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  <span className={`font-medium ${balanceAmount > 0 ? 'text-red-600' : 'text-green-600'}`}>
                     Rs. {balanceAmount.toLocaleString()}
                   </span>
                 </div>
 
                 {/* Payment Status Badge */}
                 <div className="flex justify-end pt-2">
-                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                     paymentStatus === 'paid' 
                       ? 'bg-[#F1F5F9] text-[#8E7356] dark:bg-[#F2DD50]/20 dark:text-[#F2DD50]'
                       : paymentStatus === 'partial'

@@ -152,7 +152,7 @@ export default function LoginPage() {
         <div className="bg-white dark:bg-[#15161C] rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border #E2E8F0 dark:border-[#1C1D24]">
           <>
               <div className="text-center mb-5 sm:mb-6 lg:mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                   {t('login.title')}
                 </h2>
                 <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
@@ -170,7 +170,7 @@ export default function LoginPage() {
 
               <form onSubmit={handleCredentialsSubmit} className="space-y-4 sm:space-y-5">
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('profile.email')}
                   </label>
                   <div className="relative">
@@ -193,7 +193,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('login.password')}
                   </label>
                   <div className="relative">
@@ -229,7 +229,7 @@ export default function LoginPage() {
                   </label>
                   <Link 
                     to="/forgot-password"
-                    className="text-xs sm:text-sm font-semibold text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
+                    className="text-xs sm:text-sm font-medium text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
                   >
                     {t('login.forgotPassword')}
                   </Link>
@@ -237,7 +237,7 @@ export default function LoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -256,7 +256,7 @@ export default function LoginPage() {
                   {t('login.noAccount')}{' '}
                   <Link 
                     to="/welcome"
-                    className="font-semibold text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
+                    className="font-medium text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
                   >
                     {t('login.signUp')}
                   </Link>

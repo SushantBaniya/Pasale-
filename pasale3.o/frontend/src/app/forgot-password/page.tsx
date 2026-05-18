@@ -281,7 +281,7 @@ export default function ForgotPasswordPage() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#F1F5F9] dark:bg-[#F2DD50]/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <FiLock className="w-8 h-8 sm:w-10 sm:h-10 text-[#F2DD50] dark:text-[#F2DD50]" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+              <h2 className="text-xl sm:text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                 {t('forgotPassword.title')}
               </h2>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
@@ -294,7 +294,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="button"
                 onClick={() => setMethod('phone')}
-                className={`flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
+                className={`flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   method === 'phone'
                     ? 'bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] shadow-sm'
                     : '#475569 dark:text-[#44454F]'
@@ -306,7 +306,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="button"
                 onClick={() => setMethod('email')}
-                className={`flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
+                className={`flex-1 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   method === 'email'
                     ? 'bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] shadow-sm'
                     : '#475569 dark:text-[#44454F]'
@@ -319,7 +319,7 @@ export default function ForgotPasswordPage() {
 
             {method === 'email' ? (
               <div className="mb-4 sm:mb-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                   {t('profile.email')}
                 </label>
                 <div className="relative">
@@ -338,7 +338,7 @@ export default function ForgotPasswordPage() {
               </div>
             ) : (
               <div className="mb-4 sm:mb-6">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                   {t('login.phone')}
                 </label>
                 <div className="relative">
@@ -368,7 +368,7 @@ export default function ForgotPasswordPage() {
             <Button
               onClick={handleSendOTP}
               disabled={isLoading}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {isLoading ? (
                 <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -386,7 +386,7 @@ export default function ForgotPasswordPage() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <FiPhone className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 dark:text-green-400" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+              <h2 className="text-xl sm:text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                 {t('verification.verifyOTP')}
               </h2>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F] break-all px-2">
@@ -396,7 +396,7 @@ export default function ForgotPasswordPage() {
 
             {/* OTP Input */}
             <div className="mb-4 sm:mb-6">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
                 {t('forgotPassword.enterOTP')}
               </label>
               <div className="flex gap-1.5 sm:gap-2 justify-center" onPaste={handleOTPPaste}>
@@ -410,7 +410,7 @@ export default function ForgotPasswordPage() {
                     value={digit}
                     onChange={(e) => handleOTPChange(index, e.target.value)}
                     onKeyDown={(e) => handleOTPKeyDown(index, e)}
-                    className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg sm:rounded-xl border-2 ${
+                    className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-medium rounded-lg sm:rounded-xl border-2 ${
                       errors.otp ? 'border-red-500' : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
                     } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                   />
@@ -423,13 +423,13 @@ export default function ForgotPasswordPage() {
             <div className="text-center mb-4 sm:mb-6">
               {resendTimer > 0 ? (
                 <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
-                  {t('forgotPassword.resendIn')} <span className="font-semibold text-[#F2DD50] dark:text-[#F2DD50]">{resendTimer}s</span>
+                  {t('forgotPassword.resendIn')} <span className="font-medium text-[#F2DD50] dark:text-[#F2DD50]">{resendTimer}s</span>
                 </p>
               ) : (
                 <button
                   onClick={handleResendOTP}
                   disabled={isLoading}
-                  className="text-sm sm:text-base text-[#F2DD50] dark:text-[#F2DD50] font-semibold hover:text-[#8E7356] dark:hover:text-[#F2DD50] flex items-center gap-1.5 sm:gap-2 mx-auto"
+                  className="text-sm sm:text-base text-[#F2DD50] dark:text-[#F2DD50] font-medium hover:text-[#8E7356] dark:hover:text-[#F2DD50] flex items-center gap-1.5 sm:gap-2 mx-auto"
                 >
                   <FiRefreshCw className="w-4 h-4" />
                   {t('verification.resendOTP')}
@@ -440,7 +440,7 @@ export default function ForgotPasswordPage() {
             <Button
               onClick={handleVerifyOTP}
               disabled={isLoading}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {isLoading ? (
                 <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -466,7 +466,7 @@ export default function ForgotPasswordPage() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <FiLock className="w-8 h-8 sm:w-10 sm:h-10 text-purple-600 dark:text-purple-400" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+              <h2 className="text-xl sm:text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                 {t('forgotPassword.createNewPassword')}
               </h2>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
@@ -476,7 +476,7 @@ export default function ForgotPasswordPage() {
 
             <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                   {t('forgotPassword.newPassword')}
                 </label>
                 <div className="relative">
@@ -502,7 +502,7 @@ export default function ForgotPasswordPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                   {t('forgotPassword.confirmPassword')}
                 </label>
                 <div className="relative">
@@ -554,7 +554,7 @@ export default function ForgotPasswordPage() {
             <Button
               onClick={handleResetPassword}
               disabled={isLoading}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {isLoading ? (
                 <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -571,7 +571,7 @@ export default function ForgotPasswordPage() {
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 animate-bounce">
               <FiCheck className="w-10 h-10 sm:w-12 sm:h-12 text-green-600 dark:text-green-400" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+            <h2 className="text-xl sm:text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
               {t('forgotPassword.successTitle')}
             </h2>
             <p className="text-sm sm:text-base #475569 dark:text-[#44454F] mb-6 sm:mb-8">
@@ -579,7 +579,7 @@ export default function ForgotPasswordPage() {
             </p>
             <Button
               onClick={() => navigate('/login')}
-              className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
+              className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl"
             >
               {t('forgotPassword.goToLogin')}
             </Button>

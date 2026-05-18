@@ -63,7 +63,7 @@ export default function AddNewItemPage() {
         >
           <FiArrowLeft className="w-5 h-5 #475569" />
         </button>
-        <h1 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">Add New Item</h1>
+        <h1 className="text-xl font-medium #1E293B dark:text-[#EAE5DF]">Add New Item</h1>
       </div>
 
       {/* Form */}
@@ -72,7 +72,7 @@ export default function AddNewItemPage() {
           
           {/* Item Name */}
           <div>
-            <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
+            <label className="block text-sm font-medium #1E293B dark:text-[#64748B] mb-1.5">
               Item Name<span className="text-red-500">*</span>
             </label>
             <input
@@ -86,7 +86,7 @@ export default function AddNewItemPage() {
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
+            <label className="block text-sm font-medium #1E293B dark:text-[#64748B] mb-1.5">
               Category
             </label>
             <select
@@ -104,7 +104,7 @@ export default function AddNewItemPage() {
           {/* Item Code / SKU + Unit */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
+              <label className="block text-sm font-medium #1E293B dark:text-[#64748B] mb-1.5">
                 Item Code / SKU
               </label>
               <input
@@ -116,7 +116,7 @@ export default function AddNewItemPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
+              <label className="block text-sm font-medium #1E293B dark:text-[#64748B] mb-1.5">
                 Unit
               </label>
               <input
@@ -132,7 +132,7 @@ export default function AddNewItemPage() {
           {/* Purchase Price + Selling Price */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
+              <label className="block text-sm font-medium #1E293B dark:text-[#64748B] mb-1.5">
                 Purchase Price
               </label>
               <input
@@ -146,7 +146,7 @@ export default function AddNewItemPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
+              <label className="block text-sm font-medium #1E293B dark:text-[#64748B] mb-1.5">
                 Selling Price
               </label>
               <input
@@ -163,7 +163,7 @@ export default function AddNewItemPage() {
 
           {/* Opening Stock */}
           <div>
-            <label className="block text-sm font-semibold #1E293B dark:text-[#64748B] mb-1.5">
+            <label className="block text-sm font-medium #1E293B dark:text-[#64748B] mb-1.5">
               Opening Stock
             </label>
             <input
@@ -181,14 +181,14 @@ export default function AddNewItemPage() {
         <div className="px-6 py-4 border-t #E2E8F0 dark:border-[#1C1D24] flex items-center justify-end gap-3">
           <button
             onClick={() => navigate('/inventory')}
-            className="px-5 py-2.5 text-sm font-semibold #475569 dark:text-[#64748B] hover:#F8FAFC dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="px-5 py-2.5 text-sm font-medium #475569 dark:text-[#64748B] hover:#F8FAFC dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2DD50] text-white text-sm font-semibold rounded-lg hover:bg-[#8E7356] disabled:opacity-60 transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2DD50] text-white text-sm font-medium rounded-lg hover:bg-[#8E7356] disabled:opacity-60 transition-colors shadow-sm"
           >
             <FiSave className="w-4 h-4" />
             {saving ? 'Saving...' : 'Save Item'}

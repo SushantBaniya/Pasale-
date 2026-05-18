@@ -62,7 +62,7 @@ export default function PartiesPage() {
         
         <div className="p-4 border-b #E2E8F0 dark:border-[#1C1D24]">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold #1E293B dark:text-[#EAE5DF] flex items-center gap-2">
+            <h2 className="text-lg font-medium #1E293B dark:text-[#EAE5DF] flex items-center gap-2">
               Parties ({filteredParties.length})
             </h2>
             <button
@@ -115,15 +115,15 @@ export default function PartiesPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 rounded-full bg-[#F2DD50] text-white flex items-center justify-center font-bold shrink-0 text-sm">
+                        <div className="w-10 h-10 rounded-full bg-[#F2DD50] text-white flex items-center justify-center font-medium shrink-0 text-sm">
                           {party.name.substring(0, 2).toUpperCase()}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-semibold #1E293B dark:text-[#EAE5DF] truncate">{party.name}</p>
+                          <p className="font-medium #1E293B dark:text-[#EAE5DF] truncate">{party.name}</p>
                         </div>
                       </div>
                       <div className="text-right shrink-0 ml-2">
-                         <p className={`font-semibold text-sm ${
+                         <p className={`font-medium text-sm ${
                            balance > 0 ? 'text-[#F2DD50]' : balance < 0 ? 'text-red-600' : '#475569'
                          }`}>
                            Rs. {Math.abs(balance).toFixed(2)}
@@ -155,11 +155,11 @@ export default function PartiesPage() {
             {/* Party Header */}
             <div className="flex items-center justify-between mb-8 pb-6 border-b #E2E8F0 dark:border-[#1C1D24]">
                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-[#F2DD50] text-white flex items-center justify-center text-xl font-bold">
+                  <div className="w-16 h-16 rounded-full bg-[#F2DD50] text-white flex items-center justify-center text-xl font-medium">
                      {selectedParty.name.substring(0, 2).toUpperCase()}
                   </div>
                   <div>
-                     <h1 className="text-2xl font-bold #1E293B dark:text-[#EAE5DF]">{selectedParty.name}</h1>
+                     <h1 className="text-2xl font-medium #1E293B dark:text-[#EAE5DF]">{selectedParty.name}</h1>
                      <div className="flex items-center gap-4 text-sm #475569 dark:text-[#44454F] mt-1">
                         <button onClick={() => setShowEditPartyModal(true)} className="hover:text-[#F2DD50] font-medium">Manage Party</button>
                         <button className="hover:text-gray-700 flex items-center gap-1"><FiPrinter className="w-4 h-4"/> Print</button>
@@ -169,7 +169,7 @@ export default function PartiesPage() {
                
                <div className="text-right">
                   <p className="#475569 text-sm">{getPartyBalance(selectedParty.id) >= 0 ? 'Receivable' : 'Payable'}</p>
-                  <p className={`text-2xl font-bold ${getPartyBalance(selectedParty.id) >= 0 ? 'text-[#F2DD50]' : 'text-red-600'}`}>
+                  <p className={`text-2xl font-medium ${getPartyBalance(selectedParty.id) >= 0 ? 'text-[#F2DD50]' : 'text-red-600'}`}>
                      Rs. {Math.abs(getPartyBalance(selectedParty.id)).toFixed(2)}
                   </p>
                   <button className="#475569 text-sm hover:text-gray-700 flex items-center justify-end gap-1 w-full mt-1">
@@ -181,7 +181,7 @@ export default function PartiesPage() {
             {/* Transactions Section */}
             <div>
                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold #1E293B dark:text-[#EAE5DF]">
+                  <h3 className="text-lg font-medium #1E293B dark:text-[#EAE5DF]">
                      Transactions ({partyTransactions.length})
                   </h3>
                   <div className="flex gap-2">

@@ -244,9 +244,9 @@ export default function TransactionsPage() {
                 <FiCreditCard className="w-7 h-7 text-white" />
               </div>
               <div className="text-white">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
+                <h1 className="text-2xl sm:text-3xl font-medium tracking-tight flex items-center gap-3">
                   {t('transactions.title')}
-                  <span className="px-3 py-1 rounded-full text-sm font-semibold bg-white/20 backdrop-blur-sm">
+                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-white/20 backdrop-blur-sm">
                     {n(transactions.length)}
                   </span>
                 </h1>
@@ -305,7 +305,7 @@ export default function TransactionsPage() {
               <div className="relative">
                 <Button
                   onClick={() => setShowNewTransactionMenu(!showNewTransactionMenu)}
-                  className="bg-white text-[#8E7356] hover:bg-[#F1F5F9] shadow-lg hover:shadow-xl transition-all font-bold px-6 border-0"
+                  className="bg-white text-[#8E7356] hover:bg-[#F1F5F9] shadow-lg hover:shadow-xl transition-all font-medium px-6 border-0"
                 >
                   <FiPlus className="w-5 h-5 mr-2" />
                   {t('transactions.addTransaction')}
@@ -315,7 +315,7 @@ export default function TransactionsPage() {
                 {showNewTransactionMenu && (
                   <div className="absolute right-0 top-full mt-2 w-72 bg-white dark:bg-[#15161C] rounded-xl shadow-2xl border #E2E8F0 dark:border-[#1C1D24] py-2 z-100 animate-in fade-in slide-in-from-top-2">
                     <div className="px-4 py-2 border-b #E2E8F0 dark:border-[#1C1D24]">
-                      <p className="text-xs font-bold #475569 dark:text-[#44454F] uppercase tracking-wider">Shortcuts</p>
+                      <p className="text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">Shortcuts</p>
                     </div>
 
                     {/* Add Sales */}
@@ -327,7 +327,7 @@ export default function TransactionsPage() {
                         <FiShoppingCart className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold #1E293B dark:text-[#EAE5DF]">Add Sales</p>
+                        <p className="font-medium #1E293B dark:text-[#EAE5DF]">Add Sales</p>
                         <p className="text-xs #475569 dark:text-[#44454F]">Create new invoice</p>
                       </div>
                     </button>
@@ -341,7 +341,7 @@ export default function TransactionsPage() {
                         <FiArrowDownLeft className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold #1E293B dark:text-[#EAE5DF]">Add Purchase</p>
+                        <p className="font-medium #1E293B dark:text-[#EAE5DF]">Add Purchase</p>
                         <p className="text-xs #475569 dark:text-[#44454F]">Record purchase</p>
                       </div>
                     </button>
@@ -355,7 +355,7 @@ export default function TransactionsPage() {
                         <FiUser className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold #1E293B dark:text-[#EAE5DF]">Add Party</p>
+                        <p className="font-medium #1E293B dark:text-[#EAE5DF]">Add Party</p>
                         <p className="text-xs #475569 dark:text-[#44454F]">New customer/supplier</p>
                       </div>
                     </button>
@@ -369,13 +369,13 @@ export default function TransactionsPage() {
                         <FiPackage className="w-4 h-4 text-white" />
                       </div>
                       <div className="text-left">
-                        <p className="font-semibold #1E293B dark:text-[#EAE5DF]">Add Product</p>
+                        <p className="font-medium #1E293B dark:text-[#EAE5DF]">Add Product</p>
                         <p className="text-xs #475569 dark:text-[#44454F]">Manage inventory</p>
                       </div>
                     </button>
 
                     <div className="px-4 py-2 border-t border-b #E2E8F0 dark:border-[#1C1D24] #FFFFFF/50 dark:bg-[#15161C]/50">
-                      <p className="text-xs font-bold #475569 dark:text-[#44454F] uppercase tracking-wider">Quick Transactions</p>
+                      <p className="text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">Quick Transactions</p>
                     </div>
 
                     {/* Payment In */}
@@ -516,7 +516,7 @@ export default function TransactionsPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === tab.id
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${activeTab === tab.id
                     ? 'bg-gray-900 dark:bg-white text-white dark:#1E293B shadow-lg'
                     : '#F8FAFC dark:bg-[#15161C] #475569 dark:text-[#44454F] hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
@@ -616,7 +616,7 @@ export default function TransactionsPage() {
               <div className="w-20 h-20 #F8FAFC dark:bg-[#15161C] rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiFileText className="w-10 h-10 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold #1E293B dark:text-[#EAE5DF] mb-2">
+              <h3 className="text-xl font-medium #1E293B dark:text-[#EAE5DF] mb-2">
                 {t('transactions.noTransactions')}
               </h3>
               <p className="#475569 dark:text-[#44454F] mb-6">
@@ -689,7 +689,7 @@ export default function TransactionsPage() {
 
                       {/* Amount */}
                       <div className="text-right shrink-0">
-                        <p className={`text-base sm:text-lg font-bold ${transaction.type === 'selling'
+                        <p className={`text-base sm:text-lg font-medium ${transaction.type === 'selling'
                           ? 'text-[#F2DD50] dark:text-[#F2DD50]'
                           : '#1E293B dark:text-[#EAE5DF]'
                           }`}>
@@ -741,7 +741,7 @@ export default function TransactionsPage() {
             <div className="px-6 py-4 #FFFFFF dark:bg-[#15161C]/50 border-t #E2E8F0 dark:border-[#1C1D24]">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <p className="text-sm #475569 dark:text-[#44454F]">
-                  {t('common.showing')} <span className="font-semibold">{n(filteredTransactions.length)}</span> {t('transactions.transactions')}
+                  {t('common.showing')} <span className="font-medium">{n(filteredTransactions.length)}</span> {t('transactions.transactions')}
                 </p>
                 <div className="flex items-center gap-4 text-sm">
                   <span className="text-[#F2DD50] dark:text-[#F2DD50] font-medium">
@@ -750,7 +750,7 @@ export default function TransactionsPage() {
                   <span className="text-red-600 dark:text-red-400 font-medium">
                      {c(stats.expenses)}
                   </span>
-                  <span className={`font-bold ${stats.balance >= 0 ? 'text-[#F2DD50] dark:text-[#F2DD50]' : 'text-red-600 dark:text-red-400'}`}>
+                  <span className={`font-medium ${stats.balance >= 0 ? 'text-[#F2DD50] dark:text-[#F2DD50]' : 'text-red-600 dark:text-red-400'}`}>
                     = {c(stats.balance)}
                   </span>
                 </div>

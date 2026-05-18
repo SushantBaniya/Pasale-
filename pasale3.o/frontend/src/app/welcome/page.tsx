@@ -42,7 +42,7 @@ export default function WelcomePage() {
       <div className={`relative z-10 text-center max-w-5xl w-full transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         {/* Logo/Brand */}
         <div className="mb-3 sm:mb-4">
-          <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 bg-[#F1F5F9] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50] rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
+          <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 bg-[#F1F5F9] dark:bg-[#F2DD50]/20 text-[#F2DD50] dark:text-[#F2DD50] rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
             Made for Nepali Businesses
           </span>
         </div>
@@ -87,7 +87,7 @@ export default function WelcomePage() {
               <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-linear-to-br from-[#F2DD50] to-[#8E7356] rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transform group-hover:rotate-6 transition-transform duration-300 shadow-lg shadow-blue-500/30">
                 <FiBarChart2 className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
               </div>
-              <h3 className="font-bold text-lg sm:text-xl mb-2 sm:mb-3 #1E293B dark:text-[#EAE5DF]">Real-time Analytics</h3>
+              <h3 className="font-medium text-lg sm:text-xl mb-2 sm:mb-3 #1E293B dark:text-[#EAE5DF]">Real-time Analytics</h3>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F] leading-relaxed">Track sales, expenses, and performance metrics with advanced analytics</p>
             </div>
           </div>
@@ -97,7 +97,7 @@ export default function WelcomePage() {
               <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-linear-to-br from-purple-500 to-purple-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transform group-hover:rotate-6 transition-transform duration-300 shadow-lg shadow-purple-500/30">
                 <FiPackage className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
               </div>
-              <h3 className="font-bold text-lg sm:text-xl mb-2 sm:mb-3 #1E293B dark:text-[#EAE5DF]">Smart Inventory</h3>
+              <h3 className="font-medium text-lg sm:text-xl mb-2 sm:mb-3 #1E293B dark:text-[#EAE5DF]">Smart Inventory</h3>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F] leading-relaxed">Manage products, track stock levels, and get automated alerts</p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function WelcomePage() {
               <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-linear-to-br from-pink-500 to-pink-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transform group-hover:rotate-6 transition-transform duration-300 shadow-lg shadow-pink-500/30">
                 <FiCreditCard className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
               </div>
-              <h3 className="font-bold text-lg sm:text-xl mb-2 sm:mb-3 #1E293B dark:text-[#EAE5DF]">Professional Billing</h3>
+              <h3 className="font-medium text-lg sm:text-xl mb-2 sm:mb-3 #1E293B dark:text-[#EAE5DF]">Professional Billing</h3>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F] leading-relaxed">Create invoices, manage payments, and handle billing seamlessly</p>
             </div>
           </div>

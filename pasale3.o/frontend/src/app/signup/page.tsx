@@ -282,7 +282,7 @@ export default function SignupPage() {
           {step === 'form' && (
             <>
               <div className="text-center mb-5 sm:mb-6">
-                <h2 className="text-2xl sm:text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                   Create Account
                 </h2>
                 <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
@@ -301,7 +301,7 @@ export default function SignupPage() {
               <form onSubmit={handleFormSubmit} className="space-y-4">
                 {/* Username */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">
                     Username
                   </label>
                   <div className="relative">
@@ -325,7 +325,7 @@ export default function SignupPage() {
 
                 {/* Email */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">
                     {t('profile.email')}
                   </label>
                   <div className="relative">
@@ -349,7 +349,7 @@ export default function SignupPage() {
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">
                     Phone Number
                   </label>
                   <div className="relative">
@@ -373,7 +373,7 @@ export default function SignupPage() {
 
                 {/* Business Name */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">
                     Business Name
                   </label>
                   <div className="relative">
@@ -397,7 +397,7 @@ export default function SignupPage() {
 
                 {/* Password */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5">
                     {t('login.password')}
                   </label>
                   <div className="relative">
@@ -428,7 +428,7 @@ export default function SignupPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -447,7 +447,7 @@ export default function SignupPage() {
                   Already have an account?{' '}
                   <Link 
                     to="/login"
-                    className="font-semibold text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
+                    className="font-medium text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50]"
                   >
                     Login
                   </Link>
@@ -467,7 +467,7 @@ export default function SignupPage() {
                   <FiArrowLeft className="w-4 h-4" />
                   <span className="text-sm">Back</span>
                 </button>
-                <h2 className="text-2xl sm:text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">
                   Verify Email
                 </h2>
                 <p className="text-sm sm:text-base #475569 dark:text-[#44454F]">
@@ -498,14 +498,14 @@ export default function SignupPage() {
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleOtpKeyDown(index, e)}
                       onPaste={handleOtpPaste}
-                      className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg sm:rounded-xl border-2 #E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50] bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors"
+                      className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-medium rounded-lg sm:rounded-xl border-2 #E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50] bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors"
                     />
                   ))}
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -525,7 +525,7 @@ export default function SignupPage() {
                       type="button"
                       onClick={handleResendOtp}
                       disabled={isLoading}
-                      className="font-semibold text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50] disabled:opacity-50"
+                      className="font-medium text-[#F2DD50] dark:text-[#F2DD50] hover:text-[#8E7356] dark:hover:text-[#F2DD50] disabled:opacity-50"
                     >
                       Resend
                     </button>
@@ -540,7 +540,7 @@ export default function SignupPage() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiCheck className="w-8 h-8 sm:w-10 sm:h-10 text-green-500" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-2">
+              <h2 className="text-2xl sm:text-3xl font-medium #1E293B dark:text-[#EAE5DF] mb-2">
                 Account Created!
               </h2>
               <p className="text-sm sm:text-base #475569 dark:text-[#44454F] mb-4">
@@ -556,7 +556,7 @@ export default function SignupPage() {
         {/* Info message */}
         <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-[#F1F5F9] dark:bg-[#F2DD50]/15 border border-[#F2DD50]/30 dark:border-[#F2DD50]/50 rounded-lg sm:rounded-xl">
           <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200 text-center">
-            <span className="font-semibold">Note:</span> OTP will be sent to your email address for verification
+            <span className="font-medium">Note:</span> OTP will be sent to your email address for verification
           </p>
         </div>
       </div>

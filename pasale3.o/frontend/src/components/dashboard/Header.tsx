@@ -76,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
             >
               <FiBell className="w-4 h-4 sm:w-5 sm:h-5" />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 min-w-4 sm:min-w-5 h-4 sm:h-5 bg-[#F2DD50] text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center px-1 sm:px-1.5 shadow-md">
+                <span className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 min-w-4 sm:min-w-5 h-4 sm:h-5 bg-[#F2DD50] text-white text-[10px] sm:text-xs font-medium rounded-full flex items-center justify-center px-1 sm:px-1.5 shadow-md">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
@@ -112,7 +112,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                <span className="text-xs sm:text-sm font-semibold tracking-wider">
+                <span className="text-xs sm:text-sm font-medium tracking-wider">
                   {userProfile.name ? userProfile.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'FO'}
                 </span>
               )}
@@ -122,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
               <div className="absolute right-0 mt-3 w-56 bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#1C1D24] rounded-xl shadow-xl py-2 z-20 animate-in fade-in slide-in-from-top-2 duration-200">
                 {/* Mobile Theme & Language */}
                 <div className="sm:hidden px-4 py-3 border-b border-[#E2E8F0] dark:border-[#1C1D24]">
-                  <p className="text-xs font-semibold text-[#475569] dark:text-[#44454F] mb-2">{t('sidebar.settings')}</p>
+                  <p className="text-xs font-medium text-[#475569] dark:text-[#44454F] mb-2">{t('sidebar.settings')}</p>
                   <div className="flex gap-2 justify-start">
                     <ThemeSwitcher />
                   </div>
@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar, isSidebarCollap
 
                 {/* Profile Info */}
                 <div className="px-4 py-3 border-b border-[#E2E8F0] dark:border-[#1C1D24]">
-                  <p className="text-sm font-bold text-[#1E293B] dark:text-[#EAE5DF]">{userProfile.name}</p>
+                  <p className="text-sm font-medium text-[#1E293B] dark:text-[#EAE5DF]">{userProfile.name}</p>
                   <p className="text-xs text-[#475569] dark:text-[#44454F] mt-0.5">{userProfile.email || userProfile.phone}</p>
                 </div>
 

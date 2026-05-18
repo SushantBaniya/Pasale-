@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { productApi } from '../../utils/api';
 import toast from 'react-hot-toast';
 import {
@@ -318,14 +318,13 @@ const IntelligencePanel: React.FC<{
 
 const StatCard: React.FC<{ label: string; value: string | number; sub?: string; icon: React.ReactNode; iconBg: string; iconColor: string }> =
   ({ label, value, sub, icon, iconBg, iconColor }) => (
-    <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
-      <div style={{ width: 44, height: 44, borderRadius: 12, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: iconColor }}>
+    <div className="bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#2A2B36] rounded-xl p-5 flex justify-between items-center shadow-sm">
+      <div style={{ width: 48, height: 48, borderRadius: 12, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: iconColor }}>
         {icon}
       </div>
-      <div>
-        <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#111827', lineHeight: 1 }}>{value}</p>
-        <p style={{ margin: '3px 0 0', fontSize: 13, fontWeight: 500, color: '#475569' }}>{label}</p>
-        {sub && <p style={{ margin: '1px 0 0', fontSize: 11, color: '#9ca3af' }}>{sub}</p>}
+      <div className="text-right">
+        <p className="text-[11px] font-medium text-[#94A3B8] dark:text-[#64748B] tracking-wider uppercase mb-1">{label}</p>
+        <p className="text-[32px] font-medium text-[#111827] dark:text-[#EAE5DF] leading-none">{value}</p>
       </div>
     </div>
   );
@@ -432,56 +431,92 @@ export default function InventoryPage() {
   const openEdit = (p: Product) => { setEditProduct(p); setShowDialog(true); };
 
   return (
-    <div style={{ maxWidth: 1300, margin: '0 auto', padding: '0 0 40px' }}>
-
-      {/*  Header  */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, color: '#111827' }}>Inventory</h1>
-          <p style={{ margin: '4px 0 0', fontSize: 13, color: '#475569' }}>Track products, manage stock levels, and monitor inventory health</p>
-        </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            onClick={fetchProducts}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 500, color: '#374151' }}
-          >
-            <FiRefreshCw size={14} /> Refresh
-          </button>
-          <button
-            onClick={openAdd}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', background: '#F2DD50', border: 'none', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#fff' }}
-          >
-            <FiPlus size={15} /> Add Product
-          </button>
-        </div>
-      </div>
+    <div className="max-w-[1300px] mx-auto pb-10 mt-6 px-4">
 
       {/*  Stat Cards  */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 20 }}>
-        <StatCard label="Total Products"  value={products.length} sub={`${categories.length - 1} categories`} icon={<FiPackage size={20} />}   iconBg="#F1F5F9" iconColor="#F2DD50" />
-        <StatCard label="Stock Value"     value={formatMoney(totalValue)}                                       icon={<FiBarChart2 size={20} />}  iconBg="#f0fdf4" iconColor="#16a34a" />
-        <StatCard label="Low Stock"       value={lowStockCount}  sub="Needs reorder"                            icon={<FiAlertTriangle size={20} />} iconBg="#fffbeb" iconColor="#d97706" />
-        <StatCard label="Out of Stock"    value={outOfStockCount} sub="Needs restocking"                        icon={<FiXCircle size={20} />}    iconBg="#fef2f2" iconColor="#dc2626" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard label="TOTAL ITEMS" value={products.length} icon={<FiGrid size={22} />} iconBg="#EFF6FF" iconColor="#3B82F6" />
+        <StatCard label="AVAILABLE NOW" value={products.filter(p => (p.quantity || 0) > 0).length} icon={<FiCheckCircle size={22} />} iconBg="#F0FDF4" iconColor="#22C55E" />
+        <StatCard label="CATEGORIES" value={categories.length > 1 ? categories.length - 1 : 0} icon={<FiList size={22} />} iconBg="#FAF5FF" iconColor="#A855F7" />
+        <StatCard label="UNAVAILABLE" value={outOfStockCount} icon={<FiAlertCircle size={22} />} iconBg="#FEF2F2" iconColor="#EF4444" />
       </div>
 
-      {/*  Intelligence Toggle  */}
-      <div style={{ marginBottom: 16 }}>
-        <button
-          onClick={() => setShowIntelligence(v => !v)}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '9px 18px', background: '#F2DD50', border: 'none',
-            borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#fff',
-          }}
+      {/*  Action Bar (Search + Dropdown + Buttons)  */}
+      <div className="flex flex-wrap items-center gap-3 mb-6 bg-white dark:bg-[#15161C] p-3 rounded-xl border border-[#E2E8F0] dark:border-[#2A2B36] shadow-sm">
+        <div className="relative flex-1 min-w-[200px]">
+          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#94A3B8]" size={16} />
+          <input
+            type="text"
+            placeholder="Search items..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 border border-[#E2E8F0] dark:border-[#2A2B36] rounded-lg text-[13px] bg-white dark:bg-[#1C1D24] text-[#111827] dark:text-[#EAE5DF] focus:outline-none focus:border-[#101B55]"
+          />
+        </div>
+        <select
+          value={categoryFilter}
+          onChange={e => setCategoryFilter(e.target.value)}
+          className="py-2 px-3 border border-[#E2E8F0] dark:border-[#2A2B36] rounded-lg text-[13px] bg-white dark:bg-[#1C1D24] text-[#475569] dark:text-[#EAE5DF] outline-none cursor-pointer"
         >
-          <FiZap size={15} />
-          {showIntelligence ? 'Hide Inventory Intelligence' : 'Show Inventory Intelligence'}
+          {categories.map(c => (
+            <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>
+          ))}
+        </select>
+        <button
+          onClick={openAdd}
+          className="flex items-center gap-2 px-4 py-2 bg-[#101B55] hover:bg-[#101B55]/90 text-white rounded-lg text-[13px] font-medium transition-colors"
+        >
+          <FiPlus size={15} /> Add Item
         </button>
+        <button
+          onClick={fetchProducts}
+          className="flex items-center gap-2 px-4 py-2 bg-[#101B55] hover:bg-[#101B55]/90 text-white rounded-lg text-[13px] font-medium transition-colors"
+        >
+          <FiRefreshCw size={15} /> Refresh
+        </button>
+      </div>
+
+      {/* Kept Sections: Intelligence, Status Tabs, and Total Items Label */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+        <div className="flex items-center gap-5 flex-wrap">
+           <span className="text-[11px] font-medium text-[#94A3B8] tracking-wider uppercase whitespace-nowrap">
+             TOTAL MENU ITEMS: <span className="text-[#101B55] dark:text-[#F2DD50]">{products.length}</span>
+           </span>
+           
+           {/* Status tabs */}
+           <div className="flex flex-wrap items-center gap-2">
+             {([ ['all', `All ${products.length}`], ['in_stock', `In Stock ${products.filter(p => (p.quantity || 0) > (p.low_stock_threshold ?? 5)).length}`], ['low_stock', `Low Stock ${lowStockCount}`], ['out_of_stock', `Out of Stock ${outOfStockCount}`] ] as [typeof statusFilter, string][]).map(([s, label]) => (
+               <button
+                 key={s}
+                 onClick={() => setStatusFilter(s)}
+                 className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors ${statusFilter === s ? 'bg-[#101B55] text-white' : 'bg-white dark:bg-[#1C1D24] text-[#475569] dark:text-[#EAE5DF] border border-[#E2E8F0] dark:border-[#2A2B36]'}`}
+               >
+                 {label}
+               </button>
+             ))}
+           </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {/* Grid / List toggle */}
+          <div className="flex border border-[#E2E8F0] dark:border-[#2A2B36] rounded-lg overflow-hidden">
+            <button onClick={() => setViewMode('list')} className={`px-2.5 py-1.5 border-none cursor-pointer ${viewMode === 'list' ? 'bg-[#F1F5F9] dark:bg-[#2A2B36] text-[#F2DD50]' : 'bg-white dark:bg-[#1C1D24] text-[#94A3B8]'}`}><FiList size={15} /></button>
+            <button onClick={() => setViewMode('grid')} className={`px-2.5 py-1.5 border-none cursor-pointer ${viewMode === 'grid' ? 'bg-[#F1F5F9] dark:bg-[#2A2B36] text-[#F2DD50]' : 'bg-white dark:bg-[#1C1D24] text-[#94A3B8]'}`}><FiGrid size={15} /></button>
+          </div>
+
+          <button
+            onClick={() => setShowIntelligence(v => !v)}
+            className="flex items-center gap-2 px-4 py-1.5 bg-[#F2DD50] hover:bg-[#F2DD50]/90 text-[#111827] rounded-full text-[12px] font-medium transition-colors border-none cursor-pointer shadow-sm"
+          >
+            <FiZap size={14} />
+            {showIntelligence ? 'Hide Intelligence' : 'Inventory Intelligence'}
+          </button>
+        </div>
       </div>
 
       {/*  Intelligence Panel  */}
       {showIntelligence && (
-        <div style={{ marginBottom: 20 }}>
+        <div className="mb-6">
           <IntelligencePanel
             alerts={intelligence.alerts}
             reorder={intelligence.reorder}
@@ -492,124 +527,63 @@ export default function InventoryPage() {
         </div>
       )}
 
-      {/*  Filter Bar  */}
-      <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 16, marginBottom: 16 }}>
-        {/* Status tabs */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-          {([ ['all', `All ${products.length}`], ['in_stock', `In Stock ${products.filter(p => (p.quantity || 0) > (p.low_stock_threshold ?? 5)).length}`], ['low_stock', `Low Stock ${lowStockCount}`], ['out_of_stock', `Out of Stock ${outOfStockCount}`] ] as [typeof statusFilter, string][]).map(([s, label]) => (
-            <button
-              key={s}
-              onClick={() => setStatusFilter(s)}
-              style={{
-                padding: '6px 14px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600,
-                background: statusFilter === s ? '#F2DD50' : 'transparent',
-                color:      statusFilter === s ? '#fff'    : '#475569',
-              }}
-            >
-              {label}
-            </button>
-          ))}
-          <div style={{ flex: 1 }} />
-          {/* Grid / List toggle */}
-          <div style={{ display: 'flex', border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>
-            <button onClick={() => setViewMode('list')} style={{ padding: '6px 10px', border: 'none', cursor: 'pointer', background: viewMode === 'list' ? '#F1F5F9' : '#fff', color: viewMode === 'list' ? '#F2DD50' : '#9ca3af' }}><FiList size={15} /></button>
-            <button onClick={() => setViewMode('grid')} style={{ padding: '6px 10px', border: 'none', cursor: 'pointer', background: viewMode === 'grid' ? '#F1F5F9' : '#fff', color: viewMode === 'grid' ? '#F2DD50' : '#9ca3af' }}><FiGrid size={15} /></button>
-          </div>
-        </div>
-
-        {/* Search + Category */}
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <div style={{ position: 'relative', flex: 1, minWidth: 200 }}>
-            <FiSearch style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} size={15} />
-            <input
-              type="text"
-              placeholder="Search by name or SKU..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              style={{ width: '100%', paddingLeft: 36, paddingRight: 12, paddingTop: 9, paddingBottom: 9, border: '1px solid #e5e7eb', borderRadius: 10, fontSize: 13, color: '#111827', background: '#fff', boxSizing: 'border-box', outline: 'none' }}
-            />
-          </div>
-          <select
-            value={categoryFilter}
-            onChange={e => setCategoryFilter(e.target.value)}
-            style={{ padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 10, fontSize: 13, color: '#374151', background: '#fff', outline: 'none', cursor: 'pointer' }}
-          >
-            {categories.map(c => (
-              <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>
-            ))}
-          </select>
-        </div>
-
-        <p style={{ margin: '10px 0 0', fontSize: 12, color: '#9ca3af' }}>
-          Showing <strong style={{ color: '#374151' }}>{filtered.length}</strong> of {products.length} products · Value: <strong style={{ color: '#374151' }}>{formatMoney(totalValue)}</strong>
-        </p>
-      </div>
 
       {/*  List View  */}
       {viewMode === 'list' && (
-        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, overflow: 'hidden' }}>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+        <div className="bg-white dark:bg-[#15161C] border border-[#E2E8F0] dark:border-[#2A2B36] rounded-xl overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
               <thead>
-                <tr style={{ background: '#f9fafb', borderBottom: '1px solid #f3f4f6' }}>
-                  <th style={th}><input type="checkbox" /></th>
-                  <th style={{ ...th, cursor: 'pointer' }} onClick={() => handleSort('name')}>Product <SortIcon field="name" /></th>
-                  <th style={th}>Category</th>
-                  <th style={th}>SKU</th>
-                  <th style={{ ...th, cursor: 'pointer' }} onClick={() => handleSort('stock')}>Stock <SortIcon field="stock" /></th>
-                  <th style={{ ...th, cursor: 'pointer' }} onClick={() => handleSort('price')}>Price <SortIcon field="price" /></th>
-                  <th style={th}>Value</th>
-                  <th style={th}>Status</th>
-                  <th style={{ ...th, textAlign: 'right' }}>Actions</th>
+                <tr className="bg-white dark:bg-[#1C1D24] border-b border-[#E2E8F0] dark:border-[#2A2B36]">
+                  <th className="py-4 px-4 w-10"><input type="checkbox" className="rounded border-[#CBD5E1]" /></th>
+                  <th className="py-4 px-4 text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider cursor-pointer" onClick={() => handleSort('name')}>ITEM <SortIcon field="name" /></th>
+                  <th className="py-4 px-4 text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider">CATEGORY</th>
+                  <th className="py-4 px-4 text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider cursor-pointer" onClick={() => handleSort('price')}>PRICE <SortIcon field="price" /></th>
+                  <th className="py-4 px-4 text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider">PREP TIME</th>
+                  <th className="py-4 px-4 text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider">SPICE LEVEL</th>
+                  <th className="py-4 px-4 text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider">STATUS</th>
+                  <th className="py-4 px-4 text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider text-center">ACTIONS</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
-                  <tr><td colSpan={9} style={{ textAlign: 'center', padding: '48px 0' }}>
-                    <div style={{ width: 28, height: 28, border: '3px solid #e5e7eb', borderTopColor: '#F2DD50', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 10px' }} />
-                    <p style={{ margin: 0, fontSize: 13, color: '#9ca3af' }}>Loading inventory...</p>
+                  <tr><td colSpan={8} className="text-center py-12">
+                    <div className="w-7 h-7 border-2 border-[#E2E8F0] border-t-[#101B55] rounded-full animate-spin mx-auto mb-3" />
+                    <p className="text-[13px] text-[#94A3B8]">Loading inventory...</p>
                   </td></tr>
                 ) : filtered.length === 0 ? (
-                  <tr><td colSpan={9} style={{ textAlign: 'center', padding: '48px 0' }}>
-                    <FiPackage size={40} color="#e5e7eb" style={{ marginBottom: 10 }} />
-                    <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: '#9ca3af' }}>No products found</p>
-                    <button onClick={openAdd} style={{ marginTop: 10, background: 'none', border: 'none', cursor: 'pointer', color: '#F2DD50', fontSize: 13, fontWeight: 600 }}>+ Add your first product</button>
+                  <tr><td colSpan={8} className="text-center py-12">
+                    <FiPackage size={40} className="text-[#E2E8F0] mx-auto mb-3" />
+                    <p className="text-[14px] font-medium text-[#94A3B8]">No products found</p>
+                    <button onClick={openAdd} className="mt-3 text-[#101B55] text-[13px] font-medium hover:underline">+ Add your first product</button>
                   </td></tr>
                 ) : filtered.map(p => {
                   const qty = p.quantity || 0;
                   const thr = p.low_stock_threshold ?? 5;
                   const st  = getStockStatus(qty, thr);
                   return (
-                    <tr key={p.id} style={{ borderBottom: '1px solid #f9fafb' }}>
-                      <td style={td}><input type="checkbox" /></td>
-                      <td style={td}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                            {p.product_Img
-                              ? <img src={p.product_Img} alt="" style={{ width: 36, height: 36, borderRadius: 10, objectFit: 'cover' }} />
-                              : <FiPackage size={16} color="#F2DD50" />}
-                          </div>
-                          <div>
-                            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#111827' }}>{p.product_name}</p>
-                            {p.description && <p style={{ margin: 0, fontSize: 11, color: '#9ca3af', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.description}</p>}
-                          </div>
-                        </div>
+                    <tr key={p.id} className="border-b border-[#F8FAFC] dark:border-[#2A2B36] hover:bg-[#F8FAFC] dark:hover:bg-[#1C1D24] transition-colors">
+                      <td className="py-4 px-4"><input type="checkbox" className="rounded border-[#CBD5E1]" /></td>
+                      <td className="py-4 px-4">
+                        <p className="text-[13px] font-medium text-[#111827] dark:text-[#EAE5DF]">{p.product_name}</p>
                       </td>
-                      <td style={td}><span style={{ fontSize: 12, color: '#475569' }}>{getCategoryName(p.category)}</span></td>
-                      <td style={td}><span style={{ fontSize: 12, color: '#9ca3af', fontFamily: 'monospace' }}>{p.sku || p.product_code || ''}</span></td>
-                      <td style={td}><span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>{qty} <span style={{ fontSize: 11, fontWeight: 400, color: '#9ca3af' }}>/ {thr} min</span></span></td>
-                      <td style={td}><span style={{ fontSize: 13, fontWeight: 500, color: '#374151' }}>{formatMoney(p.unit_price)}</span></td>
-                      <td style={td}><span style={{ fontSize: 13, fontWeight: 600, color: '#F2DD50' }}>{formatMoney((p.unit_price || 0) * qty)}</span></td>
-                      <td style={td}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, background: st.bgColor, color: st.textColor }}>
-                          <span style={{ width: 6, height: 6, borderRadius: '50%', background: st.dotColor }} />
-                          {st.label}
+                      <td className="py-4 px-4"><span className="text-[12px] text-[#475569] dark:text-[#94A3B8] font-medium uppercase">{getCategoryName(p.category) || 'General'}</span></td>
+                      <td className="py-4 px-4"><span className="text-[13px] font-medium text-[#22C55E]">{formatMoney(p.unit_price)}</span></td>
+                      <td className="py-4 px-4"><span className="text-[13px] font-medium text-[#111827] dark:text-[#EAE5DF]">10 min</span></td>
+                      <td className="py-4 px-4">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium border bg-green-50 text-green-600 border-green-200">
+                          LOW
                         </span>
                       </td>
-                      <td style={{ ...td, textAlign: 'right' }}>
-                        <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
-                          <button onClick={() => openEdit(p)} style={{ padding: 6, background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', borderRadius: 6 }} title="Edit"><FiEdit2 size={14} /></button>
-                          <button onClick={() => handleDelete(p.id)} style={{ padding: 6, background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', borderRadius: 6 }} title="Delete"><FiTrash2 size={14} /></button>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium ${st.label === 'In Stock' ? 'bg-[#DCFCE7] text-[#16A34A]' : st.label === 'Low Stock' ? 'bg-[#FEF9C3] text-[#CA8A04]' : 'bg-[#FEE2E2] text-[#DC2626]'}`}>
+                          {st.label === 'In Stock' ? 'AVAILABLE' : st.label.toUpperCase()}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center justify-center gap-4">
+                          <button onClick={() => openEdit(p)} className="text-[#94A3B8] hover:text-[#101B55] transition-colors" title="Edit"><FiEdit2 size={16} /></button>
+                          <button onClick={() => handleDelete(p.id)} className="text-[#EF4444] hover:text-red-700 transition-colors" title="Delete"><FiTrash2 size={16} /></button>
                         </div>
                       </td>
                     </tr>

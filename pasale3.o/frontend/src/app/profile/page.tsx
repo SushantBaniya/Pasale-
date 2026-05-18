@@ -147,7 +147,7 @@ export default function ProfilePage() {
             <div className="flex-1 text-center sm:text-left min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                 <div className="min-w-0">
-                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-1 truncate">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-medium #1E293B dark:text-[#EAE5DF] mb-1 truncate">
                     {userProfile.name}
                   </h1>
                   <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 #475569 dark:text-[#44454F]">
@@ -205,7 +205,7 @@ export default function ProfilePage() {
                       className={`${stat.bg} rounded-lg sm:rounded-xl p-2 sm:p-3 text-center transition-transform hover:scale-105`}
                     >
                       <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${stat.color} mx-auto mb-0.5 sm:mb-1`} />
-                      <p className={`text-sm sm:text-lg font-bold ${stat.color} truncate`}>{stat.value}</p>
+                      <p className={`text-sm sm:text-lg font-medium ${stat.color} truncate`}>{stat.value}</p>
                       <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F] truncate">{stat.label}</p>
                     </div>
                   );
@@ -223,7 +223,7 @@ export default function ProfilePage() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#F1F5F9] dark:bg-[#F2DD50]/20 flex items-center justify-center shrink-0">
                 <FiUser className="w-4 h-4 sm:w-5 sm:h-5 text-[#F2DD50] dark:text-[#F2DD50]" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
+              <h2 className="text-base sm:text-lg font-medium #1E293B dark:text-[#EAE5DF]">
                 Personal Information
               </h2>
             </div>
@@ -271,7 +271,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Full Name</p>
-                      <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.name}</p>
+                      <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">{userProfile.name}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
@@ -280,7 +280,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Email Address</p>
-                      <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.email || 'Not provided'}</p>
+                      <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">{userProfile.email || 'Not provided'}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 #FFFFFF dark:bg-[#15161C]/50 rounded-lg sm:rounded-xl">
@@ -289,7 +289,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Phone Number</p>
-                      <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.phone || 'Not provided'}</p>
+                      <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">{userProfile.phone || 'Not provided'}</p>
                     </div>
                   </div>
                   {userProfile.panNumber && (
@@ -299,7 +299,7 @@ export default function ProfilePage() {
                       </div>
                       <div className="min-w-0">
                         <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">PAN Number</p>
-                        <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">{userProfile.panNumber}</p>
+                        <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">{userProfile.panNumber}</p>
                       </div>
                     </div>
                   )}
@@ -315,7 +315,7 @@ export default function ProfilePage() {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
                   <FiBriefcase className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
+                <h2 className="text-base sm:text-lg font-medium #1E293B dark:text-[#EAE5DF]">
                   Business Information
                 </h2>
               </div>
@@ -327,7 +327,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Business Name</p>
-                    <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">
+                    <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">
                       {businessDetails?.businessName || 'My Business'}
                     </p>
                   </div>
@@ -338,7 +338,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">PAN Number</p>
-                    <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">
+                    <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">
                       {businessDetails?.panNumber || 'Not provided'}
                     </p>
                   </div>
@@ -349,7 +349,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-[10px] sm:text-xs #475569 dark:text-[#44454F]">Business Address</p>
-                    <p className="text-sm sm:text-base font-semibold #1E293B dark:text-[#EAE5DF] truncate">
+                    <p className="text-sm sm:text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">
                       Kathmandu, Nepal
                     </p>
                   </div>
@@ -364,7 +364,7 @@ export default function ProfilePage() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
                 <FiShield className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
+              <h2 className="text-base sm:text-lg font-medium #1E293B dark:text-[#EAE5DF]">
                 Account Security
               </h2>
             </div>
@@ -427,7 +427,7 @@ export default function ProfilePage() {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-orange-50 dark:bg-orange-900/30 flex items-center justify-center shrink-0">
                   <FiActivity className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400" />
                 </div>
-                <h2 className="text-base sm:text-lg font-bold #1E293B dark:text-[#EAE5DF]">
+                <h2 className="text-base sm:text-lg font-medium #1E293B dark:text-[#EAE5DF]">
                   Recent Activity
                 </h2>
               </div>

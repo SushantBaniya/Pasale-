@@ -358,8 +358,8 @@ function useToast() {
 function StatCard({ label, value, sub }) {
   return (
     <div className="#FFFFFF dark:bg-[#15161C] rounded-xl p-4 border #E2E8F0 dark:border-[#1C1D24] transition-colors">
-      <div className="text-[11px] text-gray-400 dark:#475569 font-semibold uppercase tracking-wider mb-1.5">{label}</div>
-      <div className="text-2xl font-bold #1E293B dark:text-[#EAE5DF] leading-tight">{value}</div>
+      <div className="text-[11px] text-gray-400 dark:#475569 font-medium uppercase tracking-wider mb-1.5">{label}</div>
+      <div className="text-2xl font-medium #1E293B dark:text-[#EAE5DF] leading-tight">{value}</div>
       {sub && <div className="text-xs text-gray-400 dark:#475569 mt-1">{sub}</div>}
     </div>
   );
@@ -378,16 +378,16 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
         {/* Header row */}
         <div className="flex items-start justify-between gap-2 mb-3.5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-semibold text-sm shrink-0"
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-medium text-sm shrink-0"
                  style={{ background: avatarGrad(emp.id) }}>
               {getInitials(emp.name)}
             </div>
             <div>
-              <div className="font-semibold text-sm #1E293B dark:text-[#EAE5DF]">{emp.name}</div>
+              <div className="font-medium text-sm #1E293B dark:text-[#EAE5DF]">{emp.name}</div>
               <div className="text-xs #475569 dark:text-[#44454F] mt-0.5">{emp.position}</div>
             </div>
           </div>
-          <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+          <span className="text-[11px] font-medium px-2.5 py-1 rounded-full whitespace-nowrap"
                 style={{ background: statusColor.bg, color: statusColor.text }}>
             {statusName}
           </span>
@@ -405,7 +405,7 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
           </div>
           {deptName && (
             <div className="mt-1.5">
-              <span className="inline-flex items-center text-[11px] font-semibold px-2.5 py-1 rounded-full"
+              <span className="inline-flex items-center text-[11px] font-medium px-2.5 py-1 rounded-full"
                     style={{ background: deptColor.bg, color: deptColor.text }}>
                 <span className="w-1 h-1 rounded-full mr-1.5" style={{ background: deptColor.dot }} />
                 {deptName}
@@ -417,9 +417,9 @@ function EmployeeCard({ emp, onEdit, onDelete, onView }) {
 
       {/* Action bar */}
       <div className="border-t border-gray-50 dark:border-[#1C1D24]/50 flex shrink-0">
-        <button onClick={() => onView(emp)} className="flex-1 py-2.5 text-xs font-semibold text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 transition-colors">View</button>
-        <button onClick={() => onEdit(emp)} className="flex-1 py-2.5 text-xs font-semibold #475569 dark:text-[#44454F] border-l border-gray-50 dark:border-[#1C1D24]/50 hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Edit</button>
-        <button onClick={() => onDelete(emp)} className="flex-1 py-2.5 text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border-l border-gray-50 dark:border-[#1C1D24]/50 transition-colors">Remove</button>
+        <button onClick={() => onView(emp)} className="flex-1 py-2.5 text-xs font-medium text-[#F2DD50] hover:bg-[#F1F5F9] dark:hover:bg-[#F2DD50]/15 transition-colors">View</button>
+        <button onClick={() => onEdit(emp)} className="flex-1 py-2.5 text-xs font-medium #475569 dark:text-[#44454F] border-l border-gray-50 dark:border-[#1C1D24]/50 hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Edit</button>
+        <button onClick={() => onDelete(emp)} className="flex-1 py-2.5 text-xs font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border-l border-gray-50 dark:border-[#1C1D24]/50 transition-colors">Remove</button>
       </div>
     </div>
   );
@@ -435,10 +435,10 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
     <tr className="border-b #E2E8F0 dark:border-[#1C1D24]/50 transition-colors hover:#FFFFFF dark:hover:bg-gray-800/50 group">
       <td className="px-4 py-3.5">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-[9px] flex items-center justify-center text-white font-semibold text-xs shrink-0"
+          <div className="w-9 h-9 rounded-[9px] flex items-center justify-center text-white font-medium text-xs shrink-0"
                style={{ background: avatarGrad(emp.id) }}>{getInitials(emp.name)}</div>
           <div>
-            <div className="font-semibold text-[13px] #1E293B dark:text-[#EAE5DF]">{emp.name}</div>
+            <div className="font-medium text-[13px] #1E293B dark:text-[#EAE5DF]">{emp.name}</div>
             <div className="text-xs text-gray-400 dark:#475569">{emp.email}</div>
           </div>
         </div>
@@ -446,18 +446,18 @@ function EmployeeRow({ emp, onEdit, onDelete, onView }) {
       <td className="px-4 py-3.5 text-[13px] #475569 dark:text-[#44454F]">{emp.position}</td>
       <td className="px-4 py-3.5">
         {deptName && (
-          <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+          <span className="text-[11px] font-medium px-2.5 py-1 rounded-full whitespace-nowrap"
                 style={{ background: deptColor.bg, color: deptColor.text }}>
             {deptName}
           </span>
         )}
       </td>
       <td className="px-4 py-3.5 text-[13px] #475569 dark:text-[#44454F]">{emp.phone_no}</td>
-      <td className="px-4 py-3.5 text-[13px] #1E293B dark:text-[#EAE5DF] font-semibold">
+      <td className="px-4 py-3.5 text-[13px] #1E293B dark:text-[#EAE5DF] font-medium">
         NPR {emp.salary ? Number(emp.salary).toLocaleString() : ""}
       </td>
       <td className="px-4 py-3.5">
-        <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+        <span className="text-[11px] font-medium px-2.5 py-1 rounded-full whitespace-nowrap"
               style={{ background: statusColor.bg, color: statusColor.text }}>
           {statusName}
         </span>
@@ -494,7 +494,7 @@ function Field({ label, name, value, onChange, type = "text", options, required,
   const baseClassName = "w-full px-3 py-2.5 rounded-lg text-[13px] border #E2E8F0 dark:border-[#1C1D24] #FFFFFF dark:bg-[#0D0E12]/50 outline-none #1E293B dark:text-[#EAE5DF] transition-colors focus:border-[#F2DD50] dark:focus:border-[#F2DD50] focus:bg-white dark:focus:bg-gray-800 placeholder-gray-400 dark:placeholder-gray-500";
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-semibold text-gray-700 dark:text-[#64748B]">
+      <label className="text-xs font-medium text-gray-700 dark:text-[#64748B]">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {options ? (
@@ -577,7 +577,7 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
       <div className={`fixed top-0 right-0 h-screen w-[420px] max-w-[100vw] bg-white dark:bg-[#15161C] z-[201] shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${open ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="px-6 py-5 border-b #E2E8F0 dark:border-[#1C1D24]/50 flex items-center justify-between">
           <div>
-            <div className="text-base font-bold #1E293B dark:text-[#EAE5DF]">{employee ? "Edit Employee" : "Add Employee"}</div>
+            <div className="text-base font-medium #1E293B dark:text-[#EAE5DF]">{employee ? "Edit Employee" : "Add Employee"}</div>
             <div className="text-xs #475569 dark:text-[#44454F] mt-0.5">{employee ? `Updating ${employee.name}` : "Fill in the details below"}</div>
           </div>
           <button onClick={onClose} className="p-2 rounded-lg #FFFFFF dark:bg-[#1C1D24]/50 #475569 hover:text-gray-700 dark:text-[#44454F] dark:hover:text-gray-300 transition-colors">
@@ -599,7 +599,7 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
           
           {employee && employee.id && (
             <div className="mt-2.5 pt-4 border-t #E2E8F0 dark:border-[#1C1D24]/50">
-              <div className="text-[13px] font-bold #1E293B dark:text-[#EAE5DF] mb-3">Skills & Proficiency</div>
+              <div className="text-[13px] font-medium #1E293B dark:text-[#EAE5DF] mb-3">Skills & Proficiency</div>
               {skillsLoading ? (
                 <div className="text-xs #475569 dark:text-[#44454F]">Loading skills...</div>
               ) : (
@@ -608,7 +608,7 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
                     {employeeSkills.map(es => (
                       <div key={es.id} className="flex items-center justify-between #FFFFFF dark:bg-[#0D0E12]/50 px-3 py-2 rounded-lg border #E2E8F0 dark:border-[#1C1D24]">
                         <div>
-                          <div className="text-xs font-semibold text-gray-700 dark:text-[#64748B]">{es.skill_name}</div>
+                          <div className="text-xs font-medium text-gray-700 dark:text-[#64748B]">{es.skill_name}</div>
                           <div className="text-[11px] #475569 dark:text-[#44454F]">{es.proficiency_level}</div>
                         </div>
                         <button onClick={() => handleRemoveSkill(es.skill.id || es.skill)} className="text-red-500 hover:text-red-600 dark:hover:text-red-400 p-1">
@@ -630,7 +630,7 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
                       <option value="Intermediate">Intermediate</option>
                       <option value="Advanced">Advanced</option>
                     </select>
-                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} className={`px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-colors ${newSkillForm.skill ? 'bg-[#F2DD50] hover:bg-[#8E7356]' : 'bg-gray-300 dark:bg-[#1C1D24] cursor-not-allowed'}`}>Add</button>
+                    <button onClick={handleAddSkill} disabled={!newSkillForm.skill} className={`px-3 py-1.5 rounded-lg text-xs font-medium text-white transition-colors ${newSkillForm.skill ? 'bg-[#F2DD50] hover:bg-[#8E7356]' : 'bg-gray-300 dark:bg-[#1C1D24] cursor-not-allowed'}`}>Add</button>
                   </div>
                 </>
               )}
@@ -639,8 +639,8 @@ function EmployeeDrawer({ open, onClose, employee, onSave, loading, options }) {
         </div>
 
         <div className="px-6 py-3.5 border-t #E2E8F0 dark:border-[#1C1D24]/50 flex gap-2">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#64748B] font-semibold text-[13px] hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
-          <button onClick={handleSubmit} disabled={loading} className={`flex-[2] py-2.5 rounded-lg border-none font-bold text-[13px] text-white transition-colors ${loading ? 'bg-blue-300 dark:bg-blue-800 cursor-not-allowed' : 'bg-[#F2DD50] hover:bg-[#8E7356]'}`}>
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-gray-700 dark:text-[#64748B] font-medium text-[13px] hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={handleSubmit} disabled={loading} className={`flex-[2] py-2.5 rounded-lg border-none font-medium text-[13px] text-white transition-colors ${loading ? 'bg-blue-300 dark:bg-blue-800 cursor-not-allowed' : 'bg-[#F2DD50] hover:bg-[#8E7356]'}`}>
             {loading ? "Saving" : employee ? "Update Employee" : "Add Employee"}
           </button>
         </div>
@@ -654,13 +654,13 @@ function DeleteModal({ emp, onConfirm, onCancel, loading }) {
   return (
     <div className="fixed inset-0 bg-black/40 dark:bg-black/60 z-[300] flex items-center justify-center p-5 backdrop-blur-sm">
       <div className="bg-white dark:bg-[#15161C] rounded-2xl w-[360px] max-w-full p-6 shadow-2xl border #E2E8F0 dark:border-[#1C1D24]/50 text-center sm:text-left">
-        <div className="text-base font-bold #1E293B dark:text-[#EAE5DF] mb-2">Remove employee?</div>
+        <div className="text-base font-medium #1E293B dark:text-[#EAE5DF] mb-2">Remove employee?</div>
         <div className="text-[13px] #475569 dark:text-[#44454F] mb-6">
           This will permanently remove <strong className="#1E293B dark:text-[#EAE5DF]">{emp?.name}</strong>. This action cannot be undone.
         </div>
         <div className="flex flex-col-reverse sm:flex-row gap-2.5">
-          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-sm font-semibold text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
-          <button onClick={onConfirm} disabled={loading} className={`flex-1 py-2.5 rounded-lg border-none text-sm font-bold text-white transition-colors ${loading ? 'bg-red-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'}`}>
+          <button onClick={onCancel} className="flex-1 py-2.5 rounded-lg border #E2E8F0 dark:border-[#1C1D24] bg-white dark:bg-[#15161C] text-sm font-medium text-gray-700 dark:text-[#64748B] hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">Cancel</button>
+          <button onClick={onConfirm} disabled={loading} className={`flex-1 py-2.5 rounded-lg border-none text-sm font-medium text-white transition-colors ${loading ? 'bg-red-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'}`}>
             {loading ? "Removing" : "Yes, Remove"}
           </button>
         </div>
@@ -693,7 +693,7 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
 
         {/* Header */}
         <div className="px-5 py-4 border-b #E2E8F0 dark:border-[#1C1D24]/50 flex items-center justify-between">
-          <span className="text-sm font-bold #1E293B dark:text-[#EAE5DF]">Employee details</span>
+          <span className="text-sm font-medium #1E293B dark:text-[#EAE5DF]">Employee details</span>
           <button onClick={onClose} className="p-1 text-gray-400 hover:#475569 dark:hover:text-gray-300 rounded hover:#FFFFFF dark:hover:bg-gray-700/50 transition-colors">
             <Icon d={ICONS.close} size={15} />
           </button>
@@ -702,14 +702,14 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
         <div className="p-5">
           {/* Profile row */}
           <div className="flex items-center gap-3.5 mb-5">
-            <div className="w-[52px] h-[52px] rounded-xl flex items-center justify-center text-white font-bold text-[17px] shrink-0" style={{ background: avatarGrad(emp.id) }}>
+            <div className="w-[52px] h-[52px] rounded-xl flex items-center justify-center text-white font-medium text-[17px] shrink-0" style={{ background: avatarGrad(emp.id) }}>
               {getInitials(emp.name)}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-base font-bold #1E293B dark:text-[#EAE5DF] truncate">{emp.name}</div>
+              <div className="text-base font-medium #1E293B dark:text-[#EAE5DF] truncate">{emp.name}</div>
               <div className="text-[13px] #475569 dark:text-[#44454F] mt-0.5 truncate">{emp.position}</div>
             </div>
-            <span className="text-[11px] font-semibold px-3 py-1 rounded-full whitespace-nowrap" style={{ background: statusColor.bg, color: statusColor.text }}>
+            <span className="text-[11px] font-medium px-3 py-1 rounded-full whitespace-nowrap" style={{ background: statusColor.bg, color: statusColor.text }}>
               {statusName}
             </span>
           </div>
@@ -722,7 +722,7 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
                   <Icon d={icon} size={13} />
                   <span className="text-xs">{label}</span>
                 </div>
-                <span className="text-[13px] font-semibold #1E293B dark:text-[#EAE5DF] text-right break-all ml-4">{value}</span>
+                <span className="text-[13px] font-medium #1E293B dark:text-[#EAE5DF] text-right break-all ml-4">{value}</span>
               </div>
             ))}
           </div>
@@ -730,7 +730,7 @@ function EmployeeDetail({ emp, onClose, onEdit }) {
           {/* Edit button */}
           <button
             onClick={() => { onClose(); onEdit(emp); }}
-            className="mt-4 w-full py-3 rounded-[10px] bg-[#F2DD50] hover:bg-[#8E7356] text-white font-bold text-sm transition-colors"
+            className="mt-4 w-full py-3 rounded-[10px] bg-[#F2DD50] hover:bg-[#8E7356] text-white font-medium text-sm transition-colors"
           >
             Edit profile
           </button>

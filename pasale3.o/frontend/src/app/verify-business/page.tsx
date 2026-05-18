@@ -258,7 +258,7 @@ export default function VerifyBusinessPage() {
               <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#F1F5F9] dark:bg-[#F2DD50]/20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <FiShield className="w-7 h-7 sm:w-8 sm:h-8 text-[#F2DD50] dark:text-[#F2DD50]" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">{t('verification.verifyOTP')}</h2>
+              <h2 className="text-xl sm:text-2xl font-medium #1E293B dark:text-[#EAE5DF] mb-1.5 sm:mb-2">{t('verification.verifyOTP')}</h2>
               <p className="#475569 dark:text-[#44454F] text-xs sm:text-sm">
                 {t('verification.enterOTP')} {verificationMethod === 'email' ? email : phone}
               </p>
@@ -267,7 +267,7 @@ export default function VerifyBusinessPage() {
             <form onSubmit={handleVerifyOTPSubmit} className="space-y-4 sm:space-y-6">
               {/* OTP Input */}
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
                   {t('forgotPassword.enterOTP')}
                 </label>
                 <div className="flex gap-1.5 sm:gap-2 justify-center" onPaste={handleOTPPaste}>
@@ -281,7 +281,7 @@ export default function VerifyBusinessPage() {
                       value={digit}
                       onChange={(e) => handleOTPChange(index, e.target.value)}
                       onKeyDown={(e) => handleOTPKeyDown(index, e)}
-                      className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg sm:rounded-xl border-2 ${
+                      className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-medium rounded-lg sm:rounded-xl border-2 ${
                         otpError ? 'border-red-500' : '#E2E8F0 dark:border-[#2A2B36] focus:border-[#F2DD50]'
                       } bg-white dark:bg-[#1C1D24] #1E293B dark:text-[#EAE5DF] focus:outline-none transition-colors`}
                     />
@@ -296,14 +296,14 @@ export default function VerifyBusinessPage() {
               <div className="text-center">
                 {resendTimer > 0 ? (
                   <p className="text-xs sm:text-sm #475569 dark:text-[#44454F]">
-                    {t('forgotPassword.resendIn')} <span className="font-semibold text-gray-700 dark:text-[#64748B]">{resendTimer}s</span>
+                    {t('forgotPassword.resendIn')} <span className="font-medium text-gray-700 dark:text-[#64748B]">{resendTimer}s</span>
                   </p>
                 ) : (
                   <button
                     type="button"
                     onClick={handleResendOTP}
                     disabled={isSendingOTP}
-                    className="text-sm sm:text-base text-[#F2DD50] dark:text-[#F2DD50] font-semibold hover:text-[#8E7356] dark:hover:text-[#F2DD50] flex items-center gap-1.5 sm:gap-2 mx-auto"
+                    className="text-sm sm:text-base text-[#F2DD50] dark:text-[#F2DD50] font-medium hover:text-[#8E7356] dark:hover:text-[#F2DD50] flex items-center gap-1.5 sm:gap-2 mx-auto"
                   >
                     <FiRefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     {t('verification.resendOTP')}
@@ -315,7 +315,7 @@ export default function VerifyBusinessPage() {
               <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg sm:rounded-xl p-2.5 sm:p-3 text-center">
                 <p className="text-yellow-700 dark:text-yellow-400 text-xs sm:text-sm flex items-center justify-center gap-1.5">
                   <FiAlertCircle className="w-4 h-4" />
-                  Demo OTP: <span className="font-bold">123456</span>
+                  Demo OTP: <span className="font-medium">123456</span>
                 </p>
               </div>
 
@@ -323,7 +323,7 @@ export default function VerifyBusinessPage() {
               <Button
                 type="submit"
                 disabled={isVerifying || otp.join('').length !== 6}
-                className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
               >
                 {isVerifying ? (
                   <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -388,7 +388,7 @@ export default function VerifyBusinessPage() {
           <div className="flex border-b #E2E8F0 dark:border-[#1C1D24]">
             <button
               onClick={() => setActiveSection('business')}
-              className={`flex-1 py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 sm:gap-2 transition-colors ${
+              className={`flex-1 py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 sm:gap-2 transition-colors ${
                 activeSection === 'business'
                   ? 'text-[#F2DD50] dark:text-[#F2DD50] border-b-2 border-blue-600 dark:border-blue-400 bg-[#F1F5F9] dark:bg-[#F2DD50]/15'
                   : '#475569 dark:text-[#44454F] hover:text-gray-700 dark:hover:text-gray-300'
@@ -400,7 +400,7 @@ export default function VerifyBusinessPage() {
             </button>
             <button
               onClick={() => setActiveSection('contact')}
-              className={`flex-1 py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 sm:gap-2 transition-colors ${
+              className={`flex-1 py-3 sm:py-4 px-3 sm:px-4 text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 sm:gap-2 transition-colors ${
                 activeSection === 'contact'
                   ? 'text-[#F2DD50] dark:text-[#F2DD50] border-b-2 border-blue-600 dark:border-blue-400 bg-[#F1F5F9] dark:bg-[#F2DD50]/15'
                   : '#475569 dark:text-[#44454F] hover:text-gray-700 dark:hover:text-gray-300'
@@ -419,7 +419,7 @@ export default function VerifyBusinessPage() {
               <div className="space-y-3 sm:space-y-4 animate-fadeIn">
                 {/* Business Name */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                     {t('verification.businessName')} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -439,7 +439,7 @@ export default function VerifyBusinessPage() {
 
                   {/* Business Type */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                       {t('verification.businessType')} <span className="text-red-500">*</span>
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2">
@@ -464,7 +464,7 @@ export default function VerifyBusinessPage() {
 
                   {/* PAN Number */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                       {t('verification.panNumber')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -484,7 +484,7 @@ export default function VerifyBusinessPage() {
 
                   {/* GST Number (Optional) */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                       {t('verification.gstNumber')} <span className="text-gray-400 text-xs">({t('common.optional') || 'Optional'})</span>
                     </label>
                     <div className="relative">
@@ -501,7 +501,7 @@ export default function VerifyBusinessPage() {
 
                   {/* Owner Name */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                       {t('verification.ownerName')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -523,7 +523,7 @@ export default function VerifyBusinessPage() {
                   <button
                     type="button"
                     onClick={() => setActiveSection('contact')}
-                    className="w-full py-2.5 sm:py-3 #F8FAFC dark:bg-[#1C1D24] text-sm sm:text-base text-gray-700 dark:text-[#64748B] font-semibold rounded-lg sm:rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-1.5 sm:gap-2"
+                    className="w-full py-2.5 sm:py-3 #F8FAFC dark:bg-[#1C1D24] text-sm sm:text-base text-gray-700 dark:text-[#64748B] font-medium rounded-lg sm:rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-1.5 sm:gap-2"
                   >
                     {t('common.next') || 'Next'}: {t('verification.contactInfo') || 'Contact Info'}
                     <FiArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -536,7 +536,7 @@ export default function VerifyBusinessPage() {
                 <div className="space-y-3 sm:space-y-4 animate-fadeIn">
                   {/* Email */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                       {t('verification.email')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -556,7 +556,7 @@ export default function VerifyBusinessPage() {
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                       {t('verification.phone')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -576,7 +576,7 @@ export default function VerifyBusinessPage() {
 
                   {/* Address */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-1.5 sm:mb-2">
                       {t('verification.address')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -608,7 +608,7 @@ export default function VerifyBusinessPage() {
 
               {/* Verification Method Selection */}
               <div className="pt-3 sm:pt-4 border-t #E2E8F0 dark:border-[#1C1D24]">
-                <p className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
+                <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-[#64748B] mb-3 sm:mb-4 text-center">
                   {t('verification.chooseMethod')}
                 </p>
                 <div className="grid grid-cols-2 gap-2 sm:gap-3">
@@ -629,7 +629,7 @@ export default function VerifyBusinessPage() {
                     }`}>
                       <FiMail className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <span className="text-xs sm:text-sm font-semibold">{t('verification.emailOTP')}</span>
+                    <span className="text-xs sm:text-sm font-medium">{t('verification.emailOTP')}</span>
                   </button>
                   <button
                     type="button"
@@ -648,7 +648,7 @@ export default function VerifyBusinessPage() {
                     }`}>
                       <FiPhone className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <span className="text-xs sm:text-sm font-semibold">{t('verification.smsOTP')}</span>
+                    <span className="text-xs sm:text-sm font-medium">{t('verification.smsOTP')}</span>
                   </button>
                 </div>
               </div>
@@ -657,7 +657,7 @@ export default function VerifyBusinessPage() {
               <Button
                 type="submit"
                 disabled={!verificationMethod || isSendingOTP}
-                className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-[#F2DD50] hover:bg-[#8E7356] disabled:bg-gray-400 text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                className="w-full h-12 sm:h-14 text-base sm:text-lg font-medium bg-[#F2DD50] hover:bg-[#8E7356] disabled:bg-gray-400 text-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
               >
                 {isSendingOTP ? (
                   <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />

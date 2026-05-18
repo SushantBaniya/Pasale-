@@ -223,7 +223,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
                 <FiFileText className="w-5 h-5 text-white" />
               </div>
               <div className="text-white">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-medium">
                   {isEdit ? 'Edit' : 'Create'} Quotation
                 </h2>
                 <p className="text-white/80 text-sm">{quotationNumber}</p>
@@ -253,7 +253,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {/* Customer Selection */}
             <div className="relative">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiUser className="inline w-4 h-4 mr-1.5" />
                 Customer *
               </label>
@@ -298,7 +298,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
 
             {/* Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiCalendar className="inline w-4 h-4 mr-1.5" />
                 Quotation Date *
               </label>
@@ -314,7 +314,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
 
             {/* Valid Until */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                 <FiClock className="inline w-4 h-4 mr-1.5" />
                 Valid Until *
               </label>
@@ -332,7 +332,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
           {/* Items Table */}
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-gray-700 dark:text-[#64748B]">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-[#64748B]">
                 <FiPackage className="inline w-4 h-4 mr-1.5" />
                 Items
               </h3>
@@ -343,7 +343,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
             </div>
 
             <div className="#FFFFFF dark:bg-[#15161C]/50 rounded-xl overflow-hidden border #E2E8F0 dark:border-[#1C1D24]">
-              <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-semibold #475569 dark:text-[#44454F] uppercase tracking-wider">
+              <div className="grid grid-cols-12 gap-2 px-4 py-3 #F8FAFC dark:bg-[#15161C] text-xs font-medium #475569 dark:text-[#44454F] uppercase tracking-wider">
                 <div className="col-span-4">Item Name</div>
                 <div className="col-span-1 text-center">Qty</div>
                 <div className="col-span-2 text-center">Rate</div>
@@ -404,7 +404,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
                         className="w-full px-2 py-2 rounded-lg border #E2E8F0 dark:border-[#2A2B36] bg-white dark:bg-[#1C1D24] text-sm text-center"
                       />
                     </div>
-                    <div className="col-span-1 text-right font-semibold #1E293B dark:text-[#EAE5DF] text-sm">
+                    <div className="col-span-1 text-right font-medium #1E293B dark:text-[#EAE5DF] text-sm">
                       Rs. {item.total.toLocaleString()}
                     </div>
                     <div className="col-span-1 flex justify-center">
@@ -429,7 +429,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
             {/* Notes & Terms */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                   <FiFileText className="inline w-4 h-4 mr-1.5" />
                   Notes
                 </label>
@@ -443,7 +443,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-[#64748B] mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-[#64748B] mb-2">
                   Terms & Conditions
                 </label>
                 <textarea
@@ -493,7 +493,7 @@ export const QuotationDialog: React.FC<QuotationDialogProps> = ({
                 </div>
 
                 <div className="border-t border-purple-200 dark:border-purple-700 pt-3">
-                  <div className="flex justify-between text-lg font-bold">
+                  <div className="flex justify-between text-lg font-medium">
                     <span className="#1E293B dark:text-[#EAE5DF]">Quote Total</span>
                     <span className="text-purple-600">Rs. {totals.totalAmount.toLocaleString()}</span>
                   </div>

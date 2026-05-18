@@ -29,7 +29,7 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
     <Card className="p-3 sm:p-4 lg:p-6 h-full flex flex-col" noPadding>
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6 p-3 sm:p-0">
         <div>
-          <h3 className="text-base sm:text-lg lg:text-xl font-bold text-[#1E293B] dark:text-[#EAE5DF]">
+          <h3 className="text-base sm:text-lg lg:text-xl font-medium text-[#1E293B] dark:text-[#EAE5DF]">
             Revenue Analytics
           </h3>
           <p className="text-xs sm:text-sm text-[#475569] dark:text-[#44454F] hidden sm:block">

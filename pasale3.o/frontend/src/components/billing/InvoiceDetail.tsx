@@ -90,7 +90,7 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
       <div className="bg-white dark:bg-[#0D0E12] rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto print:max-h-none print:overflow-visible print:rounded-none print:shadow-none shadow-2xl">
         {/* Header */}
         <div className="sticky top-0 bg-white dark:bg-[#0D0E12] border-b #E2E8F0 dark:border-[#1C1D24] p-4 flex justify-between items-center print:hidden">
-          <h2 className="text-xl font-bold #1E293B dark:text-[#EAE5DF]">Invoice Details</h2>
+          <h2 className="text-xl font-medium #1E293B dark:text-[#EAE5DF]">Invoice Details</h2>
           <button
             onClick={onClose}
             className="p-2 hover:#F8FAFC dark:hover:bg-gray-800 rounded-lg transition-colors"
@@ -105,11 +105,11 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4 print:grid-cols-4">
             <div>
               <p className="text-sm #475569 dark:text-[#44454F]">Invoice ID</p>
-              <p className="text-lg font-bold #1E293B dark:text-[#EAE5DF]">{currentInvoice.id}</p>
+              <p className="text-lg font-medium #1E293B dark:text-[#EAE5DF]">{currentInvoice.id}</p>
             </div>
             <div>
               <p className="text-sm #475569 dark:text-[#44454F]">Issue Date</p>
-              <p className="text-lg font-bold #1E293B dark:text-[#EAE5DF]">
+              <p className="text-lg font-medium #1E293B dark:text-[#EAE5DF]">
                 {new Date(currentInvoice.date).toLocaleDateString()}
               </p>
             </div>
@@ -121,7 +121,7 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
             </div>
             <div>
               <p className="text-sm #475569 dark:text-[#44454F]">Due Date</p>
-              <p className="text-lg font-bold #1E293B dark:text-[#EAE5DF]">
+              <p className="text-lg font-medium #1E293B dark:text-[#EAE5DF]">
                 {new Date(new Date(currentInvoice.date).getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}
               </p>
             </div>
@@ -132,13 +132,13 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
           {/* Party Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="p-4 #FFFFFF dark:bg-[#15161C]/50">
-              <h3 className="font-semibold #1E293B dark:text-[#EAE5DF] mb-2">Client Information</h3>
+              <h3 className="font-medium #1E293B dark:text-[#EAE5DF] mb-2">Client Information</h3>
               <p className="text-sm #475569 dark:text-[#44454F]">Name: {currentInvoice.partyName || 'Walk-in Customer'}</p>
               <p className="text-sm #475569 dark:text-[#44454F]">Invoice ID: {currentInvoice.id}</p>
               <p className="text-sm #475569 dark:text-[#44454F]">Date: {new Date(currentInvoice.date).toLocaleDateString()}</p>
             </Card>
             <Card className="p-4 #FFFFFF dark:bg-[#15161C]/50">
-              <h3 className="font-semibold #1E293B dark:text-[#EAE5DF] mb-2">Invoice Summary</h3>
+              <h3 className="font-medium #1E293B dark:text-[#EAE5DF] mb-2">Invoice Summary</h3>
               <p className="text-sm #475569 dark:text-[#44454F]">Items: {items.length}</p>
               <p className="text-sm #475569 dark:text-[#44454F]">Amount: {formatCurrency(currentInvoice.amount, language)}</p>
               <p className="text-sm #475569 dark:text-[#44454F]">Status: {getInvoiceStatus()}</p>
@@ -150,10 +150,10 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
             <table className="w-full">
               <thead>
                 <tr className="#F8FAFC dark:bg-[#15161C]">
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 dark:text-[#64748B]">Item Description</th>
-                  <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700 dark:text-[#64748B]">Quantity</th>
-                  <th className="px-4 py-2 text-right text-sm font-semibold text-gray-700 dark:text-[#64748B]">Unit Price</th>
-                  <th className="px-4 py-2 text-right text-sm font-semibold text-gray-700 dark:text-[#64748B]">Amount</th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-[#64748B]">Item Description</th>
+                  <th className="px-4 py-2 text-center text-sm font-medium text-gray-700 dark:text-[#64748B]">Quantity</th>
+                  <th className="px-4 py-2 text-right text-sm font-medium text-gray-700 dark:text-[#64748B]">Unit Price</th>
+                  <th className="px-4 py-2 text-right text-sm font-medium text-gray-700 dark:text-[#64748B]">Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -171,7 +171,7 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
                       <td className="px-4 py-3 text-right text-sm #1E293B dark:text-[#EAE5DF]">
                         {formatCurrency(item.price, language)}
                       </td>
-                      <td className="px-4 py-3 text-right text-sm font-semibold #1E293B dark:text-[#EAE5DF]">
+                      <td className="px-4 py-3 text-right text-sm font-medium #1E293B dark:text-[#EAE5DF]">
                         {formatCurrency(item.total, language)}
                       </td>
                     </tr>
@@ -187,14 +187,14 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
             <Card className="p-4 space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="#475569 dark:text-[#44454F]">Subtotal</span>
-                <span className="font-semibold #1E293B dark:text-[#EAE5DF]">{formatCurrency(subtotal, language)}</span>
+                <span className="font-medium #1E293B dark:text-[#EAE5DF]">{formatCurrency(subtotal, language)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="#475569 dark:text-[#44454F]">VAT (13%)</span>
-                <span className="font-semibold #1E293B dark:text-[#EAE5DF]">{formatCurrency(tax, language)}</span>
+                <span className="font-medium #1E293B dark:text-[#EAE5DF]">{formatCurrency(tax, language)}</span>
               </div>
               <hr className="#E2E8F0 dark:border-[#1C1D24]" />
-              <div className="flex justify-between text-lg font-bold">
+              <div className="flex justify-between text-lg font-medium">
                 <span className="#1E293B dark:text-[#EAE5DF]">Total</span>
                 <span className="text-[#F2DD50] dark:text-[#F2DD50]">{formatCurrency(grandTotal, language)}</span>
               </div>
@@ -203,7 +203,7 @@ export const InvoiceDetail: React.FC<InvoiceDetailProps> = ({ invoice, onClose, 
 
           {/* Notes */}
           <Card className="p-4 #FFFFFF dark:bg-[#15161C]/50">
-            <h3 className="font-semibold #1E293B dark:text-[#EAE5DF] mb-2">Notes</h3>
+            <h3 className="font-medium #1E293B dark:text-[#EAE5DF] mb-2">Notes</h3>
             <p className="text-sm #475569 dark:text-[#44454F]">
               {currentInvoice.description?.replace('[PAID]', '').trim() || 'No additional notes'}
             </p>

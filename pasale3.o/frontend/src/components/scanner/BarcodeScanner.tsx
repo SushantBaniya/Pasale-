@@ -48,7 +48,7 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan, onClose 
           <div className="w-16 h-16 bg-[#F2DD50] dark:bg-[#F2DD50] rounded-2xl mx-auto mb-4 flex items-center justify-center">
             <FiCamera className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold #1E293B dark:text-[#EAE5DF] mb-2">Scan Barcode</h2>
+          <h2 className="text-3xl font-medium #1E293B dark:text-[#EAE5DF] mb-2">Scan Barcode</h2>
           <p className="#475569 dark:text-[#44454F]">
             Use a USB barcode scanner or enter the barcode manually
           </p>
@@ -77,7 +77,7 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan, onClose 
           {scanMode === 'manual' && (
             <form onSubmit={handleManualScan} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold mb-3 text-gray-700 dark:text-[#64748B]">
+                <label className="block text-sm font-medium mb-3 text-gray-700 dark:text-[#64748B]">
                   Enter Barcode
                 </label>
                 <input
@@ -91,7 +91,7 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan, onClose 
                   autoComplete="off"
                 />
               </div>
-              <Button type="submit" className="w-full py-3 text-lg font-semibold">
+              <Button type="submit" className="w-full py-3 text-lg font-medium">
                 Add Product
               </Button>
             </form>
@@ -123,7 +123,7 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan, onClose 
 
         {/* Scanner Help */}
         <div className="mt-6 p-4 bg-[#F1F5F9] dark:bg-[#F2DD50]/15 rounded-lg">
-          <p className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-1.5">
+          <p className="text-sm font-medium text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-1.5">
             <FiInfo className="w-4 h-4" />
             How to scan:
           </p>
